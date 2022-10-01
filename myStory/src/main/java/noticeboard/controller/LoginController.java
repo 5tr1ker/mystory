@@ -2,6 +2,8 @@ package noticeboard.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.codehaus.jackson.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import noticeboard.entity.userdata.ProfileSetting;
 import noticeboard.repository.LoginRepository;
 import noticeboard.security.JwtTokenProvider;
 import noticeboard.security.Token;
+import noticeboard.security.oauth.CreateKakaoUser;
 import noticeboard.security.oauth.KakaoOAuth2UserService;
 import noticeboard.security.service.JwtService;
 import noticeboard.service.LoginService;
@@ -30,6 +33,7 @@ public class LoginController {
 	@Autowired LoginService login;
 	@Autowired JwtTokenProvider jwtTokenProvider;
 	@Autowired JwtService jwtService;
+	@Autowired CreateKakaoUser createKakao;
 	
 	@RequestMapping(value = "/register" , method = RequestMethod.POST)
 	public int register(@RequestBody Map<String, String> userInfo) {
@@ -43,14 +47,19 @@ public class LoginController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/oauth2/code/kakao" , produces = "application/json" ,  method = RequestMethod.GET)
-	public String kakaoLogin(@RequestParam("code") String code) {
+	@RequestMapping(value = "/kakaoLogin" , produces = "application/json" ,  method = RequestMethod.GET)
+	public Token kakaoLogin(@RequestParam("code") String code , HttpServletResponse response) {
 		JsonNode accessToken;
-
+		//
+		System.out.println(code);
 		JsonNode jsonToken = KakaoOAuth2UserService.getKakaoAccessToken(code); // 해당 요청을 가져온다.
 		accessToken = jsonToken.get("access_token");
-		System.out.println("결과값 : " + accessToken);
-		return "테스트 성공";
+		System.out.println("전체 결과 : " + jsonToken);
+		System.out.println("결과값 (Access Token) : " + accessToken);
+
+		Token result = createKakao.createKakaoUser(accessToken.toString().replace("\"", ""));
+
+		return result;
 	}
 	
 	@RequestMapping(value = "/login" , method = RequestMethod.POST)

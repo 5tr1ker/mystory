@@ -28,6 +28,7 @@ public class JwtTokenProvider {
 	private String refreshKey = "myRefreshKey";
 	
 	@Autowired UserDetailsService loginService;
+	
 	// 토큰 유효시간 30분
     //private long tokenValidTime = 30 * 60 * 1000L;
 	

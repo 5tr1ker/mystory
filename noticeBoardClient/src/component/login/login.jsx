@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import '../../_style/loginScreen.css'
 import Cookies from 'universal-cookie';
 import img01 from '../../_image/pic1.png';
+import { setAccessToken } from '../noticeboard/RefreshToken';
 
 
 const Logins = () => {
@@ -11,9 +12,9 @@ const Logins = () => {
     const [idInfo , setInfo] = useState({
         id : '' ,
         pw : ''
-    }); 
-
-    const googleLogin = () => {
+    });
+    
+    const kakaoLogin = () => {
         window.location.replace('http://localhost:8080/login/oauth2/code/kakao');
     }
 
@@ -37,12 +38,13 @@ const Logins = () => {
                 secure: true ,
                 maxAge: 1209600
             });
-
-            cookies.set('AccessToken', signupResult.data.accessToken , {
-                path: '/',
-                secure: true ,
-                maxAge: 1800
-            });
+            
+            setAccessToken(signupResult.data.accessToken);
+            // cookies.set('AccessToken', signupResult.data.accessToken , {
+            //     path: '/',
+            //     secure: true ,
+            //     maxAge: 1209600
+            // });
 
             const getUserData = await axios({
                 method : "GET" ,
@@ -101,7 +103,7 @@ const Logins = () => {
                     </form>
                     <div className="loginbuttonarea">
                         <button type="submit" className="sbButton" onClick={signUp}>로그인</button>
-                        <button type="submit" className="sbButton" onClick={googleLogin}>구글</button>
+                        <button type="submit" className="sbButton" onClick={kakaoLogin}>Kakao</button>
                         <Link to="/noticelist"><button type="submit" className="sbButton sbButton2" onClick={() => window.location.replace('/noticelist')}>로그인 없이 보기</button></Link>
                     </div>
                 </div>

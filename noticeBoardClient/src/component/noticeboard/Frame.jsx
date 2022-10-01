@@ -6,9 +6,10 @@ import NoticeList from "./postlist";
 import PostView from "./postview";
 import Profile from './Profile';
 import Notificate from './notificate';
+import qs from 'qs';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { expireTokenTrans } from './RefreshToken';
+import { expireTokenTrans, setAccessToken } from './RefreshToken';
 import { deleteAllToken } from './DeleteAllCookie';
 
 const NoticeFrame = () => {
@@ -23,6 +24,10 @@ const NoticeFrame = () => {
 
     const [userOption, setUserOption] = useState({ session: 0, notified: 3 });
     const urlInfo = window.location.pathname.split('/')[1];
+    
+    const query = qs.parse(window.location.search, { // ?tag=데이터 로 찾음 query.tag
+        ignoreQueryPrefix: true
+    });
 
     const noticeInfo = window.location.pathname.split('/')[1];
     if ((noticeInfo === undefined || noticeInfo === '') && urlInfo !== 'profile' && urlInfo !== 'newpost') { // 비정상적인 경로 확인
@@ -55,7 +60,29 @@ const NoticeFrame = () => {
 
     const setDropers = () => { dropBoxs ? setDropBox(false) : setDropBox(true); }
 
-    useEffect(() => {
+    useEffect(async () => {
+
+        if(query.code !== undefined) {
+            const result = await axios({
+                method: "GET",
+                mode: "cors",
+                url: `/kakaoLogin?code=${query.code}`,
+            });
+
+            cookies.set('refreshToken', result.data.refreshToken , {
+                path: '/',
+                secure: true ,
+                maxAge: 1209600
+            });
+
+            cookies.set('myToken', result.data.key , {
+                path: '/',
+                secure: true
+            });
+            setAccessToken(result.data.accessToken);
+            window.location.replace("/noticelist");
+        }
+
         if (getCookieStat !== '') {
             getInitData();
         }

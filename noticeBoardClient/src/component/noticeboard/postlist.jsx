@@ -16,7 +16,7 @@ const NoticeList = () => {
     const [postAll, setPostAll] = useState([]); // 모든 post
     const [pages, setPages] = useState(1); // d현재 페이지
     const [totalPost, setTotalPost] = useState(0); // 전체 post
-
+    
     const searchDataInput = async (e) => {
         if (e.key == 'Enter') {
             console.log(e.target.value);

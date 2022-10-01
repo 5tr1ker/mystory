@@ -24,9 +24,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 @Configuration
-@EnableJpaRepositories(basePackages = { "noticeboard.repository" , "noticeboard.security.repository" })
+@EnableJpaRepositories(basePackages = { "noticeboard.repository" , "noticeboard.security"})
 public class AppConfig implements WebMvcConfigurer {
-	
+
 	// 기본 데이터 소스 처리
 	@Bean
 	public BasicDataSource dataSource() {
