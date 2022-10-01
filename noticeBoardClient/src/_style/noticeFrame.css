@@ -1,0 +1,2282 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Ubuntu&display=swap');
+* {
+    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.addmenu , .mobileMenubar {
+    display: none;
+}
+
+.myStory {
+    width: 20%;
+    height: 100%;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.postviewtagarea {
+    height: 100px;
+}
+
+#fileselector {
+    display: none;
+}
+
+.noticeFrame{
+    width: 100vw;
+    height: 110vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow:auto;
+    overflow-x: hidden;
+}
+
+.PostArea {
+    position: relative;
+    top: -30px;
+    min-height: 478px;
+}
+
+.nfitemcontent {
+    margin-left: 5px;
+    color:rgb(84, 84, 84);
+}
+
+.nfitemheader {
+    font-size: 15px;
+}
+
+#headerNamed {
+    font-weight: 700;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.nfitemheaderProfile {
+    width: 23px;
+    height: 23px;
+    border-radius: 15px;
+    display: inline-block;
+    position: relative;
+    right: 5px;
+    top: 0px;
+}
+
+.notificateitem {
+    height: auto;
+    min-height: 100px;
+    border-bottom: 1px solid rgb(198, 198, 198);
+    padding: 10px;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    top: 5px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    cursor: pointer;
+}
+
+.postviewTagsview svg{
+    fill: gray;
+    margin-right: 10px;
+}
+
+.postviewTagsview{
+    color: gray;
+    margin-top: 25px;
+    display: block;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.postviewTagscontent {
+    margin-top: 10px;
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+.downloadBlock {
+    cursor: pointer;
+    margin-left: -3px;
+    margin-top: 7px;
+    transition: 0.2s all ease-in-out;
+    width: auto;
+    display: inline-block;
+}
+
+.downloadBlock:hover {
+    margin-left: 5px;
+}
+
+.downloadBlock span {
+    color: rgb(60,172,255);
+    font-weight: 700;
+    margin-left: 5px;
+    width: auto;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.downloadBlock svg {
+    transform: rotate(45deg);
+}
+
+.postviewTagscontent2 {
+    min-height: 25px;
+}
+
+.postviewTagscontent span{
+    padding: 4px 10px 4px 10px ;
+    background-color: #cecece;
+    color: gray;
+    border-radius: 15px;
+    margin-right: 3px;
+    position: relative;
+    right: 10px;
+    cursor: pointer;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.nfitemfooter {
+    margin-left: 5px;
+    height: 20px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgb(137, 137, 137);
+}
+
+.notificateheader {
+    border-bottom: 1px solid rgb(198, 198, 198);
+    height: 40px;
+}
+
+.notificateheader span {
+    padding: 5px;
+    position: relative;
+    top: 6px;
+    left: 10px;
+    font-size: 17px;
+}
+
+.closenotc {
+    float: right;
+    position: relative;
+    top: 8px;
+    right: 15px;
+    cursor: pointer;
+}
+
+.notificatefooter {
+    position: absolute;
+    bottom: 0px;
+    border-top: 1px solid rgb(198, 198, 198);
+    width: 100%;
+    height: 40px;
+    background-color: #f1f1f1;
+    border-radius: 0 0 10px  10px ;
+}
+
+.notificatefooter svg {
+    margin-right: 20px;
+    position: relative;
+    top: 5px;
+    left: 10px;
+    cursor: pointer;
+}
+
+.notificatefooter span {
+    position: relative;
+    top: 7px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.notificateFrame {
+    width: 400px;
+    height: 600px;
+    border: 1px solid rgb(178, 178, 178);
+    position: absolute;
+    left: 200px;
+    top: 60px;
+    border-radius: 10px;
+    background-color: white;
+    overflow: hidden;
+    animation: notificateFrameanim 0.5s;
+}
+
+@keyframes  notificateFrameanim {
+    from {
+        height: 0px;
+      }
+    
+      to {
+        height: 600px;
+      }
+}
+
+.MobiledropBox {
+    display: none;
+}
+
+.profileimage {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-radius: 15px;
+    margin-right: 10px;
+    position: relative;
+    top: 0px;
+}
+
+.pagedesc {
+    text-align: center;
+    margin-left: -100px;
+    font-size: 2.4vw;
+    margin-bottom: 5px;
+    font-weight: 700;
+    position: relative;
+    bottom: 3px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.pagedesc:after {
+    content : '';
+    display: block;
+    border-bottom: 3px solid rgb(60,172,255);
+    transform: scaleX(0.05);
+    margin-top: 7px;
+}
+
+.logincommitsettingMobile {
+    display: none;
+}
+
+.Asidechecked {
+    color: rgb(60,172,255);
+    fill: rgb(60,172,255);
+}
+
+.noticeFrameHeader{
+    width: 75vw;
+    margin: 0 auto;
+    height: 60px;
+    min-height: 60px;
+    max-height: 60px;
+    display:flex;
+    flex-direction: row;
+    z-index: 10;
+    border-bottom: solid 0.1vw rgb(60,172,255);  
+}
+
+#noticeName{
+    text-decoration: none;
+    color: rgb(112, 112, 112);
+    margin-left: 30px;
+}
+
+.noticeFrameName{
+    font-size: 2.2vw;
+    font-weight: 600;
+    font-family: sans-serif;
+    color: #333333;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.page-link {
+    width: 2.5vw;
+    height: 2.5vw;
+    font-size: 1.2vw;
+    text-align: center;
+    line-height: 1.5vw;
+}
+
+#linkDecorator {
+    text-decoration: none;
+}
+
+#buttonArea {
+    width: 50%;
+}
+
+#buttonArea > span {
+    letter-spacing: 2px;
+    font-size: 1vw;
+    margin-left: 70px;
+    cursor: pointer;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    font-weight: 700;
+    text-transform:uppercase;
+    transition: 0.25s ease-in-out all;
+}
+
+#buttonArea a {
+    transition: 0.25s ease-in-out all;
+}
+
+#buttonArea > span:after {
+    display:block;
+    content: '';
+    border-bottom: solid 0.2vw rgb(60,172,255);  
+    transform: scaleX(0);  
+    transition: transform 250ms ease-in-out;
+}
+#buttonArea a:hover {
+    color:rgb(60,172,255);
+}
+
+#buttonArea > span:hover:after {
+    transform: scaleX(1);
+}
+
+#buttonArea{
+    width: 35vw;
+    height: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5vw;
+}
+
+.noticeButton , .noticeTodoList {
+    font-family: sans-serif;
+    width: 50%;
+    font-weight: 700;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.noticeButton a:hover , .noticeTodoList a:hover {
+    color: rgb(51, 105, 255);
+}
+
+.noticeButton a , .noticeTodoList a {
+    text-decoration: none;
+    color: black;
+    display: block;
+    text-align: center;
+    height: 100%;
+}
+
+.searchCoordinate{
+    position: relative;
+    bottom: 55px;
+    display: block;
+    float: right;
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    right: 84px;
+    bottom: 2px;
+    fill:rgb(173, 173, 173)
+}
+
+.myalerts {
+    position: relative;
+    right: 60px;
+    top: 2px;
+    cursor: pointer;
+    transition: all ease-in-out 0.1s;
+}
+
+#notDecor {
+    text-decoration: none;
+    color: black;
+}
+
+#textDesign-gear {
+    position: relative;
+    right: 100px;
+    top: -24px;
+}
+
+.myalerts:hover {
+    fill:rgb(24, 78, 255);
+}
+.profilepointer{
+    position: relative;
+    left: 5px;
+}
+
+#loginStatus{
+    height: 100%;
+    width: 15vw;
+    display:flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+#loginUser{
+    font-size: 14px;
+}
+
+.DropBoxContent svg {
+    margin-left: 3px;
+    margin-right: 10px;
+}
+
+.profileIcon {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid rgb(226, 226, 226);
+    display:flex;
+    align-items: center;
+    justify-self: center;
+}
+
+.profileIcon svg {
+    margin-left: 60px;
+    cursor: pointer;
+    position: absolute;
+    top: 9px;
+    right: 10px;
+}
+
+.DropBoxContent {
+    list-style-type: none;
+    height: 40%;
+    display: block;
+    font-size: 1vw;
+    color:#545454;
+    font-weight: 500;
+    position: relative;
+    right: 33px;
+    margin-top: 15px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    cursor: pointer;
+    width: 150px;
+    text-align: left;
+    text-indent: 12px;
+}
+
+.profileArea {
+    width: 100%;
+    min-width: 1200px;
+    height: auto;
+    min-height: 600px;
+}
+
+.profileArea div {
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.profileArea_under {
+    width: 80%;
+    height: 300px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.profiledesc {
+    width: 65%;
+    height: 300px;
+    box-shadow: 0px 1px 10px 0px #b7b7b7;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.profileEdits-area {
+    width: 90%;
+    height: 85%;
+    position: relative;
+    top: -40px;
+    left: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.profiledesc header {
+    height: 40px;
+    position: relative;
+    top: -5px;
+    left: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(51, 105, 255);
+}
+
+.profilepic-get {
+    font-size: 17px;
+    font-weight: 700;
+    color: rgb(51, 105, 255);
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.profilepic-get svg {
+    position: relative;
+    bottom: 2px;
+    margin-right: 5px;
+}
+
+.profile-pic {
+    width: 30%;
+    height: 110%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: -45px;
+}
+
+.profile-data span {
+    display: block;
+    margin-top: 5px;
+    font-size: 17px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+#profiledata {
+    margin-top: -5px;
+    font-size: 17px;
+    color: gray;
+}
+
+#seteditbox {
+    color: rgb(51, 105, 255);
+    cursor: pointer;
+    font-weight: 600;
+    width: 130px;
+}
+
+#seteditbox svg {
+    margin-right: 10px;    
+}
+
+.profile-data {
+    width: 50%;
+    height: 80%;
+    position: relative;
+    bottom: 20px;
+}
+
+.settings-contents {
+    width: 90%;
+    height: 80%;
+    position: relative;
+    top: -30px;
+    left: -15px;
+    padding-left: 5px;
+}
+
+.settings-contents span {
+    font-size: 17px;
+    font-weight: 600;
+    display: block;
+    margin-top: 10px;
+}
+
+.profile_settings header {
+    height: 40px;
+    position: relative;
+    top: -5px;
+    left: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(51, 105, 255);
+}
+
+.profile_settings {
+    width: 25%;
+    min-width: 300px;
+    height: 300px;
+    box-shadow: 0px 1px 10px 0px #b7b7b7;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.profilestatistics div {
+    width: 250px;
+    height: 125px;
+    box-shadow: 0px 1px 10px 0px #b7b7b7;
+    border-radius: 10px;
+    cursor:pointer;
+}
+
+.profilestatistics div span:nth-child(1) {
+    display: block;
+    position: relative;
+    left: 35px;
+    width: 50px;
+    top: 20px;
+    color: rgb(51, 105, 255);
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.profilestatistics div span:nth-child(2) {
+    font-size: 16px;
+    font-weight: 700;
+    color: gray;
+    position: relative;
+    left: 35px;
+    top: 10px;
+}
+
+.viewdesign svg{
+    width: 50px;
+    height: 50px;
+    fill: gray;
+    float: right;
+    position: relative;
+    top: -25px;
+    right: 30px;
+}
+
+#design1:nth-child(1) {
+    font-size: 35px;
+}
+
+#design1:nth-child(2) {
+    top: 15px;
+}
+
+#design1:nth-child(3) {
+    top: -15px;
+}
+
+.profilestatistics div:hover > #total1 {
+    color: white;
+    fill:white;
+}
+
+.profilestatistics div:hover > #view1 {
+    color: white;
+    fill:white;
+}
+
+.profilestatistics div:hover > #comment1 {
+    color: white;
+    fill:white;
+}
+
+.profilestatistics div:hover > #design1 {
+    color: white;
+    fill:white;
+}
+
+.profilestatistics div:hover{
+    background-color: rgb(51, 105, 255);
+    box-shadow: 0px 0px 0px 0px;
+}
+
+.profilestatistics {
+    width: 80%;
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around
+}
+
+.postviewstatistics {
+    width: 80%;
+    height: 350px;
+    background-color: #b0b0b0;
+}
+
+.DropBoxContent:hover {
+    fill: rgb(51, 105, 255);
+    color: rgb(51, 105, 255);
+}
+
+.searchingArea {
+    width: 15vw;
+    border: 1px solid rgb(197, 197, 197);
+    text-indent: 30px;
+    height: 35px;
+    border-radius: 20px;
+    outline-style: none;
+    font-size: 1vw;
+    margin-right: 50px;
+}
+
+.searchingArea_mobile {
+    width: 95%;
+    border: 1px solid rgb(197, 197, 197);
+    text-indent: 30px;
+    height: 35px;
+    border-radius: 20px;
+    outline-style: none;
+    margin-left: 5px;
+    position: relative;
+    bottom: 15px;
+}
+
+.search-icon-mobile {
+    width: 20px;
+    fill: gray;
+    float: right;
+    position: relative;
+    right: 20px;
+    bottom: 42px;
+}
+
+.LoginDropBox{
+    position: absolute;
+    margin-top : 10px;
+    margin-left: -20px;
+    width: 170px;
+    height: 210px;
+    font-size: 1.2vw;
+    border: 1px solid rgb(193, 193, 193);
+    z-index: 5;
+    background-color: white;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.noticeLogin {
+    width: auto;
+}
+
+.noticeLogin span {
+    position:relative;
+    top: 0px;
+}
+
+.logincommitsetting {
+    position: relative;
+    right: 50px;
+    display: inline;
+}
+
+.noticeRegister {
+    font-size: 1vw;
+    margin-left: -15px;
+    text-decoration: none;
+    color: rgb(23, 34, 43);
+    display: inline-block;
+    text-align: center;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.noticeLogin {
+    margin-right: 25px;
+    text-decoration: none;
+    color: rgb(23, 34, 43);
+    display: inline-block;
+    text-align: center;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1vw;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    padding-right: 10px;
+}
+#textDesign {
+    bottom: 2px;
+    text-decoration: none;
+    color: black;
+}
+
+
+.noticeLogin:hover {
+    color: rgb(51, 105, 255);
+}
+
+.sectionArea{
+    width: 90%;
+    margin: 0 auto;
+    min-height: 700px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    z-index: 1;
+}
+
+.noticeFrameArea {
+    width: 70%;
+    height: 100%;
+    min-height: 610px;
+}
+
+.noticeFooter {
+    margin-top: 30px;
+}
+
+.onYouHear {
+    background-color: rgb(44, 43, 43);
+    display: none;
+}
+
+.pageselecter {
+    width: 200px;
+    float: right;
+    position: relative;
+    bottom: 65px;
+    right: 100px;
+}
+
+.freeNotice{
+    margin-left: 40px;
+    margin-top: 25px;
+    width: 100%;
+    height: 65px;
+}
+
+.pageResult {
+    position: relative;
+    left: 100px;
+    top: 20px;
+}
+
+.newPost_post {
+    width: 10vw;
+    height: 2vw;
+    min-height: 35px;
+    position: absolute;
+    display: inline-block;
+    background-color: rgb(60,172,255);
+    right: 30px;
+    bottom: 20px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    box-shadow: 0px 0px 5px -1px black;
+    transition: all ease-in-out 0.2s;
+}
+
+.newPost_post:hover {
+    color: white;
+    background-color: #77c8e6;
+}
+
+.newPost{
+    width: 225px;
+    height: 35px;
+    min-height: 35px;
+    position: relative;
+    display: inline-block;
+    background-color: rgb(60,172,255);
+    margin-top: 60px;
+    margin-left: 0px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    box-shadow: 0px 0px 5px -1px black;
+    transition: all ease-in-out 0.2s;
+}
+
+.newPost:hover {
+    color: white;
+    background-color: #77c8e6;
+}
+
+.noticedescription span{
+    color: rgb(100, 100, 100);
+    font-weight: 300;
+    display: inline-block;
+    font-size: 1.1vw;
+}
+
+#DescHead {
+    font-weight: 600;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    color: rgb(147, 147, 147);
+}
+
+.noticedescription {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgb(211, 211, 211);
+    text-align: center;
+}
+
+.noticedescription svg {
+    position: relative;
+    top: -2px;
+    margin-right: 10px;
+}
+
+.userprofilepic {
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+    border: 1px solid rgb(211, 211, 211);
+    box-shadow: 0px 0px 50px -18px black;
+}
+
+.userprofilepic svg {
+    fill: rgb(68, 68, 68);
+}
+
+.saveandreturn {
+    border: 2px solid rgb(51, 105, 255);
+    color: rgb(51, 105, 255);
+    font-weight: 600;
+    background-color:white;
+    font-size: 16px;
+    width: 230px;
+    height: 35px;
+    border-radius: 5px;
+    transition: all ease-in-out 0.1s;
+    margin-top: 15px;
+    /* margin-top: 10px;
+    margin-left: -15px; */
+}
+
+.saveandreturn:hover {
+    background-color: rgb(51, 105, 255);
+    color: white;
+}
+
+.saveandreturn svg {
+    position: relative;
+    top: -2px;
+    margin-right: 10px;
+}
+
+.accountdelete {
+    border: 2px solid rgb(255, 65, 51);
+    color: rgb(255, 65, 51);
+    font-weight: 600;
+    background-color:white;
+    font-size: 16px;
+    width: 230px;
+    height: 35px;
+    border-radius: 5px;
+    transition: all ease-in-out 0.1s;
+    margin-top: 10px;
+}
+
+.accountdelete:hover {
+    background-color: rgb(255, 65, 51);
+    color: white;
+}
+
+.accountdelete svg {
+    position: relative;
+    top: -2px;
+    margin-right: 10px;
+}
+
+.editprofileButton-cancel{
+    border: 2px solid rgb(255, 65, 51);
+    color: rgb(255, 65, 51);
+    font-weight: 600;
+    background-color:white;
+    font-size: 16px;
+    width: 120px;
+    height: 35px;
+    border-radius: 5px;
+    transition: all ease-in-out 0.1s;
+    margin-top: 20px;
+}
+
+.editprofileButton-cancel svg {
+    position: relative;
+    top: -2px;
+    margin-right: 10px;
+}
+
+.editprofileButton-cancel:hover {
+    background-color: rgb(255, 65, 51);
+    color: white;
+}
+
+.editprofileButton {
+    border: 2px solid rgb(51, 105, 255);
+    color: rgb(51, 105, 255);
+    font-weight: 600;
+    background-color:white;
+    font-size: 16px;
+    width: 120px;
+    height: 35px;
+    border-radius: 5px;
+    transition: all ease-in-out 0.1s;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.editprofileButton:hover {
+    background-color: rgb(51, 105, 255);
+    color: white;
+}
+
+.editprofileButton svg {
+    position: relative;
+    top: -2px;
+    margin-right: 10px;
+}
+
+.profile-editmode {
+    position: relative;
+    top: -40px;
+}
+
+.profile-editmode span{
+    display: inline-block;
+    margin-top: 15px;
+    width: 60px;
+}
+
+.profile-editmode input[type=text] {
+    display: inline-block;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    margin-left: 20px;
+    border-bottom: 1px solid gray;
+}
+
+.profile-editmode input[type=text]:focus {
+    outline: none;
+}
+
+.noticePost {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.noticedescription span:nth-child(1) {
+    width: 10%;
+}
+
+.noticedescription span:nth-child(2) {
+    text-align: left;
+    width: 50%;
+}
+
+.noticedescription span:nth-child(3) {
+    width: 10%;
+}
+
+.noticedescription span:nth-child(4) {
+    width: 15%;
+}
+
+.noticedescription span:nth-child(5) {
+    width: 5%;
+}
+
+.noticedescription span:nth-child(6) {
+    width: 10%;
+}
+
+.userPost{
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    cursor: pointer;
+    text-decoration: none;
+    color: rgb(226, 226, 226);
+    font-weight: 500;
+}
+
+.linktopost{
+    text-decoration: none;
+}
+
+.userPost:hover {
+    background-color: #f5f5f5;
+}
+
+.postattachmentdelete {
+    float: right;
+    fill: red;
+    position: relative;
+    bottom: 15px;
+    right: 10px;
+    cursor: pointer;
+    transition: all ease-in-out 0.2s;
+}
+
+.postattachmentdelete:hover {
+    background-color: red;
+    fill: white;
+}
+
+.formwrapper{
+    margin-top: 50px;
+    margin-left: 150px;
+    height: 539px;
+    box-shadow: 0px 0px 20px rgb(197, 197, 197);
+}
+
+
+.linkButtondesign{
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.postviewbutton {
+    width: 150px;
+    margin-left: 20px;
+    margin-top: 10px;
+    position: relative;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    color: rgb(51, 105, 255);
+    border: 1.5px solid rgb(51, 105, 255);
+    border-radius: 5px;
+    font-size: 500;
+}
+
+.postviewbutton_cancel {
+    width: 150px;
+    margin-left: 20px;
+    margin-top: 10px;
+    position: relative;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    color: rgb(255, 51, 51);
+    border: 1.5px solid rgb(255, 51, 51);
+    border-radius: 5px;
+    font-size: 500;
+}
+
+.postviewbutton:hover {
+    color: white;
+    background-color: rgb(51, 105, 255);
+}
+
+.postviewbutton_cancel:hover {
+    color: white;
+    background-color: rgb(255, 51, 51);
+}
+
+.submit-button{
+    width: 100px;
+    height: 30px;
+    margin-left: 20px;
+    position: relative;
+    bottom: 20px;
+    background-color: rgb(113, 142, 238);
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 2px;
+    box-shadow: 1px 1px 5px 0px black;
+    font-size: 500;
+}
+
+.submit-button:hover {
+    color: white;
+    background-color: rgb(18, 51, 160);
+}
+
+.title-input{
+    width: 75%;
+    border-top : none;
+    outline: 0px;
+    border-left: none;
+    border-right: none;
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 30px;
+    font-size: 16px;
+    position: relative;
+    top: 17px;
+    left: 15px;
+}
+
+.postSettings {
+    height: 75px;
+}
+
+.postsettingcontent {
+    display: block;
+    position:relative;
+    top: 13px;
+    margin-top: 4px;
+    margin-left: 20px;
+}
+
+.publicinSection {
+    font-size: 18px;
+    color: rgb(119, 119, 119);
+    margin-left: 20px;
+    position: relative;
+    display: block;
+    top: 10px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.postsettingcontent span {
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    margin-left: 10px;
+    color: rgb(97, 97, 97);
+}
+
+.newPostArea {
+    width: 100%;
+    min-width: 1400px;
+    height: auto;
+    min-height: 650px;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+}
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable) {
+    width: 800px;
+    height: 500px;
+}
+
+.centerLine{
+    width: 80%;
+    margin-top: 30px;
+    border-bottom : 1px solid rgb(195, 195, 195);
+}
+
+.labelinputs {
+    width: 80px;
+    border: 1px solid rgb(119, 119, 119);
+}
+
+.labelinputs:focus {
+    border: 1px solid rgb(119, 119, 119);
+}
+
+.labelsContent {
+    width: auto;
+    margin-right: 5px;
+    display:inline-block;
+    height: 27px;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    color: rgb(107, 107, 107);
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 16px;
+    background-color: #eeeeee;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.labeldata {
+    position:relative;
+    top: -1px;
+}
+
+.postController {
+    width: 30%;
+    height: 90%;
+    margin-left: -150px;
+    margin-top: 50px;
+}
+
+.submitbuttonArea{
+    margin-top: 50px;
+}
+
+.postViewFrame {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.postViewSection {
+    width: 75vw;
+    margin: 0 auto;
+    height: auto;
+    margin-top: 23px;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.postViewName {
+    width: 80%;
+    height: 140px;
+    min-height: 100px;
+    border-bottom: 1px solid rgb(199, 199, 199);
+}
+
+.postWriter {
+    font-size: 1.2vw;
+    font-weight: 600;
+    color: rgb(30, 158, 255);
+}
+
+.postsettingIcon {
+    position: relative;
+    margin-left: 80%;
+    top: 25px;
+    right: 10px;
+    width: 200px;
+}
+
+.postsettingIcon svg {
+    fill: gray;
+    margin-right: 20px;
+    cursor: pointer;
+    transition: all ease-in-out 0.1s;
+}
+
+.postsettingIcon svg:hover {
+    fill:black;
+}
+
+.postView {
+    margin-left: -10px;
+    margin-top: 10px;
+}
+
+.postView svg {
+    position: relative;
+    top: -1px;
+    color: gray;
+    margin-left: 8px;
+}
+
+.postView span {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: 500;
+    font-size: 1vw;
+    color : gray;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.postTitle{
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 1.4vw;
+    font-weight: 600;
+}
+
+.postViewContent{
+    width: 80%;
+    height: auto;
+    min-height: 100px;
+    margin-top: 20px;
+    word-break: break-all;
+    font-size: 1.1vw;
+}
+
+.postViewButtonArea {
+    margin-top: 50px;
+}
+
+.noticePagenation {
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.noticePagenationButton {
+    display: inline-block;
+    width: 2.5vw;
+    height: 2.5vw;
+    font-size: 1.2vw;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #d0e9ff;
+    color:rgb(81, 108, 197);
+    font-weight: 500;
+}
+
+.noticePagenationButtonNow {
+    display: inline-block;
+    width: 2.5vw;
+    height: 2.5vw;
+    font-size: 1.2vw;
+    text-align: center;
+    background-color: #c9ebee;
+    color:rgb(81, 108, 197);
+    border: 1px solid #d0e9ff;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.mobileSearch {
+    display:none;
+}
+
+.pagenations {
+    display: flex;
+    position: relative;
+    bottom: 13px;
+    justify-content: center;
+    align-items: center;
+}
+
+.noticePagenationButton:hover {
+    background-color: #e9e9e9;
+}
+
+.commitInput {
+    width: 100%;
+    height: 100px;
+    background-color: #77c8e6;
+}
+
+.notificatesection {
+    width: 100%;
+    height: 85%;
+    overflow-y: scroll;
+}
+
+.postattachment {
+    width: 80%;
+    padding: 10px;
+    font-size: 1.1vw;
+}
+
+.postattachment2 {
+    width: 80%;
+    padding: 10px;
+    margin-top: -10px;
+    font-size: 1.1vw;
+}
+
+.postattachment svg {
+    fill: gray;
+}
+
+.postattachment2 > span {
+    color: gray;
+    margin-left: 10px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.postattachment2 svg {
+    fill: gray;
+}
+
+.postattachment span {
+    color: gray;
+    margin-left: 10px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+}
+
+.postComment {
+    width: 80%;
+    min-height: 250px;
+    height: auto;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.postCommitArea {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(205, 205, 205);
+    resize: none;
+    overflow: hidden;
+}
+
+.attachmentarea {
+    width: 80%;
+    height: auto;
+}
+
+.postattachments {
+    display:block;
+    overflow: hidden;
+    position: relative;
+    top: 10px;
+    height: 30px;
+    width: 90%;
+    text-overflow: ellipsis;
+    margin-top: 10px;
+    margin-left: 20px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    color: #3f3f3f;
+    cursor:pointer;
+}
+
+.labelArea{
+    width: 70%;
+    min-height: 100px;
+    padding: 5px;
+    border: 1px solid rgb(173, 173, 173);
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.attachchoose{
+    display:block;
+    margin-top: 15px;
+    margin-left: 20px;
+    -webkit-user-select:none; 
+    -moz-user-select:none; 
+    -ms-user-select:none; 
+    user-select:none;
+    color: rgb(51, 105, 255);
+    cursor:pointer;
+}
+
+.commitCommit {
+    width: 100px;
+    height: 30px;
+    background-color: white;
+    cursor: pointer;
+    border: 2px solid rgb(30, 158, 255);
+    color: rgb(30, 158, 255);
+    font-weight: 600;
+    border-radius: 5px;
+    position: relative;
+    float:right;
+    bottom: 45px;
+    right: 10px;
+    transition: all ease-in-out 0.2s;
+    font-size: 16px;
+}
+
+.commitCommit:hover {
+    background-color: rgb(30, 158, 255);
+    color: white;
+}
+
+.userPostCommit svg {
+    fill : rgb(79, 79, 79);
+    margin-left: 5px;
+    margin-bottom: 3px;
+}
+
+.userPostCommit{
+    width: 100%;
+    position: relative;
+    min-height: 80px;
+    height: auto;
+    border-bottom: 1px solid rgb(192, 192, 192);
+    font-size: 1.3vw;
+    margin-right: 5px;
+    margin-top: 1vw;
+}
+
+.commitmiddle{
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.heightBug {
+    width: 100%;
+    height: 100px;
+    background-color: white;
+}
+
+.userPostDelete {
+    position: relative;
+    top: 5px;
+    right: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    float: right;
+}
+
+.userPostDelete:hover {
+    background-color: #d4d4d4;
+}
+
+.like_button_activate {
+    width: 20px;
+    position: relative;
+    top: 3px;
+    margin-left: 20px;
+    filter: invert(13%) sepia(100%) saturate(6435%) hue-rotate(1deg) brightness(110%) contrast(117%);
+}
+
+.like_button_Disabled {
+    width: 20px;
+    position: relative;
+    top: 3px;
+    margin-left: 20px;
+}
+
+.contentNumber {
+    font-size: 0.8vw;
+    color:rgb(136, 136, 136);
+    font-weight: 600;
+    margin-left: 5px;
+    position: relative;
+    bottom: 2px;
+}
+
+.commitContent{
+    width: 90%;
+    height: auto;
+    margin-left: 5px;
+    font-size: 1vw;
+}
+
+.deletecommit {
+    float:right;
+    position: relative;
+    cursor:pointer;
+    top: 5px;
+    right: 5px;
+}
+
+.deletecommit:hover {
+    fill: black;
+}
+
+.commitContent > span {
+    font-size: 12px;
+    font-weight: 200;
+}
+
+.commitnickname {
+    margin-left: 5px;
+}
+
+.commitReply {
+    width: 70%;
+    min-height: 80px;
+    height: auto;
+    border-bottom: 1px solid gray;
+    background-color: #f1f1f1;
+    font-size: 18px;
+    padding-left: 15px;
+    padding-top: 5px;
+}
+
+.postCommitAreareply {
+    width: 71%;
+    height: 80px;
+    resize: none;
+    margin-top: 0px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.commitCommitreply {
+    width: 100px;
+    height: 30px;
+    background-color: white;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 20px;
+    position: relative;
+    left: 14%;
+    top: 10px;
+}
+
+.commitCommitreply:hover {
+    background-color: #eeeeee;
+}
+
+.replayArea {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+/* responsible section */
+
+@media only screen and (max-width: 900px) {
+    .newPostArea {
+        min-width: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .searchingArea , .search-icon {
+        display: none;
+    }
+
+    .mobileSearch {
+        display: block;
+    }
+    .formwrapper{
+        margin-left: 0px;
+        width: 100%;
+    }
+    .postController {
+        width: 100%;
+        margin-left: 0px;
+        width: auto;
+    }
+
+    .profileArea {
+        width: 100%;
+        min-width: 100%;
+        min-height: 1200px;
+    }
+
+    .profiledesc{
+        width: 80%;
+        height: 400px;
+    }
+
+
+    .profile-editmode {
+        height: 0px;
+    }
+
+    .profileArea_under{
+        width: 100%;
+        flex-direction: column;
+        min-height: 500px;
+    }
+
+    .profilestatistics {
+        width: 600px;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .noticeFrameHeader{
+        display:flex;
+        align-items: center;
+    }
+    .searchingAreaWithMobile {
+        width: 40vw;
+    border: 1px solid rgb(197, 197, 197);
+    text-indent: 30px;
+    height: 35px;
+    border-radius: 20px;
+    outline-style: none;
+    font-size: 1vw;
+    margin-left: 50px;
+    }
+
+    .mobileDropBoxContent {
+        width: 100px;
+        height: 250px;
+        background-color: white;
+        border: 1px solid black;
+        position: absolute;
+        margin-top : 300px;
+        right: 10vw;
+    }
+
+
+    .mobileDropBox {
+        margin-left: 20px;
+        height: 30px;
+        width: 30px;
+        border-radius: 10px;
+        cursor: pointer;
+        
+    }
+
+    .LoginDropBox {
+        right: 30px;
+    }
+    .search-icon {
+        position: relative;
+        right: 85px;
+    }
+
+    .logincommitsettingMobile {
+        margin-left: 20px;
+        transition: all ease-in-out 1s ;
+    }
+
+    .mobileDropBoxContent span {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .mobileDropBoxContent {
+        font-size: 1.6vw;
+    }
+
+    .menuMobile {
+        list-style:none;
+        margin-top: 14px;
+    }
+
+    /* in mobile version */
+    @media only screen and (max-width: 499px) {
+
+        .noticeFrameName {
+            position: relative;
+            left: 10vw;
+        }
+
+        .newPost {
+            height: 100px;
+        }
+
+        .noticeLogin {
+            font-size: 14px;
+            width: 120px;
+            margin-right: 20px;
+        }
+
+        .newPost {
+            width: 400px;
+        }
+        
+        .setresponsible {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            top: 67px;
+            min-height: 763px;
+            height: 100%;
+        }
+
+        .postTitle {
+            width: 100%;
+            display: block;
+            text-overflow: ellipsis;
+            word-break:normal;
+        }
+
+        .setresponsiblearticle {
+            width: 95%;
+            margin-left: 5px;
+            order: 2;
+            height: 200px;
+        }
+
+        .noticeLogin , #buttonArea , #loginStatus , .searchingArea , .search-icon {
+            display:none;
+        }
+
+        .logincommitsetting {
+            margin-right: -80px;
+            font-size: 17px;
+        }
+
+        .addmenu {
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            width: 75px;
+            height: 75px;
+            margin-left: 20px;
+        }
+
+        .mobileMenubar {
+            display: block;
+            position: fixed;
+            width: 60%;
+            min-width: 220px;
+            min-height: 500px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 5px -1px 10px 0px gray;
+            z-index: 9999;
+            padding: 0px;
+            animation: menubarslides 0.5s;
+        }
+
+        @keyframes menubarslides {
+            from {
+                position: absolute;
+                left: -350px;
+            }
+            to {
+                left: 0px;
+            }
+        }
+
+        .menubarsection {
+            width: 35px;
+            height: 35px;
+            float: right;
+            margin-right: 10px;
+            cursor: pointer;
+            position: relative;
+            top: 20px;
+            right: 10px;
+        }
+        
+    .MobiledropBox {
+        display: block;
+        position: relative;
+        right: -200px;
+    }
+        .mobilenoticeFrameHeader {
+            width: 100%;
+            height: 75px;
+            margin-bottom: -95px;
+        }
+
+        .noticeFrameHeader {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            box-shadow: none;
+        }
+
+        .noticeFrameName {
+            margin-left: 0px;
+            font-size: 27px;
+        }
+
+        .newPost {
+            width: 80%;
+            height: 35px;
+            position: relative;
+            top: 40px;
+            left: 25px;
+        }
+
+        .noticedescription {
+            height: 6.4vh;
+        }
+
+        .title-input {
+            width: 90%;
+            position:relative;
+            top: 20px;
+            height: 35px;
+            margin-bottom: 10px;
+        }
+
+        .labelArea {
+            width: 90%;
+        }
+
+        .noticeFrameName-menubar {
+            position: absolute;
+            top: 20px;
+            left: 0px;
+            font-size: 25px;
+            font-weight: 600;
+            font-family: sans-serif;
+            color: #333333;
+            margin-left: 40px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .sectionArea {
+            margin-top: -155px;
+            width: 100%;
+            margin-left: 0px;
+        }
+
+        #noticeName2 {
+            text-decoration: none;
+            color: black;
+        }
+        .newPost_post {
+            display:none;
+        }
+        .noticeFrameArea {
+            width: 100%;
+            margin-left: 0px;
+            border-radius: 0px;
+            margin-top: 88px;
+            height: 100%;
+            min-height: 700px;
+            box-shadow: none;
+        }
+
+        .noticedescription {
+            font-size: 2px;
+            font-weight: 700;
+        }
+
+        .pagenations{
+            width: 100%;
+            left: 0px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pagination {
+            margin: 0 auto;
+            height: 50px;
+        }
+
+        .noticePagenationButtonNow , .noticePagenationButton {
+            width: 20px;
+            height: 20px;
+        }
+
+        .pageselecter {
+            width: 140px;
+            position: relative;
+            bottom: 77px;
+            right: 70px;
+        }
+
+        .pageselecter select {
+            font-size: 13px;
+        }
+        
+        .postViewFrame{
+            margin-left: -10px;
+            width: 111vw;
+        }
+
+        .postViewSection {
+            width: 111%;
+            margin-left: -48px;
+            margin-top: -20px;
+        }
+
+        .postsettingIcon {
+            width: 100%;
+            position: relative;
+            top: 23px;
+            right: 80px;
+        }
+
+        .notificateFrame {
+            left: 0px;
+            width: 100%;
+            border-radius: 0px;
+        }
+
+        .notificateitem{
+            font-size: 15px;
+        }
+
+        .attachmentarea {
+            width: 95%;
+        }
+
+        .profileArea {
+            min-width: 0px;
+            width: 100%;
+            padding: 0px;
+            height: auto;
+            min-height: 1400px;
+            margin-top: -20px;
+        }
+
+        .profilestatistics {
+            margin-left: 0px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            height: auto;
+        }
+
+        .profilestatistics div {
+            width: 90%;
+            height: 120px;
+        }
+
+        .viewdesign svg {
+            width: 40px;
+            top: -20px;
+            left: -30px;
+        }
+
+        #total1:nth-child(1) , #view1:nth-child(1) , #comment1:nth-child(1) , #design1:nth-child(1){
+            position:relative;
+            top: 28px;
+            font-size: 25px;
+        }
+        #total1:nth-child(2), #view1:nth-child(2) , #comment1:nth-child(2) , #design1:nth-child(2){
+            position:relative;
+            top: 28px;
+            font-size: 16px;
+        }
+
+        .accountdelete {
+            width: 100%;
+        }
+
+        #comment1:nth-child(3) {
+            position: relative;
+            top: 10px;
+        }
+        #design1:nth-child(3) {
+            display:none;
+        }
+        .cmtRSA {
+            margin-top: -30px;
+        }
+
+        .profileArea_under {
+            margin-left: 0px;
+            position: relative;
+            top: -20px;
+            width: 100%;
+            height: auto;
+            flex-direction: column;
+        }
+
+        .profile_settings {
+            width: 90%;
+        }
+
+        .profiledesc {
+            height: 600px;
+            width: 90%;
+            min-width: 330px;
+        }
+
+        .profileEdits-area {
+            display: flex;
+            flex-direction: column;
+            left: 0px;
+            top: -30px;
+        }
+
+        .profilepic-get {
+            width: 150px;
+        }
+
+        .userprofilepic {
+            position: relative;
+            right: 15px;
+        }
+
+        .profile-data {
+            width: 100%;
+            margin-left: 0px;
+            margin-top: -50px;
+        }
+
+        .profile-data > span {
+            margin-top: 5px;
+            margin-left: 20px;
+        }
+
+        .profile-editmode input[type="text"] {
+            margin-left: 0px;
+        }   
+
+        .postviewbutton_cancel , .postviewbutton {
+            width: 42%;
+        }
+
+        .newPostArea {
+            width: 100%;
+            min-width: 0px;
+            height: auto;
+            min-height: 1350px;
+            overflow: hidden;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+
+
+        .postController {
+            width: 100%;
+            margin-left: 0px;
+            min-height: 800px;
+            height: auto;
+            margin-top: 0px;
+        }
+
+        .centerLine{
+            width: 95%;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+
+        .formwrapper {
+            width: 100%;
+            height: auto;
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-left: 0px;
+            margin-bottom: 0px;
+            box-shadow: none;
+        }
+
+        .editprofileButton , .editprofileButton-cancel {
+            width: 110px;
+        }
+    }
+}

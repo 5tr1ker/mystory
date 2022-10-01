@@ -1,0 +1,8 @@
+noticeboard\entity\freeboard\QFreeCommit.class
+noticeboard\entity\userdata\QProfileSetting.class
+noticeboard\entity\freeboard\QFreeTag.class
+noticeboard\entity\freeboard\QFreeWhoLike.class
+noticeboard\entity\userdata\QIdInfo.class
+noticeboard\entity\freeboard\QFreePost.class
+noticeboard\entity\freeboard\QPostBaseEntity.class
+noticeboard\entity\freeboard\QFreeAttach.class
