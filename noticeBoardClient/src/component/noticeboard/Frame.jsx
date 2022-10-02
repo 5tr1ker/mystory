@@ -11,12 +11,12 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { expireTokenTrans, setAccessToken } from './RefreshToken';
 import { deleteAllToken } from './DeleteAllCookie';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NoticeFrame = () => {
     const cookies = new Cookies();
     const getCookieStat = cookies.get('myToken');
-    axios.defaults.headers.common['Authorization'] = cookies.get('AccessToken');
-    
+
     const [dropBoxs, setDropBox] = useState(false);
     const [notified, setNotified] = useState(false);
 
@@ -63,8 +63,10 @@ const NoticeFrame = () => {
     }
 
     const setDropers = () => { dropBoxs ? setDropBox(false) : setDropBox(true); }
-
+    
     useEffect(async () => {
+        const accessToken =  await AsyncStorage.getItem("accessToken");
+        axios.defaults.headers.common['Authorization'] = accessToken;
         if(query.code !== undefined) {
             let result = null;
 

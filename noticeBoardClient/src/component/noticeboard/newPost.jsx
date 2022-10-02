@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Postlabel from "./postlabel";
 import { expireTokenTrans } from "./RefreshToken";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NewPost = ({ idStatus }) => {
   const [postContent , setPostContent] = useState({
@@ -97,7 +98,9 @@ const NewPost = ({ idStatus }) => {
     setLabelData(labelData.filter(item => item !== labelContent));
   }
 
-  useEffect(() => {
+  useEffect(async () => {
+    const accessToken =  await AsyncStorage.getItem("accessToken");
+    axios.defaults.headers.common['Authorization'] = accessToken;
     checkModifiedOrNewpost();
     if (idStatus === undefined) {
       alert('로그인 후 사용해주세요.');

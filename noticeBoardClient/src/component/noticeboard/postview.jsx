@@ -5,6 +5,7 @@ import axios from "axios";
 import { useState , Fragment } from "react";
 import FileDownload from "js-file-download";
 import { expireTokenTrans } from "./RefreshToken";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PostView = ({ idStatus }) => {
     const params = new URLSearchParams(window.location.search).get('page');
@@ -189,9 +190,11 @@ const PostView = ({ idStatus }) => {
         setCommitData(getCommit.data);
     }
 
-    useEffect(() => {
+    useEffect(async () => {
         getPost('views');
         getCommit();
+        const accessToken =  await AsyncStorage.getItem("accessToken");
+        axios.defaults.headers.common['Authorization'] = accessToken;
     }, []);
 
     return (

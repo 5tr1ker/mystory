@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Cookies from "universal-cookie";
 
 export function deleteAllToken() {
@@ -5,4 +6,5 @@ export function deleteAllToken() {
     cookie.remove('AccessToken', { path: '/' });
     cookie.remove('myToken', { path: '/' });
     cookie.remove('refreshToken', { path: '/' });
+    AsyncStorage.removeItem("accessToken");
 }

@@ -5,6 +5,8 @@ import '../../_style/loginScreen.css'
 import Cookies from 'universal-cookie';
 import img01 from '../../_image/pic1.png';
 import { setAccessToken } from '../noticeboard/RefreshToken';
+import img02 from '../../_image/googleLoginButton.png';
+import img03 from '../../_image/kakaoLogInButton.png';
 
 
 const Logins = () => {
@@ -108,9 +110,8 @@ const Logins = () => {
                         <button type="submit" className="sbButton" onClick={signUp}>로그인</button>
                         <Link to="/noticelist"><button type="submit" className="sbButton sbButton2" onClick={() => window.location.replace('/noticelist')}>로그인 없이 보기</button></Link>
                     </div>
-                    <div className="social-loginArea">
-                        
-                    </div>
+                    <img src={img02} className = "socialLoginButton" onClick={googleLogin}/>
+                    <img src={img03} className = "socialLoginButton" onClick={kakaoLogin}/>
                 </div>
             </div>
             <div className="platform">

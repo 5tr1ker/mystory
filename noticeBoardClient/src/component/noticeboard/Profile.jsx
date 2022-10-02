@@ -6,6 +6,7 @@ import React from "react";
 import Cookies from 'universal-cookie';
 import { deleteAllToken } from "./DeleteAllCookie";
 import { expireTokenTrans } from "./RefreshToken";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({idStatus , rerenders}) => {
     const cookies = new Cookies();
@@ -137,7 +138,9 @@ const Profile = ({idStatus , rerenders}) => {
        }
     }
 
-    useEffect(()=>{
+    useEffect(async () => {
+        const accessToken =  await AsyncStorage.getItem("accessToken");
+        axios.defaults.headers.common['Authorization'] = accessToken;
         getData();
     },[idStatus]);
 

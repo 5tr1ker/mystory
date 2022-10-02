@@ -8,10 +8,10 @@ import Cookies from "universal-cookie";
 
 const NoticeList = () => {
     const cookies = new Cookies();
-    axios.defaults.headers.common['Authorization'] = cookies.get('AccessToken');
     const query = qs.parse(window.location.search, { // ?tag=데이터 로 찾음 query.tag
         ignoreQueryPrefix: true
     });
+    
     const maxPages = useRef(1);
     const [postAll, setPostAll] = useState([]); // 모든 post
     const [pages, setPages] = useState(1); // d현재 페이지

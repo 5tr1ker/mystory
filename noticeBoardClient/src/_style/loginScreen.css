@@ -10,11 +10,10 @@
   color: rgb(99, 99, 99);
 }
 
-.social-loginArea {
-  width: 100%;
-  height: 20%;
+.socialLoginButton {
+  width: 50%;
   margin-top: 50px;
-  background-color: #0d7ba3;
+  cursor: pointer;
 }
 
 .backtosignin{
@@ -139,7 +138,7 @@
   
     .loginArea {
       position: relative;
-      top: 130px;
+      top: 155px;
       width: 80%;
       height: 100%;
       border-radius: 10px;
