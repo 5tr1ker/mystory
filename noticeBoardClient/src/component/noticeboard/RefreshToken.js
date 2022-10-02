@@ -15,7 +15,7 @@ export async function expireTokenTrans(func) {
         data: jsonObj
     });
 
-    console.log(getAccessToken.data);
+    //console.log(getAccessToken.data);
     if(getAccessToken.data.status === "200") {
         setAccessToken(getAccessToken.data.accessToken);
         func(); // 해당 함수 다시 요청

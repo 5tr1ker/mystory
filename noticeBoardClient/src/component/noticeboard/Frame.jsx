@@ -43,7 +43,11 @@ const NoticeFrame = () => {
             method: "GET",
             mode: "cors",
             url: `/auth/getProfileData/${getCookieStat}`,
-        }).catch(() => expireTokenTrans(getInitData));
+        });
+
+        if(getProfileDatas.data === "AccessTokenExpire") {
+            expireTokenTrans(getInitData)
+        }
 
         setUserOption({
             session: getProfileDatas.data.option1,
@@ -70,7 +74,7 @@ const NoticeFrame = () => {
                     mode: "cors",
                     url: `/googleLogin?code=${query.code}`,
                 });
-                
+
             } else {    // 카카오 로그인
                 result = await axios({
                     method: "GET",

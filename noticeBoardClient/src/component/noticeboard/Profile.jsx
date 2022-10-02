@@ -27,13 +27,16 @@ const Profile = ({idStatus , rerenders}) => {
             method: "GET" ,
             url : `/auth/profileInfo/${idStatus}` ,
             mode : "cors"
-        }).catch(() => expireTokenTrans(getData))
+        });
+        if(result.data === "AccessTokenExpire") {
+            expireTokenTrans(Profile)
+        }
 
         const getProfileDatas = await axios({
             method : "GET" ,
             mode: "cors" , 
             url : `/auth/getProfileData/${idStatus}` ,
-        }).catch(() => expireTokenTrans(getData));
+        });
 
         const datas = [];
         datas.push(result.data.postView , result.data.totalPost, result.data.totalCommit , result.data.joindate.replaceAll("-" , "/").slice(2));
@@ -59,16 +62,20 @@ const Profile = ({idStatus , rerenders}) => {
     const deleteId = async() => {
         const deleteConfirm = window.confirm("정말로 삭제하시겠습니까?");
         if (deleteConfirm) {
-            await axios({
+            const response = await axios({
                 url : `/auth/deleteAllCommit/${idStatus}` ,
                 method : "DELETE" ,
                 mode : "cors"
-            }).catch(() => expireTokenTrans(deleteId));
+            });
+            if(response.data === "AccessTokenExpire") {
+                expireTokenTrans(deleteId)
+            }
+
             const result = await axios({
                 url : `/auth/idDelete/${idStatus}` ,
                 method : "DELETE" ,
                 mode : "cors"
-            }).catch(() => expireTokenTrans(deleteId));
+            });
             if (result.data === 0) {
                 alert("계정이 삭제되었습니다.");
                 deleteAllToken();
@@ -88,6 +95,10 @@ const Profile = ({idStatus , rerenders}) => {
             data : jsonParse ,
             headers : {"Content-Type": "application/json"}
         }).catch(() => expireTokenTrans(doneChange));
+        if(result.data === "AccessTokenExpire") {
+            expireTokenTrans(doneChange)
+        }
+
         if (result.data === 0) {
             rerenders();
             if (inputProfileData.option1 === '1') {

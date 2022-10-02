@@ -106,9 +106,10 @@ const Logins = () => {
                     </form>
                     <div className="loginbuttonarea">
                         <button type="submit" className="sbButton" onClick={signUp}>로그인</button>
-                        <button type="submit" className="sbButton" onClick={kakaoLogin}>Kakao</button>
-                        <button type="submit" className="sbButton" onClick={googleLogin}>Google</button>
                         <Link to="/noticelist"><button type="submit" className="sbButton sbButton2" onClick={() => window.location.replace('/noticelist')}>로그인 없이 보기</button></Link>
+                    </div>
+                    <div className="social-loginArea">
+                        
                     </div>
                 </div>
             </div>

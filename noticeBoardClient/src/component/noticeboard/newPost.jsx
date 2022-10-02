@@ -169,7 +169,10 @@ const NewPost = ({ idStatus }) => {
               url : `/auth/newPost`,
               headers : {"Content-Type": "application/json"} ,
               data : jsonPostData}
-        ).catch(() => expireTokenTrans(newPost));
+        );
+        if(newPostResult.data === "AccessTokenExpire") {
+          expireTokenTrans(newPost)
+        }
 
       const attachResult = await axios({
         method: "POST" ,
@@ -179,7 +182,10 @@ const NewPost = ({ idStatus }) => {
           "Content-Type": `multipart/form-data`,
         } ,
         data: formData
-      }).catch(() => expireTokenTrans(newPost));
+      });
+      if(attachResult.data === "AccessTokenExpire") {
+        expireTokenTrans(newPost)
+      }
 
       if (newPostResult.data.result === -1 || attachResult === -1) {
         alert('게시물을 등록하는 도중에 오류가 발생했습니다. 다시 시도해 주세요.');
@@ -196,11 +202,13 @@ const NewPost = ({ idStatus }) => {
         url : `/auth/modifiedPost/${urlResult[2]}`,
         data : jsonData ,
         headers: {"Content-Type": "application/json"}
-      }).catch(() => expireTokenTrans(newPost));
-
+      });
+      if(newPostResult.data === "AccessTokenExpire") {
+        expireTokenTrans(newPost)
+        }
 
       /* 첨부파일 수정항목  */
-      await axios({
+      const uploadDataResult = await axios({
         method: "POST" ,
         mode : "cors" ,
         url: `/auth/uploadData/${urlResult[2]}`,
@@ -208,7 +216,10 @@ const NewPost = ({ idStatus }) => {
           "Content-Type": `multipart/form-data`,
         } ,
         data: formData
-      }).catch(() => expireTokenTrans(newPost));
+      });
+      if(uploadDataResult.data === "AccessTokenExpire") {
+        expireTokenTrans(newPost)
+      }
       
       if (newPostResult.data === 0) {
         alert('수정이 완료되었습니다.');
