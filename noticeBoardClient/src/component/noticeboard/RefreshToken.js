@@ -3,7 +3,6 @@ import Cookies from "universal-cookie";
 import { deleteAllToken } from "./DeleteAllCookie";
 
 export async function expireTokenTrans(func) {
-
     const cookie = new Cookies();
     const refreshToken = cookie.get('refreshToken');
 

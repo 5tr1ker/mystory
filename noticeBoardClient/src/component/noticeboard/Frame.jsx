@@ -61,13 +61,23 @@ const NoticeFrame = () => {
     const setDropers = () => { dropBoxs ? setDropBox(false) : setDropBox(true); }
 
     useEffect(async () => {
-
         if(query.code !== undefined) {
-            const result = await axios({
-                method: "GET",
-                mode: "cors",
-                url: `/kakaoLogin?code=${query.code}`,
-            });
+            let result = null;
+
+            if(query.scope !== undefined) { // 구글 로그인
+                result = await axios({
+                    method: "GET",
+                    mode: "cors",
+                    url: `/googleLogin?code=${query.code}`,
+                });
+                
+            } else {    // 카카오 로그인
+                result = await axios({
+                    method: "GET",
+                    mode: "cors",
+                    url: `/kakaoLogin?code=${query.code}`,
+                });
+            }
 
             cookies.set('refreshToken', result.data.refreshToken , {
                 path: '/',

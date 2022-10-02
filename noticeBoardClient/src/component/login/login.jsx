@@ -15,7 +15,10 @@ const Logins = () => {
     });
     
     const kakaoLogin = () => {
-        window.location.replace('http://localhost:8080/login/oauth2/code/kakao');
+        window.location.replace('http://localhost:8080/oauth2/authorization/kakao');
+    }
+    const googleLogin = () => {
+        window.location.replace('http://localhost:8080/oauth2/authorization/google');
     }
 
     const jsonData = JSON.stringify(idInfo);
@@ -104,6 +107,7 @@ const Logins = () => {
                     <div className="loginbuttonarea">
                         <button type="submit" className="sbButton" onClick={signUp}>로그인</button>
                         <button type="submit" className="sbButton" onClick={kakaoLogin}>Kakao</button>
+                        <button type="submit" className="sbButton" onClick={googleLogin}>Google</button>
                         <Link to="/noticelist"><button type="submit" className="sbButton sbButton2" onClick={() => window.location.replace('/noticelist')}>로그인 없이 보기</button></Link>
                     </div>
                 </div>

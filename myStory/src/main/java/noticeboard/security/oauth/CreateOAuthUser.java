@@ -23,12 +23,15 @@ import noticeboard.security.service.JwtService;
 
 @Service
 @SuppressWarnings("deprecation")
-public class CreateKakaoUser {
-	
-	@Autowired LoginRepository userRepos;
-	@Autowired JwtTokenProvider jwtTokenProvider;
-	@Autowired JwtService jwtService;
-	
+public class CreateOAuthUser {
+
+	@Autowired
+	LoginRepository userRepos;
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
+	@Autowired
+	JwtService jwtService;
+
 	public Token createKakaoUser(String token) {
 
 		String reqURL = "https://kapi.kakao.com/v2/user/me"; // access_token을 이용하여 사용자 정보 조회
@@ -60,11 +63,12 @@ public class CreateKakaoUser {
 			JsonElement element = parser.parse(result);
 
 			// int id = element.getAsJsonObject().get("id").getAsInt();
-			String nickName = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();
+			String nickName = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("profile")
+					.getAsJsonObject().get("nickname").getAsString();
 			br.close();
-			
+
 			IdInfo user = userRepos.findById(nickName);
-			if(user == null) {	// 신규 가입
+			if (user == null) { // 신규 가입
 				IdInfo createId = new IdInfo();
 				createId.setRoles(Arrays.asList("ROLE_USER"));
 				createId.setId(nickName);
@@ -72,18 +76,74 @@ public class CreateKakaoUser {
 				createId.setUserPassword("d22df2ae89naegs");
 				ProfileSetting ps = ProfileSetting.createprofileSetting();
 				createId.setProfileSetting(ps);
-				
+
+				userRepos.save(createId);
+				user = createId;
+			}
+
+			Token tokenDTO = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
+			jwtService.login(tokenDTO);
+			return tokenDTO;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Token createGoogleUser(String token) {
+		String reqURL = "https://www.googleapis.com/userinfo/v2/me?access_token=" + token;
+
+		try {
+			URL url = new URL(reqURL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+			conn.setRequestMethod("GET");
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Authorization", "Bearer " + token);
+
+			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = "";
+			String result = "";
+
+			int responseCode = conn.getResponseCode();
+			System.out.println("responseCode : " + responseCode);
+			
+			while ((line = br.readLine()) != null) {
+				result += line;
+			}
+			
+			// Gson 라이브러리로 JSON파싱
+			JsonParser parser = new JsonParser();
+			JsonElement element = parser.parse(result);
+			
+			String nickName = element.getAsJsonObject().get("name").getAsString();
+			
+			IdInfo user = userRepos.findById(nickName);
+			if (user == null) { // 신규 가입
+				IdInfo createId = new IdInfo();
+				createId.setRoles(Arrays.asList("ROLE_USER"));
+				createId.setId(nickName);
+				createId.setAdmin(Admin.GENERAL);
+				createId.setUserPassword("d22df2ae89naegs");
+				ProfileSetting ps = ProfileSetting.createprofileSetting();
+				createId.setProfileSetting(ps);
+
 				userRepos.save(createId);
 				user = createId;
 			}
 			
+			br.close();
+
 			Token tokenDTO = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
 			jwtService.login(tokenDTO);
 			return tokenDTO;
 			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
-		} 
+		}
 	}
 }

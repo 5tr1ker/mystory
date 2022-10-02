@@ -21,7 +21,40 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class KakaoOAuth2UserService {
+public class CustomOAuth2UserService {
+	
+	public static JsonNode getGoogleAccessToken(String code) {
+		final String RequestUrl = "https://oauth2.googleapis.com/token"; // Host
+		final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
+		
+		postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
+        postParams.add(new BasicNameValuePair("client_id", "680651839429-0rdi6os3kqtr8cish8f12gm1afj6o9gj.apps.googleusercontent.com"));
+        postParams.add(new BasicNameValuePair("client_secret", "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"));
+        postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:3000/noticelist"));
+        postParams.add(new BasicNameValuePair("code", code));
+        
+        final HttpClient client = HttpClientBuilder.create().build();
+        final HttpPost post = new HttpPost(RequestUrl);
+        JsonNode returnNode = null;
+        
+        try {
+            post.setEntity(new UrlEncodedFormEntity(postParams));
+            final HttpResponse response = client.execute(post);
+            // JSON 형태 반환값 처리
+            ObjectMapper mapper = new ObjectMapper();
+            returnNode = mapper.readTree(response.getEntity().getContent());
+ 
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+        }
+ 
+        return returnNode;
+	}
 	
 	public static JsonNode getKakaoAccessToken(String code) {
 		 
@@ -35,19 +68,11 @@ public class KakaoOAuth2UserService {
  
         final HttpClient client = HttpClientBuilder.create().build();
         final HttpPost post = new HttpPost(RequestUrl);
- 
         JsonNode returnNode = null;
  
         try {
             post.setEntity(new UrlEncodedFormEntity(postParams));
- 
             final HttpResponse response = client.execute(post);
-            final int responseCode = response.getStatusLine().getStatusCode();
- 
-            System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
-            System.out.println("Post parameters : " + postParams);
-            System.out.println("Result : " + response);
-            System.out.println("Response Code : " + responseCode);
  
             // JSON 형태 반환값 처리
             ObjectMapper mapper = new ObjectMapper();

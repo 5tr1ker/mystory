@@ -19,69 +19,84 @@ import noticeboard.entity.userdata.ProfileSetting;
 import noticeboard.repository.LoginRepository;
 import noticeboard.security.JwtTokenProvider;
 import noticeboard.security.Token;
-import noticeboard.security.oauth.CreateKakaoUser;
-import noticeboard.security.oauth.KakaoOAuth2UserService;
+import noticeboard.security.oauth.CreateOAuthUser;
+import noticeboard.security.oauth.CustomOAuth2UserService;
 import noticeboard.security.service.JwtService;
 import noticeboard.service.LoginService;
-
 
 @RestController
 @Controller
 public class LoginController {
 
-	@Autowired LoginRepository loginRepos;
-	@Autowired LoginService login;
-	@Autowired JwtTokenProvider jwtTokenProvider;
-	@Autowired JwtService jwtService;
-	@Autowired CreateKakaoUser createKakao;
-	
-	@RequestMapping(value = "/register" , method = RequestMethod.POST)
+	@Autowired
+	LoginRepository loginRepos;
+	@Autowired
+	LoginService login;
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
+	@Autowired
+	JwtService jwtService;
+	@Autowired
+	CreateOAuthUser createOauthUser;
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public int register(@RequestBody Map<String, String> userInfo) {
 		int result = login.register(userInfo);
 		return result;
 	}
-	
-	@RequestMapping(value = "/auth/idDelete/{idInfo}" , method = RequestMethod.DELETE)
+
+	@RequestMapping(value = "/auth/idDelete/{idInfo}", method = RequestMethod.DELETE)
 	public int idDelete(@PathVariable("idInfo") String userInfo) {
 		int result = login.remove(userInfo);
 		return result;
 	}
 	
-	@RequestMapping(value = "/kakaoLogin" , produces = "application/json" ,  method = RequestMethod.GET)
-	public Token kakaoLogin(@RequestParam("code") String code , HttpServletResponse response) {
+	@RequestMapping(value = "/googleLogin", produces = "application/json", method = RequestMethod.GET)
+	public Token googleLogin(@RequestParam("code") String code, HttpServletResponse response) {
 		JsonNode accessToken;
-		//
-		System.out.println(code);
-		JsonNode jsonToken = KakaoOAuth2UserService.getKakaoAccessToken(code); // 해당 요청을 가져온다.
+		Token result = null;
+		
+		JsonNode jsonToken = CustomOAuth2UserService.getGoogleAccessToken(code); // 카카오 로그인 처리
 		accessToken = jsonToken.get("access_token");
-		System.out.println("전체 결과 : " + jsonToken);
-		System.out.println("결과값 (Access Token) : " + accessToken);
 
-		Token result = createKakao.createKakaoUser(accessToken.toString().replace("\"", ""));
+		result = createOauthUser.createGoogleUser(accessToken.toString().replace("\"", ""));
+		System.out.println(accessToken.toString());
+		return result;
+	}
+
+	@RequestMapping(value = "/kakaoLogin", produces = "application/json", method = RequestMethod.GET)
+	public Token kakaoLogin(@RequestParam("code") String code, HttpServletResponse response) {
+		JsonNode accessToken;
+		Token result = null;
+
+		JsonNode jsonToken = CustomOAuth2UserService.getKakaoAccessToken(code); // 카카오 로그인 처리
+		accessToken = jsonToken.get("access_token");
+
+		result = createOauthUser.createKakaoUser(accessToken.toString().replace("\"", ""));
 
 		return result;
 	}
-	
-	@RequestMapping(value = "/login" , method = RequestMethod.POST)
-	public Token login(@RequestBody Map<String , String> userInfo) {
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public Token login(@RequestBody Map<String, String> userInfo) {
 		IdInfo result = login.login(userInfo);
-		if(result == null) {
+		if (result == null) {
 			new IllegalArgumentException("가입되지 않은 ID");
 		}
-		
+
 		Token tokenDTO = jwtTokenProvider.createAccessToken(result.getUsername(), result.getRoles());
 		jwtService.login(tokenDTO);
 		return tokenDTO;
 	}
-	
-	@RequestMapping(value = "/findId" , method = RequestMethod.POST)
-	public String findId(@RequestBody Map<String , String> userInfo) {
+
+	@RequestMapping(value = "/findId", method = RequestMethod.POST)
+	public String findId(@RequestBody Map<String, String> userInfo) {
 		String result = login.findId(userInfo);
 		System.out.println(result);
 		return result;
 	}
-	
-	@RequestMapping(value = "/auth/getProfileData/{id}" , method = RequestMethod.GET)
+
+	@RequestMapping(value = "/auth/getProfileData/{id}", method = RequestMethod.GET)
 	public ProfileSetting getProfileData(@PathVariable("id") String id) {
 		ProfileSetting ps = login.getProfile(id);
 		return ps;
