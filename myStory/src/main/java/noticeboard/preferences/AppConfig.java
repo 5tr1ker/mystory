@@ -31,10 +31,10 @@ public class AppConfig implements WebMvcConfigurer {
 	@Bean
 	public BasicDataSource dataSource() {
 		BasicDataSource datasource = new BasicDataSource();
-		datasource.setDriverClassName("org.h2.Driver");
-		datasource.setUrl("jdbc:h2:~/test");
-		datasource.setUsername("sa");
-		datasource.setPassword("");
+		datasource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		datasource.setUrl("jdbc:mysql://localhost:3306/myStory?characterEncoding=utf8");
+		datasource.setUsername("root");
+		datasource.setPassword("password");
 
 		return datasource;
 	}

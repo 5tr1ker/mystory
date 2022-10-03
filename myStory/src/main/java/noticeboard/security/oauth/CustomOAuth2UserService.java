@@ -63,6 +63,7 @@ public class CustomOAuth2UserService {
  
         postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
         postParams.add(new BasicNameValuePair("client_id", "7cef126b7f8ea367330765d225a271a6")); // REST API KEY
+        postParams.add(new BasicNameValuePair("client_secret" , "vmili4euIBd59hDRlRP49mbcAxgNwy8i"));
         postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:3000/noticelist")); // 리다이렉트 URI
         postParams.add(new BasicNameValuePair("code", code)); // 로그인 과정중 얻은 code 값
  
