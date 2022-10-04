@@ -1,15 +1,6 @@
-#FROM node:alpine
-# 어떤 base Image를 쓸것인가?
-
-#WORKDIR /app
-# 어떤 dir의 application을 복사할 것인가?
-
-#COPY package.json package-lock.json ./
-#RUN npm install --save --legacy-peer-deps
 # ci를 이용하면 우리 개발한 버전을 그대로 사용한다.
 # install의 경우 버전을 올려서 설치할 수 있다.
 
-#CMD ["npm","start"]
 # 팁 : Dockerfile에서 레이어시스템이여서 빈번한 파일은 코드 후반부에 작성하자.
 # 이미지를 다시 만들때 효율성을 높일 수 있다.
 
@@ -20,17 +11,19 @@
 # -d 는 detached를 의미한다. 백그라운드에서 docker가 계속 동작할 수 있어야한다. ( 터미널이 해당 요청을 기다리지 않고 다른 요청을 할 수 있게함 )
 # -p 포트 지정 host포트:container포트 , container와 host는 고립되어 있기 때문에 연결해주어야함
 
+# npm run build 후 사용하기
 
-FROM nginx
-RUN mkdir /app
+FROM node:16.14.0 
 WORKDIR /app
-RUN mkdir ./build
-ADD ./build ./build
-RUN rm /etc/nginx/conf.d/default.conf
-COPY ./nginx.conf /etc/nginx/conf.d
-EXPOSE 3000
-CMD ["nginx", "-g", "daemon off;"]
+ENV PATH /app/node_modules/.bin:$PATH
 
+COPY package.json /app/package.json
+RUN npm install -g npm@8.19.2 
+RUN npm i react react-dom --legacy-peer-deps
+RUN npm install react-scripts@5.0.1 -g npm@8.19.2
+RUN npm install axios --legacy-peer-deps
+
+CMD ["npm", "start"]
 
 # docker stop [id] 도커 이미지 중지
 # docker rmi [id] 도커 이미지 삭제
@@ -38,6 +31,8 @@ CMD ["nginx", "-g", "daemon off;"]
 # docker tag 레파지토리:태그 레파지토리2:태그  // 해당 이름으로 새로 복사
 # docker images -> 생성된 이미지 조회
 # docker ps // container의 id 조회
+# docker rm [id] 컨테이너 삭제
+# docker-compose up -d --build  // docker-compose으로 빌드하기
 
 # docker Push 하는 방법
 # 1 . docker login 으로 로그인 진행
