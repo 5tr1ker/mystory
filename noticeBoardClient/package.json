@@ -70,6 +70,6 @@
   "devDependencies": {
     "react-dev-utils": "^12.0.0"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "http://tomcatTest:8080",
   "homepage": "./"
 }

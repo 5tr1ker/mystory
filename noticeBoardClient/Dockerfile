@@ -32,7 +32,7 @@ CMD ["npm", "start"]
 # docker images -> 생성된 이미지 조회
 # docker ps // container의 id 조회
 # docker rm [id] 컨테이너 삭제
-# docker-compose up -d --build  // docker-compose으로 빌드하기
+# docker-compose up -d --build  // docker-compose으로 빌드하기 ( 이미지와 컨테이너 모두 생성 )
 
 # docker Push 하는 방법
 # 1 . docker login 으로 로그인 진행

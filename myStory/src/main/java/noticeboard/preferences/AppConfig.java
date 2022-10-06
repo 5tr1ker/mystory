@@ -32,7 +32,7 @@ public class AppConfig implements WebMvcConfigurer {
 	public BasicDataSource dataSource() {
 		BasicDataSource datasource = new BasicDataSource();
 		datasource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		datasource.setUrl("jdbc:mysql://localhost:3306/myStory?characterEncoding=utf8");
+		datasource.setUrl("jdbc:mysql://myStoryMysql:3306/myStory?characterEncoding=utf8");
 		datasource.setUsername("root");
 		datasource.setPassword("password");
 
