@@ -25,6 +25,8 @@ RUN npm install axios --legacy-peer-deps
 
 CMD ["npm", "start"]
 
+# docker build -t client .
+
 # docker stop [id] 도커 이미지 중지
 # docker rmi [id] 도커 이미지 삭제
 # docker logs [id] 도커의 로그 확인
