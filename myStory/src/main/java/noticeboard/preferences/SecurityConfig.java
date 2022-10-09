@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static List<String> clients = Arrays.asList("google", "kakao");
     @Resource private Environment env;
     @Autowired CustomOAuth2UserService customOAuth2UserService;
-	
+    
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
         List<ClientRegistration> registrations = clients.stream()
@@ -83,18 +83,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return null;
     }
     
-//	@Bean
-//	public ClientRegistrationRepository clientRegistrationRepository() {
-//		List<String> scopes = Arrays.asList("profile_nickname");
-//		return new InMemoryClientRegistrationRepository(ClientRegistration.withRegistrationId("kakao")
-//				.clientId("7cef126b7f8ea367330765d225a271a6").clientSecret("vmili4euIBd59hDRlRP49mbcAxgNwy8i")
-//				.authorizationGrantType(new AuthorizationGrantType("authorization_code"))
-//				.redirectUriTemplate("http://localhost:3000/noticelist").scope(scopes)
-//				.clientAuthenticationMethod(ClientAuthenticationMethod.POST).clientName("Kakao")
-//				.authorizationUri("https://kauth.kakao.com/oauth/authorize")
-//				.tokenUri("https://kauth.kakao.com/oauth/token").userInfoUri("https://kapi.kakao.com/v2/user/me")
-//				.userNameAttributeName("id").build());
-//	}
 
 	@Bean
 	public OAuth2AuthorizedClientService authorizedClientService() {
@@ -105,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().and(). // 일반적인 루트가 아닌 다른 방식으로 요청시 거절, header에 id, pw가 아닌 token(jwt)을 달고 간다. 그래서 basic이
 		// 아닌 bearer를 사용한다.
-				httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Session
+			httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Session
 				// 비활성화
 				.and().authorizeRequests()// 요청에 대한 사용권한 체크
 				.antMatchers("/auth/**").authenticated() // 인증이 필요한 url
@@ -126,15 +114,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	}
 	
-	
 	@Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000 , http://client:3000"));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
-
+        
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

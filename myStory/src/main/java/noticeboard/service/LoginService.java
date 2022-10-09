@@ -39,9 +39,9 @@ public class LoginService {
 		if(result == null || !result.getUserPassword().equals(userInfo.get("pw"))) {
 			return null;
 		}
+		
 		return result;
 	}
-	
 
 	public String findId(Map<String,String> userInfo) {
 		IdInfo result = loginRepository.findById(userInfo.get("id"));

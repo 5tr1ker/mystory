@@ -25,19 +25,16 @@ const Logins = () => {
 
     const jsonData = JSON.stringify(idInfo);
     const signUp = async () => {
+        let flag = true;
         const signupResult = await axios({
             method : "POST" ,
-            mode: "cors" , 
             url : `/login` , 
             headers : {"Content-Type": "application/json"} ,
             data : jsonData
-        });
+        }).catch((e) => {alert('아이디 또는 비밀번호를 잘못 입력했습니다.') ; flag = false });
 
-        axios.defaults.headers.common['Authorization'] = `${signupResult.data.accessToken}`;
-        if (signupResult.data === -1) {
-            alert('아이디 또는 비밀번호를 잘못 입력했습니다.');
-        } else {
-            
+        if (flag) {
+            axios.defaults.headers.common['Authorization'] = `${signupResult.data.accessToken}`;
             cookies.set('refreshToken', signupResult.data.refreshToken , {
                 path: '/',
                 secure: true ,
@@ -45,11 +42,6 @@ const Logins = () => {
             });
             
             setAccessToken(signupResult.data.accessToken);
-            // cookies.set('AccessToken', signupResult.data.accessToken , {
-            //     path: '/',
-            //     secure: true ,
-            //     maxAge: 1209600
-            // });
 
             const getUserData = await axios({
                 method : "GET" ,

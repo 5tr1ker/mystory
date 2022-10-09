@@ -81,7 +81,7 @@ public class LoginController {
 	public Token login(@RequestBody Map<String, String> userInfo) {
 		IdInfo result = login.login(userInfo);
 		if (result == null) {
-			new IllegalArgumentException("가입되지 않은 ID");
+			return null;
 		}
 
 		Token tokenDTO = jwtTokenProvider.createAccessToken(result.getUsername(), result.getRoles());
