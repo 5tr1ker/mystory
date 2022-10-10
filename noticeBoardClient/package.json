@@ -70,5 +70,5 @@
   "devDependencies": {
     "react-dev-utils": "^12.0.0"
   },
-  "proxy": "http://tomcatServer:8080"
+  "proxy": "http://172.20.0.3:8080"
 }

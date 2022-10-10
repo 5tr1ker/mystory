@@ -91,7 +91,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().cors().and(). // 일반적인 루트가 아닌 다른 방식으로 요청시 거절, header에 id, pw가 아닌 token(jwt)을 달고 간다. 그래서 basic이
+		http.csrf().disable(). // 일반적인 루트가 아닌 다른 방식으로 요청시 거절, header에 id, pw가 아닌 token(jwt)을 달고 간다. 그래서 basic이
+		
 		// 아닌 bearer를 사용한다.
 			httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Session
 				// 비활성화
@@ -99,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/auth/**").authenticated() // 인증이 필요한 url
 				.antMatchers("/auth/**").hasRole("ADMIN") // url 접근 시 필요한 Role
 				.antMatchers("/auth/**").hasRole("USER") // 보안
-				.antMatchers("/**").permitAll()	// 그외 모든 권한을 허락 .anyRequest() 와동일
+				.antMatchers("/**").permitAll()	//permitAll() 그외 모든 권한을 허락 .anyRequest() 와동일
                 .and()
 				.oauth2Login()
 				.loginPage("/expireAccess")
@@ -117,7 +118,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000 , http://client:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://tomcatServer:8080"));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
@@ -126,4 +127,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+	
 }

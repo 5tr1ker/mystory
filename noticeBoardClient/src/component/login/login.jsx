@@ -15,6 +15,12 @@ const Logins = () => {
         id : '' ,
         pw : ''
     });
+
+    const headers = {
+        "Content-Type": "application/json" ,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+    }
     
     const kakaoLogin = () => {
         window.location.replace('http://localhost:8080/oauth2/authorization/kakao');
@@ -29,7 +35,7 @@ const Logins = () => {
         const signupResult = await axios({
             method : "POST" ,
             url : `/login` , 
-            headers : {"Content-Type": "application/json"} ,
+            headers : headers ,
             data : jsonData
         }).catch((e) => {alert('아이디 또는 비밀번호를 잘못 입력했습니다.') ; flag = false });
 

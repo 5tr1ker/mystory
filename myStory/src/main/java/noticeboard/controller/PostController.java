@@ -110,14 +110,14 @@ public class PostController {
 	
 	@RequestMapping(value = "/onDownload/{fileName}" , method = RequestMethod.GET)
 	public void onDownload(@PathVariable("fileName") String fileName , HttpServletResponse response) throws IOException {
-
+		String filePath = "C:\\Users\\tjseo\\OneDrive\\바탕 화면\\study\\noticeBoardClient\\upload\\";
 		String realName = postRepos.getFileName(fileName);
 		String extend = realName.substring(realName.lastIndexOf('.') , realName.length());
 		
 		response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
 		response.setContentType("text/plain");
 		
-		File downFile = new File("C:\\notice\\file\\" + fileName + extend); //파일 생성
+		File downFile = new File(fileName + extend); //파일 다운로드
 	    FileInputStream fileIn = new FileInputStream(downFile); //파일 읽어오기
 	    ByteStreams.copy(fileIn, response.getOutputStream());
 	    response.flushBuffer();

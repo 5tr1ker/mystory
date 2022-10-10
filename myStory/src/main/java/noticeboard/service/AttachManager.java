@@ -41,7 +41,7 @@ public class AttachManager {
 	}
 
 	public void fileUpload(List<MultipartFile> files , Long postNumber) {
-		String file_Path = "C:\\notice\\file\\";
+		// String file_Path = "\'C:\\notice\\file\\"; # Docker 환경에서는 사용안함
 		
 		FreePost fp = postRepos.findPostByNumbers(postNumber);
 
@@ -50,7 +50,7 @@ public class AttachManager {
 				String uuid = UUID.randomUUID().toString().replaceAll("-" , ""); // 고유 문자열
 				String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."),file.getOriginalFilename().length()); // 확장자
 				
-				File saveFile = new File(file_Path+"\\"+uuid + fileExtension);
+				File saveFile = new File(uuid + fileExtension);
 				FreeAttach fa = FreeAttach.createFreeAttach(file.getOriginalFilename() , uuid , file.getSize());
 				
 				try {
