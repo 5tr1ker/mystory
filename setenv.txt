@@ -1,0 +1,1 @@
+export JAVA_OPTS="--add-opens java.base/java.lang.invoke=ALL-UNNAMED"

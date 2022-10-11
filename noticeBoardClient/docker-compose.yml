@@ -7,6 +7,8 @@ services:
       image: mysql:8.0.29
       restart: always
       command: mysqld --default-authentication-plugin=mysql_native_password
+      volumes:
+        - ./my.cnf:/etc/my.cnf
       environment:
         MYSQL_ROOT_PASSWORD: password
         MYSQL_DATABASE: myStory
