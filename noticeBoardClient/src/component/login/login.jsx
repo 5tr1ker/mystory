@@ -44,35 +44,16 @@ const Logins = () => {
             cookies.set('refreshToken', signupResult.data.refreshToken , {
                 path: '/',
                 secure: true ,
+                sameSite : "none", 
                 maxAge: 1209600
             });
             
             setAccessToken(signupResult.data.accessToken);
-
-            const getUserData = await axios({
-                method : "GET" ,
-                mode: "cors" ,
-                url : `/auth/getProfileData/${idInfo.id}`
+            cookies.set('myToken', idInfo.id , {
+                path: '/',
+                secure: true ,
+                maxAge: 3600
             });
-
-            if (getUserData.data.option1 === 1) {
-                cookies.set('myToken', idInfo.id , {
-                    path: '/',
-                    secure: true,
-                    maxAge: 3600
-                });
-            } else if (getUserData.data.option1 === 2) {
-                cookies.set('myToken', idInfo.id , {
-                    path: '/',
-                    secure: true,
-                    maxAge: 21600
-                });
-            } else if (getUserData.data.option1 === 3) {
-                cookies.set('myToken', idInfo.id , {
-                    path: '/',
-                    secure: true
-                });
-            }
             window.location.replace('/noticelist');
         }
     }
