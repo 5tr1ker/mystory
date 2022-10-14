@@ -2,6 +2,7 @@ package noticeboard.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.JsonNode;
@@ -78,11 +79,23 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public Token login(@RequestBody Map<String, String> userInfo) {
+	public Token login(@RequestBody Map<String, String> userInfo , HttpServletResponse response) {
 		IdInfo result = login.login(userInfo);
 		if (result == null) {
 			return null;
 		}
+		
+		Cookie cookie = new Cookie("myToken", result.getId());
+		cookie.setPath("/");
+		cookie.setMaxAge(30*60*60);
+		cookie.setSecure(true);
+		response.addCookie(cookie);
+		Cookie cookie2 = new Cookie("refreshToken", result.getId());
+		cookie2.setPath("/");
+		cookie2.setMaxAge(1209600);
+		cookie2.setSecure(true);
+		cookie2.setHttpOnly(true);
+		response.addCookie(cookie);
 
 		Token tokenDTO = jwtTokenProvider.createAccessToken(result.getUsername(), result.getRoles());
 		jwtService.login(tokenDTO);

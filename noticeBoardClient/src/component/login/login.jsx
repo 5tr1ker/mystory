@@ -23,10 +23,10 @@ const Logins = () => {
     }
     
     const kakaoLogin = () => {
-        window.location.replace('http://localhost:8080/oauth2/authorization/kakao');
+        window.location.replace('http://43.200.40.35:8080/oauth2/authorization/kakao');
     }
     const googleLogin = () => {
-        window.location.replace('http://localhost:8080/oauth2/authorization/google');
+        window.location.replace('http://43.200.40.35:8080/oauth2/authorization/google');
     }
 
     const jsonData = JSON.stringify(idInfo);
@@ -39,21 +39,25 @@ const Logins = () => {
             data : jsonData
         }).catch((e) => {alert('아이디 또는 비밀번호를 잘못 입력했습니다.') ; flag = false });
 
+        if(signupResult.data === '') {
+            flag = false ;
+            alert('아이디 또는 비밀번호를 잘못 입력했습니다.') ;
+        }
+
         if (flag) {
             axios.defaults.headers.common['Authorization'] = `${signupResult.data.accessToken}`;
-            cookies.set('refreshToken', signupResult.data.refreshToken , {
-                path: '/',
-                secure: true ,
-                sameSite : "none", 
-                maxAge: 1209600
-            });
-            
+            // cookies.set('refreshToken', signupResult.data.refreshToken , {
+            //     path: '/',
+            //     secure: true ,
+            //     httpOnly : true ,
+            //     maxAge: 1209600
+            // });
             setAccessToken(signupResult.data.accessToken);
-            cookies.set('myToken', idInfo.id , {
-                path: '/',
-                secure: true ,
-                maxAge: 3600
-            });
+            // cookies.set('myToken', idInfo.id , {
+            //     path: '/',
+            //     secure: true ,
+            //     maxAge: 3600
+            // });
             window.location.replace('/noticelist');
         }
     }
