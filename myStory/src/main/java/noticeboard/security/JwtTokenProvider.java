@@ -106,6 +106,7 @@ public class JwtTokenProvider {
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = loginService.loadUserByUsername(this.getUserPk(token));
+        if(userDetails == null) return null;
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

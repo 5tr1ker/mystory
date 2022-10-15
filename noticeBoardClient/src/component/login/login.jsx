@@ -46,12 +46,6 @@ const Logins = () => {
 
         if (flag) {
             axios.defaults.headers.common['Authorization'] = `${signupResult.data.accessToken}`;
-            // cookies.set('refreshToken', signupResult.data.refreshToken , {
-            //     path: '/',
-            //     secure: true ,
-            //     httpOnly : true ,
-            //     maxAge: 1209600
-            // });
             setAccessToken(signupResult.data.accessToken);
             cookies.set('myToken', idInfo.id , {
                 path: '/' ,

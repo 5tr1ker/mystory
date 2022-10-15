@@ -52,6 +52,13 @@ public class LoginController {
 		return result;
 	}
 	
+	@RequestMapping(value = "/idCheck/{idInfo}", method = RequestMethod.GET)
+	public int idCheck(@PathVariable("idInfo") String userInfo) {
+		IdInfo result = loginRepos.findById(userInfo);
+		if(result == null) return 1;
+		else return -1;
+	}
+	
 	@RequestMapping(value = "/googleLogin", produces = "application/json", method = RequestMethod.GET)
 	public Token googleLogin(@RequestParam("code") String code, HttpServletResponse response) {
 		JsonNode accessToken;
@@ -85,15 +92,15 @@ public class LoginController {
 			return null;
 		}
 		
-		Cookie cookie = new Cookie("refreshToken", result.getId());
+
+		Token tokenDTO = jwtTokenProvider.createAccessToken(result.getUsername(), result.getRoles());
+		jwtService.login(tokenDTO);
+		Cookie cookie = new Cookie("refreshToken", tokenDTO.getRefreshToken());
 		cookie.setPath("/");
 		cookie.setMaxAge(1209600);
 		cookie.setSecure(true);
 		cookie.setHttpOnly(true);
 		response.addCookie(cookie);
-
-		Token tokenDTO = jwtTokenProvider.createAccessToken(result.getUsername(), result.getRoles());
-		jwtService.login(tokenDTO);
 		return tokenDTO;
 	}
 

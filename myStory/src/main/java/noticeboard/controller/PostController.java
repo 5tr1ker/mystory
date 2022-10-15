@@ -110,7 +110,7 @@ public class PostController {
 	
 	@RequestMapping(value = "/onDownload/{fileName}" , method = RequestMethod.GET)
 	public void onDownload(@PathVariable("fileName") String fileName , HttpServletResponse response) throws IOException {
-		String filePath = "C:\\Users\\tjseo\\OneDrive\\바탕 화면\\study\\noticeBoardClient\\upload\\";
+		// String filePath = "C:\\Users\\tjseo\\OneDrive\\바탕 화면\\study\\noticeBoardClient\\upload\\";
 		String realName = postRepos.getFileName(fileName);
 		String extend = realName.substring(realName.lastIndexOf('.') , realName.length());
 		

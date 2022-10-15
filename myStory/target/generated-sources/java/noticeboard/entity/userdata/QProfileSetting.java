@@ -21,8 +21,6 @@ public class QProfileSetting extends EntityPathBase<ProfileSetting> {
 
     public final StringPath email = createString("email");
 
-    public final NumberPath<Integer> option1 = createNumber("option1", Integer.class);
-
     public final NumberPath<Integer> option2 = createNumber("option2", Integer.class);
 
     public final StringPath phone = createString("phone");

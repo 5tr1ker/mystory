@@ -17,7 +17,6 @@ const Profile = ({idStatus , rerenders}) => {
         userId : idStatus , 
         email : '' ,
         phone : '' ,
-        option1 : 1 ,
         option2 : 4 ,
         postid : 0
     });
@@ -42,7 +41,7 @@ const Profile = ({idStatus , rerenders}) => {
         const datas = [];
         datas.push(result.data.postView , result.data.totalPost, result.data.totalCommit , result.data.joindate.replaceAll("-" , "/").slice(2));
         getProfileData(getProfileDatas.data);
-        setInputProfileData({userId : idStatus , email: getProfileDatas.data.email , phone: getProfileDatas.data.phone , option1: getProfileDatas.data.option1 , option2: getProfileDatas.data.option2});
+        setInputProfileData({userId : idStatus , email: getProfileDatas.data.email , phone: getProfileDatas.data.phone , option2: getProfileDatas.data.option2});
         setPostStatistics(datas); // 통계
     }
 
@@ -57,7 +56,7 @@ const Profile = ({idStatus , rerenders}) => {
 
     const saveProfile = () => {
         setEdits(false);
-        getProfileData({userId: inputProfileData.userid , email: inputProfileData.email , phone: inputProfileData.phone , option1:inputProfileData.option1 , option2:inputProfileData.option2});
+        getProfileData({userId: inputProfileData.userid , email: inputProfileData.email , phone: inputProfileData.phone , option2:inputProfileData.option2});
     }
 
     const deleteId = async() => {
@@ -89,54 +88,57 @@ const Profile = ({idStatus , rerenders}) => {
 
     const doneChange = async () => {
         const jsonParse = JSON.stringify({inputProfileData , idStatus});
-        const result = await axios({
-            url : "/auth/profileUpdate" ,
-            mode : "cors" ,
-            method : "PATCH" ,
-            data : jsonParse ,
-            headers : {"Content-Type": "application/json"}
-        }).catch(() => expireTokenTrans(doneChange));
-        if(result.data === "AccessTokenExpire") {
-            expireTokenTrans(doneChange)
-        }
 
-        if (result.data === 0) {
-            rerenders();
-            if (inputProfileData.option1 === '1') {
-                cookies.set('myToken', idStatus , { 
-                    path: '/',
-                    secure: true,
-                    maxAge: 3600
-                });
-            } else if (inputProfileData.option1 === '2') {
-                cookies.set('myToken', idStatus , { 
-                    path: '/',
-                    secure: true,
-                    maxAge: 21600
-                });
-            } else if (inputProfileData.option1 === '3') {
-                cookies.set('myToken', idStatus , { 
-                    path: '/',
-                    secure: true
-                });
-            }
             if (idStatus !== inputProfileData.userId) {
-                alert("성공적으로 변경되었습니다.");
-                alert("User Name이 변경되어 다시 로그인을 시도해주세요.");
+                const idCheck = await axios({
+                    url : `/idCheck/${inputProfileData.userId}` ,
+                    mode : "cors" ,
+                    method : "GET"
+                });
+
+                if(idCheck.data === -1) {
+                    alert("해당 아이디는 이미 존재합니다");
+                    return;
+                }
+
                 deleteAllToken();
-                nav("/login", { replace: true });
+                const result = await axios({
+                    url : "/auth/profileUpdate" ,
+                    mode : "cors" ,
+                    method : "PATCH" ,
+                    data : jsonParse ,
+                    headers : {"Content-Type": "application/json"}
+                }).catch(() => expireTokenTrans(doneChange));
+                if(result.data === "AccessTokenExpire") {
+                    expireTokenTrans(doneChange)
+                }
+                if(result.data === 0) {
+                    alert("성공적으로 변경되었습니다.");
+                    alert("User Name이 변경되어 다시 로그인을 시도해주세요.");
+                    nav("/login", { replace: false });
+                } else {
+                    alert("오류가 발생했습니다. 잠시후 다시 시도해주세요.");
+                }
             } else {
-                alert("성공적으로 변경되었습니다.");
-                nav("/noticelist", { replace: true });
+                const result = await axios({
+                    url : "/auth/profileUpdate" ,
+                    mode : "cors" ,
+                    method : "PATCH" ,
+                    data : jsonParse ,
+                    headers : {"Content-Type": "application/json"}
+                }).catch(() => expireTokenTrans(doneChange));
+                if(result.data === "AccessTokenExpire") {
+                    expireTokenTrans(doneChange)
+                }
+
+                if(result.data === 0) {
+                    alert("성공적으로 변경되었습니다.");
+                    nav("/noticelist", { replace: false });
+                } else {
+                    alert("오류가 발생했습니다. 잠시후 다시 시도해주세요.");
+                }
             }
-       } else if (result.data === -2) {
-        alert("해당 User Name은 이미 존재합니다.");
-       } 
-       else {
-           alert("오류가 발생했습니다. 나중에 다시 시도해주세요.");
-           nav("/noticelist" , {replace : true});
        }
-    }
 
     useEffect(async () => {
         const accessToken =  await AsyncStorage.getItem("accessToken");
@@ -229,12 +231,6 @@ const Profile = ({idStatus , rerenders}) => {
                 <div className="profile_settings">
                     <header>Settings</header>
                     <div className="settings-contents">
-                        <span>세션 지속시간</span>
-                        <select name="option1" key={profileData.option1} defaultValue={profileData.option1} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example" onChange={changeGetData}>
-                            <option value={1} style={{ fontWeight: "600" }}>1시간</option>
-                            <option value={2} style={{ fontWeight: "600" }}>6시간</option>
-                            <option value={3} style={{ fontWeight: "600" }}>영원히</option>
-                        </select>
                         <span>알람 설정</span>
                         <select name="option2" key={profileData.option2} defaultValue={profileData.option2} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example" onChange={changeGetData}>
                             <option value={4} style={{ fontWeight: "600" }}>알람 켜기</option>

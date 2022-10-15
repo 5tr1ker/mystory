@@ -7,7 +7,7 @@ import NoticeFrame from './component/noticeboard/Frame';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  
+
   return (
     <BrowserRouter>
       <div className='mainArea'>

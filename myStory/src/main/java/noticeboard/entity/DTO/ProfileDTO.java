@@ -8,7 +8,6 @@ public class ProfileDTO {
 		private String userId;
 		private String email;
 		private String phone;
-		private Integer option1;
 		private Integer option2;
 		public String getUserId() {
 			return userId;
@@ -27,12 +26,6 @@ public class ProfileDTO {
 		}
 		public void setPhone(String phone) {
 			this.phone = phone;
-		}
-		public Integer getOption1() {
-			return option1;
-		}
-		public void setOption1(Integer option1) {
-			this.option1 = option1;
 		}
 		public Integer getOption2() {
 			return option2;

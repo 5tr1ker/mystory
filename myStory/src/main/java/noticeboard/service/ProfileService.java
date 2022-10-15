@@ -44,7 +44,6 @@ public class ProfileService {
 		ProfileSetting st = profileRepos.findProfileSettings(userId);
 		st.setEmail(data.getInputProfileData().getEmail());
 		st.setPhone(data.getInputProfileData().getPhone());
-		st.setOption1(data.getInputProfileData().getOption1());
 		st.setOption2(data.getInputProfileData().getOption2());
 		if(!userId.equals(changeId)) {
 			IdInfo search = loginRepos.findById(changeId);

@@ -101,6 +101,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/auth/**").hasRole("ADMIN") // url 접근 시 필요한 Role
 				.antMatchers("/auth/**").hasRole("USER") // 보안
 				.antMatchers("/**").permitAll()	//permitAll() 그외 모든 권한을 허락 .anyRequest() 와동일
+				.and().logout() //.logoutSuccessUrl("/refreshToken")
+				.deleteCookies("refreshToken")
                 .and()
 				.oauth2Login()
 				.loginPage("/expireAccess")
