@@ -85,16 +85,11 @@ public class LoginController {
 			return null;
 		}
 		
-		Cookie cookie = new Cookie("myToken", result.getId());
+		Cookie cookie = new Cookie("refreshToken", result.getId());
 		cookie.setPath("/");
-		cookie.setMaxAge(30*60*60);
+		cookie.setMaxAge(1209600);
 		cookie.setSecure(true);
-		response.addCookie(cookie);
-		Cookie cookie2 = new Cookie("refreshToken", result.getId());
-		cookie2.setPath("/");
-		cookie2.setMaxAge(1209600);
-		cookie2.setSecure(true);
-		cookie2.setHttpOnly(true);
+		cookie.setHttpOnly(true);
 		response.addCookie(cookie);
 
 		Token tokenDTO = jwtTokenProvider.createAccessToken(result.getUsername(), result.getRoles());

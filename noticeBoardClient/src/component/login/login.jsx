@@ -53,11 +53,11 @@ const Logins = () => {
             //     maxAge: 1209600
             // });
             setAccessToken(signupResult.data.accessToken);
-            // cookies.set('myToken', idInfo.id , {
-            //     path: '/',
-            //     secure: true ,
-            //     maxAge: 3600
-            // });
+            cookies.set('myToken', idInfo.id , {
+                path: '/' ,
+                secure: true ,
+                maxAge: 3600
+            });
             window.location.replace('/noticelist');
         }
     }
