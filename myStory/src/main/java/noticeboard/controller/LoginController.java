@@ -1,5 +1,6 @@
 package noticeboard.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -46,7 +47,7 @@ public class LoginController {
 		return result;
 	}
 
-	@RequestMapping(value = "/auth/idDelete/{idInfo}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/auth/user/{idInfo}", method = RequestMethod.DELETE)
 	public int idDelete(@PathVariable("idInfo") String userInfo) {
 		int result = login.remove(userInfo);
 		return result;
@@ -104,14 +105,15 @@ public class LoginController {
 		return tokenDTO;
 	}
 
-	@RequestMapping(value = "/findId", method = RequestMethod.POST)
-	public String findId(@RequestBody Map<String, String> userInfo) {
-		String result = login.findId(userInfo);
-		System.out.println(result);
+	@RequestMapping(value = "/findId", method = RequestMethod.GET)
+	public String findId(@RequestParam("id") String userInfo) {
+		Map<String , String> map = new HashMap<String, String>();
+		map.put("id", userInfo);
+		String result = login.findId(map);
 		return result;
 	}
 
-	@RequestMapping(value = "/auth/getProfileData/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/profileData/{id}", method = RequestMethod.GET)
 	public ProfileSetting getProfileData(@PathVariable("id") String id) {
 		ProfileSetting ps = login.getProfile(id);
 		return ps;

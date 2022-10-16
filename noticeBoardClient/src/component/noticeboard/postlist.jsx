@@ -31,7 +31,7 @@ const NoticeList = () => {
                 const getPostResult = await axios({ // 게시판 데이터 가져오기
                     method: "GET",
                     mode: "cors",
-                    url: `/getFreePost?page=0&size=10`,
+                    url: `/post?page=0&size=10`,
                 });
                 setPostAll(getPostResult.data);
             }
@@ -42,7 +42,7 @@ const NoticeList = () => {
         const getPostResult = await axios({ // 게시판 데이터 가져오기
             method: "GET",
             mode: "cors",
-            url: `/getFreePost?page=${pages - 1}&size=10`,
+            url: `/post?page=${pages - 1}&size=10`,
         });
         setPostAll(getPostResult.data); // 전체 데이터
 

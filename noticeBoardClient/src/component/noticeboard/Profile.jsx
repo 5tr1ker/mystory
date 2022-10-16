@@ -25,7 +25,7 @@ const Profile = ({idStatus , rerenders}) => {
         if(idStatus === undefined) return -1; 
         const result = await axios({
             method: "GET" ,
-            url : `/auth/profileInfo/${idStatus}` ,
+            url : `/auth/profile/${idStatus}` ,
             mode : "cors"
         });
         if(result.data === "AccessTokenExpire") {
@@ -35,7 +35,7 @@ const Profile = ({idStatus , rerenders}) => {
         const getProfileDatas = await axios({
             method : "GET" ,
             mode: "cors" , 
-            url : `/auth/getProfileData/${idStatus}` ,
+            url : `/auth/profileData/${idStatus}` ,
         });
 
         const datas = [];
@@ -63,7 +63,7 @@ const Profile = ({idStatus , rerenders}) => {
         const deleteConfirm = window.confirm("정말로 삭제하시겠습니까?");
         if (deleteConfirm) {
             const response = await axios({
-                url : `/auth/deleteAllCommit/${idStatus}` ,
+                url : `/auth/allCommit/${idStatus}` ,
                 method : "DELETE" ,
                 mode : "cors"
             });
@@ -72,7 +72,7 @@ const Profile = ({idStatus , rerenders}) => {
             }
 
             const result = await axios({
-                url : `/auth/idDelete/${idStatus}` ,
+                url : `/auth/user/${idStatus}` ,
                 method : "DELETE" ,
                 mode : "cors"
             });
@@ -103,7 +103,7 @@ const Profile = ({idStatus , rerenders}) => {
 
                 deleteAllToken();
                 const result = await axios({
-                    url : "/auth/profileUpdate" ,
+                    url : "/auth/profile" ,
                     mode : "cors" ,
                     method : "PATCH" ,
                     data : jsonParse ,
@@ -121,7 +121,7 @@ const Profile = ({idStatus , rerenders}) => {
                 }
             } else {
                 const result = await axios({
-                    url : "/auth/profileUpdate" ,
+                    url : "/auth/profile" ,
                     mode : "cors" ,
                     method : "PATCH" ,
                     data : jsonParse ,

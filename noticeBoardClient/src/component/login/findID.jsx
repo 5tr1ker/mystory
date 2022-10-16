@@ -13,13 +13,10 @@ const FindID = () => {
     }
 
     const findId = async () => {
-        const jsonData = JSON.stringify({"id" : id});
         const result = await axios({
-            method : "POST" ,
+            method : "GET" ,
             mode: "cors" , 
-            url : `/findId` , 
-            headers : {"Content-Type": "application/json"} ,
-            data : jsonData
+            url : `/findId?id=${id}`
         })
 
         if (result.data === -1) {

@@ -19,12 +19,12 @@ public class ProfileController {
 
 	@Autowired ProfileService profileServ;
 	
-	@RequestMapping(value = "/auth/profileInfo/{idInfo}" , method = RequestMethod.GET )
+	@RequestMapping(value = "/auth/profile/{idInfo}" , method = RequestMethod.GET )
 	public Map<String , String> profileInfo(@PathVariable("idInfo") String idInfo) {
 		return profileServ.getProfile(idInfo);
 	}
 	
-	@RequestMapping(value = "/auth/profileUpdate" , method = RequestMethod.PATCH)
+	@RequestMapping(value = "/auth/profile" , method = RequestMethod.PATCH)
 	public int profileUpdate(@RequestBody ProfileDTO data) {
 		return profileServ.updateProfileData(data);
 	}

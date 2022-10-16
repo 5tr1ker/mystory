@@ -53,7 +53,7 @@ public class PostController {
 		attachManager.fileUpload(file , postNumber);
 	}
 	
-	@RequestMapping(value = "/getFreePost" , method = RequestMethod.GET)
+	@RequestMapping(value = "/post" , method = RequestMethod.GET)
 	public List<ReturnPostDataDTO> getFreePost(Pageable pageable) {
 		return commitService.getFreePost(pageable);
 	}
@@ -82,12 +82,7 @@ public class PostController {
 		return writtingService.updateLike(postId, userId.get("idStatus"));
 	}
 	
-	@RequestMapping(value = "/auth/addCommit" , method = RequestMethod.POST)
-	public int addCommit(@RequestBody Map<String , String> postData) {
-		return writtingService.addCommit(postData.get("data") , postData.get("writter") , Long.parseLong(postData.get("postNum")) , Long.parseLong(postData.get("postNumber")) , postData.get("postType") );
-	}
-	
-	@RequestMapping(value = "/auth/deletePost/{postId}" , method = RequestMethod.DELETE)
+	@RequestMapping(value = "/auth/post/{postId}" , method = RequestMethod.DELETE)
 	public int deletePost(@PathVariable("postId") Long postId) {
 		return writtingService.deletePost(postId);
 	}

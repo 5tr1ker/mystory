@@ -46,7 +46,7 @@ public class LoginService {
 	public String findId(Map<String,String> userInfo) {
 		IdInfo result = loginRepository.findById(userInfo.get("id"));
 		if(result == null) return "-1";
-		String password = result.getPassword();
+		String password = result.getUserPassword();
 		return password.substring( 0 , password.length() - (password.length() - 3));
 	}
 	

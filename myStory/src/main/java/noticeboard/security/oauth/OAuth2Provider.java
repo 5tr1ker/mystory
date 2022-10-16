@@ -48,7 +48,7 @@ public enum OAuth2Provider {
 		return builder;
 	}
 
-	private static final String DEFAULT_REDIRECT_URL = "http://localhost:3000/noticelist";
+	private static final String DEFAULT_REDIRECT_URL = "https://mystorynews.com/noticelist";
 	
 	/**
 	 * Create a new

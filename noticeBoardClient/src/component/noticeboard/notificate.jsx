@@ -24,7 +24,7 @@ const Notificate = ({dropDownSet , userId , notifiedMode}) => {
 
     useEffect(async() => {
         const result = await axios({
-            url : `/getNotifice/${userId}` ,
+            url : `/notifice/${userId}` ,
             method : "GET" ,
             mode : "cors"
         });

@@ -30,7 +30,7 @@ public class CustomOAuth2UserService {
 		postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
         postParams.add(new BasicNameValuePair("client_id", "680651839429-0rdi6os3kqtr8cish8f12gm1afj6o9gj.apps.googleusercontent.com"));
         postParams.add(new BasicNameValuePair("client_secret", "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"));
-        postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:3000/noticelist"));
+        postParams.add(new BasicNameValuePair("redirect_uri", "https://mystorynews.com/noticelist"));
         postParams.add(new BasicNameValuePair("code", code));
         
         final HttpClient client = HttpClientBuilder.create().build();
@@ -64,7 +64,7 @@ public class CustomOAuth2UserService {
         postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
         postParams.add(new BasicNameValuePair("client_id", "7cef126b7f8ea367330765d225a271a6")); // REST API KEY
         postParams.add(new BasicNameValuePair("client_secret" , "vmili4euIBd59hDRlRP49mbcAxgNwy8i"));
-        postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:3000/noticelist")); // 리다이렉트 URI
+        postParams.add(new BasicNameValuePair("redirect_uri", "https://mystorynews.com/noticelist")); // 리다이렉트 URI
         postParams.add(new BasicNameValuePair("code", code)); // 로그인 과정중 얻은 code 값
  
         final HttpClient client = HttpClientBuilder.create().build();

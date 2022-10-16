@@ -42,7 +42,7 @@ const NoticeFrame = () => {
         const getProfileDatas = await axios({
             method: "GET",
             mode: "cors",
-            url: `/auth/getProfileData/${getCookieStat}`,
+            url: `/auth/profileData/${getCookieStat}`,
         });
 
         if(getProfileDatas.data === "AccessTokenExpire") {

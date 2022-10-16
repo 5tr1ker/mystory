@@ -111,7 +111,7 @@ const PostView = ({ idStatus }) => {
             if (window.confirm("게시글을 삭제하시겠습니까?")) {
                 const result = await axios({
                     method : "DELETE" ,
-                    url : `/auth/deletePost/${parseInt(data)}` ,
+                    url : `/auth/post/${parseInt(data)}` ,
                     mode : "cors"
                 });
 
@@ -147,7 +147,7 @@ const PostView = ({ idStatus }) => {
             const data = JSON.stringify({"data" : commit.current.value , "writter" : idStatus , "postNum" : nowPageNumbers , "postNumber" : parseInt(params) + 1 , "postType" : "게시판"});
             const commitResult = await axios({
                 method : "POST" ,
-                url : "/auth/addCommit" ,
+                url : "/auth/commit" ,
                 data : data ,
                 mode : "cors" ,
                 headers : {"Content-Type": "application/json"}
@@ -169,7 +169,7 @@ const PostView = ({ idStatus }) => {
         if (window.confirm('댓글을 삭제하시겠습니까?')) {
             const result = await axios({
                 method : "DELETE" ,
-                url : `/auth/deleteCommit/${numbers}` ,
+                url : `/auth/commit/${numbers}` ,
                 mode : "cors"
             });
             if(result.data === "AccessTokenExpire") {
@@ -183,7 +183,7 @@ const PostView = ({ idStatus }) => {
     const getCommit = async () => { // 댓글 출력
         const getCommit = await axios({
             method: "GET" ,
-            url: `/getCommit/${parseInt(params) + 1}` ,
+            url: `/commit/${parseInt(params) + 1}` ,
             mode : "cors"
         });
 
