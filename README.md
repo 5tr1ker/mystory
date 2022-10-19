@@ -15,22 +15,6 @@
 - 사용자 : Security 회원가입 및 로그인 ( JWT ) , OAuth 2.0 (구글, 네이버) , 회원정보 수정, 회원가입시 중복 검사 , 알림
 - 댓글 : CRUD 기능
 
-<h2>React</h2>
-
-> React ( SPA ) 구조로 하나의 페이지에 담아 동적으로 화면을 바꿔 사용자에게 출력했습니다.
-
-- Route path를 설정해서 동적으로 페이지를 출력합니다.
-</br>
-- /login : 로그인페이지
-- /register : 회원가입페이지
-- /findid : 아이디 찾는 페이지
-- /* : 이외 링크는 <NoticeFrame /> 컴포넌트에 연결합니다.
-  - /noticelist : 게시판의 목록을 보여줍니다.
-  - /newpost : 새 글을 작성합니다.
-  - /modified : 작성된 글을 수정합니다
-  - /viewpost : 작성된 글을 조회합니다.
-  - /profile : 프로필 화면으로 이동합니다.
-
 <h2>Project Structure</h2>
 
 > React ( SPA ) + Spring ( API ) 구조로 개발했습니다.
@@ -43,6 +27,22 @@
 - OAuth 2.0 & JWT ( Login )
 - Docker ( Container )
 - AWS EC2 ( Infra )
+
+<h2>React</h2>
+
+> React ( SPA ) 구조로 하나의 페이지에 담아 동적으로 화면을 바꿔 사용자에게 출력했습니다.
+
+- Route path를 설정해서 동적으로 페이지를 출력합니다.
+
+- /login : 로그인페이지
+- /register : 회원가입페이지
+- /findid : 아이디 찾는 페이지
+- /* : 이외 링크는 <NoticeFrame /> 컴포넌트에 연결합니다.
+  - /noticelist : 게시판의 목록을 보여줍니다.
+  - /newpost : 새 글을 작성합니다.
+  - /modified : 작성된 글을 수정합니다
+  - /viewpost : 작성된 글을 조회합니다.
+  - /profile : 프로필 화면으로 이동합니다.
 
 <h2>Spring API Server</h2>
 
@@ -84,9 +84,10 @@
 - JPQL : 단순한 정적 쿼리는 JPQL를 이용해 빠르게 구현했습니다. 
 </br>
 JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
-- entity ( Entity 테이블 )
-- repository ( Spring Data JPA 인터페이스 )
-- repository.custom ( JPQL , QueryDSL )
+
+- entity ( Entity 테이블 )</br>
+- repository ( Spring Data JPA 인터페이스 )</br>
+- repository.custom ( JPQL , QueryDSL )</br>
 
 <h2>OAuth2.0 & JWT</h2>
 
@@ -95,17 +96,19 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 - OAuth & JWT 구조는 다음과 같습니다.
 ![OAUTH 다이어그램 이미지](https://user-images.githubusercontent.com/49367338/196445612-29a83b05-44be-4628-a8f3-2223b551d826.png)
 
+- Refresh Token은 클라이언트에 httpOnly , Secure 옵션으로 보안처리 했습니다
+- Access Token은 클라이언트 로컬 변수에 저장하여, 외부 접근을 차단했습니다.
+
 <h2>Docker</h2>
 
 > 여러 컨테이너를 단일 객체로 안정적으로 확보했습니다.
 
 ![도커 다이어그램](https://user-images.githubusercontent.com/49367338/196452012-d1ac40b4-987f-4bb3-8717-33255ce338e9.png)
 
-- 각 컨테이너는 개발 환경과 동일화 하여 제품 환경에서 동일한 결과를 나오게 설정했습니다.
-- volumes 을 이용해 로컬 파일에 미리 생성해둔 환경 설정 파일을 컨테이너에 삽입했습니다.
+- 각 컨테이너의 환경을 개발 환경과 동일화합니다.
+- volumes 을 이용해 로컬 파일에 미리 생성해둔 환경 설정 파일을 컨테이너와 공유합니다.
 - environment 를 이용해 서버에 환경 설정 변수를 지정했습니다.
 - links 설정을 이용해 각 컨테이너 끼리 통신할 수 있게 지정했습니다.
-- React 클라이언트 컨테이너는 Dockerfile에 컨테이너 환경을 설정해 build 했습니다.
 
 <h2>AWS EC2</h2>
 
