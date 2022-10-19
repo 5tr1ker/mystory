@@ -37,7 +37,7 @@
 - /login : 로그인페이지
 - /register : 회원가입페이지
 - /findid : 아이디 찾는 페이지
-- /* : 이외 링크는 <NoticeFrame /> 컴포넌트에 연결합니다.
+- /* : 이외 링크는 `<NoticeFrame />` 컴포넌트에 연결합니다.
   - /noticelist : 게시판의 목록을 보여줍니다.
   - /newpost : 새 글을 작성합니다.
   - /modified : 작성된 글을 수정합니다
@@ -61,7 +61,7 @@
   - oauth  : OAuth2 에 관한 기능을 관리합니다.<br/>
   - repository : Security , JWT , OAuth 의 JPA , QueryDSL 를 관리합니다.<br/>
   - service : Security , JWT , OAuth 로직 호출을 관리합니다.<br/>
-  - table : JWT 토큰을 관리하는 Entity 입니다.<br/>
+  - table : JWT 토큰을 저장하는 Entity 입니다.<br/>
 - service : 비즈니스 로직 호출을 관리합니다.<br/>
 
 <h2>Spring Security</h2>
@@ -73,7 +73,7 @@
 - Session Creation Policy : STATELESS
 - JwtAuthenticationFilter : UsernamePasswordAuthenticationFilter.class
 </br>
-- 인가가 필요한 API는 .hasRole("ADMIN") 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.
+- 인가가 필요한 API는 .hasRole("USER") 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.
 
 <h2>JPA & QueryDSL</h2>
 
