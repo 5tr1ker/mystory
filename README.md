@@ -148,7 +148,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 > 구글 & 네이버 OAuth provider를 이용해 불필요한 회원가입을 줄이고 , JWT Token을 이용해 Authorization 인증 시스템을 구현했습니다.
 
 - OAuth & JWT 구조는 다음과 같습니다.
-![OAUTH 다이어그램 이미지](https://user-images.githubusercontent.com/49367338/196445612-29a83b05-44be-4628-a8f3-2223b551d826.png)
+![image](https://user-images.githubusercontent.com/49367338/197803435-6ecd2c22-6be9-41e4-a663-1c368f911726.png)
 
 - Refresh Token은 클라이언트에 httpOnly , Secure 옵션으로 보안처리 했습니다
 - Access Token은 클라이언트 로컬 변수에 저장하여, 외부 접근을 차단했습니다.
