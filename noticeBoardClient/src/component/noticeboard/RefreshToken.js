@@ -1,19 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import Cookies from "universal-cookie";
 import { deleteAllToken } from "./DeleteAllCookie";
 
 export async function expireTokenTrans(func) {
-    const cookie = new Cookies();
-    const refreshToken = cookie.get('refreshToken');
-
-    const jsonObj = JSON.stringify({ "refreshToken": refreshToken });
     const getAccessToken = await axios({
-        method: "POST",
+        method: "GET",
         mode: "cors",
-        url: `/refresh`,
-        headers: { "Content-Type": "application/json" },
-        data: jsonObj
+        url: `/refresh`
     });
 
     //console.log(getAccessToken.data);

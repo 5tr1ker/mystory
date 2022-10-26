@@ -1,6 +1,5 @@
 package noticeboard.security;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,10 +26,10 @@ public class RefreshController {
 		return "AccessTokenExpire";
 	}
 	
-	@RequestMapping(value = "/refresh" , method = RequestMethod.POST)
-	public Map<String , String> validateRefreshToken(@RequestBody HashMap<String, String> bodyJson) {
+	@RequestMapping(value = "/refresh" , method = RequestMethod.GET)
+	public Map<String , String> validateRefreshToken(@CookieValue(name = "refreshToken") String cookie) {
 		
-		Map<String, String> map = jwtService.validateRefreshToken(bodyJson.get("refreshToken"));
+		Map<String, String> map = jwtService.validateRefreshToken(cookie);
 		if(map.get("status").equals("402")) {
 			map.put("refreshApiResponseMessage", HttpStatus.UNAUTHORIZED.toString());
 			return map;
