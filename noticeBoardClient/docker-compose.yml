@@ -49,19 +49,3 @@ services:
         - NODE_ENV=development
       stdin_open: true
       tty: true 
-
-  # 젠킨스
-    jenkins:
-      container_name: jenkins
-      build:
-        context: .
-        dockerfile: ./DockerfileJenkins
-      image: jenkins/jenkins:lts-jdk11
-      ports:
-        - 18080:8080
-      volumes:
-        - ./jenkins:/var/jenkins_home
-        - /var/run/docker.sock:/var/run/docker.sock
-      restart: always
-      environment: 
-            TZ: "Asia/Seoul"
