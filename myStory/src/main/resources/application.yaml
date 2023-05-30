@@ -1,0 +1,27 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mystory?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: password
+    jpa:
+      hibernate:
+        ddl-auto: create
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 7cef126b7f8ea367330765d225a271a6
+            client-secret: vmili4euIBd59hDRlRP49mbcAxgNwy8i
+          google:
+            client-id: 680651839429-0rdi6os3kqtr8cish8f12gm1afj6o9gj.apps.googleusercontent.com
+            client-secret: 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
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
