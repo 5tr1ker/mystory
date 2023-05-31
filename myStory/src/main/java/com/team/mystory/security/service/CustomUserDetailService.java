@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.team.mystory.entity.userdata.IdInfo;
-import com.team.mystory.repository.LoginRepository;
+import com.team.mystory.account.user.domain.IdInfo;
+import com.team.mystory.account.user.repository.LoginRepository;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {
@@ -20,6 +20,4 @@ public class CustomUserDetailService implements UserDetailsService {
 		
 		return result;
     }
-
-	
 }
