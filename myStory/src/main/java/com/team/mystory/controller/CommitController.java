@@ -37,7 +37,7 @@ public class CommitController {
 	
 	@RequestMapping(value = "/auth/commit/{commitId}" , method = RequestMethod.DELETE)
 	public void deleteCommit(@PathVariable("commitId") Long commitId) {
-		commitRepos.delete(commitId);
+		commitRepos.deleteById(commitId);
 	}
 	
 	@RequestMapping(value = "/auth/allCommit/{idInfo}" , method = RequestMethod.DELETE)

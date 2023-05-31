@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.google.common.io.ByteStreams;
 
 import com.team.mystory.entity.DTO.PostdataDTO;
 import com.team.mystory.entity.DTO.ReturnPostDataDTO;
@@ -102,7 +99,8 @@ public class PostController {
 	public List<ReturnPostDataDTO> findPostBySearchAndTag(@PathVariable("tagData") String tagData) {
 		return postRepos.findPostBySearchAndTag(tagData);
 	}
-	
+
+	/*
 	@RequestMapping(value = "/onDownload/{fileName}" , method = RequestMethod.GET)
 	public void onDownload(@PathVariable("fileName") String fileName , HttpServletResponse response) throws IOException {
 		// String filePath = "C:\\Users\\tjseo\\OneDrive\\바탕 화면\\study\\noticeBoardClient\\upload\\";
@@ -117,4 +115,6 @@ public class PostController {
 	    ByteStreams.copy(fileIn, response.getOutputStream());
 	    response.flushBuffer();
 	}
+
+	 */
 }

@@ -1,12 +1,7 @@
 package com.team.mystory.security.table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Getter
-@Table(name = "T_REFRESH_TOKEN")
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "T_REFRESH_TOKEN")
 public class RefreshToken {
 
     @Id

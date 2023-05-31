@@ -2,8 +2,7 @@ package com.team.mystory.repository.custom;
 
 import java.util.List;
 
-import javax.persistence.QueryHint;
-
+import jakarta.persistence.QueryHint;
 import org.springframework.data.jpa.repository.QueryHints;
 
 import com.team.mystory.entity.DTO.ReturnPostDataDTO;

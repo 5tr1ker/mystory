@@ -3,8 +3,7 @@ package com.team.mystory.service;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

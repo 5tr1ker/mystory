@@ -1,13 +1,12 @@
 package com.team.mystory.entity.freeboard;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class FreeWhoLike {
 	
 	@Id @GeneratedValue
@@ -27,31 +26,4 @@ public class FreeWhoLike {
 		fwl.setFreePost(fp);
 		return fwl;
 	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public FreePost getFreePost() {
-		return freePost;
-	}
-
-	public void setFreePost(FreePost freePost) {
-		this.freePost = freePost;
-	}
-
-	public String getRecommender() {
-		return recommender;
-	}
-
-	public void setRecommender(String recommender) {
-		this.recommender = recommender;
-	}
-
-
-	
 }

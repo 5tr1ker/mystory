@@ -3,7 +3,13 @@ package com.team.mystory.entity.DTO;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReturnPostDataDTO {
 	private long numbers;
 	private String title;
@@ -55,67 +61,5 @@ public class ReturnPostDataDTO {
 		this.views = views;
 		this.count= count; 
 	}
-	
-	public long getNumbers() {
-		return numbers;
-	}
-	public void setNumbers(long numbers) {
-		this.numbers = numbers;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getwriter() {
-		return writer;
-	}
-	public void setwriter(String writer) {
-		this.writer = writer;
-	}
-	public Date getpostTime() {
-		return postTime;
-	}
-	public void setpostTime(Date postTime) {
-		this.postTime = postTime;
-	}
-	public int getLikes() {
-		return likes;
-	}
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-	public int getviews() {
-		return views;
-	}
-	public void setviews(int views) {
-		this.views = views;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public boolean isBlockcomm() {
-		return blockcomm;
-	}
-	public void setBlockcomm(boolean blockcomm) {
-		this.blockcomm = blockcomm;
-	}
-	public boolean isPrivates() {
-		return privates;
-	}
-	public void setPrivates(boolean privates) {
-		this.privates = privates;
-	}
-	public Long getCount() {
-		return count;
-	}
 
-	public void setCount(Long count) {
-		this.count = count;
-	}
-	
 }

@@ -3,10 +3,10 @@ package com.team.mystory.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +21,6 @@ import com.team.mystory.entity.userdata.ProfileSetting;
 import com.team.mystory.repository.LoginRepository;
 import com.team.mystory.security.JwtTokenProvider;
 import com.team.mystory.security.Token;
-import com.team.mystory.security.oauth.CreateOAuthUser;
-import com.team.mystory.security.oauth.CustomOAuth2UserService;
 import com.team.mystory.security.service.JwtService;
 import com.team.mystory.service.LoginService;
 
@@ -38,8 +36,6 @@ public class LoginController {
 	JwtTokenProvider jwtTokenProvider;
 	@Autowired
 	JwtService jwtService;
-	@Autowired
-	CreateOAuthUser createOauthUser;
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public int register(@RequestBody Map<String, String> userInfo) {
@@ -59,7 +55,8 @@ public class LoginController {
 		if(result == null) return 1;
 		else return -1;
 	}
-	
+
+	/*
 	@RequestMapping(value = "/googleLogin", produces = "application/json", method = RequestMethod.GET)
 	public Token googleLogin(@RequestParam("code") String code, HttpServletResponse response) {
 		JsonNode accessToken;
@@ -85,6 +82,8 @@ public class LoginController {
 
 		return result;
 	}
+
+	 */
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Token login(@RequestBody Map<String, String> userInfo , HttpServletResponse response) {

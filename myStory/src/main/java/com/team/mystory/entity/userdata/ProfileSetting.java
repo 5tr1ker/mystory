@@ -1,14 +1,19 @@
 package com.team.mystory.entity.userdata;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class ProfileSetting {
 	
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	@Column(name = "profilesetting_id")
 	private long profileNumber;
 	
@@ -26,39 +31,5 @@ public class ProfileSetting {
 		ps.setOption2(4);
 		return ps;
 	}
-
-	public long getProfileNumber() {
-		return profileNumber;
-	}
-
-	public void setProfileNumber(long profileNumber) {
-		this.profileNumber = profileNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public int getOption2() {
-		return option2;
-	}
-
-	public void setOption2(int option2) {
-		this.option2 = option2;
-	}
-	
-	
 	
 }

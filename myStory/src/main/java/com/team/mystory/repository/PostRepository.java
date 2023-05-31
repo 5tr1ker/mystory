@@ -2,8 +2,7 @@ package com.team.mystory.repository;
 
 import java.util.List;
 
-import javax.persistence.QueryHint;
-
+import jakarta.persistence.QueryHint;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,7 +28,7 @@ public interface PostRepository extends JpaRepository<FreePost, Long> , CustomPo
 	public int getTotalPostDataCount();
 	
 	@QueryHints(value = @QueryHint(name = "org.hibernate.readOnly" ,value = "true"))
-	@Query(value = "SELECT new mystory.entity.DTO.ReturnPostDataDTO(f.numbers , f.title , f.writer , f.postTime , f.likes , f.views , COUNT(c)) FROM FreePost f LEFT OUTER JOIN f.freeCommit c group by f.numbers order by f.numbers DESC")
+	@Query(value = "SELECT new com.team.mystory.entity.DTO.ReturnPostDataDTO(f.numbers , f.title , f.writer , f.postTime , f.likes , f.views , COUNT(c)) FROM FreePost f LEFT OUTER JOIN f.freeCommit c group by f.numbers order by f.numbers DESC")
 	public List<ReturnPostDataDTO> getPostData(Pageable pageable);
 	
 	@QueryHints(value = @QueryHint(name = "org.hibernate.readOnly" ,value = "true"))

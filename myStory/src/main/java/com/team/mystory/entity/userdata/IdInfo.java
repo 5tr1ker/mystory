@@ -1,40 +1,27 @@
 package com.team.mystory.entity.userdata;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
+import com.team.mystory.entity.freeboard.FreePost;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
-
-import lombok.Builder;
-import com.team.mystory.entity.freeboard.FreePost;
-
-@SuppressWarnings("serial")
 @Entity
+@Getter
+@Setter
 @JsonIdentityInfo(generator = IntSequenceGenerator.class , property = "id")
 public class IdInfo implements UserDetails{
 
@@ -62,23 +49,23 @@ public class IdInfo implements UserDetails{
 	@JoinColumn(name = "profilesetting_id" , nullable = false)
 	private ProfileSetting profileSetting;
 
+	@Builder.Default
 	@OneToMany(mappedBy = "idInfo" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-	private List<FreePost> freePost = new ArrayList<FreePost>();
-	
-	// 생성 메서드
+	private List<FreePost> freePost;
+
 	public static IdInfo createId(String id , String password) {
 		IdInfo data = new IdInfo();
 		data.setId(id);
 		data.setUserPassword(password);
 		return data;
 	}
-	
+
+	@Builder.Default
 	@ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    private List<String> roles;
 	
 	public String getRoleKey(){
-        return this.roles.get(0);
+		return this.roles.get(0);
     }
 	
 	public enum Admin {
@@ -126,78 +113,9 @@ public class IdInfo implements UserDetails{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	// userDetail 끝
-	
-	// 연관관계 매핑
+
 	public void addFreePost(FreePost post) {
 		this.freePost.add(post);
 		post.setIdinfo(this);
 	}
-
-	public long getIdInfoID() {
-		return idInfoID;
-	}
-
-	public void setIdInfoID(long idInfoID) {
-		this.idInfoID = idInfoID;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getUserPassword() {
-		return userPassword;
-	}
-
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
-	}
-
-	public Date getJoinDate() {
-		return joinDate;
-	}
-
-	public void setJoinDate(Date joinDate) {
-		this.joinDate = joinDate;
-	}
-
-	public ProfileSetting getProfileSetting() {
-		return profileSetting;
-	}
-
-	public void setProfileSetting(ProfileSetting profileSetting) {
-		this.profileSetting = profileSetting;
-	}
-
-	public List<FreePost> getFreePost() {
-		return freePost;
-	}
-
-	public void setFreePost(List<FreePost> freePost) {
-		this.freePost = freePost;
-	}
-
-	public List<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
-
-	public Admin getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
-	}
-	
-	
-	
 }

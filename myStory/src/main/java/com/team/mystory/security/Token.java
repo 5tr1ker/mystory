@@ -1,16 +1,12 @@
 package com.team.mystory.security;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 public class Token {
     private String grantType;
     private String accessToken;
