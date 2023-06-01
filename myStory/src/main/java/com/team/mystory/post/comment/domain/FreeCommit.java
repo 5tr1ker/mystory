@@ -1,16 +1,9 @@
 package com.team.mystory.post.comment.domain;
 
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.common.PostBaseEntity;
 import com.team.mystory.post.post.domain.FreePost;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -38,6 +31,9 @@ public class FreeCommit extends PostBaseEntity {
 
 	@Column(name = "post_type" , nullable = false)
 	private String postType;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User user;
 
 	static public FreeCommit createCommitData(String content , String writer , Long postNumber , String postType) {
 		FreeCommit fc = new FreeCommit();

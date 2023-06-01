@@ -8,7 +8,6 @@ import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.account.profile.repository.ProfileRepository;
 import com.team.mystory.security.jwt.service.JwtService;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,19 +24,13 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
 	private final LoginRepository loginRepository;
-	private final PostRepository postRepos;
-	private final CommitRepository commitRepos;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final JwtService jwtService;
 	
 	public StatisticsResponse getProfile(String accessToken) {
 		String userId = jwtTokenProvider.getUserPk(accessToken);
-		return StatisticsResponse.builder()
-				.totalPost(profileRepository.getTotalPost(userId))
-				.totalComment(profileRepository.getTotalComment(userId))
-				.totalPostView(profileRepository.getPostView(userId).orElse(0L))
-				.joinData(profileRepository.getJoinDate(userId))
-				.build();
+
+		return profileRepository.getStatisticsOfUser(userId);
 	}
 
 	@Transactional
@@ -48,23 +41,16 @@ public class ProfileService {
 			if(loginRepository.findById(profileRequest.getUserId()).isPresent()) {
 				throw new AccountException("해당 아이디는 이미 존재합니다.");
 			}
-
-			User changeUserId = loginRepository.findById(userId)
+			User user = loginRepository.findById(userId)
 					.orElseThrow(() -> new AccountException("찾을 수 없는 아이디입니다."));
 
-			changeUserId.setId(profileRequest.getUserId());
-			postRepos.changeWritter(userId , profileRequest.getUserId());
-			commitRepos.changeWritter(userId , profileRequest.getUserId());
-			loginRepository.save(changeUserId);
+			user.setId(profileRequest.getUserId());
 			jwtService.deleteJwtToken(response);
-
 		}
 
-		ProfileSetting st = profileRepository.findProfileSettings(profileRequest.getUserId());
-
-		st.setEmail(profileRequest.getEmail());
-		st.setPhone(profileRequest.getPhone());
-		st.setOption2(profileRequest.getOption2());
+		ProfileSetting profileSetting = profileRepository.findProfileByUserId(profileRequest.getUserId())
+				.orElseThrow(() -> new AccountException("프로필 정보를 찾을 수 없습니다."));
+		profileSetting.updateProfile(profileRequest);
 	}
 
 	public ProfileSetting getProfileFromUser(String accessToken) throws AccountException {

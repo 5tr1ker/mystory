@@ -46,7 +46,7 @@ public class LoginService {
 	
 	public ResponseMessage login(LoginRequest loginRequest , HttpServletResponse response) throws AccountException {
 		User result = loginRepository.findById(loginRequest.getId())
-				.orElseThrow(() -> new AccountException("이미 존재하는 사용자입니다."));
+				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
 
 		if(!result.getPassword().equals(loginRequest.getPassword())) {
 			throw new AccountException("비밀번호가 일치하지 않습니다.");

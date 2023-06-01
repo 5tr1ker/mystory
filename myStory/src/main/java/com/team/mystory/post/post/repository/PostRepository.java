@@ -51,11 +51,6 @@ public interface PostRepository extends JpaRepository<FreePost, Long> , CustomPo
 	@Query("UPDATE FreePost p set p.views = p.views + 1 where p.numbers = :postId")
 	public Integer updatePostViews(@Param("postId") Long postId);
 
-	/* 수정된 아이디로 전부 변경 */
-	@Modifying(clearAutomatically = true)
-	@Query("UPDATE FreePost p set p.writer = :changeId where p.writer = :idStatus")
-	public void changeWritter(@Param("idStatus") String idStatus , @Param("changeId") String changeId);
-
 	@Query("SELECT p.fileName from FreeAttach p where p.changedFile = :postRepos")
 	public String getFileName(@Param("postRepos")String fileName);
 

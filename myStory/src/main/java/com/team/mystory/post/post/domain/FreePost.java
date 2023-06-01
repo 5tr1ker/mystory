@@ -45,6 +45,7 @@ public class FreePost extends PostBaseEntity {
 	private int views;
 	private int likes;
 	private boolean privates;
+
 	@Column(name = "block_comm")
 	private boolean blockComm;
 
