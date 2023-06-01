@@ -10,8 +10,9 @@ import com.team.mystory.security.jwt.domain.RefreshToken;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
 	   Optional<RefreshToken> findByRefreshToken(String refreshToken);
-	   
+
 	   @Query(value = "SELECT p from RefreshToken p where p.keyEmail = :userEmail")
-	   RefreshToken existsByKeyEmail(@Param("userEmail") String userEmail);
+	   Optional<RefreshToken> existsByKeyEmail(@Param("userEmail") String userEmail);
+
 	   void deleteByKeyEmail(String userEmail);
 }

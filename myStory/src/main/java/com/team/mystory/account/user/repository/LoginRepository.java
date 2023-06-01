@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.team.mystory.account.user.domain.IdInfo;
 
+import java.util.Optional;
+
 public interface LoginRepository extends JpaRepository<IdInfo, Long> {
-	public IdInfo findById(String id);
+	Optional<IdInfo> findById(String id);
 }

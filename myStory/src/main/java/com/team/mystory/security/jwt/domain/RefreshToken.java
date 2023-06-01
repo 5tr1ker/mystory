@@ -12,9 +12,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "T_REFRESH_TOKEN")
+@Table(name = "REFRESH_TOKEN")
 public class RefreshToken {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "REFRESH_TOKEN_ID", nullable = false)

@@ -23,13 +23,14 @@ public class FreeTag {
 	@ManyToMany(mappedBy = "freeTag")
 	private List<FreePost> freePost;
 
-	public FreeTag() {
-
-	}
 
 	public void addFreePost(FreePost freePost) {
 		this.freePost.add(freePost);
 		freePost.getFreeTag().add(this);
+	}
+
+	public FreeTag() {
+
 	}
 
 	public FreeTag(String tagData) {

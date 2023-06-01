@@ -1,42 +1,30 @@
 package com.team.mystory.account.user.controller;
 
+import com.team.mystory.account.profile.domain.ProfileSetting;
+import com.team.mystory.account.user.domain.IdInfo;
+import com.team.mystory.account.user.repository.LoginRepository;
+import com.team.mystory.account.user.service.LoginService;
+import com.team.mystory.security.jwt.dto.Token;
+import com.team.mystory.security.jwt.service.JwtService;
+import com.team.mystory.security.jwt.support.JwtTokenProvider;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
-
-import com.team.mystory.account.user.repository.LoginRepository;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.team.mystory.account.user.domain.IdInfo;
-import com.team.mystory.account.profile.domain.ProfileSetting;
-import com.team.mystory.security.jwt.support.JwtTokenProvider;
-import com.team.mystory.security.jwt.dto.Token;
-import com.team.mystory.security.jwt.service.JwtService;
-import com.team.mystory.account.user.service.LoginService;
-
 @RestController
-@Controller
+@RequiredArgsConstructor
 public class LoginController {
 
-	@Autowired
-    LoginRepository loginRepos;
-	@Autowired
-	LoginService login;
-	@Autowired
-	JwtTokenProvider jwtTokenProvider;
-	@Autowired
-	JwtService jwtService;
+	private final LoginRepository loginRepos;
+	private final LoginService login;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final JwtService jwtService;
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@PostMapping(value = "/register")
 	public int register(@RequestBody Map<String, String> userInfo) {
 		int result = login.register(userInfo);
 		return result;
@@ -54,35 +42,6 @@ public class LoginController {
 		if(result == null) return 1;
 		else return -1;
 	}
-
-	/*
-	@RequestMapping(value = "/googleLogin", produces = "application/json", method = RequestMethod.GET)
-	public Token googleLogin(@RequestParam("code") String code, HttpServletResponse response) {
-		JsonNode accessToken;
-		Token result = null;
-		
-		JsonNode jsonToken = CustomOAuth2UserService.getGoogleAccessToken(code); // 카카오 로그인 처리
-		accessToken = jsonToken.get("access_token");
-
-		result = createOauthUser.createGoogleUser(accessToken.toString().replace("\"", ""));
-		System.out.println(accessToken.toString());
-		return result;
-	}
-
-	@RequestMapping(value = "/kakaoLogin", produces = "application/json", method = RequestMethod.GET)
-	public Token kakaoLogin(@RequestParam("code") String code, HttpServletResponse response) {
-		JsonNode accessToken;
-		Token result = null;
-
-		JsonNode jsonToken = CustomOAuth2UserService.getKakaoAccessToken(code); // 카카오 로그인 처리
-		accessToken = jsonToken.get("access_token");
-
-		result = createOauthUser.createKakaoUser(accessToken.toString().replace("\"", ""));
-
-		return result;
-	}
-
-	 */
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Token login(@RequestBody Map<String, String> userInfo , HttpServletResponse response) {
