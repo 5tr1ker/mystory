@@ -14,8 +14,7 @@ public class ProfileSetting {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "profilesetting_id")
-	private long profileNumber;
+	private long profileKey;
 	
 	@Column(name = "email")
 	private String email;
@@ -26,10 +25,10 @@ public class ProfileSetting {
 	@Column(name = "option2")
 	private int option2;
 	
-	static public ProfileSetting createprofileSetting() {
-		ProfileSetting ps = new ProfileSetting();
-		ps.setOption2(4);
-		return ps;
+	static public ProfileSetting createInitProfileSetting() {
+		ProfileSetting profileSetting = new ProfileSetting();
+		profileSetting.setOption2(4);
+		return profileSetting;
 	}
 	
 }

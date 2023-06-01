@@ -1,62 +1,103 @@
 package com.team.mystory.account.user.service;
 
-import java.util.Collections;
-import java.util.Map;
-
-import com.team.mystory.account.user.domain.IdInfo;
 import com.team.mystory.account.profile.domain.ProfileSetting;
+import com.team.mystory.account.user.domain.User;
+import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.account.user.repository.LoginRepository;
+import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.security.jwt.dto.Token;
+import com.team.mystory.security.jwt.service.JwtService;
+import com.team.mystory.security.jwt.support.JwtTokenProvider;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.security.auth.login.AccountException;
+
+import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class LoginService {
 
-	@Autowired
-    LoginRepository loginRepository;
-	
-	public int register(Map<String, String> userInfo) {
-		IdInfo result = loginRepository.findById(userInfo.get("id"));
-		if(result != null) {
-			return -1;
+	private final LoginRepository loginRepository;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final JwtService jwtService;
+
+	public void validNewAccountVerification(LoginRequest loginRequest) throws AccountException {
+		if(loginRepository.findById(loginRequest.getId()).isPresent()) {
+			throw new AccountException("이미 존재하는 사용자입니다.");
 		}
-		if(!userInfo.get("pw").equals(userInfo.get("checkpw"))) return -2;
-		ProfileSetting ps = ProfileSetting.createprofileSetting();
-		IdInfo idinfo_data = IdInfo.createId(userInfo.get("id"), userInfo.get("pw"));
-		idinfo_data.setProfileSetting(ps);
-		idinfo_data.setRoles(Collections.singletonList("ROLE_USER"));
-		idinfo_data.setAdmin(IdInfo.Admin.GENERAL);
-		loginRepository.save(idinfo_data);
-		return 1;
+
+		if(!loginRequest.getPassword().equals(loginRequest.getCheckPassword())) {
+			throw new AccountException("비밀번호가 일치하지 않습니다.");
+		}
 	}
 	
-	public IdInfo login(Map<String , String> userInfo) {
-		IdInfo result = loginRepository.findById(userInfo.get("id"));
-		if(result == null || !result.getUserPassword().equals(userInfo.get("pw"))) {
-			return null;
+	public ResponseMessage register(LoginRequest loginRequest) throws AccountException {
+		validNewAccountVerification(loginRequest);
+
+		loginRepository.save(User.createUser(loginRequest));
+		return ResponseMessage.of(REQUEST_SUCCESS);
+	}
+	
+	public ResponseMessage login(LoginRequest loginRequest , HttpServletResponse response) throws AccountException {
+		User result = loginRepository.findById(loginRequest.getId())
+				.orElseThrow(() -> new AccountException("이미 존재하는 사용자입니다."));
+
+		if(!result.getPassword().equals(loginRequest.getPassword())) {
+			throw new AccountException("비밀번호가 일치하지 않습니다.");
 		}
+
+		createJwtToken(result , response);
 		
-		return result;
+		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 
-	public String findId(Map<String,String> userInfo) {
-		IdInfo result = loginRepository.findById(userInfo.get("id"));
-		if(result == null) return "-1";
-		String password = result.getUserPassword();
-		return password.substring( 0 , password.length() - (password.length() - 3));
-	}
-	
-	public ProfileSetting getProfile(String id) {
-		IdInfo data = loginRepository.findById(id);
-		if(data==null) return null;
-		return data.getProfileSetting();
+	public void createJwtToken(User user , HttpServletResponse response) {
+		Token tokenDTO = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
+		jwtService.login(tokenDTO);
+
+		Cookie refreshToken = new Cookie("refreshToken", tokenDTO.getRefreshToken());
+		refreshToken.setPath("/");
+		refreshToken.setMaxAge(14 * 24 * 60 * 60 * 1000);
+		refreshToken.setSecure(true);
+		refreshToken.setHttpOnly(true);
+
+		Cookie accessToken = new Cookie("accessToken", tokenDTO.getRefreshToken());
+		accessToken.setPath("/");
+		accessToken.setMaxAge(30 * 60 * 1000);
+		accessToken.setSecure(true);
+		accessToken.setHttpOnly(true);
+
+		response.addCookie(refreshToken);
+		response.addCookie(accessToken);
 	}
 
-	public int remove(String userInfo) {
-		IdInfo data = loginRepository.findById(userInfo);
-		loginRepository.delete(data);
-		return 0;
+	public ResponseMessage getPartPasswordFromId(LoginRequest loginRequest) throws AccountException {
+		User result = loginRepository.findById(loginRequest.getId())
+				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
+
+		String password = result.getPassword();
+		String partPassword = password.substring( 0 , password.length() - (password.length() - 3));
+		return ResponseMessage.of(REQUEST_SUCCESS , partPassword);
+	}
+
+	public User getUserByUserId(String userId) throws AccountException {
+		return loginRepository.findById(userId)
+				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
+	}
+
+	public ResponseMessage removeUser(String accessToken) throws AccountException {
+		String userId = jwtTokenProvider.getUserPk(accessToken);
+		User result = loginRepository.findById(userId)
+				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
+
+		loginRepository.delete(result);
+
+		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 }

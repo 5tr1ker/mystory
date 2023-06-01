@@ -2,7 +2,6 @@ package com.team.mystory.common;
 
 import lombok.*;
 
-@Builder
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ResponseMessage<T> {

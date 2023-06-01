@@ -1,12 +1,16 @@
 package com.team.mystory.common;
 
 import com.team.mystory.security.jwt.exception.InvalidTokenException;
+import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.security.auth.login.AccountException;
+
 import static com.team.mystory.common.ResponseCode.INVALID_TOKEN;
+import static com.team.mystory.common.ResponseCode.REQUEST_FAIL;
 
 @RestControllerAdvice
 public class GeneralExceptionHandler {
@@ -15,5 +19,12 @@ public class GeneralExceptionHandler {
         ResponseMessage message = ResponseMessage.of(INVALID_TOKEN , e.getMessage());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
+    }
+
+    @ExceptionHandler({AccountException.class})
+    public ResponseEntity accountExceptionHandler(Exception e) {
+        ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
+
+        return ResponseEntity.badRequest().body(message);
     }
 }

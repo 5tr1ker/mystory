@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import com.team.mystory.common.ResponseCode;
 import com.team.mystory.common.ResponseMessage;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,4 +51,13 @@ public class JwtService {
 
         return ResponseMessage.of(CREATE_ACCESS_TOKEN , createdAccessToken);
     }
+
+    public void deleteJwtToken(HttpServletResponse response) {
+        Cookie accessToken = new Cookie("accessToken" , null);
+        Cookie refreshToken = new Cookie("refreshToken" , null);
+
+        response.addCookie(accessToken);
+        response.addCookie(refreshToken);
+    }
+
 }

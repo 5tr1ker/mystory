@@ -2,29 +2,40 @@ package com.team.mystory.account.profile.controller;
 
 import java.util.Map;
 
+import com.team.mystory.security.jwt.service.JwtService;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import com.team.mystory.account.profile.dto.ProfileDTO;
+import com.team.mystory.account.profile.dto.ProfileRequest;
 import com.team.mystory.account.profile.service.ProfileService;
 
+import javax.security.auth.login.AccountException;
+
 @RestController
+@RequestMapping("/profiles")
+@RequiredArgsConstructor
 public class ProfileController {
 
-	@Autowired ProfileService profileServ;
+	private final ProfileService profileService;
 	
-	@RequestMapping(value = "/auth/profile/{idInfo}" , method = RequestMethod.GET )
-	public Map<String , String> profileInfo(@PathVariable("idInfo") String idInfo) {
-		return profileServ.getProfile(idInfo);
+	@GetMapping(value = "/statistics")
+	public ResponseEntity profileInfo(@CookieValue String accessToken) {
+		return ResponseEntity.ok().body(profileService.getProfile(accessToken));
 	}
 	
-	@RequestMapping(value = "/auth/profile" , method = RequestMethod.PATCH)
-	public int profileUpdate(@RequestBody ProfileDTO data) {
-		return profileServ.updateProfileData(data);
+	@PutMapping
+	public ResponseEntity profileUpdate(@RequestBody ProfileRequest profileRequest , @CookieValue String accessToken , HttpServletResponse response)
+			throws AccountException {
+		profileService.updateProfile(profileRequest , accessToken , response);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping
+	public ResponseEntity getProfileData(@CookieValue String accessToken) throws AccountException {
+		return ResponseEntity.ok().body(profileService.getProfileFromUser(accessToken));
 	}
 }

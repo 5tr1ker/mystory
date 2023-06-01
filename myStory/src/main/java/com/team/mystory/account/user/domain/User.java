@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
 import com.team.mystory.account.profile.domain.ProfileSetting;
+import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.post.post.domain.FreePost;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -15,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,21 +25,16 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @JsonIdentityInfo(generator = IntSequenceGenerator.class , property = "id")
-public class IdInfo implements UserDetails{
+public class User implements UserDetails {
 
 	@Id @GeneratedValue
-	@Column(name = "idinfo_id")
-	private long idInfoID;
+	private long userKey;
 	
 	@Column(nullable = false , length = 20)
 	private String id;
 	
 	@Column(name = "password" , nullable = false , length = 45)
-	private String userPassword;
-	
-	@Column(name = "ADMIN" , length = 10 , nullable = false)
-	@Enumerated(EnumType.STRING)
-	private Admin admin;
+	private String password;
 	
 	@Temporal(TemporalType.DATE)
 	@CreationTimestamp
@@ -50,28 +47,22 @@ public class IdInfo implements UserDetails{
 	private ProfileSetting profileSetting;
 
 	@Builder.Default
-	@OneToMany(mappedBy = "idInfo" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	private List<FreePost> freePost;
 
-	public static IdInfo createId(String id , String password) {
-		IdInfo data = new IdInfo();
-		data.setId(id);
-		data.setUserPassword(password);
-		return data;
+	public static User createUser(LoginRequest loginRequest) {
+		User user = new User();
+		user.setId(loginRequest.getId());
+		user.setPassword(loginRequest.getPassword());
+		user.setProfileSetting(ProfileSetting.createInitProfileSetting());
+		user.setRoles(Collections.singletonList("ROLE_USER"));
+
+		return user;
 	}
 
 	@Builder.Default
 	@ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
-	
-	public String getRoleKey(){
-		return this.roles.get(0);
-    }
-	
-	public enum Admin {
-		ADMin , GENERAL
-	}
-	// UserDetail 시작
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -111,7 +102,7 @@ public class IdInfo implements UserDetails{
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return null;
+		return password;
 	}
 
 	public void addFreePost(FreePost post) {

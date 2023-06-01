@@ -2,7 +2,7 @@ package com.team.mystory.post.post.domain;
 
 import java.util.List;
 
-import com.team.mystory.account.user.domain.IdInfo;
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.common.PostBaseEntity;
 import com.team.mystory.post.comment.domain.FreeCommit;
 import com.team.mystory.post.tag.domain.FreeTag;
@@ -50,7 +50,7 @@ public class FreePost extends PostBaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idinfo_id" , nullable = false)
-	private IdInfo idInfo;
+	private User user;
 
 	@Builder.Default
 	@ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
@@ -71,12 +71,12 @@ public class FreePost extends PostBaseEntity {
 
 	
 	// 연관관계 편의 메소드 시작
-	public void setIdinfo(IdInfo IdInfo) {
-		if(this.idInfo != null) {
-			this.idInfo.getFreePost().remove(this);
+	public void setIdinfo(User User) {
+		if(this.user != null) {
+			this.user.getFreePost().remove(this);
 		}
-		this.idInfo = IdInfo;
-		IdInfo.getFreePost().add(this);
+		this.user = User;
+		User.getFreePost().add(this);
 	}
 	
 	public void addFreeAttach(FreeAttach attach) {

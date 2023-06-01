@@ -1,62 +1,78 @@
 package com.team.mystory.account.profile.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.team.mystory.account.user.domain.IdInfo;
+import com.team.mystory.account.profile.dto.StatisticsResponse;
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.profile.domain.ProfileSetting;
-import com.team.mystory.account.profile.dto.ProfileDTO;
+import com.team.mystory.account.profile.dto.ProfileRequest;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.account.profile.repository.ProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.team.mystory.security.jwt.service.JwtService;
+import com.team.mystory.security.jwt.support.JwtTokenProvider;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.team.mystory.post.comment.repository.CommitRepository;
 import com.team.mystory.post.post.repository.PostRepository;
 
+import javax.security.auth.login.AccountException;
+
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class ProfileService {
+
+    private final ProfileRepository profileRepository;
+	private final LoginRepository loginRepository;
+	private final PostRepository postRepos;
+	private final CommitRepository commitRepos;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final JwtService jwtService;
 	
-	@Autowired
-    ProfileRepository profileRepos;
-	@Autowired
-    LoginRepository loginRepos;
-	@Autowired PostRepository postRepos;
-	@Autowired CommitRepository commitRepos;
-	
-	public Map<String, String> getProfile(String idInfo) {
-		Long result_totalPost = profileRepos.getTotalPost(idInfo);
-		Long result_totalCommit = profileRepos.getTotalComment(idInfo);
-		Long result_postView = profileRepos.getPostView(idInfo);
-		String result_joindate = profileRepos.getJoinDate(idInfo);
-		Map<String , String> map = new HashMap<String, String>();
-		map.put("totalPost" , result_totalPost.toString());
-		map.put("totalCommit" , result_totalCommit.toString());
-		if(result_postView == null) map.put("postView" , "0");
-		else map.put("postView" , result_postView.toString());
-		map.put("joindate" , result_joindate);
-		return map;
+	public StatisticsResponse getProfile(String accessToken) {
+		String userId = jwtTokenProvider.getUserPk(accessToken);
+		return StatisticsResponse.builder()
+				.totalPost(profileRepository.getTotalPost(userId))
+				.totalComment(profileRepository.getTotalComment(userId))
+				.totalPostView(profileRepository.getPostView(userId).orElse(0L))
+				.joinData(profileRepository.getJoinDate(userId))
+				.build();
 	}
 
-	public int updateProfileData(ProfileDTO data) {
-		String userId = data.getIdStatus();
-		String changeId = data.getInputProfileData().getUserId();
-		ProfileSetting st = profileRepos.findProfileSettings(userId);
-		st.setEmail(data.getInputProfileData().getEmail());
-		st.setPhone(data.getInputProfileData().getPhone());
-		st.setOption2(data.getInputProfileData().getOption2());
-		if(!userId.equals(changeId)) {
-			IdInfo search = loginRepos.findById(changeId);
-			if(search != null) return -2; // 존재하는 아이디
-			IdInfo changeUserId = loginRepos.findById(userId); // 존재하지 않으면 변경
-			changeUserId.setId(changeId);
-			postRepos.changeWritter(userId , changeId);
-			commitRepos.changeWritter(userId , changeId);
-			loginRepos.save(changeUserId); // 메소드 이름 찾기는 save 해주어야함
+	@Transactional
+	public void updateProfile(ProfileRequest profileRequest , String token , HttpServletResponse response) throws AccountException {
+		String userId = jwtTokenProvider.getUserPk(token);
+
+		if(!profileRequest.getUserId().equals(userId)) {
+			if(loginRepository.findById(profileRequest.getUserId()).isPresent()) {
+				throw new AccountException("해당 아이디는 이미 존재합니다.");
+			}
+
+			User changeUserId = loginRepository.findById(userId)
+					.orElseThrow(() -> new AccountException("찾을 수 없는 아이디입니다."));
+
+			changeUserId.setId(profileRequest.getUserId());
+			postRepos.changeWritter(userId , profileRequest.getUserId());
+			commitRepos.changeWritter(userId , profileRequest.getUserId());
+			loginRepository.save(changeUserId);
+			jwtService.deleteJwtToken(response);
+
 		}
-		return 0;
+
+		ProfileSetting st = profileRepository.findProfileSettings(profileRequest.getUserId());
+
+		st.setEmail(profileRequest.getEmail());
+		st.setPhone(profileRequest.getPhone());
+		st.setOption2(profileRequest.getOption2());
 	}
-	
+
+	public ProfileSetting getProfileFromUser(String accessToken) throws AccountException {
+		String userId = jwtTokenProvider.getUserPk(accessToken);
+
+		User result = loginRepository.findById(userId)
+				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
+
+		return result.getProfileSetting();
+	}
 }

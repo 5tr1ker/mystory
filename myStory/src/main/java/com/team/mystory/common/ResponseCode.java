@@ -12,6 +12,7 @@ public enum ResponseCode {
     INVALID_TOKEN("-2" , "유효하지 않은 토큰입니다."),
 
     // success
+    REQUEST_SUCCESS("1" , "요청이 성공적으로 완료되었습니다."),
     CREATE_ACCESS_TOKEN("2" , "Access Token 이 재발급 되었습니다.");
 
     private final String code;

@@ -11,7 +11,7 @@ import com.team.mystory.post.comment.domain.FreeCommit;
 import com.team.mystory.post.post.domain.FreePost;
 import com.team.mystory.post.tag.domain.FreeTag;
 import com.team.mystory.post.post.domain.FreeWhoLike;
-import com.team.mystory.account.user.domain.IdInfo;
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.post.comment.repository.CommitRepository;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.post.post.repository.PostRepository;
@@ -39,9 +39,9 @@ public class PostService {
 		else fp.setNumbers(number + 1);
 		
 		result.put("postNumber" , fp.getNumbers());
-		IdInfo idInfo = login.findById(data.getIdStatus()); // 사용자 아이디
-		fp.setWriter(idInfo.getId()); // 작성자
-		fp.setIdinfo(idInfo); // 편의 메소드에 접근
+		User user = login.findById(data.getIdStatus()).get(); // 사용자 아이디
+		fp.setWriter(user.getId()); // 작성자
+		fp.setIdinfo(user); // 편의 메소드에 접근
 		
 		String tagData[] = data.getLabelData(); // 태그 데이터
 		for(String str : tagData) {
@@ -51,8 +51,8 @@ public class PostService {
 		}
 		try {
 			writting.save(fp);
-			idInfo.addFreePost(fp);
-			login.save(idInfo);
+			user.addFreePost(fp);
+			login.save(user);
 			result.put("result" , 0L);
 			return result;
 		} catch(Exception e) {

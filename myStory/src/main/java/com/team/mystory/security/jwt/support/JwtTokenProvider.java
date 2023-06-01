@@ -24,8 +24,8 @@ import java.util.List;
 public class JwtTokenProvider {
     private final UserDetailsService loginService;
 
-    private String secretKey = "mystorySecretKey_F76L01PNV";
-    private String refreshKey = "mystorySecretKey_3Fg985Gbz";
+    private String secretKey = "mystorySecretKey";
+    private String refreshKey = "mystorySecretKey";
     private long tokenValidTime = 30 * 60 * 1000L;
     private long refreshTokenValidTime = 14 * 24 * 60 * 60 * 1000L;
 
