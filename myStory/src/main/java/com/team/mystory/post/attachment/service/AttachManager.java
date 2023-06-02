@@ -6,13 +6,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import com.team.mystory.post.attachment.repository.AttachmentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.team.mystory.post.post.domain.FreeAttach;
-import com.team.mystory.post.post.domain.FreePost;
+import com.team.mystory.post.attachment.domain.FreeAttach;
+import com.team.mystory.post.post.domain.Post;
 import com.team.mystory.post.post.repository.PostRepository;
 
 @Service
@@ -20,11 +21,12 @@ import com.team.mystory.post.post.repository.PostRepository;
 public class AttachManager {
 	
 	@Autowired PostRepository postRepos;
+	@Autowired AttachmentRepository attachmentRepository;
 	
 	public void modifiedUpload(String[] deletedFile , Long postNumber) {
 		String file_Path = "C:\\notice\\file\\";
 		
-		FreePost fp = postRepos.findPostByNumbers(postNumber);
+		Post fp = postRepos.findPostByPostId(postNumber).get();
 		List<FreeAttach> fileData = fp.getFreeAttach();
 		
 		for(FreeAttach data : fileData) {
@@ -33,8 +35,8 @@ public class AttachManager {
 				String fileExtension = data.getFileName().substring(data.getFileName().lastIndexOf(".") , data.getFileName().length());
 				File file = new File(file_Path + data.getChangedFile() + fileExtension);
 				if(file != null) file.delete();
-				
-				postRepos.deleteByFileName(data.getChangedFile());
+
+				attachmentRepository.deleteByFileName(data.getChangedFile());
 			}
 		}
 	}
@@ -42,7 +44,7 @@ public class AttachManager {
 	public void fileUpload(List<MultipartFile> files , Long postNumber) {
 		// String file_Path = "\'C:\\notice\\file\\"; # Docker 환경에서는 사용안함
 		
-		FreePost fp = postRepos.findPostByNumbers(postNumber);
+		Post fp = postRepos.findPostByPostId(postNumber).get();
 
 		for(MultipartFile file : files) {
 			if (file != null) {

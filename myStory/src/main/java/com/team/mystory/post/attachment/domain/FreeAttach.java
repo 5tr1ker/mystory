@@ -1,5 +1,6 @@
-package com.team.mystory.post.post.domain;
+package com.team.mystory.post.attachment.domain;
 
+import com.team.mystory.post.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +15,8 @@ public class FreeAttach {
 	private long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false , name="freepost_id")
-	private FreePost freePost;
+	@JoinColumn(nullable = false)
+	private Post post;
 	
 	@Column(name = "file_name" , nullable = false , length = 30)
 	private String fileName;

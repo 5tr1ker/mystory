@@ -44,7 +44,7 @@ public class ProfileService {
 			User user = loginRepository.findById(userId)
 					.orElseThrow(() -> new AccountException("찾을 수 없는 아이디입니다."));
 
-			user.setId(profileRequest.getUserId());
+			user.updateId(profileRequest.getUserId());
 			jwtService.deleteJwtToken(response);
 		}
 

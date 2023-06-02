@@ -1,116 +1,76 @@
 package com.team.mystory.post.post.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.team.mystory.post.post.dto.PostdataDTO;
-import com.team.mystory.post.post.dto.ReturnPostDataDTO;
-import com.team.mystory.post.post.repository.PostRepository;
-import com.team.mystory.post.attachment.service.AttachManager;
+import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.post.post.dto.PostRequest;
 import com.team.mystory.post.post.service.PostService;
-import com.team.mystory.post.post.service.ReadContentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.security.auth.login.AccountException;
 
 @RestController
-@Controller
+@RequiredArgsConstructor
+@RequestMapping("/posts")
 public class PostController {
 	
-	@Autowired PostService writtingService;
-	@Autowired PostRepository postRepos;
-	@Autowired AttachManager attachManager;
-	@Autowired ReadContentService commitService;
+	private final PostService postService;
 	
-	@RequestMapping(value = "/auth/newPost" , method = RequestMethod.POST)
-	public HashMap<String, Long> newPost(@RequestBody PostdataDTO postData) {
-		return writtingService.writePost(postData);
+	@PostMapping
+	public ResponseEntity<ResponseMessage> addPost(@RequestBody PostRequest postData , @CookieValue String accessToken)
+			throws AccountException {
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(postService.addPost(postData , accessToken));
 	}
 
-	@RequestMapping(value = "/totalPostDataCount" , method = RequestMethod.GET)
-	public int totalPostDataCount() {
-		return postRepos.getTotalPostDataCount();
-	}
-	
-	@RequestMapping(value = "/auth/uploadData/{postNumber}" , method = RequestMethod.POST)
-	public void fileUpload(@RequestPart(value = "file" , required = true) List<MultipartFile> file , @PathVariable("postNumber")Long postNumber) {
-		attachManager.fileUpload(file , postNumber);
-	}
-	
-	@RequestMapping(value = "/post" , method = RequestMethod.GET)
-	public List<ReturnPostDataDTO> getFreePost(Pageable pageable) {
-		return commitService.getFreePost(pageable);
-	}
-	
-	@RequestMapping(value = "/selectPost/{postId}" , method = RequestMethod.GET)
-	public HashMap<String, Object> selectPost(@PathVariable("postId") Long postId) {
-		HashMap<String, Object> hash = new HashMap<String, Object>();
-		hash.put("postData", commitService.getPostData(postId)); // Post정보
-		hash.put("tagData", postRepos.findPostTag(postId)); // Tag 정보
-		hash.put("attachment", postRepos.getAttachment(postId)); // Attach 정보
-		writtingService.updateView(postId);
-		return hash;
-	}
-	
-	@RequestMapping(value = "/auth/modifiedPost/{postId}" , method = RequestMethod.GET)
-	public HashMap<String, Object> modifiedPost(@PathVariable("postId") Long postId) {
-		HashMap<String, Object> hash = new HashMap<String, Object>();
-		hash.put("postData", postRepos.getViewPostData(postId)); // Post정보
-		hash.put("tagData", postRepos.findPostTag(postId)); // Tag 정보
-		hash.put("attachment", postRepos.modifiedAttachment(postId)); // Attach 정보
-		return hash;
-	}
-	
-	@RequestMapping(value = "/auth/likes/{postId}" , method = RequestMethod.PATCH)
-	public int updateLike(@PathVariable("postId") Long postId , @RequestBody Map<String , String> userId) {
-		return writtingService.updateLike(postId, userId.get("idStatus"));
-	}
-	
-	@RequestMapping(value = "/auth/post/{postId}" , method = RequestMethod.DELETE)
-	public int deletePost(@PathVariable("postId") Long postId) {
-		return writtingService.deletePost(postId);
-	}
-	
-	@RequestMapping(value = "/auth/modifiedPost/{postId}" , method = RequestMethod.PATCH)
-	public int modifiedPost(@PathVariable("postId") Long postId , @RequestBody PostdataDTO postData ) {
-		attachManager.modifiedUpload(postData.getDeletedFileList() , postId);
-		return writtingService.modifiedPost(postId, postData);
-	}
-	
-	@RequestMapping(value = "/findPostBySearch/{postContent}" , method = RequestMethod.GET)
-	public List<ReturnPostDataDTO> findPostBySearch(@PathVariable("postContent") String postContent) {
-		return postRepos.findPostBySearch(postContent);
-	}
-	
-	@RequestMapping(value = "/findPostBySearchAndTag/{tagData}" , method = RequestMethod.GET)
-	public List<ReturnPostDataDTO> findPostBySearchAndTag(@PathVariable("tagData") String tagData) {
-		return postRepos.findPostBySearchAndTag(tagData);
+	@GetMapping(value = "/count")
+	public ResponseEntity<ResponseMessage> getTotalNumberOfPosts() {
+		return ResponseEntity.ok().body(postService.getTotalNumberOfPosts());
 	}
 
-	/*
-	@RequestMapping(value = "/onDownload/{fileName}" , method = RequestMethod.GET)
-	public void onDownload(@PathVariable("fileName") String fileName , HttpServletResponse response) throws IOException {
-		// String filePath = "C:\\Users\\tjseo\\OneDrive\\바탕 화면\\study\\noticeBoardClient\\upload\\";
-		String realName = postRepos.getFileName(fileName);
-		String extend = realName.substring(realName.lastIndexOf('.') , realName.length());
-		
-		response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ";");
-		response.setContentType("text/plain");
-		
-		File downFile = new File(fileName + extend); //파일 다운로드
-	    FileInputStream fileIn = new FileInputStream(downFile); //파일 읽어오기
-	    ByteStreams.copy(fileIn, response.getOutputStream());
-	    response.flushBuffer();
+	@GetMapping
+	public ResponseEntity<ResponseMessage> getAllPost(Pageable pageable) {
+		return ResponseEntity.ok().body(postService.getAllPost(pageable));
+	}
+	
+	@GetMapping(value = "/{postId}")
+	public ResponseEntity<ResponseMessage> selectOnePost(@PathVariable("postId") Long postId) {
+		return ResponseEntity.ok().body(postService.findPostByPostId(postId));
 	}
 
-	 */
+	@DeleteMapping(value = "/{postId}")
+	public ResponseEntity<ResponseMessage> deletePost(@PathVariable("postId") Long postId) {
+		return ResponseEntity.ok().body(postService.deletePost(postId));
+	}
+
+	@PatchMapping(value = "/{postId}")
+	public ResponseEntity<ResponseMessage> updatePost(@PathVariable("postId") Long postId , @RequestBody PostRequest postData ) {
+		// attachManager.modifiedUpload(postData.getDeletedFileList() , postId);
+
+		return ResponseEntity.ok().body(postService.updatePost(postId, postData));
+	}
+
+	@PatchMapping(value = "/views/{postId}")
+	public ResponseEntity increasePostViews(@PathVariable long postId) {
+		postService.updatePostView(postId);
+
+		return ResponseEntity.ok().build();
+	}
+	
+	@PatchMapping(value = "/likes/{postId}")
+	public ResponseEntity<ResponseMessage> increasePostLike(@PathVariable Long postId , @CookieValue String accessToken) {
+		return ResponseEntity.ok().body(postService.increasePostLike(postId, accessToken));
+	}
+
+	@GetMapping(value = "/search/{postContent}")
+	public ResponseEntity<ResponseMessage> findPostBySearch(@PathVariable String postContent) {
+		return ResponseEntity.ok().body(postService.findPostBySearch(postContent));
+	}
+	
+	@GetMapping(value = "/search/tags/{tagData}")
+	public ResponseEntity<ResponseMessage> findPostByTag(@PathVariable String tagData) {
+		return ResponseEntity.ok().body(postService.findPostBySearchAndTag(tagData));
+	}
 }

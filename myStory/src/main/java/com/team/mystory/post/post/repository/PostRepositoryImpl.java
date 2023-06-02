@@ -1,80 +1,121 @@
 package com.team.mystory.post.post.repository;
 
-import com.team.mystory.post.post.dto.ReturnPostDataDTO;
-import com.team.mystory.post.post.domain.FreeAttach;
-import com.team.mystory.post.post.domain.FreePost;
-import com.team.mystory.post.post.domain.FreeWhoLike;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.team.mystory.account.user.domain.User;
+import com.team.mystory.post.post.domain.Post;
+import com.team.mystory.post.post.dto.PostListResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
-public class PostRepositoryImpl extends QuerydslRepositorySupport implements CustomPostRepository {
+import static com.team.mystory.account.user.domain.QUser.user;
+import static com.team.mystory.post.comment.domain.QFreeCommit.freeCommit;
+import static com.team.mystory.post.post.domain.QPost.post;
+import static com.team.mystory.post.tag.domain.QFreeTag.freeTag;
 
-	public PostRepositoryImpl() {
-		super(FreePost.class);
-	}
+
+@RequiredArgsConstructor
+public class PostRepositoryImpl implements CustomPostRepository {
+
+	private final JPAQueryFactory queryFactory;
 	
 	@Override
-	public List<FreeWhoLike> getRecommender(Long postId , String userId) {
-//		QFreePost qfp = QFreePost.freePost;
-//		QFreeWhoLike qhl = QFreeWhoLike.freeWhoLike;
-//
-//		JPQLQuery query = from(qfp);
-//
-//		return query.join(qfp.freeWhoLike , qhl).where(qhl.recommender.in(userId).and(qfp.numbers.eq(postId))).list(qhl);
-		return null;
+	public Optional<User> findRecommendationFromPost(Long postId , String userId) {
+		User result = queryFactory.select(user)
+				.from(post)
+				.innerJoin(post.writer).on(user.id.eq(userId))
+				.where(post.postId.eq(postId))
+				.fetchOne();
+
+		return Optional.ofNullable(result);
 	}
 
 	@Override
-	public List<ReturnPostDataDTO> findPostBySearch(String postContent) {
-//		QFreePost qfp = QFreePost.freePost;
+	public List<PostListResponse> findPostBySearch(String content) {
+//		Qpost qfp = Qpost.post;
 //
 //		JPQLQuery query = from(qfp);
-//		return query.where(qfp.content.contains(postContent).or(qfp.title.contains(postContent))).list(Projections.constructor(
-//				ReturnPostDataDTO.class	, qfp.numbers , qfp.title , qfp.writer , qfp.postTime , qfp.likes , qfp.views ));
-		return null;
+//		return query.where(qfp.content.contains(postContent).or(qfp.title.contains(postContent)))
+//		.list(Projections.constructor(
+//				PostListResponse.class	, qfp.numbers , qfp.title , qfp.writer , qfp.postDate , qfp.likes , qfp.views ));
+		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title
+				, user.id , post.postDate , post.likes , post.views))
+				.from(post)
+				.innerJoin(post.writer)
+				.where(post.content.contains(content).or(post.content.contains(content)))
+				.fetch();
 	}
 
 	@Override
-	public List<ReturnPostDataDTO> findPostBySearchAndTag(String tagData) {
+	public List<PostListResponse> findPostByTag(String tag) {
 //		QFreeTag qfm = QFreeTag.freeTag;
-//		QFreePost qfp = QFreePost.freePost;
+//		Qpost qfp = Qpost.post;
 //
 //		JPQLQuery query = from(qfm);
-//		return query.join(qfm.freePost , qfp).where(qfm.tagData.eq(tagData)).list(Projections.constructor(
-//				ReturnPostDataDTO.class	, qfp.numbers , qfp.title , qfp.writer , qfp.postTime , qfp.likes , qfp.views )) ;
-		return null;
-	}
-	
-	@Override
-	public FreePost findPostByNumbers(Long postNumber) {
-//		QFreePost fp = QFreePost.freePost;
-//
-//		JPQLQuery query = from(fp);
-//		return query.where(fp.numbers.eq(postNumber)).uniqueResult(fp);
-		return null;
-	}
-	
-	@Override
-	public List<FreeAttach> getAttachment(Long postId) {
-//		QFreePost qfp = QFreePost.freePost;
-//
-//		JPQLQuery query = from(qfp);
-//		FreePost result = query.where(qfp.numbers.eq(postId)).join(qfp.freeAttach).fetch().uniqueResult(qfp);
-//		if (result == null) return null;
-//		return result.getFreeAttach();
-		return null;
+//		return query.join(qfm.post , qfp).where(qfm.tagData.eq(tagData)).list(Projections.constructor(
+//				PostListResponse.class	, qfp.numbers , qfp.title , qfp.writer , qfp.postDate , qfp.likes , qfp.views )) ;
+		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title ,
+						user.id , post.postDate , post.likes , post.views))
+				.from(post)
+				.innerJoin(post.writer)
+				.innerJoin(post.freeTag).on(freeTag.tagData.eq(tag))
+				.fetch();
 	}
 
 	@Override
-	public List<FreeAttach> modifiedAttachment(Long postId) {
-//		QFreePost qfp = QFreePost.freePost;
-//
-//		JPQLQuery query = from(qfp);
-//		FreePost result = query.where(qfp.numbers.eq(postId)).join(qfp.freeAttach).fetch().uniqueResult(qfp);
-//		if (result == null) return null;
-//		return result.getFreeAttach();
-		return null;
+	public Optional<Post> findPostByPostId(long postId) {
+		Post result = queryFactory.select(post)
+				.from(post)
+				.where(post.postId.eq(postId))
+				.fetchOne();
+
+		return Optional.ofNullable(result);
 	}
-	
+
+	// SELECT new com.team.mystory.post.post.dto.PostListResponse(f.number , f.title , f.writer
+	// , f.postDate , f.likes , f.views , COUNT(c))
+	// FROM Post f LEFT OUTER JOIN f.freeCommit c group by f.number order by f.number DESC
+	@Override
+	public List<PostListResponse> getPostList(Pageable pageable) {
+		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId
+						, post.title , user.id , post.postDate , post.likes
+						, post.views , freeCommit.count()))
+				.from(post)
+				.innerJoin(post.writer)
+				.leftJoin(post.freeCommit)
+				.groupBy(post.postId)
+				.orderBy(post.postId.desc())
+				.fetch();
+	}
+
+	@Override
+	public long getTotalNumberOfPosts() {
+		return queryFactory.select(post.count())
+				.from(post)
+				.fetchOne();
+	}
+
+	// @Query("SELECT f.tagData from Post p join p.freeTag f where p.number = :postId")
+	@Override
+	public List<String> findTagsInPostId(long postId) {
+		return queryFactory.select(freeTag.tagData)
+				.from(post)
+				.innerJoin(post.freeTag)
+				.where(post.postId.eq(postId))
+				.fetch();
+	}
+
+	// @Modifying(clearAutomatically = true)
+	// UPDATE Post p set p.views = p.views + 1 where p.number = :postId
+	@Override
+	public void updatePostView(long postId) {
+		queryFactory.update(post)
+				.set(post.views , post.views.add(1))
+				.where(post.postId.eq(postId))
+				.execute();
+	}
+
 }

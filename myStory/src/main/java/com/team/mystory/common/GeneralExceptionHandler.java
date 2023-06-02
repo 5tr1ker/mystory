@@ -1,5 +1,6 @@
 package com.team.mystory.common;
 
+import com.team.mystory.post.post.exception.PostException;
 import com.team.mystory.security.jwt.exception.InvalidTokenException;
 import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class GeneralExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
     }
 
-    @ExceptionHandler({AccountException.class})
+    @ExceptionHandler({AccountException.class , PostException.class})
     public ResponseEntity accountExceptionHandler(Exception e) {
         ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
 

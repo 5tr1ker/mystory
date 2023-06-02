@@ -1,131 +1,124 @@
 package com.team.mystory.post.post.service;
 
-import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.post.post.domain.Post;
+import com.team.mystory.post.post.dto.PostListResponse;
+import com.team.mystory.post.post.dto.PostResponse;
+import com.team.mystory.post.post.exception.PostException;
+import com.team.mystory.security.jwt.support.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.team.mystory.post.post.dto.PostdataDTO;
-import com.team.mystory.post.comment.domain.FreeCommit;
-import com.team.mystory.post.post.domain.FreePost;
-import com.team.mystory.post.tag.domain.FreeTag;
-import com.team.mystory.post.post.domain.FreeWhoLike;
+import com.team.mystory.post.post.dto.PostRequest;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.post.comment.repository.CommitRepository;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.post.post.repository.PostRepository;
-import com.team.mystory.post.tag.repository.TagRepository;
+
+import javax.security.auth.login.AccountException;
+
+import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
+import static com.team.mystory.post.post.dto.PostResponse.createPostResponse;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class PostService {
 
-	@Autowired PostRepository writting;
-	@Autowired LoginRepository login;
-	@Autowired TagRepository tag;
-	@Autowired CommitRepository commit;
+	private final PostRepository postRepository;
+	private final LoginRepository loginRepository;
+	private final CommitRepository commitRepository;
+	private final JwtTokenProvider jwtTokenProvider;
 	
-	public HashMap<String, Long> writePost(PostdataDTO data) {
-		HashMap<String, Long> result = new HashMap<String, Long>();
-		
-		Long number = writting.getPostNumber();
-		FreePost fp = new FreePost();
-		fp.setContent(data.getPostContent().getContent());
-		fp.setTitle(data.getPostContent().getTitle());
-		fp.setPrivates(data.getPostOption().isPrivates());
-		fp.setBlockComm(data.getPostOption().isBlockComm());
-		if(number == null) fp.setNumbers(1);
-		else fp.setNumbers(number + 1);
-		
-		result.put("postNumber" , fp.getNumbers());
-		User user = login.findById(data.getIdStatus()).get(); // 사용자 아이디
-		fp.setWriter(user.getId()); // 작성자
-		fp.setIdinfo(user); // 편의 메소드에 접근
-		
-		String tagData[] = data.getLabelData(); // 태그 데이터
-		for(String str : tagData) {
-			FreeTag ft = new FreeTag(str);
-			fp.addTagData(ft);
-			ft.getFreePost().add(fp);
+	public ResponseMessage addPost(PostRequest postRequest , String token) throws AccountException {
+		String userId = jwtTokenProvider.getUserPk(token);
+		User user = loginRepository.findById(userId)
+				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
+
+		Post post = Post.createPost(postRequest);
+		for(String tag : postRequest.getTags()) {
+			post.addTag(tag);
 		}
-		try {
-			writting.save(fp);
-			user.addFreePost(fp);
-			login.save(user);
-			result.put("result" , 0L);
-			return result;
-		} catch(Exception e) {
-			result.put("result" , -1L);
-			return result;
-		}
+
+		user.addPost(post);
+
+		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 	
-	public int addCommit(String content , String writer , Long postId , Long postNumber , String postType) {
-		try {
-			FreeCommit fc = FreeCommit.createCommitData(content, writer , postNumber , postType); // 댓글 내용
-			FreePost fp = writting.findPostByNumbers(postId);
-			fp.addFreeCommit(fc);
-		
-			// writting.save(fp); 이미 영속화를 저장하면 fp가 2번 저장됨
-		} catch (Exception e) {
-			System.out.println("Service : postService 에서 오류가 발생했습니다. : " + e);
-			return -1;
+	public ResponseMessage deletePost(long postId) {
+		postRepository.deletePostByPostId(postId);
+
+		return ResponseMessage.of(REQUEST_SUCCESS);
+	}
+	
+	public ResponseMessage increasePostLike(long postId , String token) {
+		String userId = jwtTokenProvider.getUserPk(token);
+		Optional<User> user = postRepository.findRecommendationFromPost(postId , userId);
+		if(user.isPresent()) {
+			throw new PostException("이미 추천을 눌렀습니다.");
 		}
-		return 0;
+
+		Post post = postRepository.findPostByPostId(postId)
+				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
+		post.updateLike();
+
+		post.addRecommendation(user.get());
+
+		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 	
-	public int deletePost(Long postId) {
-		try {
-			writting.deleteByNumbers(postId);
-		} catch (Exception e) {
-			return -1;
-		}
-		return 0;
-	}
-	
-	public int updateLike(Long postId , String userName) {
-		if(writting.getRecommender(postId , userName).isEmpty()) {
-			FreePost fp = writting.findPostByNumbers(postId);
-			fp.setLikes(fp.getLikes() + 1); // 추천 수 증가
-			
-			FreeWhoLike wfl = FreeWhoLike.makefreeWhoLike(userName, fp);
-			fp.addWhoLike(wfl);
-			
-			return 0;
-		} else {
-			return -2;
-		}
-	}
-	
-	public int modifiedPost(Long postId , PostdataDTO postData) {
-		FreePost fp = writting.findPostByNumbers(postId);
-		
-		try {
-			fp.setContent(postData.getPostContent().getContent());
-			fp.setTitle(postData.getPostContent().getTitle());
-			fp.setBlockComm(postData.getPostOption().isBlockComm());
-			fp.setPrivates(postData.getPostOption().isPrivates());
-			
-			fp.getFreeTag().clear();
-			String TagData[] = postData.getLabelData();
-			for(String data : TagData) {
-				FreeTag ft = new FreeTag(data);
-				fp.addTagData(ft);
-			}
-		} catch (Exception e) {
-			System.out.println("postService modifiedPost 에서 오류가 발생했습니다. " + e);
-			return -1;
-		}
-		return 0;
-	}
-	
-	public void updateView(Long postId) {
-		writting.updatePostViews(postId);
-	}
-	
-	public void deleteAllCommit(String idInfo) {
-		commit.deleteAllCommit(idInfo);
+	public ResponseMessage updatePost(long postId , PostRequest postRequest) {
+		Post post = postRepository.findPostByPostId(postId)
+				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
+
+		post.updatePost(postRequest);
+
+		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 
+	public ResponseMessage<List<PostListResponse>> getAllPost(Pageable pageable) {
+		return ResponseMessage.of(REQUEST_SUCCESS, postRepository.getPostList(pageable));
+	}
+
+	/**
+	 * @Fix-up
+	 *
+	 *  첨부파일 추가 요망
+	 */
+	public ResponseMessage<PostResponse> findPostByPostId(long postId) {
+		Post post = postRepository.findPostByPostId(postId)
+				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
+
+		PostResponse postResponse = createPostResponse(post);
+		postResponse.addTagData(postRepository.findTagsInPostId(postId));
+
+		return ResponseMessage.of(REQUEST_SUCCESS , postResponse);
+	}
+
+	public ResponseMessage updatePostView(long postId) {
+		postRepository.updatePostView(postId);
+
+		return ResponseMessage.of(REQUEST_SUCCESS);
+	}
+	
+	public ResponseMessage deleteAllCommit(String idInfo) {
+		commitRepository.deleteAllCommit(idInfo);
+
+		return ResponseMessage.of(REQUEST_SUCCESS);
+	}
+
+	public ResponseMessage<Long> getTotalNumberOfPosts() {
+		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.getTotalNumberOfPosts());
+	}
+
+	public ResponseMessage findPostBySearch(String postContent) {
+		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.findPostBySearch(postContent));
+	}
+
+	public ResponseMessage findPostBySearchAndTag(String tag) {
+		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.findPostByTag(tag));
+	}
 }

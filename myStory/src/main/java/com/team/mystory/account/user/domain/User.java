@@ -5,25 +5,23 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
 import com.team.mystory.account.profile.domain.ProfileSetting;
 import com.team.mystory.account.user.dto.LoginRequest;
-import com.team.mystory.post.post.domain.FreePost;
+import com.team.mystory.post.post.domain.Post;
+import com.team.mystory.post.tag.domain.FreeTag;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIdentityInfo(generator = IntSequenceGenerator.class , property = "id")
 public class User implements UserDetails {
 
@@ -35,35 +33,44 @@ public class User implements UserDetails {
 	
 	@Column(name = "password" , nullable = false , length = 45)
 	private String password;
-	
+
 	@Temporal(TemporalType.DATE)
 	@CreationTimestamp
 	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy/MM/dd" , timezone = "Asia/Seoul")
 	@Column(name = "joindate_date")
 	private Date joinDate;
-	
-	@OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-	@JoinColumn(name = "profilesetting_id" , nullable = false)
-	private ProfileSetting profileSetting;
 
 	@Builder.Default
-	@OneToMany(mappedBy = "user" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-	private List<FreePost> freePost;
+	@OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+	@JoinColumn(name = "profilesetting_id" , nullable = false)
+	private ProfileSetting profileSetting = new ProfileSetting();
 
-	public static User createUser(LoginRequest loginRequest) {
-		User user = new User();
-		user.setId(loginRequest.getId());
-		user.setPassword(loginRequest.getPassword());
-		user.setProfileSetting(ProfileSetting.createInitProfileSetting());
-		user.setRoles(Collections.singletonList("ROLE_USER"));
-
-		return user;
-	}
+	@Builder.Default
+	@OneToMany(mappedBy = "writer" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	private List<Post> post = new ArrayList<>();
 
 	@Builder.Default
 	@ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles;
-	
+	private List<String> roles = new ArrayList<>();
+
+	public static User createUser(LoginRequest loginRequest) {
+		return User.builder()
+				.id(loginRequest.getId())
+				.password(loginRequest.getPassword())
+				.profileSetting(ProfileSetting.createInitProfileSetting())
+				.roles(Collections.singletonList("ROLE_USER"))
+				.build();
+	}
+
+	public void addPost(Post post) {
+		this.post.add(post);
+		post.setWriter(this);
+	}
+
+	public void updateId(String userId) {
+		this.id = userId;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.roles.stream()
@@ -103,10 +110,5 @@ public class User implements UserDetails {
 	public String getPassword() {
 		// TODO Auto-generated method stub
 		return password;
-	}
-
-	public void addFreePost(FreePost post) {
-		this.freePost.add(post);
-		post.setIdinfo(this);
 	}
 }

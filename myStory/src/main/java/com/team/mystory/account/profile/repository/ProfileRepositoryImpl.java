@@ -3,16 +3,15 @@ package com.team.mystory.account.profile.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team.mystory.account.profile.domain.ProfileSetting;
 import com.team.mystory.account.profile.dto.StatisticsResponse;
-import com.team.mystory.post.comment.domain.QFreeCommit;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 import java.util.Optional;
 
-import static com.team.mystory.post.comment.domain.QFreeCommit.freeCommit;
-import static com.team.mystory.post.post.domain.QFreePost.freePost;
-import static com.team.mystory.account.user.domain.QUser.user;
 import static com.team.mystory.account.profile.domain.QProfileSetting.profileSetting;
+import static com.team.mystory.account.user.domain.QUser.user;
+import static com.team.mystory.post.comment.domain.QFreeCommit.freeCommit;
+import static com.team.mystory.post.post.domain.QPost.post;
 
 @RequiredArgsConstructor
 public class ProfileRepositoryImpl implements CustomProfileRepository {
@@ -31,13 +30,14 @@ public class ProfileRepositoryImpl implements CustomProfileRepository {
 
     @Override
     public StatisticsResponse getStatisticsOfUser(String userId) {
-        long totalPost = queryFactory.select(freePost.count())
-                .from(freePost)
-                .innerJoin(freePost.user).on(user.id.eq(userId)).fetchOne();
 
-        Integer totalView = queryFactory.select(freePost.views.sum())
-                .from(freePost)
-                .innerJoin(freePost.user).on(user.id.eq(userId)).fetchOne();
+        long totalPost = queryFactory.select(post.count())
+                .from(post)
+                .innerJoin(post.writer).on(user.id.eq(userId)).fetchOne();
+
+        Integer totalView = queryFactory.select(post.views.sum())
+                .from(post)
+                .innerJoin(post.writer).on(user.id.eq(userId)).fetchOne();
 
         if(totalView == null) {
             totalView = 0;

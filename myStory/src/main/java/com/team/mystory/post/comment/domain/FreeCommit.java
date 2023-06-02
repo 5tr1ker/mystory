@@ -2,7 +2,7 @@ package com.team.mystory.post.comment.domain;
 
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.common.PostBaseEntity;
-import com.team.mystory.post.post.domain.FreePost;
+import com.team.mystory.post.post.domain.Post;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,8 +23,8 @@ public class FreeCommit extends PostBaseEntity {
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "freepost_id" , nullable = false)
-	private FreePost freePost;
+	@JoinColumn(nullable = false)
+	private Post post;
 	
 	@Column(name = "post_number" , nullable = false)
 	private Long postNumber;
