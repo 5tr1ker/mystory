@@ -64,13 +64,13 @@ public class LoginService {
 		Cookie refreshToken = new Cookie("refreshToken", tokenDTO.getRefreshToken());
 		refreshToken.setPath("/");
 		refreshToken.setMaxAge(14 * 24 * 60 * 60 * 1000);
-		refreshToken.setSecure(true);
+		//refreshToken.setSecure(true);
 		refreshToken.setHttpOnly(true);
 
 		Cookie accessToken = new Cookie("accessToken", tokenDTO.getRefreshToken());
 		accessToken.setPath("/");
 		accessToken.setMaxAge(30 * 60 * 1000);
-		accessToken.setSecure(true);
+		//accessToken.setSecure(true);
 		accessToken.setHttpOnly(true);
 
 		response.addCookie(refreshToken);

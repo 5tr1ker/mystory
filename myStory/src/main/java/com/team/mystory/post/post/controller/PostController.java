@@ -45,6 +45,11 @@ public class PostController {
 		return ResponseEntity.ok().body(postService.deletePost(postId));
 	}
 
+	/**
+	 * @Fix-up
+	 *
+	 * PostController에서 첨부파일 수정 요망
+	 */
 	@PatchMapping(value = "/{postId}")
 	public ResponseEntity<ResponseMessage> updatePost(@PathVariable("postId") Long postId , @RequestBody PostRequest postData ) {
 		// attachManager.modifiedUpload(postData.getDeletedFileList() , postId);
@@ -53,24 +58,22 @@ public class PostController {
 	}
 
 	@PatchMapping(value = "/views/{postId}")
-	public ResponseEntity increasePostViews(@PathVariable long postId) {
-		postService.updatePostView(postId);
-
-		return ResponseEntity.ok().build();
+	public ResponseEntity<ResponseMessage> increasePostViews(@PathVariable long postId) {
+		return ResponseEntity.ok().body(postService.updatePostView(postId));
 	}
 	
 	@PatchMapping(value = "/likes/{postId}")
-	public ResponseEntity<ResponseMessage> increasePostLike(@PathVariable Long postId , @CookieValue String accessToken) {
+	public ResponseEntity<ResponseMessage> increasePostLike(@PathVariable Long postId , @CookieValue String accessToken) throws AccountException {
 		return ResponseEntity.ok().body(postService.increasePostLike(postId, accessToken));
 	}
 
 	@GetMapping(value = "/search/{postContent}")
-	public ResponseEntity<ResponseMessage> findPostBySearch(@PathVariable String postContent) {
-		return ResponseEntity.ok().body(postService.findPostBySearch(postContent));
+	public ResponseEntity<ResponseMessage> findPostBySearch(Pageable pageable, @PathVariable String postContent) {
+		return ResponseEntity.ok().body(postService.findPostBySearch(pageable, postContent));
 	}
 	
 	@GetMapping(value = "/search/tags/{tagData}")
-	public ResponseEntity<ResponseMessage> findPostByTag(@PathVariable String tagData) {
-		return ResponseEntity.ok().body(postService.findPostBySearchAndTag(tagData));
+	public ResponseEntity<ResponseMessage> findPostByTag(Pageable pageable, @PathVariable String tagData) {
+		return ResponseEntity.ok().body(postService.findPostBySearchAndTag(pageable, tagData));
 	}
 }

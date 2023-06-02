@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @Builder
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class FreeTag {
@@ -22,10 +21,6 @@ public class FreeTag {
 	
 	@Column(name = "tagdata" , nullable = false , length = 15)
 	private String tagData;
-
-	@Builder.Default
-	@ManyToMany(mappedBy = "freeTag")
-	private List<Post> post = new ArrayList<>();
 
 	public FreeTag(String tagData) {
 		this.tagData = tagData;

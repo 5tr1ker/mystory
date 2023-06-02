@@ -108,7 +108,6 @@ public class Post {
     public void addTag(String tag) {
         FreeTag tagEntity = FreeTag.createFreeTag(tag);
         this.freeTag.add(tagEntity);
-        tagEntity.getPost().add(this);
     }
 
     public void addRecommendation(User user) {

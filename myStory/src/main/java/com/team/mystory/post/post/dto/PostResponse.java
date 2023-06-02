@@ -13,10 +13,11 @@ import java.util.List;
 public class PostResponse {
     private long postId;
     private String title;
+    private String content;
     private int views;
     private int likes;
     private boolean isPrivate;
-    private boolean blockComment;
+    private boolean isBlockComment;
 
     @Builder.Default
     List<String> tags = new ArrayList<>();
@@ -28,10 +29,11 @@ public class PostResponse {
         return PostResponse.builder()
                 .postId(post.getPostId())
                 .title(post.getTitle())
+                .content(post.getContent())
                 .views(post.getViews())
                 .likes(post.getLikes())
                 .isPrivate(post.isPrivate())
-                .blockComment(post.isBlockComment())
+                .isBlockComment(post.isBlockComment())
                 .build();
     }
 

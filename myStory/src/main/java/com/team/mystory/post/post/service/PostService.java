@@ -18,6 +18,7 @@ import com.team.mystory.account.user.domain.User;
 import com.team.mystory.post.comment.repository.CommitRepository;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.post.post.repository.PostRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.security.auth.login.AccountException;
 
@@ -32,7 +33,8 @@ public class PostService {
 	private final LoginRepository loginRepository;
 	private final CommitRepository commitRepository;
 	private final JwtTokenProvider jwtTokenProvider;
-	
+
+	@Transactional
 	public ResponseMessage addPost(PostRequest postRequest , String token) throws AccountException {
 		String userId = jwtTokenProvider.getUserPk(token);
 		User user = loginRepository.findById(userId)
@@ -47,29 +49,32 @@ public class PostService {
 
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
-	
+
+	@Transactional
 	public ResponseMessage deletePost(long postId) {
 		postRepository.deletePostByPostId(postId);
 
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
-	
-	public ResponseMessage increasePostLike(long postId , String token) {
+
+	@Transactional
+	public ResponseMessage increasePostLike(long postId , String token) throws AccountException {
 		String userId = jwtTokenProvider.getUserPk(token);
-		Optional<User> user = postRepository.findRecommendationFromPost(postId , userId);
-		if(user.isPresent()) {
-			throw new PostException("이미 추천을 눌렀습니다.");
-		}
+		postRepository.findRecommendationFromPost(postId , userId)
+				.ifPresent(a -> { throw new PostException("이미 추천을 눌렀습니다."); });
 
 		Post post = postRepository.findPostByPostId(postId)
 				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
 		post.updateLike();
 
-		post.addRecommendation(user.get());
+		User user = loginRepository.findById(userId)
+				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
+		post.addRecommendation(user);
 
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
-	
+
+	@Transactional
 	public ResponseMessage updatePost(long postId , PostRequest postRequest) {
 		Post post = postRepository.findPostByPostId(postId)
 				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
@@ -98,6 +103,7 @@ public class PostService {
 		return ResponseMessage.of(REQUEST_SUCCESS , postResponse);
 	}
 
+	@Transactional
 	public ResponseMessage updatePostView(long postId) {
 		postRepository.updatePostView(postId);
 
@@ -114,11 +120,11 @@ public class PostService {
 		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.getTotalNumberOfPosts());
 	}
 
-	public ResponseMessage findPostBySearch(String postContent) {
-		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.findPostBySearch(postContent));
+	public ResponseMessage findPostBySearch(Pageable pageable, String postContent) {
+		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.findPostBySearch(pageable, postContent));
 	}
 
-	public ResponseMessage findPostBySearchAndTag(String tag) {
-		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.findPostByTag(tag));
+	public ResponseMessage findPostBySearchAndTag(Pageable pageable, String tag) {
+		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.findPostByTag(pageable, tag));
 	}
 }

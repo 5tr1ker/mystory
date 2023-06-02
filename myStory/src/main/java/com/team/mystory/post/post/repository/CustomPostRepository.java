@@ -11,8 +11,8 @@ import com.team.mystory.post.post.domain.Post;
 
 public interface CustomPostRepository {
 	Optional<User> findRecommendationFromPost(Long postId, String userId);
-	List<PostListResponse> findPostBySearch(String content);
-	List<PostListResponse> findPostByTag(String tag);
+	List<PostListResponse> findPostBySearch(Pageable pageable, String content);
+	List<PostListResponse> findPostByTag(Pageable pageable, String tag);
 	List<PostListResponse> getPostList(Pageable pageable);
 	long getTotalNumberOfPosts();
 	Optional<Post> findPostByPostId(long postId);
