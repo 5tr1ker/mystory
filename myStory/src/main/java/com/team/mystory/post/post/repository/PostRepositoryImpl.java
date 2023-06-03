@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.team.mystory.account.user.domain.QUser.user;
-import static com.team.mystory.post.comment.domain.QFreeCommit.freeCommit;
+import static com.team.mystory.post.comment.domain.QComment.comment;
 import static com.team.mystory.post.post.domain.QPost.post;
 import static com.team.mystory.post.tag.domain.QFreeTag.freeTag;
 
@@ -36,10 +36,10 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> findPostBySearch(Pageable pageable , String content) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title
-				, user.id , post.postDate , post.likes , post.views , freeCommit.count()))
+				, user.id , post.postDate , post.likes , post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
-				.leftJoin(post.freeCommit , freeCommit).on(freeCommit.post.eq(post))
+				.leftJoin(post.comment , comment).on(comment.post.eq(post))
 				.where(post.content.contains(content).or(post.title.contains(content)))
 				.groupBy(post.postId , post.title , user)
 				.orderBy(post.postId.desc())
@@ -51,11 +51,11 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> findPostByTag(Pageable pageable , String tag) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title ,
-						user.id , post.postDate , post.likes , post.views , freeCommit.count()))
+						user.id , post.postDate , post.likes , post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.freeTag , freeTag).on(freeTag.tagData.eq(tag))
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
-				.leftJoin(post.freeCommit , freeCommit).on(freeCommit.post.eq(post))
+				.leftJoin(post.comment , comment).on(comment.post.eq(post))
 				.groupBy(post.postId , post.title , user)
 				.orderBy(post.postId.desc())
 				.offset(pageable.getOffset())
@@ -77,10 +77,10 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	public List<PostListResponse> getPostList(Pageable pageable) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId
 						, post.title , user.id , post.postDate , post.likes
-						, post.views , freeCommit.count()))
+						, post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
-				.leftJoin(post.freeCommit , freeCommit).on(freeCommit.post.eq(post))
+				.leftJoin(post.comment , comment).on(comment.post.eq(post))
 				.groupBy(post.postId , post.title , user)
 				.orderBy(post.postId.desc())
 				.offset(pageable.getOffset())

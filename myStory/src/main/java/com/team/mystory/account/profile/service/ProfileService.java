@@ -13,9 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.team.mystory.post.comment.repository.CommitRepository;
-import com.team.mystory.post.post.repository.PostRepository;
-
 import javax.security.auth.login.AccountException;
 
 @Service

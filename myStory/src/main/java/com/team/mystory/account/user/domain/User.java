@@ -42,7 +42,7 @@ public class User implements UserDetails {
 
 	@Builder.Default
 	@OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-	@JoinColumn(name = "profilesetting_id" , nullable = false)
+	@JoinColumn(nullable = false)
 	private ProfileSetting profileSetting = new ProfileSetting();
 
 	@Builder.Default

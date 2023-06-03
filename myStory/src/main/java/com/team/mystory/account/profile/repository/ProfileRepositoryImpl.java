@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import static com.team.mystory.account.profile.domain.QProfileSetting.profileSetting;
 import static com.team.mystory.account.user.domain.QUser.user;
-import static com.team.mystory.post.comment.domain.QFreeCommit.freeCommit;
+import static com.team.mystory.post.comment.domain.QComment.comment;
 import static com.team.mystory.post.post.domain.QPost.post;
 
 @RequiredArgsConstructor
@@ -43,9 +43,9 @@ public class ProfileRepositoryImpl implements CustomProfileRepository {
             totalView = 0;
         }
 
-        long totalComment = queryFactory.select(freeCommit.count())
-                .from(freeCommit)
-                .innerJoin(freeCommit.user).on(user.id.eq(userId)).fetchOne();
+        long totalComment = queryFactory.select(comment.count())
+                .from(comment)
+                .innerJoin(comment.writer).on(user.id.eq(userId)).fetchOne();
 
         Date joinDate = queryFactory.select(user.joinDate)
                 .from(user)

@@ -1,14 +1,13 @@
 package com.team.mystory.post.post.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.post.attachment.domain.FreeAttach;
-import com.team.mystory.post.comment.domain.FreeCommit;
+import com.team.mystory.post.comment.domain.Comment;
 import com.team.mystory.post.post.dto.PostRequest;
 import com.team.mystory.post.tag.domain.FreeTag;
 import jakarta.persistence.*;
@@ -55,7 +54,7 @@ public class Post {
     private User writer = new User();
 
     @Builder.Default
-    @OneToMany(cascade = CascadeType.PERSIST , orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<User> recommendation = new ArrayList<>();
 
     @Builder.Default
@@ -64,12 +63,12 @@ public class Post {
     private List<FreeTag> freeTag = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "post", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "post")
     private List<FreeAttach> freeAttach = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FreeCommit> freeCommit = new ArrayList<>();
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Comment> comment = new ArrayList<>();
 
     public static Post createPost(PostRequest postRequest) {
         return Post.builder()
@@ -99,8 +98,8 @@ public class Post {
         attach.setPost(this);
     }
 
-    public void addFreeCommit(FreeCommit commit) {
-        freeCommit.add(commit);
+    public void addFreeCommit(Comment commit) {
+        comment.add(commit);
         commit.setPost(this);
     }
 
@@ -113,5 +112,6 @@ public class Post {
 
     public void addRecommendation(User user) {
         this.recommendation.add(user);
+        updateLike();
     }
 }

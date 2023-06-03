@@ -35,12 +35,16 @@ public class PostService {
 		User user = loginRepository.findById(userId)
 				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
 
+		user.addPost(createNewPost(postRequest));
+
+		return ResponseMessage.of(REQUEST_SUCCESS);
+	}
+
+	public Post createNewPost(PostRequest postRequest) {
 		Post post = Post.createPost(postRequest);
 		post.addTagFromTagList(postRequest.getTags());
 
-		user.addPost(post);
-
-		return ResponseMessage.of(REQUEST_SUCCESS);
+		return post;
 	}
 
 	@Transactional
@@ -66,7 +70,6 @@ public class PostService {
 		User user = loginRepository.findById(userId)
 				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
 
-		post.updateLike();
 		post.addRecommendation(user);
 
 		return ResponseMessage.of(REQUEST_SUCCESS);
