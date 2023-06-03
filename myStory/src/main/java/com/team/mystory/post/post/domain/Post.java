@@ -1,6 +1,7 @@
 package com.team.mystory.post.post.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -86,9 +87,7 @@ public class Post {
         this.isBlockComment = postRequest.isBlockComment();
 
         this.freeTag.clear();
-        for(String tag : postRequest.getTags()) {
-            this.addTag(tag);
-        }
+        addTagFromTagList(postRequest.getTags());
     }
 
     public void updateLike() {
@@ -105,9 +104,11 @@ public class Post {
         commit.setPost(this);
     }
 
-    public void addTag(String tag) {
-        FreeTag tagEntity = FreeTag.createFreeTag(tag);
-        this.freeTag.add(tagEntity);
+    public void addTagFromTagList(String[] tagList) {
+        for(String tag : tagList) {
+            FreeTag tagEntity = FreeTag.createFreeTag(tag);
+            this.freeTag.add(tagEntity);
+        }
     }
 
     public void addRecommendation(User user) {

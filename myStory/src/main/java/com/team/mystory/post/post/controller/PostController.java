@@ -41,8 +41,8 @@ public class PostController {
 	}
 
 	@DeleteMapping(value = "/{postId}")
-	public ResponseEntity<ResponseMessage> deletePost(@PathVariable("postId") Long postId) {
-		return ResponseEntity.ok().body(postService.deletePost(postId));
+	public ResponseEntity<ResponseMessage> deletePost(@PathVariable("postId") Long postId , @CookieValue String accessToken) {
+		return ResponseEntity.ok().body(postService.deletePost(postId , accessToken));
 	}
 
 	/**
@@ -51,10 +51,11 @@ public class PostController {
 	 * PostController에서 첨부파일 수정 요망
 	 */
 	@PatchMapping(value = "/{postId}")
-	public ResponseEntity<ResponseMessage> updatePost(@PathVariable("postId") Long postId , @RequestBody PostRequest postData ) {
+	public ResponseEntity<ResponseMessage> updatePost(@PathVariable("postId") Long postId
+			, @CookieValue String accessToken , @RequestBody PostRequest postData ) {
 		// attachManager.modifiedUpload(postData.getDeletedFileList() , postId);
 
-		return ResponseEntity.ok().body(postService.updatePost(postId, postData));
+		return ResponseEntity.ok().body(postService.updatePost(postId, accessToken, postData));
 	}
 
 	@PatchMapping(value = "/views/{postId}")

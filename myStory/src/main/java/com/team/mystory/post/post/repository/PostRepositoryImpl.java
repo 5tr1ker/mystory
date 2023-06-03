@@ -112,4 +112,15 @@ public class PostRepositoryImpl implements CustomPostRepository {
 				.execute();
 	}
 
+	@Override
+	public Optional<Post> findPostByPostIdAndUserId(long postId, String userId) {
+		Post result = queryFactory.select(post)
+				.from(post)
+				.innerJoin(post.writer , user).on(user.id.eq(userId))
+				.where(post.postId.eq(postId))
+				.fetchOne();
+
+		return Optional.ofNullable(result);
+	}
+
 }

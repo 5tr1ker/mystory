@@ -21,7 +21,6 @@ import com.team.mystory.post.post.service.PostService;
 public class CommitController {
 
 	@Autowired CommitRepository commitRepos;
-	@Autowired PostService postService;
 	@Autowired CommentService commentService;
 	
 	@RequestMapping(value = "/commit/{postId}" , method = RequestMethod.GET )
@@ -41,7 +40,7 @@ public class CommitController {
 	
 	@RequestMapping(value = "/auth/allCommit/{idInfo}" , method = RequestMethod.DELETE)
 	public void deleteAllCommit(@PathVariable("idInfo") String idInfo ) {
-		postService.deleteAllCommit(idInfo);
+		commentService.deleteAllCommit(idInfo);
 	}
 	
 	@RequestMapping(value = "/notifice/{idInfo}" , method = RequestMethod.GET)

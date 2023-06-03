@@ -1,5 +1,6 @@
 package com.team.mystory.post.comment.service;
 
+import com.team.mystory.common.ResponseMessage;
 import com.team.mystory.post.comment.domain.FreeCommit;
 import com.team.mystory.post.comment.repository.CommitRepository;
 import com.team.mystory.post.post.domain.Post;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +32,12 @@ public class CommentService {
         fp.addFreeCommit(fc);
 
         return 0;
+    }
+
+    public ResponseMessage deleteAllCommit(String idInfo) {
+        commitRepository.deleteAllCommit(idInfo);
+
+        return ResponseMessage.of(REQUEST_SUCCESS);
     }
 
 }
