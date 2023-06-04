@@ -2,7 +2,8 @@ package com.team.mystory.s3.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.post.attachment.dto.AttachmentResponse;
+import com.team.mystory.post.attachment.repository.AttachmentRepository;
 import com.team.mystory.s3.exception.S3Exception;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,11 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FileUploadService {
+public class S3Service {
     private final AmazonS3Client amazonS3Client;
+
+    private final AttachmentRepository attachmentRepository;
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -47,6 +52,14 @@ public class FileUploadService {
 
         if(isObjectExist) {
             amazonS3Client.deleteObject(bucket, fileName);
+        }
+    }
+
+    public void deleteFileByPostId(long postId) {
+        List<AttachmentResponse> attachmentResponses = attachmentRepository.findAttachmentsByPostId(postId);
+
+        for(AttachmentResponse attachmentResponse : attachmentResponses) {
+            deleteFile(attachmentResponse.getUuidFileName());
         }
     }
 

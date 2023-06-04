@@ -11,13 +11,16 @@ import com.team.mystory.post.post.dto.PostRequest;
 import com.team.mystory.post.post.dto.PostResponse;
 import com.team.mystory.post.post.exception.PostException;
 import com.team.mystory.post.post.repository.PostRepository;
+import com.team.mystory.s3.service.S3Service;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.security.auth.login.AccountException;
+import java.io.IOException;
 import java.util.List;
 
 import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
@@ -31,14 +34,19 @@ public class PostService {
 	private final LoginRepository loginRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final AttachmentRepository attachmentRepository;
+	private final AttachmentService attachmentService;
+	private final S3Service s3Service;
 
 	@Transactional
-	public ResponseMessage addPost(PostRequest postRequest , String token) throws AccountException {
+	public ResponseMessage addPost(PostRequest postRequest , List<MultipartFile> multipartFiles , String token)
+			throws AccountException, IOException {
 		String userId = jwtTokenProvider.getUserPk(token);
 		User user = loginRepository.findById(userId)
 				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
 
-		user.addPost(createNewPost(postRequest));
+		Post post = createNewPost(postRequest);
+		user.addPost(post);
+		attachmentService.fileUpload(multipartFiles , post);
 
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
@@ -53,10 +61,10 @@ public class PostService {
 	@Transactional
 	public ResponseMessage deletePost(long postId , String token) {
 		String userId = jwtTokenProvider.getUserPk(token);
-
 		postRepository.findPostByPostIdAndUserId(postId , userId)
 				.orElseThrow(() -> new PostException("본인이 작성한 포스트만 삭제할 수 있습니다."));
 
+		s3Service.deleteFileByPostId(postId);
 		postRepository.deletePostByPostId(postId);
 
 		return ResponseMessage.of(REQUEST_SUCCESS);
@@ -79,28 +87,40 @@ public class PostService {
 	}
 
 	@Transactional
-	public ResponseMessage updatePost(long postId , String token , PostRequest postRequest) {
+	public ResponseMessage updatePost(long postId , String token , PostRequest postRequest
+			, List<MultipartFile> multipartFiles) throws IOException {
 		String userId = jwtTokenProvider.getUserPk(token);
 
+		Post post = findPostByIdAndValidateOwnership(postId , userId);
+
+		post.updatePost(postRequest);
+		uploadAttachments(multipartFiles , post);
+		deleteAttachments(postRequest.getDeletedFileIds(), postId);
+
+		return ResponseMessage.of(REQUEST_SUCCESS);
+	}
+
+	public Post findPostByIdAndValidateOwnership(long postId , String userId) {
 		Post post = postRepository.findPostByPostId(postId)
 				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
 		postRepository.findPostByPostIdAndUserId(postId , userId)
 				.orElseThrow(() -> new PostException("본인이 작성한 포스트만 수정할 수 있습니다."));
 
-		post.updatePost(postRequest);
+		return post;
+	}
 
-		return ResponseMessage.of(REQUEST_SUCCESS);
+	public void deleteAttachments(long[] deletedFileIds, long postId) {
+		attachmentService.deletedAttachment(deletedFileIds, postId);
+	}
+
+	public void uploadAttachments(List<MultipartFile> multipartFiles, Post post) throws IOException {
+		attachmentService.fileUpload(multipartFiles, post);
 	}
 
 	public ResponseMessage<List<PostListResponse>> getAllPost(Pageable pageable) {
 		return ResponseMessage.of(REQUEST_SUCCESS, postRepository.getPostList(pageable));
 	}
 
-	/**
-	 * @Fix-up
-	 *
-	 *  첨부파일 추가 요망
-	 */
 	public ResponseMessage<PostResponse> findPostByPostId(long postId) {
 		Post post = postRepository.findPostByPostId(postId)
 				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));

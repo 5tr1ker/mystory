@@ -1,6 +1,7 @@
 package com.team.mystory.post.post.controller;
 
 import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.post.attachment.service.AttachmentService;
 import com.team.mystory.post.post.dto.PostRequest;
 import com.team.mystory.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.security.auth.login.AccountException;
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,10 +23,12 @@ public class PostController {
 	private final PostService postService;
 	
 	@PostMapping
-	public ResponseEntity<ResponseMessage> addPost(@RequestBody PostRequest postData , @CookieValue String accessToken)
-			throws AccountException {
+	public ResponseEntity<ResponseMessage> addPost(@RequestPart PostRequest postRequest
+			, @RequestPart(required = false) List<MultipartFile> multipartFiles , @CookieValue String accessToken)
+			throws AccountException, IOException {
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(postService.addPost(postData , accessToken));
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(postService.addPost(postRequest , multipartFiles , accessToken));
 	}
 
 	@GetMapping(value = "/count")
@@ -45,17 +51,12 @@ public class PostController {
 		return ResponseEntity.ok().body(postService.deletePost(postId , accessToken));
 	}
 
-	/**
-	 * @Fix-up
-	 *
-	 * PostController에서 첨부파일 수정 요망
-	 */
-	@PatchMapping(value = "/{postId}")
+	@PutMapping(value = "/{postId}")
 	public ResponseEntity<ResponseMessage> updatePost(@PathVariable("postId") Long postId
-			, @CookieValue String accessToken , @RequestBody PostRequest postData ) {
-		// attachManager.modifiedUpload(postData.getDeletedFileList() , postId);
+			, @CookieValue String accessToken , @RequestPart PostRequest postRequest
+			, @RequestPart(required = false) List<MultipartFile> multipartFiles) throws IOException {
 
-		return ResponseEntity.ok().body(postService.updatePost(postId, accessToken, postData));
+		return ResponseEntity.ok().body(postService.updatePost(postId, accessToken, postRequest , multipartFiles));
 	}
 
 	@PatchMapping(value = "/views/{postId}")

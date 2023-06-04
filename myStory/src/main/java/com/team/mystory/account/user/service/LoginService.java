@@ -49,7 +49,7 @@ public class LoginService {
 		User result = loginRepository.findById(loginRequest.getId())
 				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
 
-		if(!result.getUserType().equals(UserType.OAUTH_USER)) {
+		if(result.getUserType().equals(UserType.OAUTH_USER)) {
 			throw new AccountException("해당 계정은 OAuth2.0 사용자입니다.");
 		}
 

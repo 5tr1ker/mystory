@@ -13,5 +13,5 @@ public class PostRequest {
 	private boolean isPrivate;
 	private String title;
 	private String content;
-	private String[] deletedFiles;
+	private long[] deletedFileIds;
 }
