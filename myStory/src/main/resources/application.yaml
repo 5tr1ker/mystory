@@ -11,11 +11,15 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
   sql:
     init:
       mode: always
       platform: dev
-      # generate-ddl: true
 
   security:
     oauth2:

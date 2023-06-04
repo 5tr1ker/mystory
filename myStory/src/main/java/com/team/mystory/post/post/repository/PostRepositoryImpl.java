@@ -1,11 +1,15 @@
 package com.team.mystory.post.post.repository;
 
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.post.post.domain.Post;
 import com.team.mystory.post.post.dto.PostListResponse;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.ast.spi.SqlExpressionAccess;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

@@ -1,13 +1,3 @@
--- alter table attachment drop foreign key FKc3q85kavbh8lcvbup4502my8h;
--- alter table comment drop foreign key FKl8nbwgv77jgcnpgklda5ajghi;
--- alter table comment drop foreign key FKra3p7gj3v0il648bjklivjsil;
--- alter table post drop foreign key FKlp81xxsilmv0wcmmiseh3rsio;
--- alter table post_recommendation drop foreign key FKnxodvna78e7a0mmoftm430v6f;
--- alter table post_recommendation drop foreign key FKjx9y24ucmuk0jhifttugnevq6;
--- alter table post_tag drop foreign key FK3b75g7y6ldgftwxriyqvoul11;
--- alter table post_tag drop foreign key FK92pj99lj917debbgtj0r12pxn;
--- alter table user drop foreign key FK2hcgqi8iq1ms6q4166xamo88g;
-
 SET FOREIGN_KEY_CHECKS = 0;
 
 drop table if exists attachment;
@@ -63,6 +53,8 @@ create table post
     primary key (post_id),
     foreign key (writer_user_key) references user (user_key)
 );
+create fulltext index idx_post_title on post(title);
+create fulltext index idx_post_content on post(content);
 
 create table attachment
 (
