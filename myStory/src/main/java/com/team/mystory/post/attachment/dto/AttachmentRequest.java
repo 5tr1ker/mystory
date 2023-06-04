@@ -10,7 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttachmentRequest {
-    private String realFileName;
-    private String uuidFileName;
-    private long fileSize;
+    private long[] attachmentId;
 }

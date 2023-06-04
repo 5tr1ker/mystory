@@ -1,25 +1,25 @@
 package com.team.mystory.post.attachment.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
-import com.team.mystory.common.ResponseCode;
 import com.team.mystory.common.ResponseMessage;
 import com.team.mystory.post.attachment.domain.Attachment;
+import com.team.mystory.post.attachment.dto.AttachmentRequest;
 import com.team.mystory.post.attachment.dto.AttachmentResponse;
 import com.team.mystory.post.attachment.repository.AttachmentRepository;
+import com.team.mystory.post.post.domain.Post;
 import com.team.mystory.post.post.exception.PostException;
+import com.team.mystory.post.post.repository.PostRepository;
 import com.team.mystory.s3.service.FileUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.team.mystory.post.post.domain.Post;
-import com.team.mystory.post.post.repository.PostRepository;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
 
@@ -52,9 +52,20 @@ public class AttachmentService {
     }
 
     @Transactional
-    public void modifyAttachment(long postId) {
+    public ResponseMessage deletedAttachment(AttachmentRequest attachmentRequest , long postId) {
         List<AttachmentResponse> attachments = attachmentRepository.findAttachmentsByPostId(postId);
+        List<Long> deletedAttachmentId = Arrays.stream(attachmentRequest.getAttachmentId()).boxed()
+                .collect(Collectors.toCollection(ArrayList::new));
 
+        for(AttachmentResponse attachmentResponse : attachments) {
+            if(deletedAttachmentId.contains(attachmentResponse.getAttachmentId())) {
+                attachmentRepository.deleteById(attachmentResponse.getAttachmentId());
+
+                fileUploadService.deleteFile(attachmentResponse.getUuidFileName());
+            }
+        }
+
+        return ResponseMessage.of(REQUEST_SUCCESS);
     }
 
 }

@@ -14,4 +14,5 @@ public class AttachmentResponse {
     private String realFileName;
     private String s3Url;
     private long fileSize;
+    private String uuidFileName;
 }

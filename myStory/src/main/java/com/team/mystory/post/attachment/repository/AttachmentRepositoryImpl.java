@@ -17,8 +17,8 @@ public class AttachmentRepositoryImpl implements CustomAttachmentRepository {
 
     @Override
     public List<AttachmentResponse> findAttachmentsByPostId(long postId) {
-        return queryFactory.select(Projections.constructor(AttachmentResponse.class
-                        , attachment.attachmentId , attachment.realFileName , attachment.s3Url , attachment.fileSize))
+        return queryFactory.select(Projections.constructor(AttachmentResponse.class, attachment.attachmentId
+                        , attachment.realFileName , attachment.s3Url , attachment.fileSize , attachment.uuidFileName))
                 .from(attachment)
                 .innerJoin(attachment.post , post).on(post.postId.eq(postId))
                 .fetch();
