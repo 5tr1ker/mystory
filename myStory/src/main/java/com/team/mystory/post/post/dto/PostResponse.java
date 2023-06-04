@@ -1,9 +1,11 @@
 package com.team.mystory.post.post.dto;
 
+import com.team.mystory.post.attachment.domain.Attachment;
 import com.team.mystory.post.attachment.dto.AttachmentResponse;
 import com.team.mystory.post.post.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class PostResponse {
     @Builder.Default
     List<String> tags = new ArrayList<>();
 
+    @Setter
     @Builder.Default
     List<AttachmentResponse> attachment = new ArrayList<>();
 

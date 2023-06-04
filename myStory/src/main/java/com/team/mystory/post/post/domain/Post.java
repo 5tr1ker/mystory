@@ -6,10 +6,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team.mystory.account.user.domain.User;
-import com.team.mystory.post.attachment.domain.FreeAttach;
+import com.team.mystory.post.attachment.domain.Attachment;
 import com.team.mystory.post.comment.domain.Comment;
 import com.team.mystory.post.post.dto.PostRequest;
-import com.team.mystory.post.tag.domain.FreeTag;
+import com.team.mystory.post.tag.domain.Tag;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -60,11 +60,11 @@ public class Post {
     @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "freetag_id", inverseJoinColumns = @JoinColumn(name = "freepost_id"))
-    private List<FreeTag> freeTag = new ArrayList<>();
+    private List<Tag> tag = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "post")
-    private List<FreeAttach> freeAttach = new ArrayList<>();
+    private List<Attachment> attachments = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -85,7 +85,7 @@ public class Post {
         this.isPrivate = postRequest.isPrivate();
         this.isBlockComment = postRequest.isBlockComment();
 
-        this.freeTag.clear();
+        this.tag.clear();
         addTagFromTagList(postRequest.getTags());
     }
 
@@ -93,8 +93,8 @@ public class Post {
         this.likes += 1;
     }
 
-    public void addFreeAttach(FreeAttach attach) {
-        freeAttach.add(attach);
+    public void addFreeAttach(Attachment attach) {
+        attachments.add(attach);
         attach.setPost(this);
     }
 
@@ -105,8 +105,8 @@ public class Post {
 
     public void addTagFromTagList(String[] tagList) {
         for(String tag : tagList) {
-            FreeTag tagEntity = FreeTag.createFreeTag(tag);
-            this.freeTag.add(tagEntity);
+            Tag tagEntity = Tag.createFreeTag(tag);
+            this.tag.add(tagEntity);
         }
     }
 

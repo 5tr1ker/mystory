@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttachmentResponse {
-    private long attachmentId;
+public class AttachmentRequest {
     private String realFileName;
-    private String s3Url;
+    private String uuidFileName;
     private long fileSize;
 }

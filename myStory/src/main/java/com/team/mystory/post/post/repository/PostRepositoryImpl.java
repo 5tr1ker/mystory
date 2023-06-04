@@ -14,7 +14,7 @@ import java.util.Optional;
 import static com.team.mystory.account.user.domain.QUser.user;
 import static com.team.mystory.post.comment.domain.QComment.comment;
 import static com.team.mystory.post.post.domain.QPost.post;
-import static com.team.mystory.post.tag.domain.QFreeTag.freeTag;
+import static com.team.mystory.post.tag.domain.QTag.tag;
 
 
 @RequiredArgsConstructor
@@ -49,11 +49,11 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	}
 
 	@Override
-	public List<PostListResponse> findPostByTag(Pageable pageable , String tag) {
+	public List<PostListResponse> findPostByTag(Pageable pageable , String tagData) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title ,
 						user.id , post.postDate , post.likes , post.views , comment.count()))
 				.from(post)
-				.innerJoin(post.freeTag , freeTag).on(freeTag.tagData.eq(tag))
+				.innerJoin(post.tag , tag).on(tag.tagData.eq(tagData))
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
 				.leftJoin(post.comment , comment).on(comment.post.eq(post))
 				.groupBy(post.postId , post.title , user)
@@ -97,9 +97,9 @@ public class PostRepositoryImpl implements CustomPostRepository {
 
 	@Override
 	public List<String> findTagsInPostId(long postId) {
-		return queryFactory.select(freeTag.tagData)
-				.from(freeTag)
-				.leftJoin(post).on(post.freeTag.contains(freeTag))
+		return queryFactory.select(tag.tagData)
+				.from(tag)
+				.leftJoin(post).on(post.tag.contains(tag))
 				.where(post.postId.eq(postId))
 				.fetch();
 	}

@@ -3,6 +3,8 @@ package com.team.mystory.post.post.service;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.post.attachment.repository.AttachmentRepository;
+import com.team.mystory.post.attachment.service.AttachmentService;
 import com.team.mystory.post.post.domain.Post;
 import com.team.mystory.post.post.dto.PostListResponse;
 import com.team.mystory.post.post.dto.PostRequest;
@@ -28,6 +30,7 @@ public class PostService {
 	private final PostRepository postRepository;
 	private final LoginRepository loginRepository;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final AttachmentRepository attachmentRepository;
 
 	@Transactional
 	public ResponseMessage addPost(PostRequest postRequest , String token) throws AccountException {
@@ -104,6 +107,7 @@ public class PostService {
 
 		PostResponse postResponse = createPostResponse(post);
 		postResponse.addTagData(postRepository.findTagsInPostId(postId));
+		postResponse.setAttachment(attachmentRepository.findAttachmentsByPostId(postId));
 
 		return ResponseMessage.of(REQUEST_SUCCESS , postResponse);
 	}

@@ -47,3 +47,13 @@ logging:
     org:
       springframework:
         security: DEBUG
+
+cloud:
+  aws:
+    s3:
+      bucket: mystory50-bucket
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: AKIA375CYUSRLLSCEUGM
+      secretKey: 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

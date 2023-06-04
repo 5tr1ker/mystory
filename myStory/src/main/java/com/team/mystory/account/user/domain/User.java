@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
 import com.team.mystory.account.profile.domain.ProfileSetting;
 import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.post.post.domain.Post;
-import com.team.mystory.post.tag.domain.FreeTag;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

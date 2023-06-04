@@ -14,7 +14,7 @@ public interface CustomPostRepository {
 
 	List<PostListResponse> findPostBySearch(Pageable pageable, String content);
 
-	List<PostListResponse> findPostByTag(Pageable pageable, String tag);
+	List<PostListResponse> findPostByTag(Pageable pageable, String tagData);
 
 	List<PostListResponse> getPostList(Pageable pageable);
 
