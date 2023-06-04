@@ -12,17 +12,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "REFRESH_TOKEN")
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "REFRESH_TOKEN_ID", nullable = false)
+    @Column(nullable = false)
     private Long refreshTokenId;
 
-    @Column(name = "REFRESH_TOKEN", nullable = false)
+    @Column(nullable = false)
     private String refreshToken;
 
-    @Column(name = "KEY_EMAIL", nullable = false)
+    @Column(nullable = false)
     private String keyEmail;
 
 }

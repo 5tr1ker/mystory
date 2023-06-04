@@ -2,7 +2,7 @@ package com.team.mystory.account.profile.service;
 
 import com.team.mystory.account.profile.dto.StatisticsResponse;
 import com.team.mystory.account.user.domain.User;
-import com.team.mystory.account.profile.domain.ProfileSetting;
+import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.profile.dto.ProfileRequest;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.account.profile.repository.ProfileRepository;
@@ -45,17 +45,17 @@ public class ProfileService {
 			jwtService.deleteJwtToken(response);
 		}
 
-		ProfileSetting profileSetting = profileRepository.findProfileByUserId(profileRequest.getUserId())
+		Profile profile = profileRepository.findProfileByUserId(profileRequest.getUserId())
 				.orElseThrow(() -> new AccountException("프로필 정보를 찾을 수 없습니다."));
-		profileSetting.updateProfile(profileRequest);
+		profile.updateProfile(profileRequest);
 	}
 
-	public ProfileSetting getProfileFromUser(String accessToken) throws AccountException {
+	public Profile getProfileFromUser(String accessToken) throws AccountException {
 		String userId = jwtTokenProvider.getUserPk(accessToken);
 
 		User result = loginRepository.findById(userId)
 				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
 
-		return result.getProfileSetting();
+		return result.getProfile();
 	}
 }

@@ -1,14 +1,14 @@
 package com.team.mystory.account.profile.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.team.mystory.account.profile.domain.ProfileSetting;
+import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.profile.dto.StatisticsResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 import java.util.Optional;
 
-import static com.team.mystory.account.profile.domain.QProfileSetting.profileSetting;
+import static com.team.mystory.account.profile.domain.QProfile.profile;
 import static com.team.mystory.account.user.domain.QUser.user;
 import static com.team.mystory.post.comment.domain.QComment.comment;
 import static com.team.mystory.post.post.domain.QPost.post;
@@ -19,10 +19,10 @@ public class ProfileRepositoryImpl implements CustomProfileRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<ProfileSetting> findProfileByUserId(String userId) {
-        ProfileSetting result = queryFactory.select(profileSetting)
+    public Optional<Profile> findProfileByUserId(String userId) {
+        Profile result = queryFactory.select(profile)
                 .from(user)
-                .innerJoin(user.profileSetting)
+                .innerJoin(user.profile)
                 .where(user.id.eq(userId)).fetchOne();
 
         return Optional.ofNullable(result);

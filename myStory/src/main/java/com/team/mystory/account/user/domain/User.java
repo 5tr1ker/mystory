@@ -3,7 +3,7 @@ package com.team.mystory.account.user.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
-import com.team.mystory.account.profile.domain.ProfileSetting;
+import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.user.constant.UserRole;
 import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.dto.LoginRequest;
@@ -31,7 +31,7 @@ public class User implements UserDetails {
 	@Column(nullable = false , length = 20)
 	private String id;
 	
-	@Column(name = "password" , nullable = false , length = 45)
+	@Column(nullable = false , length = 45)
 	private String password;
 
 	@Enumerated(value = EnumType.STRING)
@@ -45,13 +45,13 @@ public class User implements UserDetails {
 	@Temporal(TemporalType.DATE)
 	@CreationTimestamp
 	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy/MM/dd" , timezone = "Asia/Seoul")
-	@Column(name = "joindate_date")
+	@Column(nullable = false)
 	private Date joinDate;
 
 	@Builder.Default
 	@OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
 	@JoinColumn(nullable = false)
-	private ProfileSetting profileSetting = new ProfileSetting();
+	private Profile profile = new Profile();
 
 	@Builder.Default
 	@OneToMany(mappedBy = "writer" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
@@ -61,7 +61,7 @@ public class User implements UserDetails {
 		return User.builder()
 				.id(loginRequest.getId())
 				.password(loginRequest.getPassword())
-				.profileSetting(ProfileSetting.createInitProfileSetting())
+				.profile(Profile.createInitProfileSetting())
 				.role(UserRole.USER)
 				.userType(UserType.GENERAL_USER)
 				.build();
@@ -71,7 +71,7 @@ public class User implements UserDetails {
 		return User.builder()
 				.id(userId)
 				.password(UUID.randomUUID().toString())
-				.profileSetting(ProfileSetting.createInitProfileSetting())
+				.profile(Profile.createInitProfileSetting())
 				.role(UserRole.USER)
 				.userType(UserType.OAUTH_USER)
 				.build();

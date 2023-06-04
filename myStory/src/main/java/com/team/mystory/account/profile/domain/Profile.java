@@ -11,7 +11,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class ProfileSetting {
+public class Profile {
 	
 	@Id
 	@GeneratedValue
@@ -23,19 +23,19 @@ public class ProfileSetting {
 	@Column(name = "phone")
 	private String phone;
 	
-	@Column(name = "option2")
-	private int option2;
+	@Column(nullable = false)
+	private int options;
 	
-	static public ProfileSetting createInitProfileSetting() {
-		ProfileSetting profileSetting = new ProfileSetting();
-		profileSetting.setOption2(4);
-		return profileSetting;
+	static public Profile createInitProfileSetting() {
+		Profile profile = new Profile();
+		profile.setOptions(4);
+		return profile;
 	}
 
 	public void updateProfile(ProfileRequest profileRequest) {
 		this.email = profileRequest.getEmail();
 		this.phone = profileRequest.getPhone();
-		this.option2 = profileRequest.getOption2();
+		this.options = profileRequest.getOption2();
 	}
 	
 }

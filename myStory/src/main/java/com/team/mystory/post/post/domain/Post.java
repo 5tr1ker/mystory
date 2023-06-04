@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team.mystory.account.user.domain.User;
+import com.team.mystory.common.BooleanConverter;
 import com.team.mystory.post.attachment.domain.Attachment;
 import com.team.mystory.post.comment.domain.Comment;
 import com.team.mystory.post.post.dto.PostRequest;
@@ -34,19 +35,26 @@ public class Post {
     @Column(nullable = false, length = 30)
     private String title;
 
+    @Column(nullable = false)
     private int views;
+
+    @Column(nullable = false)
     private int likes;
+
+    @Column(nullable = false)
+    @Convert(converter = BooleanConverter.class)
     private boolean isPrivate;
 
+    @Column(nullable = false)
+    @Convert(converter = BooleanConverter.class)
     private boolean isBlockComment;
-
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Date postDate;
 
-    @Column(nullable = false, length = 1000)
+    @Column(nullable = false)
     private String content;
 
     @Builder.Default
@@ -59,7 +67,6 @@ public class Post {
 
     @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "freetag_id", inverseJoinColumns = @JoinColumn(name = "freepost_id"))
     private List<Tag> tag = new ArrayList<>();
 
     @Builder.Default
