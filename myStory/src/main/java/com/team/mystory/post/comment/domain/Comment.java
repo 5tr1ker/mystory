@@ -33,7 +33,7 @@ public class Comment {
 	@CreationTimestamp
 	private Date postDate;
 
-	@OneToOne(fetch = FetchType.LAZY , orphanRemoval = true)
+	@OneToOne(fetch = FetchType.LAZY)
 	private User writer;
 
 	static public Comment createComment(CommentRequest commentRequest , User user) {

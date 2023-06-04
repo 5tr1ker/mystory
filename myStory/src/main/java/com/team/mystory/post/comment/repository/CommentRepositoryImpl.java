@@ -20,8 +20,6 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    // @Query("SELECT c FROM Post p join p.freeCommit c where p.postId = :postNumber")
-
     @Override
     public Optional<Comment> findCommentByCommentIdAndUserId(long commentId, String userId) {
         Comment result = queryFactory.select(comment)
@@ -35,31 +33,29 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
 
     @Override
     public List<CommentResponse> findCommentByPostId(long postId) {
-        return queryFactory.select(Projections.constructor(CommentResponse.class
-                        , comment.commentId , comment.content , comment.postDate , user.id))
-                .from(post)
-                .innerJoin(post.writer , user)
-                .innerJoin(post.comment , comment)
-                .where(post.postId.eq(postId))
+        return queryFactory.select(Projections.constructor(CommentResponse.class ,
+                       post.postId , comment.commentId , comment.content , comment.postDate , user.id))
+                .from(comment)
+                .innerJoin(comment.writer , user)
+                .innerJoin(comment.post , post).on(post.postId.eq(postId))
                 .fetch();
     }
-
-    // @Query(value = "select c from Comment c where c.writer != :idStatus and c.post =
-    // any (select p from Post p where p.writer = :idStatus) order by c.id DESC")
 
     @Override
     public List<CommentResponse> findCommentFromRegisteredPostByUserId(String userId) {
         QUser subUser = new QUser("subUser");
 
-        return queryFactory.select(Projections.constructor(CommentResponse.class
-                        , comment.commentId , comment.content , comment.postDate , user.id))
+        return queryFactory.select(Projections.constructor(CommentResponse.class ,
+                       post.postId , comment.commentId , comment.content , comment.postDate , user.id))
                 .from(comment)
                 .innerJoin(comment.writer , user).on(user.id.ne(userId))
+                .innerJoin(comment.post , post)
                 .where(comment.post.eqAny(JPAExpressions.select(post)
                         .from(post)
                         .innerJoin(post.writer , subUser).on(subUser.id.eq(userId))
                 ))
                 .orderBy(comment.commentId.desc())
+                .limit(10)
                 .fetch();
     }
 }

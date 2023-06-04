@@ -14,6 +14,7 @@ import com.team.mystory.post.post.repository.PostRepository;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.security.auth.login.AccountException;
 import java.util.List;
@@ -33,6 +34,7 @@ public class CommentService {
         return ResponseMessage.of(REQUEST_SUCCESS , commentRepository.findCommentByPostId(postId));
     }
 
+    @Transactional
     public ResponseMessage addComment(CommentRequest commentRequest , String token) throws AccountException {
         String userId = jwtTokenProvider.getUserPk(token);
 
@@ -48,7 +50,9 @@ public class CommentService {
     }
 
     public ResponseMessage deleteCommentByCommentId(long commentId , String token) {
-        commentRepository.findCommentByCommentIdAndUserId(commentId , token)
+        String userId = jwtTokenProvider.getUserPk(token);
+
+        commentRepository.findCommentByCommentIdAndUserId(commentId , userId)
                 .orElseThrow(() -> new CommentException("댓글 작성자만 제거할 수 있습니다."));
 
         commentRepository.deleteById(commentId);
