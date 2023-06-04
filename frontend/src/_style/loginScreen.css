@@ -14,10 +14,6 @@
   margin-top : 40px;
 }
 
-.findIDArea {
-  margin-top: 90px;
-}
-
 .socialLogin {
   position: relative;
   top: 60px;
@@ -35,7 +31,7 @@
 .backtosignin{
   display: block;
   position: relative;
-  top: 45px;
+  top: 15px;
   color:rgb(59, 134, 255);
   font-size: 16px;
 }
@@ -107,16 +103,16 @@
   z-index: 1;
 }
 
-@media screen and (min-height: 600px) { /* 일반적인 창크기 */
+@media screen and (min-height: 0px) { /* 일반적인 창크기 */
     .loginFrame {
       position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
       min-width: 400px;
-      top: 10vh;
+      top: 78px;
       width: 400px;
-      height: 75vh;
+      height: 600px;
       background-color: white;
       border-radius: 10px 0px 0px 10px;
       box-shadow: -5px 5px 15px -5px black;
@@ -125,9 +121,9 @@
 
     .platform{
       position: relative;
-      top: 10vh;
+      top: 78px;
       width: 400px;
-      height: 75vh;
+      height: 600px;
       min-width: 400px;
       background-color: #0d7ba3;
       border-radius: 0px 10px 10px 0px;
@@ -145,7 +141,7 @@
   
     .registerArea{
       width: 80%;
-      height: 60vh;
+      height: 475px;
       position: relative;
       top: 90px;
       border-radius: 30px;
@@ -163,9 +159,8 @@
   
     .findIDArea{
       position: relative;
-      top: 25px;
+      top: 30px;
       width: 80%;
-      height: 40vh;
       border-radius: 30px;
       text-align: center;
     }
@@ -224,6 +219,27 @@
     color: rgb(196, 233, 255);
     transition: all ease-in-out 0.2s;
   }
+
+  .forgotButton {
+    position: relative;
+    bottom: 0px;
+    margin-top: 35px;
+    width: 80%;
+    height: 40px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: 700;
+    background-color : #23a6d5; 
+    color: rgb(196, 233, 255);
+    transition: all ease-in-out 0.2s;
+  }
+
+  .forgotButton:hover {
+    background-color : #0d7ba3; 
+    color: rgb(255, 255, 255);
+  }
   
   .sbButton:hover {
     background-color : #0d7ba3; 
@@ -266,7 +282,7 @@
   .findIDArea::before {
     content: 'Forgot your password?';
     position: absolute;
-    margin-left: 20px;
+    margin-left: 30px;
     margin-top: -60px;
     color:rgb(59, 134, 255);
     font-size: 22px;

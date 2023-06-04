@@ -36,7 +36,7 @@ const FindID = () => {
                 <div className="findIDArea">
                     <span className="findIddescription" style={{marginBottom:"20px"}}>please enter the id you use to sign in to website</span>
                     <input type="text" className="idInput forgotNameInput" placeholder="Username" onChange={setIds} style={{marginBottom:"0px"}}/><br/>
-                    <button type="submit" className="sbButton" onClick={findId}>비밀번호 찾기</button>
+                    <button type="submit" className="forgotButton" onClick={findId}>비밀번호 찾기</button>
                     <Link to="/login" style={{textDecoration:"none"}}><span className="backtosignin">Back to Sign in</span></Link>
                 </div>
             </div>
