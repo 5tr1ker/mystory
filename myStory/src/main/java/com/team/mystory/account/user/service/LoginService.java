@@ -1,6 +1,6 @@
 package com.team.mystory.account.user.service;
 
-import com.team.mystory.account.profile.domain.ProfileSetting;
+import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.account.user.repository.LoginRepository;
@@ -8,7 +8,6 @@ import com.team.mystory.common.ResponseMessage;
 import com.team.mystory.security.jwt.dto.Token;
 import com.team.mystory.security.jwt.service.JwtService;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,8 @@ import org.springframework.stereotype.Service;
 import javax.security.auth.login.AccountException;
 
 import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
+import static com.team.mystory.security.jwt.support.CreationCookie.createAccessToken;
+import static com.team.mystory.security.jwt.support.CreationCookie.createRefreshToken;
 
 @Service
 @Transactional
@@ -40,13 +41,17 @@ public class LoginService {
 	public ResponseMessage register(LoginRequest loginRequest) throws AccountException {
 		validNewAccountVerification(loginRequest);
 
-		loginRepository.save(User.createUser(loginRequest));
+		loginRepository.save(User.createGeneralUser(loginRequest));
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 	
 	public ResponseMessage login(LoginRequest loginRequest , HttpServletResponse response) throws AccountException {
 		User result = loginRepository.findById(loginRequest.getId())
 				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
+
+		if(!result.getUserType().equals(UserType.OAUTH_USER)) {
+			throw new AccountException("해당 계정은 OAuth2.0 사용자입니다.");
+		}
 
 		if(!result.getPassword().equals(loginRequest.getPassword())) {
 			throw new AccountException("비밀번호가 일치하지 않습니다.");
@@ -58,23 +63,11 @@ public class LoginService {
 	}
 
 	public void createJwtToken(User user , HttpServletResponse response) {
-		Token tokenDTO = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRoles());
+		Token tokenDTO = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRole());
 		jwtService.login(tokenDTO);
 
-		Cookie refreshToken = new Cookie("refreshToken", tokenDTO.getRefreshToken());
-		refreshToken.setPath("/");
-		refreshToken.setMaxAge(14 * 24 * 60 * 60 * 1000);
-		//refreshToken.setSecure(true);
-		refreshToken.setHttpOnly(true);
-
-		Cookie accessToken = new Cookie("accessToken", tokenDTO.getRefreshToken());
-		accessToken.setPath("/");
-		accessToken.setMaxAge(30 * 60 * 1000);
-		//accessToken.setSecure(true);
-		accessToken.setHttpOnly(true);
-
-		response.addCookie(refreshToken);
-		response.addCookie(accessToken);
+		response.addCookie(createAccessToken(tokenDTO.getRefreshToken()));
+		response.addCookie(createRefreshToken(tokenDTO.getAccessToken()));
 	}
 
 	public ResponseMessage getPartPasswordFromId(LoginRequest loginRequest) throws AccountException {

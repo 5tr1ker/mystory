@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
 import com.team.mystory.account.profile.domain.ProfileSetting;
+import com.team.mystory.account.user.constant.UserRole;
+import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.post.post.domain.Post;
 import jakarta.persistence.*;
@@ -14,7 +16,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -33,6 +34,14 @@ public class User implements UserDetails {
 	@Column(name = "password" , nullable = false , length = 45)
 	private String password;
 
+	@Enumerated(value = EnumType.STRING)
+	@Column(nullable = false)
+	private UserRole role;
+
+	@Enumerated(value = EnumType.STRING)
+	@Column(nullable = false)
+	private UserType userType;
+
 	@Temporal(TemporalType.DATE)
 	@CreationTimestamp
 	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy/MM/dd" , timezone = "Asia/Seoul")
@@ -48,16 +57,23 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "writer" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	private List<Post> post = new ArrayList<>();
 
-	@Builder.Default
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> roles = new ArrayList<>();
-
-	public static User createUser(LoginRequest loginRequest) {
+	public static User createGeneralUser(LoginRequest loginRequest) {
 		return User.builder()
 				.id(loginRequest.getId())
 				.password(loginRequest.getPassword())
 				.profileSetting(ProfileSetting.createInitProfileSetting())
-				.roles(Collections.singletonList("ROLE_USER"))
+				.role(UserRole.USER)
+				.userType(UserType.GENERAL_USER)
+				.build();
+	}
+
+	public static User createOAuthUser(String userId) {
+		return User.builder()
+				.id(userId)
+				.password(UUID.randomUUID().toString())
+				.profileSetting(ProfileSetting.createInitProfileSetting())
+				.role(UserRole.USER)
+				.userType(UserType.OAUTH_USER)
 				.build();
 	}
 
@@ -72,9 +88,7 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles.stream()
-				.map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+		return Collections.singletonList(new SimpleGrantedAuthority(role.getRole()));
 	}
 
 	@Override

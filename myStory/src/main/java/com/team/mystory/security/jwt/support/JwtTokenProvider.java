@@ -1,5 +1,6 @@
 package com.team.mystory.security.jwt.support;
 
+import com.team.mystory.account.user.constant.UserRole;
 import com.team.mystory.security.jwt.domain.RefreshToken;
 import com.team.mystory.security.jwt.dto.Token;
 import com.team.mystory.security.jwt.exception.InvalidTokenException;
@@ -35,7 +36,7 @@ public class JwtTokenProvider {
         refreshKey = Base64.getEncoder().encodeToString(refreshKey.getBytes());
     }
 
-    public Token createAccessToken(String userPk, List<String> roles) {
+    public Token createAccessToken(String userPk, UserRole roles) {
         Claims claims = Jwts.claims().setSubject(userPk);
         claims.put("roles", roles);
         

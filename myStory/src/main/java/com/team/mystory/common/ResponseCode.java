@@ -13,6 +13,7 @@ public enum ResponseCode {
 
     // success
     REQUEST_SUCCESS("1" , "요청이 성공적으로 완료되었습니다."),
+    LOGOUT_SUCCESS("1" , "로그아웃에 성공하였습니다."),
     CREATE_ACCESS_TOKEN("2" , "Access Token 이 재발급 되었습니다.");
 
     private final String code;

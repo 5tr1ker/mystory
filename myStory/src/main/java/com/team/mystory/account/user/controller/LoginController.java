@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.AccountException;
 
+import static com.team.mystory.common.ResponseCode.LOGOUT_SUCCESS;
+
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
@@ -35,5 +37,10 @@ public class LoginController {
 	@GetMapping(value = "/users/{idInfo}")
 	public ResponseEntity idCheck(@PathVariable("idInfo") String userInfo) throws AccountException {
 		return ResponseEntity.ok().body(loginService.getUserByUserId(userInfo));
+	}
+
+	@GetMapping(value = "/logout/message")
+	public ResponseEntity logout() {
+		return ResponseEntity.ok().body(ResponseMessage.of(LOGOUT_SUCCESS));
 	}
 }

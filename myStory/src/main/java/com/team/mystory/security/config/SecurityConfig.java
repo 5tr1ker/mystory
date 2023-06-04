@@ -2,6 +2,8 @@ package com.team.mystory.security.config;
 
 import java.util.Arrays;
 
+import com.team.mystory.oauth.service.CustomOAuth2UserService;
+import com.team.mystory.oauth.support.OAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +25,8 @@ import com.team.mystory.security.jwt.support.JwtTokenProvider;
 public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
+	private final CustomOAuth2UserService oauth2UserService;
+	private final OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,31 +34,22 @@ public class SecurityConfig {
 			httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Session
 				.and().authorizeRequests()
 				.requestMatchers("/auth/**").authenticated()
-				.requestMatchers("/auth/**").hasRole("ADMIN")
-				.requestMatchers("/auth/**").hasRole("USER")
-				.requestMatchers("/**").permitAll()
-				.and().logout()
-				.deleteCookies("refreshToken")
+				.anyRequest().permitAll()
                 .and()
-				.oauth2Login();
+				.logout()
+				.logoutUrl("/logout")
+				.deleteCookies("refreshToken")
+				.deleteCookies("accessToken")
+				.logoutSuccessHandler((request, response, authentication) -> {
+					response.sendRedirect("/logout/message");
+				})
+				.and()
+				.oauth2Login().successHandler(oauth2AuthenticationSuccessHandler)
+				.userInfoEndpoint().userService(oauth2UserService);
 
 		http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 				UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
-	
-	@Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://tomcatServer:8080"));
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-        configuration.setAllowCredentials(true);
-        
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-	
 }

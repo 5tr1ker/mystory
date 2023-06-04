@@ -23,8 +23,15 @@ public class GeneralExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
     }
 
-    @ExceptionHandler({AccountException.class , PostException.class , CommentException.class})
+    @ExceptionHandler({AccountException.class})
     public ResponseEntity accountExceptionHandler(Exception e) {
+        ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
+    }
+
+    @ExceptionHandler({PostException.class , CommentException.class})
+    public ResponseEntity postExceptionHandler(Exception e) {
         ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
 
         return ResponseEntity.badRequest().body(message);

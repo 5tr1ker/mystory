@@ -1,3 +1,5 @@
+client:
+  url: http://localhost:3000
 
 spring:
   datasource:
@@ -17,17 +19,23 @@ spring:
     oauth2:
       client:
         registration:
+          naver:
+            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+            authorization-grant-type: authorization_code
+            client-secret: sn7W5EVI1B
+            client-id: KrgceyS11oJLy_u0tajR
+            client-name: naver
           kakao:
             client-id: 7cef126b7f8ea367330765d225a271a6
-            client-secret: vmili4euIBd59hDRlRP49mbcAxgNwy8i
+            client-secret: unknown
             client-authentication-method: POST
-            redirect-uri: http://43.201.188.96:8080/login/oauth2/code/kakao
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
-            scope: account_email
+            scope: profile_nickname , account_email
             client-name: kakao
           google:
-            client-id: 680651839429-0rdi6os3kqtr8cish8f12gm1afj6o9gj.apps.googleusercontent.com
-            client-secret: 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
+            client-id: 468391770326-850l305qj81ah6s9j2irhfqvsiupnkgk.apps.googleusercontent.com
+            client-secret: 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
             scope: email , profile
             redirect-uri: http://localhost:8080/login/oauth2/code/google
         provider:
