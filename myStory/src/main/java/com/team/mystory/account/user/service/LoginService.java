@@ -3,6 +3,7 @@ package com.team.mystory.account.user.service;
 import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.dto.LoginRequest;
+import com.team.mystory.account.user.dto.UserResponse;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.common.ResponseMessage;
 import com.team.mystory.security.jwt.dto.Token;
@@ -70,18 +71,19 @@ public class LoginService {
 		response.addCookie(createRefreshToken(tokenDTO.getAccessToken()));
 	}
 
-	public ResponseMessage getPartPasswordFromId(LoginRequest loginRequest) throws AccountException {
-		User result = loginRepository.findById(loginRequest.getId())
+	public ResponseMessage findUserByUserId(String userId) throws AccountException {
+		UserResponse userResponse = loginRepository.findUserResponseById(userId)
 				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
 
-		String password = result.getPassword();
-		String partPassword = password.substring( 0 , password.length() - (password.length() - 3));
-		return ResponseMessage.of(REQUEST_SUCCESS , partPassword);
+		return ResponseMessage.of(REQUEST_SUCCESS , userResponse);
 	}
 
-	public User getUserByUserId(String userId) throws AccountException {
-		return loginRepository.findById(userId)
+	public ResponseMessage findUserByToken(String token) throws AccountException {
+		String userId = jwtTokenProvider.getUserPk(token);
+		UserResponse userResponse =  loginRepository.findUserResponseById(userId)
 				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
+
+		return ResponseMessage.of(REQUEST_SUCCESS , userResponse);
 	}
 
 	public ResponseMessage removeUser(String accessToken) throws AccountException {

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import '../../_style/loginScreen.css'
 import Cookies from 'universal-cookie';
 import img01 from '../../_image/pic1.png';
-import { setAccessToken } from '../noticeboard/RefreshToken';
 import img02 from '../../_image/googleLoginButton.png';
 import img03 from '../../_image/kakaoLogInButton.png';
 import img04 from '../../_image/naverLoginButton.png';
@@ -33,36 +32,21 @@ const Logins = () => {
         window.location.replace('http://localhost:8080/oauth2/authorization/naver');
     }
 
-    const jsonData = JSON.stringify(idInfo);
+    
     const signUp = async () => {
-        let flag = true;
-        const signupResult = await axios({
+        await axios({
             method : "POST" ,
-            url : `/login` , 
+            url : `/logins` , 
             headers : headers ,
-            data : jsonData
-        }).catch((e) => {alert('아이디 또는 비밀번호를 잘못 입력했습니다.') ; flag = false });
-
-        if(signupResult.data === '') {
-            flag = false ;
-            alert('아이디 또는 비밀번호를 잘못 입력했습니다.') ;
-        }
-
-        if (flag) {
-            axios.defaults.headers.common['Authorization'] = `${signupResult.data.accessToken}`;
-            setAccessToken(signupResult.data.accessToken);
-            cookies.set('myToken', idInfo.id , {
-                path: '/' ,
-                secure: true ,
-                maxAge: 3600
-            });
-            window.location.replace('/noticelist');
-        }
+            data : JSON.stringify({"id" : idInfo.id , "password" : idInfo.pw})
+        })
+        .then((response) => { alert(response.data.message); localStorage.setItem("userId" , idInfo.id); window.location.replace('/noticelist'); }) 
+        .catch((e) => alert(e.response.data.message));
     }
 
     useEffect(async () => {
-        const getCookieStat = cookies.get('myToken');
-        if(getCookieStat !== undefined) {
+        const getCookieStat = localStorage.getItem('userId');
+        if(getCookieStat != undefined) {
             window.location.replace('/noticelist');
         }
     }, []);

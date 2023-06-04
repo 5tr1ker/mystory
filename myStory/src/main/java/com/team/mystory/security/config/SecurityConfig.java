@@ -31,11 +31,11 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable().
-			httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Session
+			httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().authorizeRequests()
 				.requestMatchers("/auth/**").authenticated()
 				.anyRequest().permitAll()
-                .and()
+				.and()
 				.logout()
 				.logoutUrl("/logout")
 				.deleteCookies("refreshToken")

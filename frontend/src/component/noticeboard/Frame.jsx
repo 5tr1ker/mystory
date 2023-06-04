@@ -8,14 +8,10 @@ import Profile from './Profile';
 import Notificate from './notificate';
 import qs from 'qs';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-import { expireTokenTrans, setAccessToken } from './RefreshToken';
 import { deleteAllToken } from './DeleteAllCookie';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NoticeFrame = () => {
-    const cookies = new Cookies();
-    const getCookieStat = cookies.get('myToken');
+    const sessionUserId = localStorage.getItem("userId");
 
     const [dropBoxs, setDropBox] = useState(false);
     const [notified, setNotified] = useState(false);
@@ -35,19 +31,17 @@ const NoticeFrame = () => {
     }
 
     const getInitData = async () => {
-        if(getCookieStat === undefined) {
+        if(sessionUserId != undefined) {
             return;
         }
         
         const getProfileDatas = await axios({
             method: "GET",
             mode: "cors",
-            url: `/auth/profileData/${getCookieStat}`,
-        });
-
-        if(getProfileDatas.data === "AccessTokenExpire") {
-            expireTokenTrans(getInitData)
-        }
+            url: `/users`,
+        })
+        .then((response) => { localStorage.setItem("userId" , response.data.data.id ); }) 
+        .catch((e) => alert(e.response.data.message));
 
         setUserOption({
             session: getProfileDatas.data.option1,
@@ -65,41 +59,12 @@ const NoticeFrame = () => {
     const setDropers = () => { dropBoxs ? setDropBox(false) : setDropBox(true); }
     
     useEffect(async () => {
-        const accessToken =  await AsyncStorage.getItem("accessToken");
-        axios.defaults.headers.common['Authorization'] = accessToken;
         if(query.code !== undefined) {
-            let result = null;
 
-            if(query.scope !== undefined) { // 구글 로그인
-                result = await axios({
-                    method: "GET",
-                    mode: "cors",
-                    url: `/googleLogin?code=${query.code}`,
-                });
-
-            } else {    // 카카오 로그인
-                result = await axios({
-                    method: "GET",
-                    mode: "cors",
-                    url: `/kakaoLogin?code=${query.code}`,
-                });
-            }
-
-            cookies.set('refreshToken', result.data.refreshToken , {
-                path: '/',
-                secure: true ,
-                maxAge: 1209600
-            });
-
-            cookies.set('myToken', result.data.key , {
-                path: '/',
-                secure: true
-            });
-            setAccessToken(result.data.accessToken);
             window.location.replace("/noticelist");
         }
 
-        if (getCookieStat !== '') {
+        if (sessionUserId !== '') {
             getInitData();
         }
     }, []);
@@ -111,7 +76,7 @@ const NoticeFrame = () => {
                     <div className="myStory">
                         <span className="noticeFrameName"><a href="https://github.com/5tr1ker" target="_blank" id="noticeName">myStory.</a></span>
                     </div>
-                    {getCookieStat !== undefined ?
+                    {sessionUserId !== undefined ?
                         <div className="MobiledropBox" onClick={setMobileMenuBar}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" className="bi bi-chevron-double-down mobileDropBox" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
@@ -148,14 +113,14 @@ const NoticeFrame = () => {
 
 
                     <div id="buttonArea">
-                        {notified ? <Notificate dropDownSet={setNotified} notifiedMode={userOption.notified} userId={getCookieStat} /> : null}
+                        {notified ? <Notificate dropDownSet={setNotified} notifiedMode={userOption.notified} userId={sessionUserId} /> : null}
                         <span><Link to="/noticelist" id="notDecor">게시판</Link></span>
                         <span><a href="https://velog.io/@tjseocld" target="_blank" id="notDecor">블로그</a></span>
                         <span><a href="https://github.com/5tr1ker" target="_blank" id="notDecor">GitHub</a></span>
                     </div>
                     <div id="loginStatus">
                         <span id="loginUser">
-                            {getCookieStat !== undefined ?
+                            {sessionUserId !== undefined ?
                                 <Fragment>
                                     <div className='noticeLogin' onClick={setDropers}>
                                         <div className="profileimage">
@@ -164,7 +129,7 @@ const NoticeFrame = () => {
                                                 <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                                             </svg>
                                         </div>
-                                        <span style={{ borderRight: "none" }}>{getCookieStat} 님
+                                        <span style={{ borderRight: "none" }}>{sessionUserId} 님
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill profilepointer" viewBox="0 0 16 16">
                                                 <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                             </svg>
@@ -222,10 +187,10 @@ const NoticeFrame = () => {
                 </header>
                 <Routes>
                     <Route path='/noticelist' element={<NoticeList/>}></Route>
-                    <Route path='/newpost' element={<NewPost idStatus={getCookieStat} />}></Route>
-                    <Route path='/modified/:id' element={<NewPost idStatus={getCookieStat} />}></Route>
-                    <Route path='/viewpost' element={<PostView idStatus={getCookieStat} />}></Route>
-                    <Route path='/profile' element={<Profile idStatus={getCookieStat} rerenders={getInitData} />}></Route>
+                    <Route path='/newpost' element={<NewPost idStatus={sessionUserId} />}></Route>
+                    <Route path='/modified/:id' element={<NewPost idStatus={sessionUserId} />}></Route>
+                    <Route path='/viewpost' element={<PostView idStatus={sessionUserId} />}></Route>
+                    <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={getInitData} />}></Route>
                 </Routes>
             </div>
         </Fragment>

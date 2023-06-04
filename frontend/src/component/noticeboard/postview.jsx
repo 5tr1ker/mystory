@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState , Fragment } from "react";
 import FileDownload from "js-file-download";
-import { expireTokenTrans } from "./RefreshToken";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PostView = ({ idStatus }) => {
@@ -93,9 +92,6 @@ const PostView = ({ idStatus }) => {
                     data : jsondata , 
                     headers : {"Content-Type": "application/json"}
                 });
-                if(likeresult.data === "AccessTokenExpire") {
-                    expireTokenTrans(getPost)
-                }
 
                 if (likeresult.data === -2) {
                     alert('이미 좋아요를 눌렀습니다.');
@@ -114,10 +110,6 @@ const PostView = ({ idStatus }) => {
                     url : `/auth/post/${parseInt(data)}` ,
                     mode : "cors"
                 });
-
-                if(result.data === "AccessTokenExpire") {
-                    expireTokenTrans(postDelete)
-                }
 
                 if (result.data === -1) {
                     alert('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
@@ -152,9 +144,6 @@ const PostView = ({ idStatus }) => {
                 mode : "cors" ,
                 headers : {"Content-Type": "application/json"}
             });
-            if(commitResult.data === "AccessTokenExpire") {
-                expireTokenTrans(addCommit);
-            }
 
             if (commitResult.data === -1) {
                 alert('댓글 작성중 오류가 발생했습니다. 잠시후 다시 시도해주세요.');
@@ -172,9 +161,6 @@ const PostView = ({ idStatus }) => {
                 url : `/auth/commit/${numbers}` ,
                 mode : "cors"
             });
-            if(result.data === "AccessTokenExpire") {
-                expireTokenTrans(delCommit)
-            }
 
             getCommit();
         }

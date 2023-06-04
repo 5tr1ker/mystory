@@ -4,7 +4,6 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Postlabel from "./postlabel";
-import { expireTokenTrans } from "./RefreshToken";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NewPost = ({ idStatus }) => {
@@ -173,9 +172,6 @@ const NewPost = ({ idStatus }) => {
               headers : {"Content-Type": "application/json"} ,
               data : jsonPostData}
         );
-        if(newPostResult.data === "AccessTokenExpire") {
-          expireTokenTrans(newPost)
-        }
 
       const attachResult = await axios({
         method: "POST" ,
@@ -186,9 +182,6 @@ const NewPost = ({ idStatus }) => {
         } ,
         data: formData
       });
-      if(attachResult.data === "AccessTokenExpire") {
-        expireTokenTrans(newPost)
-      }
 
       if (newPostResult.data.result === -1 || attachResult === -1) {
         alert('게시물을 등록하는 도중에 오류가 발생했습니다. 다시 시도해 주세요.');
@@ -206,9 +199,6 @@ const NewPost = ({ idStatus }) => {
         data : jsonData ,
         headers: {"Content-Type": "application/json"}
       });
-      if(newPostResult.data === "AccessTokenExpire") {
-        expireTokenTrans(newPost)
-        }
 
       /* 첨부파일 수정항목  */
       const uploadDataResult = await axios({
@@ -220,9 +210,6 @@ const NewPost = ({ idStatus }) => {
         } ,
         data: formData
       });
-      if(uploadDataResult.data === "AccessTokenExpire") {
-        expireTokenTrans(newPost)
-      }
       
       if (newPostResult.data === 0) {
         alert('수정이 완료되었습니다.');

@@ -13,17 +13,14 @@ const FindID = () => {
     }
 
     const findId = async () => {
-        const result = await axios({
+        await axios({
             method : "GET" ,
             mode: "cors" , 
-            url : `/findId?id=${id}`
+            url : `/users/${id}`
         })
+        .then((response) => { alert(`${id} 님의 앞3자리 비밀번호는 ${response.data.data.password.substr(0,3)}`); }) 
+        .catch((e) => alert(e.response.data.message));
 
-        if (result.data === -1) {
-            alert('찾을 수 없는 아이디입니다.');
-        } else {
-            alert(`${id} 님의 앞3자리 비밀번호는 ${result.data}`);
-        }
     }
     return (
         <Fragment>

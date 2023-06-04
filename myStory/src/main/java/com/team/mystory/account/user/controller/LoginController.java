@@ -35,8 +35,13 @@ public class LoginController {
 	}
 	
 	@GetMapping(value = "/users/{idInfo}")
-	public ResponseEntity idCheck(@PathVariable("idInfo") String userInfo) throws AccountException {
-		return ResponseEntity.ok().body(loginService.getUserByUserId(userInfo));
+	public ResponseEntity findUserByUserId(@PathVariable("idInfo") String userInfo) throws AccountException {
+		return ResponseEntity.ok().body(loginService.findUserByUserId(userInfo));
+	}
+
+	@GetMapping(value = "/users")
+	public ResponseEntity findUserByToken(@CookieValue String accessToken) throws AccountException {
+		return ResponseEntity.ok().body(loginService.findUserByToken(accessToken));
 	}
 
 	@GetMapping(value = "/logout/message")

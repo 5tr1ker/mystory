@@ -36,26 +36,15 @@ const Register = () => {
     }
 
     const regist = async () => {
-        const jsonData = JSON.stringify(idInfo);
-        const registresult = await axios({
+        const jsonData = JSON.stringify({"id" : idInfo.id , "password" : idInfo.pw , "checkPassword" : idInfo.checkpw});
+        await axios({
             method : "POST" ,
             mode: "cors" , 
-            url : `/register` , 
+            url : `/registers` , 
             headers : {"Content-Type": "application/json"} ,
-            data : jsonData});
-        
-
-        if (registresult.data === -1) {
-            alert('이미 존재하는 아이디입니다.')
-        }
-        else if (registresult.data === 1) {
-            alert('회원가입이 성공적으로 되었습니다.')
-            window.location.replace('/login');
-        } 
-        else if (registresult.data === -2)  {
-            alert('두 비밀번호가 일치하지 않습니다.')
-        }
-        else alert('서버에 오류가 생겼습니다. 잠시후 이용해주세요');
+            data : jsonData})
+            .then((response) => { alert(response.data.message); window.location.replace('/login'); }) 
+            .catch((e) => alert(e.response.data.message));
     }
 
     return (

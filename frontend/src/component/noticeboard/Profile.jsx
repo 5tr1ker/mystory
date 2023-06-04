@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import React from "react";
 import Cookies from 'universal-cookie';
 import { deleteAllToken } from "./DeleteAllCookie";
-import { expireTokenTrans } from "./RefreshToken";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({idStatus , rerenders}) => {
@@ -28,9 +27,6 @@ const Profile = ({idStatus , rerenders}) => {
             url : `/auth/profile/${idStatus}` ,
             mode : "cors"
         });
-        if(result.data === "AccessTokenExpire") {
-            expireTokenTrans(Profile)
-        }
 
         const getProfileDatas = await axios({
             method : "GET" ,
@@ -67,9 +63,6 @@ const Profile = ({idStatus , rerenders}) => {
                 method : "DELETE" ,
                 mode : "cors"
             });
-            if(response.data === "AccessTokenExpire") {
-                expireTokenTrans(deleteId)
-            }
 
             const result = await axios({
                 url : `/auth/user/${idStatus}` ,
@@ -108,10 +101,8 @@ const Profile = ({idStatus , rerenders}) => {
                     method : "PATCH" ,
                     data : jsonParse ,
                     headers : {"Content-Type": "application/json"}
-                }).catch(() => expireTokenTrans(doneChange));
-                if(result.data === "AccessTokenExpire") {
-                    expireTokenTrans(doneChange)
-                }
+                })
+
                 if(result.data === 0) {
                     alert("성공적으로 변경되었습니다.");
                     alert("User Name이 변경되어 다시 로그인을 시도해주세요.");
@@ -126,10 +117,7 @@ const Profile = ({idStatus , rerenders}) => {
                     method : "PATCH" ,
                     data : jsonParse ,
                     headers : {"Content-Type": "application/json"}
-                }).catch(() => expireTokenTrans(doneChange));
-                if(result.data === "AccessTokenExpire") {
-                    expireTokenTrans(doneChange)
-                }
+                })
 
                 if(result.data === 0) {
                     alert("성공적으로 변경되었습니다.");

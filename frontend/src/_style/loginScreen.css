@@ -10,8 +10,12 @@
   color: rgb(99, 99, 99);
 }
 
-.loginArea , .registerArea {
-  margin-top : 40px;
+.loginArea {
+  margin-top : -50px;
+}
+
+.registerArea {
+  margin-top : 75px;
 }
 
 .socialLogin {
@@ -112,7 +116,7 @@
       min-width: 400px;
       top: 78px;
       width: 400px;
-      height: 600px;
+      height: 525px;
       background-color: white;
       border-radius: 10px 0px 0px 10px;
       box-shadow: -5px 5px 15px -5px black;
@@ -123,7 +127,7 @@
       position: relative;
       top: 78px;
       width: 400px;
-      height: 600px;
+      height: 525px;
       min-width: 400px;
       background-color: #0d7ba3;
       border-radius: 0px 10px 10px 0px;
