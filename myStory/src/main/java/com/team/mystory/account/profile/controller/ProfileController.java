@@ -2,6 +2,9 @@ package com.team.mystory.account.profile.controller;
 
 import java.util.Map;
 
+import com.team.mystory.account.profile.dto.ProfileResponse;
+import com.team.mystory.account.profile.dto.StatisticsResponse;
+import com.team.mystory.common.ResponseMessage;
 import com.team.mystory.security.jwt.service.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,20 +25,19 @@ public class ProfileController {
 	private final ProfileService profileService;
 	
 	@GetMapping(value = "/statistics")
-	public ResponseEntity profileInfo(@CookieValue String accessToken) {
+	public ResponseEntity<ResponseMessage> profileInfo(@CookieValue String accessToken) {
 		return ResponseEntity.ok().body(profileService.getProfile(accessToken));
 	}
 	
 	@PutMapping
-	public ResponseEntity profileUpdate(@RequestBody ProfileRequest profileRequest , @CookieValue String accessToken , HttpServletResponse response)
+	public ResponseEntity<ResponseMessage> profileUpdate(@RequestBody ProfileRequest profileRequest , @CookieValue String accessToken , HttpServletResponse response)
 			throws AccountException {
-		profileService.updateProfile(profileRequest , accessToken , response);
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(profileService.updateProfile(profileRequest , accessToken , response));
 	}
 
 	@GetMapping
-	public ResponseEntity getProfileData(@CookieValue String accessToken) throws AccountException {
+	public ResponseEntity<ResponseMessage> getProfileData(@CookieValue String accessToken) throws AccountException {
 		return ResponseEntity.ok().body(profileService.getProfileFromUser(accessToken));
 	}
 }

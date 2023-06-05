@@ -3,12 +3,10 @@ import { Fragment , useState } from "react"
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import React from "react";
-import Cookies from 'universal-cookie';
 import { deleteAllToken } from "./DeleteAllCookie";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({idStatus , rerenders}) => {
-    const cookies = new Cookies();
     const [profileEdits , setEdits] = useState(false);
     const [profileData , getProfileData] = useState([]) // 내 profile 데이터
     const [postStatistics , setPostStatistics] = useState([]); // 통계
@@ -16,28 +14,28 @@ const Profile = ({idStatus , rerenders}) => {
         userId : idStatus , 
         email : '' ,
         phone : '' ,
-        option2 : 4 ,
+        options : 0 ,
         postid : 0
     });
     const nav = useNavigate();
     const getData = async () => {
-        if(idStatus === undefined) return -1; 
+        if(idStatus == undefined) return -1; 
         const result = await axios({
             method: "GET" ,
-            url : `/auth/profile/${idStatus}` ,
+            url : `/profiles/statistics` ,
             mode : "cors"
         });
 
         const getProfileDatas = await axios({
             method : "GET" ,
             mode: "cors" , 
-            url : `/auth/profileData/${idStatus}` ,
+            url : `/profiles` ,
         });
 
         const datas = [];
-        datas.push(result.data.postView , result.data.totalPost, result.data.totalCommit , result.data.joindate.replaceAll("-" , "/").slice(2));
-        getProfileData(getProfileDatas.data);
-        setInputProfileData({userId : idStatus , email: getProfileDatas.data.email , phone: getProfileDatas.data.phone , option2: getProfileDatas.data.option2});
+        datas.push(result.data.data.totalPostView , result.data.data.totalPost, result.data.data.totalComment , result.data.data.joinData.replaceAll("-" , "/"));
+        getProfileData(getProfileDatas.data.data);
+        setInputProfileData({userId : idStatus , email: getProfileDatas.data.data.email , phone: getProfileDatas.data.data.phone , options: getProfileDatas.data.data.options});
         setPostStatistics(datas); // 통계
     }
 
@@ -52,85 +50,66 @@ const Profile = ({idStatus , rerenders}) => {
 
     const saveProfile = () => {
         setEdits(false);
-        getProfileData({userId: inputProfileData.userid , email: inputProfileData.email , phone: inputProfileData.phone , option2:inputProfileData.option2});
+        getProfileData({userId: inputProfileData.userid , email: inputProfileData.email , phone: inputProfileData.phone , options :inputProfileData.option2});
     }
 
     const deleteId = async() => {
         const deleteConfirm = window.confirm("정말로 삭제하시겠습니까?");
         if (deleteConfirm) {
-            const response = await axios({
-                url : `/auth/allCommit/${idStatus}` ,
+             await axios({
+                url : `/users` ,
                 method : "DELETE" ,
                 mode : "cors"
-            });
-
-            const result = await axios({
-                url : `/auth/user/${idStatus}` ,
-                method : "DELETE" ,
-                mode : "cors"
-            });
-            if (result.data === 0) {
-                alert("계정이 삭제되었습니다.");
-                deleteAllToken();
-                nav("/login", { replace: true });
-            } else {
-                alert("계정을 삭제하는데 오류가 발생했습니다.");
-            }
+            })
+            .then(async (response) =>{ 
+                alert("계정이 삭제되었습니다."); 
+                await axios({
+                    url : `/logout` ,
+                    method : "GET" ,
+                    mode : "cors"
+                });
+                localStorage.removeItem("userId")
+                nav("/login", { replace: true }); }) 
+            .catch((e) => alert(e.response.data.message));
         }
     }
 
     const doneChange = async () => {
-        const jsonParse = JSON.stringify({inputProfileData , idStatus});
+        const jsonParse = JSON.stringify({"userId" : inputProfileData.userId, "email" : inputProfileData.email, "phone" : inputProfileData.phone, "options" : inputProfileData.options});
 
             if (idStatus !== inputProfileData.userId) {
-                const idCheck = await axios({
-                    url : `/idCheck/${inputProfileData.userId}` ,
+                 await axios({
+                    url : "/profiles" ,
                     mode : "cors" ,
-                    method : "GET"
-                });
-
-                if(idCheck.data === -1) {
-                    alert("해당 아이디는 이미 존재합니다");
-                    return;
-                }
-
-                deleteAllToken();
-                const result = await axios({
-                    url : "/auth/profile" ,
-                    mode : "cors" ,
-                    method : "PATCH" ,
+                    method : "PUT" ,
                     data : jsonParse ,
                     headers : {"Content-Type": "application/json"}
                 })
-
-                if(result.data === 0) {
-                    alert("성공적으로 변경되었습니다.");
-                    alert("User Name이 변경되어 다시 로그인을 시도해주세요.");
-                    nav("/login", { replace: false });
-                } else {
-                    alert("오류가 발생했습니다. 잠시후 다시 시도해주세요.");
-                }
+                .then(async (response) => { 
+                    alert(response.data.message); 
+                    alert("User Name이 변경되어 다시 로그인을 시도해주세요."); 
+                    await axios({
+                        url : `/logout` ,
+                        method : "GET" ,
+                        mode : "cors"
+                    });
+                    localStorage.removeItem("userId")
+                    nav("/login", { replace: false }); }) 
+                .catch((e) => alert(e.response.data.message));
             } else {
-                const result = await axios({
-                    url : "/auth/profile" ,
+                await axios({
+                    url : "/profiles" ,
                     mode : "cors" ,
-                    method : "PATCH" ,
+                    method : "PUT" ,
                     data : jsonParse ,
                     headers : {"Content-Type": "application/json"}
                 })
-
-                if(result.data === 0) {
-                    alert("성공적으로 변경되었습니다.");
-                    nav("/noticelist", { replace: false });
-                } else {
-                    alert("오류가 발생했습니다. 잠시후 다시 시도해주세요.");
-                }
+                .then((response) => { alert(response.data.message); nav("/noticelist", { replace: false }); }) 
+                .catch((e) => alert(e.response.data.message));
             }
        }
 
     useEffect(async () => {
-        const accessToken =  await AsyncStorage.getItem("accessToken");
-        axios.defaults.headers.common['Authorization'] = accessToken;
         getData();
     },[idStatus]);
 
@@ -220,9 +199,9 @@ const Profile = ({idStatus , rerenders}) => {
                     <header>Settings</header>
                     <div className="settings-contents">
                         <span>알람 설정</span>
-                        <select name="option2" key={profileData.option2} defaultValue={profileData.option2} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example" onChange={changeGetData}>
-                            <option value={4} style={{ fontWeight: "600" }}>알람 켜기</option>
-                            <option value={5} style={{ fontWeight: "600" }}>알람 끄기</option>
+                        <select name="options" key={profileData.options} defaultValue={profileData.options} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example" onChange={changeGetData}>
+                            <option value={1} style={{ fontWeight: "600" }}>알람 켜기</option>
+                            <option value={0} style={{ fontWeight: "600" }}>알람 끄기</option>
                         </select>
                         <span>계정 탈퇴</span>  
                         <button className="accountdelete" onClick={deleteId}>

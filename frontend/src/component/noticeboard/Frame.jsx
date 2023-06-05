@@ -66,42 +66,6 @@ const NoticeFrame = () => {
                     <div className="myStory">
                         <span className="noticeFrameName"><a href="https://github.com/5tr1ker" target="_blank" id="noticeName">myStory.</a></span>
                     </div>
-                    {sessionUserId !== undefined ?
-                        <div className="MobiledropBox" onClick={setMobileMenuBar}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" className="bi bi-chevron-double-down mobileDropBox" viewBox="0 0 16 16">
-                                <path fillRule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                                <path fillRule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                        </div> :
-                        <div className="logincommitsettingMobile"><Link to="/login" id='notDecor'>Login</Link></div>}
-
-                    {mobileMenu ?
-                        <div className="mobileDropBoxContent">
-                            <span className='menuMobile' onClick={setMobileMenuBar}><Link to="/noticelist" id="notDecor">게시판</Link></span>
-                            <span className='menuMobile' onClick={setMobileMenuBar}><a href="https://velog.io/@tjseocld" target="_blank" id="notDecor">블로그</a></span>
-                            <span className='menuMobile' onClick={setMobileMenuBar}><a href="https://github.com/5tr1ker" target="_blank" id="notDecor">GitHub</a></span>
-                            <ul>
-                                <Link to='/newpost' id="textDesign"><li className='menuMobile'>New Post</li></Link>
-                                <Link to="/profile" id="textDesign">
-                                    <li className='menuMobile' onClick={setMobileMenuBar}>
-                                        My Profile
-                                    </li>
-                                </Link>
-                                <Link to="/profile" id="textDesign">
-                                    <li className='menuMobile' onClick={setMobileMenuBar}>
-                                        Settings
-                                    </li>
-                                </Link>
-                                <Link to="/login" id="textDesign" onClick={() => deleteAllToken()}>
-                                    <li className='menuMobile'>
-                                        Logout
-                                    </li>
-                                </Link>
-                            </ul>
-                        </div>
-                        : null}
-
-
                     <div id="buttonArea">
                         {notified ? <Notificate dropDownSet={setNotified} notifiedMode={userOption.notified} userId={sessionUserId} /> : null}
                         <span><Link to="/noticelist" id="notDecor">게시판</Link></span>

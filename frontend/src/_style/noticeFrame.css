@@ -252,7 +252,7 @@
 .pagedesc {
     text-align: center;
     margin-left: -100px;
-    font-size: 2.4vw;
+    font-size: 28px;
     margin-bottom: 5px;
     font-weight: 700;
     position: relative;
@@ -281,7 +281,7 @@
 }
 
 .noticeFrameHeader{
-    width: 75vw;
+    width: 1000px;
     margin: 0 auto;
     height: 60px;
     min-height: 60px;
@@ -299,7 +299,8 @@
 }
 
 .noticeFrameName{
-    font-size: 2.2vw;
+    font-size: 28px;
+    margin-bottom: 8px;
     font-weight: 600;
     font-family: sans-serif;
     color: #333333;
@@ -310,9 +311,9 @@
 }
 
 .page-link {
-    width: 2.5vw;
-    height: 2.5vw;
-    font-size: 1.2vw;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
     text-align: center;
     line-height: 1.5vw;
 }
@@ -322,12 +323,14 @@
 }
 
 #buttonArea {
-    width: 50%;
+    width: 600px;
+    position: relative;
+    left: -50px;
 }
 
 #buttonArea > span {
     letter-spacing: 2px;
-    font-size: 1vw;
+    font-size: 14px;
     margin-left: 70px;
     cursor: pointer;
     -webkit-user-select:none; 
@@ -346,7 +349,7 @@
 #buttonArea > span:after {
     display:block;
     content: '';
-    border-bottom: solid 0.2vw rgb(60,172,255);  
+    border-bottom: solid 3px rgb(60,172,255);  
     transform: scaleX(0);  
     transition: transform 250ms ease-in-out;
 }
@@ -359,7 +362,7 @@
 }
 
 #buttonArea{
-    width: 35vw;
+    width: 450px;
     height: 100%;
     display:flex;
     justify-content: center;
@@ -434,7 +437,7 @@
 
 #loginStatus{
     height: 100%;
-    width: 15vw;
+    width: 160px;
     display:flex;
     flex-direction: row-reverse;
     align-items: center;
@@ -487,10 +490,10 @@
 }
 
 .profileArea {
-    width: 100%;
-    min-width: 1200px;
-    height: auto;
+    width: 1350px;
+    height: 600px;
     min-height: 600px;
+    margin: 0 auto;
 }
 
 .profileArea div {
@@ -732,7 +735,7 @@
 }
 
 .searchingArea {
-    width: 15vw;
+    width: 220px;
     border: 1px solid rgb(197, 197, 197);
     text-indent: 30px;
     height: 35px;
@@ -833,10 +836,9 @@
 }
 
 .sectionArea{
-    width: 90%;
+    width: 1200px;
     margin: 0 auto;
     min-height: 700px;
-    height: 100vh;
     display: flex;
     justify-content: center;
     background-color: white;
@@ -844,7 +846,7 @@
 }
 
 .noticeFrameArea {
-    width: 70%;
+    width: 800px;
     height: 100%;
     min-height: 610px;
 }
@@ -880,14 +882,14 @@
 }
 
 .newPost_post {
-    width: 10vw;
-    height: 2vw;
+    width: 150px;
+    height: 30px;
     min-height: 35px;
     position: absolute;
     display: inline-block;
     background-color: rgb(60,172,255);
     right: 30px;
-    bottom: 20px;
+    bottom: 10px;
     border: none;
     cursor: pointer;
     color: white;
@@ -939,7 +941,7 @@
     color: rgb(100, 100, 100);
     font-weight: 300;
     display: inline-block;
-    font-size: 1.1vw;
+    font-size: 14px;
 }
 
 #DescHead {
@@ -1169,8 +1171,9 @@
 
 .formwrapper{
     margin-top: 50px;
-    margin-left: 150px;
-    height: 539px;
+    margin-left: 100px;
+    width: 700px;
+    height: 450px;
     box-shadow: 0px 0px 20px rgb(197, 197, 197);
 }
 
@@ -1288,18 +1291,18 @@
 }
 
 .newPostArea {
-    width: 100%;
-    min-width: 1400px;
+    width: 1300px;
     height: auto;
     min-height: 650px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     background-color: white;
 }
 
 .ck.ck-editor__editable:not(.ck-editor__nested-editable) {
-    width: 800px;
-    height: 500px;
+    width: 700px;
+    height: 450px;
 }
 
 .centerLine{
@@ -1342,9 +1345,9 @@
 }
 
 .postController {
-    width: 30%;
-    height: 90%;
-    margin-left: -150px;
+    width: 400px;
+    height: 650px;
+    margin-right: 50px;
     margin-top: 50px;
 }
 
@@ -1353,13 +1356,14 @@
 }
 
 .postViewFrame {
-    width: 100%;
+    margin: 0 auto;
+    width: 1200px;
     display: flex;
     flex-direction: row;
 }
 
 .postViewSection {
-    width: 75vw;
+    width: 900px;
     margin: 0 auto;
     height: auto;
     margin-top: 23px;
@@ -1378,7 +1382,7 @@
 }
 
 .postWriter {
-    font-size: 1.2vw;
+    font-size: 14px;
     font-weight: 600;
     color: rgb(30, 158, 255);
 }
@@ -1409,7 +1413,7 @@
 
 .postView svg {
     position: relative;
-    top: -1px;
+    top: 0px;
     color: gray;
     margin-left: 8px;
 }
@@ -1417,8 +1421,8 @@
 .postView span {
     margin-left: 5px;
     margin-right: 5px;
-    font-weight: 500;
-    font-size: 1vw;
+    font-weight: 700;
+    font-size: 13px;
     color : gray;
     -webkit-user-select:none; 
     -moz-user-select:none; 
@@ -1428,8 +1432,8 @@
 
 .postTitle{
     display: inline-block;
-    margin-top: 10px;
-    font-size: 1.4vw;
+    margin-top: 8px;
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -1439,7 +1443,7 @@
     min-height: 100px;
     margin-top: 20px;
     word-break: break-all;
-    font-size: 1.1vw;
+    font-size: 16px;
 }
 
 .postViewButtonArea {
@@ -1455,9 +1459,9 @@
 
 .noticePagenationButton {
     display: inline-block;
-    width: 2.5vw;
-    height: 2.5vw;
-    font-size: 1.2vw;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
     text-align: center;
     cursor: pointer;
     border: 1px solid #d0e9ff;
@@ -1467,9 +1471,9 @@
 
 .noticePagenationButtonNow {
     display: inline-block;
-    width: 2.5vw;
-    height: 2.5vw;
-    font-size: 1.2vw;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
     text-align: center;
     background-color: #c9ebee;
     color:rgb(81, 108, 197);
@@ -1641,9 +1645,9 @@
     min-height: 80px;
     height: auto;
     border-bottom: 1px solid rgb(192, 192, 192);
-    font-size: 1.3vw;
+    font-size: 15px;
     margin-right: 5px;
-    margin-top: 1vw;
+    margin-top: 10px;
 }
 
 .commitmiddle{
@@ -1909,14 +1913,6 @@
             width: 400px;
         }
         
-        .setresponsible {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            top: 67px;
-            min-height: 763px;
-            height: 100%;
-        }
 
         .postTitle {
             width: 100%;
@@ -2108,11 +2104,6 @@
             width: 111vw;
         }
 
-        .postViewSection {
-            width: 111%;
-            margin-left: -48px;
-            margin-top: -20px;
-        }
 
         .postsettingIcon {
             width: 100%;

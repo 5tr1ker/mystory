@@ -33,11 +33,12 @@ public class ProfileRepositoryImpl implements CustomProfileRepository {
 
         long totalPost = queryFactory.select(post.count())
                 .from(post)
-                .innerJoin(post.writer).on(user.id.eq(userId)).fetchOne();
+                .innerJoin(post.writer , user).on(user.id.eq(userId))
+                .fetchOne();
 
         Integer totalView = queryFactory.select(post.views.sum())
                 .from(post)
-                .innerJoin(post.writer).on(user.id.eq(userId)).fetchOne();
+                .innerJoin(post.writer , user).on(user.id.eq(userId)).fetchOne();
 
         if(totalView == null) {
             totalView = 0;
@@ -45,7 +46,7 @@ public class ProfileRepositoryImpl implements CustomProfileRepository {
 
         long totalComment = queryFactory.select(comment.count())
                 .from(comment)
-                .innerJoin(comment.writer).on(user.id.eq(userId)).fetchOne();
+                .innerJoin(comment.writer , user).on(user.id.eq(userId)).fetchOne();
 
         Date joinDate = queryFactory.select(user.joinDate)
                 .from(user)

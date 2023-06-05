@@ -17,10 +17,10 @@ public class Profile {
 	@GeneratedValue
 	private long profileKey;
 	
-	@Column(name = "email")
+	@Column
 	private String email;
 	
-	@Column(name = "phone")
+	@Column
 	private String phone;
 	
 	@Column(nullable = false)
@@ -28,14 +28,14 @@ public class Profile {
 	
 	static public Profile createInitProfileSetting() {
 		Profile profile = new Profile();
-		profile.setOptions(4);
+		profile.setOptions(1);
 		return profile;
 	}
 
 	public void updateProfile(ProfileRequest profileRequest) {
 		this.email = profileRequest.getEmail();
 		this.phone = profileRequest.getPhone();
-		this.options = profileRequest.getOption2();
+		this.options = profileRequest.getOptions();
 	}
 	
 }

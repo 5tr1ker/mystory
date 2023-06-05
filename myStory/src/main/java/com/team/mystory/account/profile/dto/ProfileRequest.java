@@ -11,6 +11,6 @@ public class ProfileRequest {
     private String userId;
     private String email;
     private String phone;
-    private Integer option2;
+    private Integer options;
 
 } 

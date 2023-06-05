@@ -73,8 +73,6 @@ const PostView = ({ idStatus }) => {
         setAttachment(result.data.data.attachment || []);
         setTagData(result.data.data.tags || []);
 
-        console.log(findPost);
-
         if(findPost.private == true && findPost.writer !== idStatus) {
             alert("비공개글입니다.");
             window.location.replace(`/noticelist`);

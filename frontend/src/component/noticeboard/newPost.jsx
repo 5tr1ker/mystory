@@ -179,7 +179,7 @@ const NewPost = ({ idStatus }) => {
       })
       .then((response) => { alert(response.data.message); window.location.replace('/noticelist'); }) 
       .catch((e) => alert(e.response.data.message));
-
+      
     } else if (urlResult[1] === 'modified') { // 포스트 수정
 
       const jsonPostData = {"title" : postContent.title , "content" : postContent.content , "privatePost" : postOption.privates , 
