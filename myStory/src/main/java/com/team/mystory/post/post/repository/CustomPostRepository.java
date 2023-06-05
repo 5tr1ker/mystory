@@ -20,8 +20,6 @@ public interface CustomPostRepository {
 
 	long getTotalNumberOfPosts();
 
-	Optional<Post> findPostByPostId(long postId);
-
 	List<String> findTagsInPostId(long postId);
 
 	void updatePostView(long postId);

@@ -68,16 +68,6 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	}
 
 	@Override
-	public Optional<Post> findPostByPostId(long postId) {
-		Post result = queryFactory.select(post)
-				.from(post)
-				.where(post.postId.eq(postId))
-				.fetchOne();
-
-		return Optional.ofNullable(result);
-	}
-
-	@Override
 	public List<PostListResponse> getPostList(Pageable pageable) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId
 						, post.title , user.id , post.postDate , post.likes

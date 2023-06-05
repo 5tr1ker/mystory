@@ -4,7 +4,6 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Postlabel from "./postlabel";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NewPost = ({ idStatus }) => {
   const [postContent , setPostContent] = useState({
@@ -24,8 +23,9 @@ const NewPost = ({ idStatus }) => {
   const labelInputData = useRef(''); // 라벨입력 값
 
   const deleteFile = (e) => { // 삭제된 파일 정보를 반환
+    console.log(e);
     const result = showFileList.filter(item => item !== e );
-    setDeletedFileList(prevList => [...prevList , e[0].name]);
+    setDeletedFileList(prevList => [...prevList , e[0].id]);
     setShowFileList(result);
   }
 
@@ -53,8 +53,8 @@ const NewPost = ({ idStatus }) => {
           alert("해당 파일은 이미 존재합니다.");
           inputCheck = false;
           return false;
-        } else if (e.target.files[0].size > 100 * 1024 * 1024) {
-          alert("100M가 넘는 파일은 제외되었습니다.");
+        } else if (e.target.files[0].size > 10 * 1024 * 1024) {
+          alert("10M가 넘는 파일은 제외되었습니다.");
           inputCheck = false;
           return false;
         } else if (e.target.files[0].name.length > 30) {
@@ -98,10 +98,8 @@ const NewPost = ({ idStatus }) => {
   }
 
   useEffect(async () => {
-    const accessToken =  await AsyncStorage.getItem("accessToken");
-    axios.defaults.headers.common['Authorization'] = accessToken;
     checkModifiedOrNewpost();
-    if (idStatus === undefined) {
+    if (idStatus == undefined) {
       alert('로그인 후 사용해주세요.');
       window.history.back();
     }
@@ -112,29 +110,30 @@ const NewPost = ({ idStatus }) => {
     const urlResult = urlStat.split("/");
     if (urlResult[1] === 'modified') {    // 포스트 수정일 때 데이터를 가져옵니다.
       const serverResult = await axios({
-          url : `/auth/modifiedPost/${parseInt(urlResult[2])}` ,
+          url : `/posts/${parseInt(urlResult[2])}` ,
           mode : "cors" ,
           method : "GET"
-      });
+      })
+      .catch((e) => {alert(e.response.data.message); window.location.href = `/viewpost?page=${urlResult[2]}`});
       
-      if (idStatus !== serverResult.data.postData.writer) { // url를 통해 불법적 접근은 제어
+      if (idStatus !== serverResult.data.data.writer) { // url를 통해 불법적 접근은 제어
         alert('비정상적인 접근입니다.');
         window.location.href = '/noticelist';
       } else {
-        const getTags = serverResult.data.tagData;
-        const getAttachMent = serverResult.data.attachment;
+        const getTags = serverResult.data.data.tags;
+        const getAttachMent = serverResult.data.data.attachment;
 
         if(getAttachMent !== null) {
           const attachResult = getAttachMent.map(item => { return [{
-            name : item.fileName,
+            name : item.realFileName, id : item.attachmentId
            }]});
    
            setShowFileList(attachResult);
         }
         
-        setPostContent({...postContent , title : serverResult.data.postData.title});
-        setPostContent({...postContent , content : serverResult.data.postData.content});
-        setPostOption({...postOption , blockComm: serverResult.data.postData.blockComm , privates: serverResult.data.postData.privates});
+        setPostContent({...postContent , title : serverResult.data.data.title});
+        setPostContent({...postContent , content : serverResult.data.data.content});
+        setPostOption({...postOption , blockComm: serverResult.data.data.blockComment , privates: serverResult.data.data.private});
         setLabelData(getTags);
       }
     }
@@ -143,10 +142,6 @@ const NewPost = ({ idStatus }) => {
   const newPost = async () => { // 새로운 글 작성 모드
     const urlStat = window.location.pathname;
     const urlResult = urlStat.split("/");
-    const formData = new FormData();
-    showFileList.map(item => {
-      formData.append('file', item[0]);
-    });
 
     // 입력값이 없을 때
     if(postContent.title === '') {
@@ -164,62 +159,45 @@ const NewPost = ({ idStatus }) => {
         return -1;
       }
 
-      const jsonPostData = JSON.stringify({postContent , postOption , idStatus , labelData});
-        const newPostResult = await axios({
+      const jsonPostData = {"title" : postContent.title , "content" : postContent.content , "isPrivate" : postOption.privates , 
+      "blockComment" : postOption.blockComm , "tags" : labelData , "deletedFileIds" : []};
+
+      let requestForm = new FormData();
+      const blob = new Blob([JSON.stringify(jsonPostData)], { type: "application/json" });
+      requestForm.append("postRequest" , blob);
+      showFileList.map(item => {
+        requestForm.append('multipartFiles', item[0]);
+      });
+
+      await axios({
           method : "POST" ,
               mode: "cors" , 
-              url : `/auth/newPost`,
-              headers : {"Content-Type": "application/json"} ,
-              data : jsonPostData}
-        );
+              url : `/posts`,
+              headers : {'Content-Type': 'multipart/form-data'} ,
+              data : requestForm
+      })
+      .then((response) => { alert(response.data.message); window.location.replace('/noticelist'); }) 
+      .catch((e) => alert(e.response.data.message));
 
-      const attachResult = await axios({
-        method: "POST" ,
-        mode : "cors" ,
-        url: `/auth/uploadData/${newPostResult.data.postNumber}`,
-        headers: {
-          "Content-Type": `multipart/form-data`,
-        } ,
-        data: formData
-      });
-
-      if (newPostResult.data.result === -1 || attachResult === -1) {
-        alert('게시물을 등록하는 도중에 오류가 발생했습니다. 다시 시도해 주세요.');
-        window.history.back();
-      } else if (newPostResult.data.result === 0) {
-        window.location.replace(`/noticelist`);
-      } else {
-        alert('게시물을 등록하는 도중에 오류가 발생했습니다. 다시 시도해 주세요.');
-      }
     } else if (urlResult[1] === 'modified') { // 포스트 수정
-      const jsonData = JSON.stringify({ postContent , postOption , idStatus , labelData , deletedFileList});
-      const newPostResult = await axios({
-        method : "PATCH" ,
-        url : `/auth/modifiedPost/${urlResult[2]}`,
-        data : jsonData ,
-        headers: {"Content-Type": "application/json"}
-      });
+      const jsonPostData = {"title" : postContent.title , "content" : postContent.content , "isPrivate" : postOption.privates , 
+      "blockComment" : postOption.blockComm , "tags" : labelData , "deletedFileIds" : deletedFileList};
 
-      /* 첨부파일 수정항목  */
-      const uploadDataResult = await axios({
-        method: "POST" ,
-        mode : "cors" ,
-        url: `/auth/uploadData/${urlResult[2]}`,
-        headers: {
-          "Content-Type": `multipart/form-data`,
-        } ,
-        data: formData
+      let requestForm = new FormData();
+      const blob = new Blob([JSON.stringify(jsonPostData)], { type: "application/json" });
+      requestForm.append("postRequest" , blob);
+      showFileList.map(item => {
+        requestForm.append('multipartFiles', item[0]);
       });
       
-      if (newPostResult.data === 0) {
-        alert('수정이 완료되었습니다.');
-        window.location.href = `/noticelist`;
-      } else {
-        alert('요청중 오류가 발생했습니다.');
-      }
-    } else {
-      alert('잘못된 접근입니다.');
-      window.history.back(1);
+      await axios({
+        method : "PUT" ,
+        url : `/posts/${urlResult[2]}`,
+        data : requestForm ,
+        headers: {'Content-Type': 'multipart/form-data'}
+      })
+      .then((response) => { alert(response.data.message); window.location.replace('/noticelist'); }) 
+      .catch((e) => alert(e.response.data.message));
     }
   }
   
@@ -254,7 +232,7 @@ const NewPost = ({ idStatus }) => {
       </div>
       <div className="postController">
         <Link to={"/noticelist"} className="linkButtondesign"><button className="postviewbutton_cancel">Cancel</button></Link>
-        <Link to={"/newpost"} className="linkButtondesign" onClick={newPost}><button className="postviewbutton">Update</button></Link>
+        <Link to={`/noticelist`} className="linkButtondesign" onClick={newPost}><button className="postviewbutton">Update</button></Link>
         <div className="centerLine"/>
         <div className="postSettings">
         <span className="publicinSection">Public in Section</span>

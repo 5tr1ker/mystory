@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState , Fragment } from "react";
 import FileDownload from "js-file-download";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PostView = ({ idStatus }) => {
     const params = new URLSearchParams(window.location.search).get('page');
@@ -25,25 +24,21 @@ const PostView = ({ idStatus }) => {
     const PostViewAttachment = (({ data }) => { // 첨부파일
         return (data.map(item => (
             <Fragment key={item.fileName}>
-                <div className="downloadBlock" onClick={() => onDownload(item.changedFile , item.fileName)}>
+                <div className="downloadBlock" onClick={() => onDownload(item.s3Url)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-paperclip" viewBox="0 0 16 16">
                         <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
                     </svg>
-                    <span>{item.fileName}</span>
+                    <span>{item.realFileName}</span>
                 </div><br />
             </Fragment>
         ))
         )
     });
 
-    const onDownload = async (changeName , fileName) => {
-    const result = await axios({
-      url:`/onDownload/${changeName}` ,
-      method:"GET" ,
-      mode : "cors" ,
-      responseType: 'blob'
-    });
-    FileDownload(result.data , fileName);
+    const onDownload = async (downloadUrl) => {
+        const reader = new FileReader();
+   
+        console.log(downloadUrl);
     }
     
     const getPost = async (mode) => { // 게시글 정보 가져오기
@@ -54,24 +49,26 @@ const PostView = ({ idStatus }) => {
         const result = await axios({ // POST 정보 가져오기
             method: "GET" ,
             mode: "cors" , 
-            url: `/selectPost/${parseInt(params) + 1}`
-        });
+            url: `/posts/${parseInt(params)}`
+        })
+        .catch((e) => { alert(e.response.data.message); window.location.replace(`/noticelist`);});
 
-       const findPost = result.data.postData;
-        setAttachment(result.data.attachment || []);
-        setNowPages(result.data.postData.numbers || []);
-        setTagData(result.data.tagData || []);
-
-        if(findPost === '') {
-            alert("해당 게시물을 찾을 수 없습니다.");
-            window.location.replace(`/noticelist`);
-        }
+       const findPost = result.data.data;
+        setAttachment(result.data.data.attachment || []);
+        setNowPages(result.data.data.postId || []);
+        setTagData(result.data.data.tags || []);
+        console.log(findPost);
 
         if(findPost.privates === true && findPost.writer !== idStatus) {
             alert("비공개글입니다.");
             window.location.replace(`/noticelist`);
         } else {
             if (mode === 'views') { // 조회수 증가
+                await axios({
+                    method : "PATCH" ,
+                    mode : "cors" ,
+                    url: `/posts/views/${parseInt(params)}`
+                })
                 setContentArr(findPost); // findindex 로 해당 키값이 어떤 배열에 저장되어있는지 확인 후 해당 배열 반환+
             }
         }
@@ -85,37 +82,31 @@ const PostView = ({ idStatus }) => {
                 return;
             } else {
                 const jsondata = JSON.stringify({"idStatus" : idStatus});
-                const likeresult = await axios({
+                await axios({
                     method : "PATCH" ,
                     mode : "cors" ,
-                    url: `/auth/likes/${parseInt(params) + 1}`, 
+                    url: `/posts/likes/${parseInt(params)}`, 
                     data : jsondata , 
                     headers : {"Content-Type": "application/json"}
-                });
-
-                if (likeresult.data === -2) {
-                    alert('이미 좋아요를 눌렀습니다.');
-                    return;
-                }
+                })
+                .catch((e) => {alert(e.response.data.message); return;});
+                
             }
             window.location.reload();
         }
     }
 
     const postDelete = async (data) => { // 게시글 삭제
+        console.log(data);
         if (idStatus === postContentArr.writer) {
             if (window.confirm("게시글을 삭제하시겠습니까?")) {
-                const result = await axios({
+                await axios({
                     method : "DELETE" ,
-                    url : `/auth/post/${parseInt(data)}` ,
+                    url : `/posts/${parseInt(data)}` ,
                     mode : "cors"
-                });
-
-                if (result.data === -1) {
-                    alert('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-                } else if (result.data === 0) {
-                    window.location.replace(`/noticelist`);
-                }
+                })
+                .then((response) => { alert(response.data.message); window.location.replace('/noticelist'); }) 
+                .catch((e) => alert(e.response.data.message));
             }
         } else {
             alert('내용 삭제는 작성자만 할 수 있습니다.');
@@ -124,7 +115,7 @@ const PostView = ({ idStatus }) => {
 
     const postModifie = () => { // 글 수정
         if (idStatus === postContentArr.writer) {
-            window.location.href = `/modified/${postContentArr.numbers}`;
+            window.location.href = `/modified/${postContentArr.postId}`;
         } else {
             alert('글 수정은 작성자만 할 수 있습니다.');
         }
@@ -179,8 +170,6 @@ const PostView = ({ idStatus }) => {
     useEffect(async () => {
         getPost('views');
         getCommit();
-        const accessToken =  await AsyncStorage.getItem("accessToken");
-        axios.defaults.headers.common['Authorization'] = accessToken;
     }, []);
 
     return (
@@ -191,7 +180,7 @@ const PostView = ({ idStatus }) => {
                      <Link to={`/noticelist`}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-bar-left" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5zM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5z" />
                         </svg></Link>
-                        <svg xmlns="http://www.w3.org/2000/svg" onClick={() => postDelete(postContentArr.numbers)} width="20" height="20" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" onClick={() => postDelete(postContentArr.postId)} width="20" height="20" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                             <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                         </svg>
@@ -222,7 +211,7 @@ const PostView = ({ idStatus }) => {
                             <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
                             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
                         </svg>
-                        <span>{ postContentArr.postTime}</span>
+                        <span>{ postContentArr.postDate}</span>
                     </div>
                 </header>
                 <aside className="postViewContent">
@@ -254,7 +243,7 @@ const PostView = ({ idStatus }) => {
 
                 <div className="postComment">
                     <div className="commitmiddle">
-                        {postContentArr.blockComm ? null : <div className="commitInput">
+                        {postContentArr.blockComment ? null : <div className="commitInput">
                             <textarea id="commitinput" className="postCommitArea" ref={commit} maxLength={200} />
                             <button className="commitCommit" onClick={() => addCommit()}>Commit</button>
                         </div> }

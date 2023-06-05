@@ -1,5 +1,6 @@
 package com.team.mystory.post.post.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team.mystory.post.attachment.domain.Attachment;
 import com.team.mystory.post.attachment.dto.AttachmentResponse;
 import com.team.mystory.post.post.domain.Post;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -20,6 +22,9 @@ public class PostResponse {
     private int likes;
     private boolean isPrivate;
     private boolean isBlockComment;
+    private String writer;
+    @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd" , timezone = "Asia/Seoul")
+    private Date postDate;
 
     @Builder.Default
     List<String> tags = new ArrayList<>();
@@ -37,6 +42,8 @@ public class PostResponse {
                 .likes(post.getLikes())
                 .isPrivate(post.isPrivate())
                 .isBlockComment(post.isBlockComment())
+                .writer(post.getWriter().getId())
+                .postDate(post.getPostDate())
                 .build();
     }
 

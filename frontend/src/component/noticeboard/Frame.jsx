@@ -18,7 +18,7 @@ const NoticeFrame = () => {
 
     const [mobileMenu, setMobileMenu] = useState(false);
 
-    const [userOption, setUserOption] = useState({ session: 0, notified: 3 });
+    const [userOption, setUserOption] = useState({ notified: 3 });
     const urlInfo = window.location.pathname.split('/')[1];
     
     const query = qs.parse(window.location.search, { // ?tag=데이터 로 찾음 query.tag
@@ -31,22 +31,13 @@ const NoticeFrame = () => {
     }
 
     const getInitData = async () => {
-        if(sessionUserId != undefined) {
-            return;
-        }
-        
-        const getProfileDatas = await axios({
+        await axios({
             method: "GET",
             mode: "cors",
             url: `/users`,
         })
-        .then((response) => { localStorage.setItem("userId" , response.data.data.id ); }) 
-        .catch((e) => alert(e.response.data.message));
-
-        setUserOption({
-            session: getProfileDatas.data.option1,
-            notified: getProfileDatas.data.option2
-        });
+        .then((response) => { localStorage.setItem("userId" , response.data.data.id ); setUserOption({notified: response.data.data.options}) }) 
+        .catch((e) => {});
     }
 
     const setMobileMenuBar = () => { mobileMenu ? setMobileMenu(false) : setMobileMenu(true); }
@@ -59,12 +50,12 @@ const NoticeFrame = () => {
     const setDropers = () => { dropBoxs ? setDropBox(false) : setDropBox(true); }
     
     useEffect(async () => {
-        if(query.code !== undefined) {
-
+        if(query.code != undefined) {
             window.location.replace("/noticelist");
         }
 
-        if (sessionUserId !== '') {
+        if (sessionUserId == undefined) {
+            console.log("징~");
             getInitData();
         }
     }, []);
@@ -120,7 +111,7 @@ const NoticeFrame = () => {
                     </div>
                     <div id="loginStatus">
                         <span id="loginUser">
-                            {sessionUserId !== undefined ?
+                            {sessionUserId != undefined ?
                                 <Fragment>
                                     <div className='noticeLogin' onClick={setDropers}>
                                         <div className="profileimage">

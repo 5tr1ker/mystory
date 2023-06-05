@@ -7,6 +7,7 @@ import com.team.mystory.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +23,7 @@ public class PostController {
 	
 	private final PostService postService;
 	
-	@PostMapping
+	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<ResponseMessage> addPost(@RequestPart PostRequest postRequest
 			, @RequestPart(required = false) List<MultipartFile> multipartFiles , @CookieValue String accessToken)
 			throws AccountException, IOException {

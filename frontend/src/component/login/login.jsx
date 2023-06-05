@@ -2,7 +2,6 @@ import axios from 'axios';
 import { Fragment , useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../_style/loginScreen.css'
-import Cookies from 'universal-cookie';
 import img01 from '../../_image/pic1.png';
 import img02 from '../../_image/googleLoginButton.png';
 import img03 from '../../_image/kakaoLogInButton.png';
@@ -10,7 +9,6 @@ import img04 from '../../_image/naverLoginButton.png';
 
 
 const Logins = () => {
-    const cookies = new Cookies();
     const [idInfo , setInfo] = useState({
         id : '' ,
         pw : ''
@@ -40,7 +38,7 @@ const Logins = () => {
             headers : headers ,
             data : JSON.stringify({"id" : idInfo.id , "password" : idInfo.pw})
         })
-        .then((response) => { alert(response.data.message); localStorage.setItem("userId" , idInfo.id); window.location.replace('/noticelist'); }) 
+        .then((response) => { alert(response.data.message); window.location.replace('/noticelist'); }) 
         .catch((e) => alert(e.response.data.message));
     }
 

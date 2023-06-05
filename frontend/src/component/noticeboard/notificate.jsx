@@ -6,12 +6,12 @@ const Notificate = ({dropDownSet , userId , notifiedMode}) => {
     const [list , setList] = useState([]);
 
     const connectUrl = (postNumber) => {
-        window.location.href = `/viewPost?page=${postNumber - 1}`;
+        window.location.href = `/posts/${postNumber - 1}`;
     }
     
     const Notifycontent = ({data}) => {
         return (data.map(item => (
-        <div key={item.id} className="notificateitem" onClick={() => connectUrl(item.postNumber)}>
+        <div key={item.id} className="notificateitem" onClick={() => connectUrl(item.postId)}>
             <header className="nfitemheader">
                 <span id="headerNamed">{item.writer}</span>님이 댓글을 달았습니다.</header>
             <div className="nfitemcontent">
@@ -24,11 +24,11 @@ const Notificate = ({dropDownSet , userId , notifiedMode}) => {
 
     useEffect(async() => {
         const result = await axios({
-            url : `/notifice/${userId}` ,
+            url : `/notifications` ,
             method : "GET" ,
             mode : "cors"
         });
-        setList(result.data);
+        setList(result.data.data);
     } , []);
 
     return(

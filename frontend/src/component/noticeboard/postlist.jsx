@@ -4,10 +4,8 @@ import Postcontent from "./postlistcontent";
 import PostPointer from "./postpagenation";
 import qs from 'qs';
 import { Link } from "react-router-dom";
-import Cookies from "universal-cookie";
 
 const NoticeList = () => {
-    const cookies = new Cookies();
     const query = qs.parse(window.location.search, { // ?tag=데이터 로 찾음 query.tag
         ignoreQueryPrefix: true
     });
@@ -24,14 +22,14 @@ const NoticeList = () => {
                 const getPostResult = await axios({ // 게시판 데이터 가져오기
                     method: "GET",
                     mode: "cors",
-                    url: `/findPostBySearch/${e.target.value}`,
+                    url: `/posts/search/${e.target.value}`,
                 });
                 setPostAll(getPostResult.data);
             } else {
                 const getPostResult = await axios({ // 게시판 데이터 가져오기
                     method: "GET",
                     mode: "cors",
-                    url: `/post?page=0&size=10`,
+                    url: `/posts?page=0&size=10`,
                 });
                 setPostAll(getPostResult.data);
             }
@@ -42,16 +40,16 @@ const NoticeList = () => {
         const getPostResult = await axios({ // 게시판 데이터 가져오기
             method: "GET",
             mode: "cors",
-            url: `/post?page=${pages - 1}&size=10`,
+            url: `/posts?page=${pages - 1}&size=10`,
         });
-        setPostAll(getPostResult.data); // 전체 데이터
+        setPostAll(getPostResult.data.data); // 전체 데이터
 
         const result = await axios({
             method: "GET",
             mode: "cors",
-            url: `/totalPostDataCount`
+            url: `/posts/count`
         });
-        setTotalPost(result.data);
+        setTotalPost(result.data.data);
     };
 
     const tagSearch = async () => { // 태그
@@ -62,9 +60,9 @@ const NoticeList = () => {
             const searchresult = await axios({
                 method: "GET",
                 mode: "cors",
-                url: `/findPostBySearchAndTag/${query.tag}`
+                url: `/search/tags/${query.tag}`
             });
-            setPostAll(searchresult.data);
+            setPostAll(searchresult.data.data);
 
         }
     }
