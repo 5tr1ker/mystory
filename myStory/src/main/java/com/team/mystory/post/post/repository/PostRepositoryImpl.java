@@ -101,6 +101,22 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	}
 
 	@Override
+	public long getTotalNumberOfTagSearchPosts(String tagData) {
+		return queryFactory.select(post.count())
+				.from(post)
+				.innerJoin(post.tag , tag).on(tag.tagData.eq(tagData))
+				.fetchOne();
+	}
+
+	@Override
+	public long getTotalNumberOfSearchPosts(String search) {
+		return queryFactory.select(post.count())
+				.from(post)
+				.where(post.title.contains(search).or(post.content.contains(search)))
+				.fetchOne();
+	}
+
+	@Override
 	public List<String> findTagsInPostId(long postId) {
 		return queryFactory.select(tag.tagData)
 				.from(tag)

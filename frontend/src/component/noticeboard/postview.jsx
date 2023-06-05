@@ -16,7 +16,7 @@ const PostView = ({ idStatus }) => {
     const PostViewTag = (({data}) => { // 태그
         const tagarr = [];
         data.forEach(item => tagarr.push(item));
-        return(tagarr.map(item => <span key={item} onClick={() => window.location.replace(`/noticelist?tag=${item}`)}>{item}</span>));
+        return(tagarr.map(item => <span key={item} onClick={() => window.location.replace(`/noticelist?type=tag&data=${item}`)}>{item}</span>));
     });
 
     const PostViewAttachment = (({ data }) => { // 첨부파일

@@ -6,6 +6,7 @@ import com.team.mystory.post.post.dto.PostRequest;
 import com.team.mystory.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,8 @@ public class PostController {
 	}
 
 	@GetMapping(value = "/count")
-	public ResponseEntity<ResponseMessage> getTotalNumberOfPosts() {
-		return ResponseEntity.ok().body(postService.getTotalNumberOfPosts());
+	public ResponseEntity<ResponseMessage> getTotalNumberOfPosts(@RequestParam String type , @RequestParam(required = false) String data) {
+		return ResponseEntity.ok().body(postService.getTotalNumberOfPosts(type , data));
 	}
 
 	@GetMapping

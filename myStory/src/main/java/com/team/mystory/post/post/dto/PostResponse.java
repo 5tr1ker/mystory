@@ -23,7 +23,7 @@ public class PostResponse {
     private boolean isPrivate;
     private boolean isBlockComment;
     private String writer;
-    @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd" , timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:MM:SS" , timezone = "Asia/Seoul")
     private Date postDate;
 
     @Builder.Default

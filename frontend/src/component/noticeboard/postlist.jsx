@@ -1,38 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import Postcontent from "./postlistcontent";
 import PostPointer from "./postpagenation";
 import qs from 'qs';
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const NoticeList = () => {
+    const [searchParams , setSearchParams] = useSearchParams();
+
     const query = qs.parse(window.location.search, { // ?tag=데이터 로 찾음 query.tag
         ignoreQueryPrefix: true
     });
     
     const maxPages = useRef(1);
     const [postAll, setPostAll] = useState([]); // 모든 post
-    const [pages, setPages] = useState(1); // d현재 페이지
+    const [pages, setPages] = useState(1); // 현재 페이지
     const [totalPost, setTotalPost] = useState(0); // 전체 post
     
     const searchDataInput = async (e) => {
         if (e.key == 'Enter') {
             if (e.target.value !== '') {
-                await axios({ // 게시판 데이터 가져오기
-                    method: "GET",
-                    mode: "cors",
-                    url: `/posts/search/${e.target.value}?page=${pages - 1}&size=10`,
-                })
-                .then((response) => { setPostAll(response.data.data) }) 
-                .catch((e) => alert(e.response.data.message));
-
-                await axios({
-                    method: "GET",
-                    mode: "cors",
-                    url: `/posts/count`
-                })
-                .then((response) => { setTotalPost(response.data.data) }) 
-                .catch((e) => alert(e.response.data.message));
+                window.location.replace(`/noticelist?type=search&data=${e.target.value}`);
+                setPages(0);
             } else {
                 getPost();
             }
@@ -50,7 +40,7 @@ const NoticeList = () => {
         const result = await axios({
             method: "GET",
             mode: "cors",
-            url: `/posts/count`
+            url: `/posts/count?type=normal`
         });
         setTotalPost(result.data.data);
     };
@@ -63,7 +53,7 @@ const NoticeList = () => {
             await axios({
                 method: "GET",
                 mode: "cors",
-                url: `/posts/search/tags/${query.tag}?page=${pages - 1}&size=10`
+                url: `/posts/search/tags/${searchParams.get("data")}?page=${pages - 1}&size=10`
             })
             .then((response) => { setPostAll(response.data.data) }) 
             .catch((e) => alert(e.response.data.message));
@@ -71,7 +61,7 @@ const NoticeList = () => {
             await axios({
                 method: "GET",
                 mode: "cors",
-                url: `/posts/count`
+                url: `/posts/count?type=tag&data=${searchParams.get("data")}`
             })
             .then((response) => { setTotalPost(response.data.data) }) 
             .catch((e) => alert(e.response.data.message));
@@ -83,11 +73,32 @@ const NoticeList = () => {
     }
 
         useEffect(async () => {
-        if (query.tag === undefined) { // 태그 검색
-            getPost();
-        } else {
-            tagSearch();
-        }
+            console.log(searchParams.get("data"));
+            if(searchParams.get("type") == "search") { // 일반 검색
+                await axios({ // 게시판 데이터 가져오기
+                    method: "GET",
+                    mode: "cors",
+                    url: `/posts/search/${searchParams.get("data")}?page=${pages - 1}&size=10`,
+                })
+                .then(async (response) => { 
+                    setPostAll(response.data.data)
+                    await axios({
+                        method: "GET",
+                        mode: "cors",
+                        url: `/posts/count?type=search&data=${searchParams.get("data")}`
+                    })
+                    .then((response) => { setTotalPost(response.data.data) }) 
+                    .catch((e) => alert(e.response.data.message));
+                 }) 
+                .catch((e) => alert(e.response.data.message));
+            }
+            else if (searchParams.get("type") == "tag") {
+                tagSearch();
+            }
+            else {
+                getPost();
+            }
+
     }, [pages]);
 
     const gotoNext = () => {

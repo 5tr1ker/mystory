@@ -140,8 +140,21 @@ public class PostService {
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 
-	public ResponseMessage<Long> getTotalNumberOfPosts() {
-		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.getTotalNumberOfPosts());
+	public ResponseMessage<Long> getTotalNumberOfPosts(String type , String data) {
+		long result = getTotalNumberAccordingType(type , data);
+
+		return ResponseMessage.of(REQUEST_SUCCESS , result);
+	}
+
+	public long getTotalNumberAccordingType(String type , String data) {
+		if(type.equals("normal")) {
+			return postRepository.getTotalNumberOfPosts();
+		} else if(type.equals("tag")) {
+			return postRepository.getTotalNumberOfTagSearchPosts(data);
+		} else if(type.equals("search")) {
+			return postRepository.getTotalNumberOfSearchPosts(data);
+		}
+		return 0;
 	}
 
 	public ResponseMessage findPostBySearch(Pageable pageable, String postContent) {
