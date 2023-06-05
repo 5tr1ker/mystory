@@ -10,6 +10,7 @@ const NewPost = ({ idStatus }) => {
     title : '' ,  //제목
     content : '' // 내용
   });
+
   const [postOption , setPostOption] = useState({
     blockComm : false ,
     privates : false
@@ -159,7 +160,7 @@ const NewPost = ({ idStatus }) => {
         return -1;
       }
 
-      const jsonPostData = {"title" : postContent.title , "content" : postContent.content , "isPrivate" : postOption.privates , 
+      const jsonPostData = {"title" : postContent.title , "content" : postContent.content , "privatePost" : postOption.privates , 
       "blockComment" : postOption.blockComm , "tags" : labelData , "deletedFileIds" : []};
 
       let requestForm = new FormData();
@@ -180,7 +181,8 @@ const NewPost = ({ idStatus }) => {
       .catch((e) => alert(e.response.data.message));
 
     } else if (urlResult[1] === 'modified') { // 포스트 수정
-      const jsonPostData = {"title" : postContent.title , "content" : postContent.content , "isPrivate" : postOption.privates , 
+
+      const jsonPostData = {"title" : postContent.title , "content" : postContent.content , "privatePost" : postOption.privates , 
       "blockComment" : postOption.blockComm , "tags" : labelData , "deletedFileIds" : deletedFileList};
 
       let requestForm = new FormData();

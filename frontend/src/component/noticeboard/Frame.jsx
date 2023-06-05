@@ -55,7 +55,6 @@ const NoticeFrame = () => {
         }
 
         if (sessionUserId == undefined) {
-            console.log("징~");
             getInitData();
         }
     }, []);

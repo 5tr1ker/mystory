@@ -10,7 +10,7 @@ import lombok.*;
 public class PostRequest {
 	private String[] tags;
 	private boolean blockComment;
-	private boolean isPrivate;
+	private boolean privatePost;
 	private String title;
 	private String content;
 	private long[] deletedFileIds;

@@ -103,8 +103,9 @@ public class PostService {
 	public Post findPostByIdAndValidateOwnership(long postId , String userId) {
 		Post post = postRepository.findPostByPostId(postId)
 				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
-		postRepository.findPostByPostIdAndUserId(postId , userId)
-				.orElseThrow(() -> new PostException("본인이 작성한 포스트만 수정할 수 있습니다."));
+		if(!post.getWriter().getId().equals(userId)) {
+			new PostException("본인이 작성한 포스트만 수정할 수 있습니다.");
+		}
 
 		return post;
 	}

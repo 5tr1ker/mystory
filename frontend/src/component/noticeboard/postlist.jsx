@@ -17,21 +17,24 @@ const NoticeList = () => {
     
     const searchDataInput = async (e) => {
         if (e.key == 'Enter') {
-            console.log(e.target.value);
             if (e.target.value !== '') {
-                const getPostResult = await axios({ // 게시판 데이터 가져오기
+                await axios({ // 게시판 데이터 가져오기
                     method: "GET",
                     mode: "cors",
-                    url: `/posts/search/${e.target.value}`,
-                });
-                setPostAll(getPostResult.data);
+                    url: `/posts/search/${e.target.value}?page=${pages - 1}&size=10`,
+                })
+                .then((response) => { setPostAll(response.data.data) }) 
+                .catch((e) => alert(e.response.data.message));
+
+                await axios({
+                    method: "GET",
+                    mode: "cors",
+                    url: `/posts/count`
+                })
+                .then((response) => { setTotalPost(response.data.data) }) 
+                .catch((e) => alert(e.response.data.message));
             } else {
-                const getPostResult = await axios({ // 게시판 데이터 가져오기
-                    method: "GET",
-                    mode: "cors",
-                    url: `/posts?page=0&size=10`,
-                });
-                setPostAll(getPostResult.data);
+                getPost();
             }
         }
     }
@@ -57,13 +60,21 @@ const NoticeList = () => {
             window.location.replace("/noticelist");
             return;
         } else {
-            const searchresult = await axios({
+            await axios({
                 method: "GET",
                 mode: "cors",
-                url: `/search/tags/${query.tag}`
-            });
-            setPostAll(searchresult.data.data);
+                url: `/posts/search/tags/${query.tag}?page=${pages - 1}&size=10`
+            })
+            .then((response) => { setPostAll(response.data.data) }) 
+            .catch((e) => alert(e.response.data.message));
 
+            await axios({
+                method: "GET",
+                mode: "cors",
+                url: `/posts/count`
+            })
+            .then((response) => { setTotalPost(response.data.data) }) 
+            .catch((e) => alert(e.response.data.message));
         }
     }
 

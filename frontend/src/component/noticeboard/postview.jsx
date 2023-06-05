@@ -3,13 +3,11 @@ import React ,  { useEffect , useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState , Fragment } from "react";
-import FileDownload from "js-file-download";
 
 const PostView = ({ idStatus }) => {
     const params = new URLSearchParams(window.location.search).get('page');
     const [postContentArr, setContentArr] = useState([]); // 현재 보여지는 페이지 
     const commit = useRef(''); // 커밋 내용
-    const [nowPageNumbers, setNowPages] = useState(0); // 현재 페이지 번호
     const [commitData, setCommitData] = useState([]); // 댓글 데이터
     const [tagData , setTagData] = useState([]); // 포스트 해시태그 데이터
     const [attachment , setAttachment] = useState([]); // 첨부파일 데이터
@@ -24,7 +22,7 @@ const PostView = ({ idStatus }) => {
     const PostViewAttachment = (({ data }) => { // 첨부파일
         return (data.map(item => (
             <Fragment key={item.fileName}>
-                <div className="downloadBlock" onClick={() => onDownload(item.s3Url)}>
+                <div className="downloadBlock" onClick={() => onDownload(item.s3Url , item.realFileName)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-paperclip" viewBox="0 0 16 16">
                         <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
                     </svg>
@@ -35,10 +33,28 @@ const PostView = ({ idStatus }) => {
         )
     });
 
-    const onDownload = async (downloadUrl) => {
-        const reader = new FileReader();
-   
-        console.log(downloadUrl);
+    const onDownload = async (downloadUrl , fileName) => {
+      
+        fetch(downloadUrl, { method: 'GET' })
+            .then((res) => {
+                return res.blob();
+            })
+            .then((blob) => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout((_) => {
+                    window.URL.revokeObjectURL(url);
+                }, 60000);
+                a.remove();
+                // setOpen(false);
+            })
+            .catch((err) => {
+                console.error('err: ', err);
+            });
     }
     
     const getPost = async (mode) => { // 게시글 정보 가져오기
@@ -55,11 +71,11 @@ const PostView = ({ idStatus }) => {
 
        const findPost = result.data.data;
         setAttachment(result.data.data.attachment || []);
-        setNowPages(result.data.data.postId || []);
         setTagData(result.data.data.tags || []);
+
         console.log(findPost);
 
-        if(findPost.privates === true && findPost.writer !== idStatus) {
+        if(findPost.private == true && findPost.writer !== idStatus) {
             alert("비공개글입니다.");
             window.location.replace(`/noticelist`);
         } else {
@@ -97,7 +113,6 @@ const PostView = ({ idStatus }) => {
     }
 
     const postDelete = async (data) => { // 게시글 삭제
-        console.log(data);
         if (idStatus === postContentArr.writer) {
             if (window.confirm("게시글을 삭제하시겠습니까?")) {
                 await axios({
@@ -127,44 +142,39 @@ const PostView = ({ idStatus }) => {
         } else if (commit.current.value === '') {
             alert('입력값이 없습니다.');
         } else {
-            const data = JSON.stringify({"data" : commit.current.value , "writter" : idStatus , "postNum" : nowPageNumbers , "postNumber" : parseInt(params) + 1 , "postType" : "게시판"});
-            const commitResult = await axios({
+            const data = JSON.stringify({"content" : commit.current.value , "postId" : params});
+            await axios({
                 method : "POST" ,
-                url : "/auth/commit" ,
+                url : "/comments" ,
                 data : data ,
                 mode : "cors" ,
                 headers : {"Content-Type": "application/json"}
-            });
-
-            if (commitResult.data === -1) {
-                alert('댓글 작성중 오류가 발생했습니다. 잠시후 다시 시도해주세요.');
-            } else {
-                document.getElementById('commitinput').value = '';
-                getCommit();
-            }
+            })
+            .then((response) => { document.getElementById('commitinput').value = ''; getCommit(); }) 
+            .catch((e) => alert(e.response.data.message));
         }
     }
 
     const delCommit = async (numbers) => { // 댓글 삭제
         if (window.confirm('댓글을 삭제하시겠습니까?')) {
-            const result = await axios({
+            await axios({
                 method : "DELETE" ,
-                url : `/auth/commit/${numbers}` ,
+                url : `/comments/${numbers}` ,
                 mode : "cors"
-            });
-
-            getCommit();
+            })
+            .then((response) => { getCommit(); }) 
+            .catch((e) => alert(e.response.data.message));
         }
     }
 
     const getCommit = async () => { // 댓글 출력
-        const getCommit = await axios({
+        await axios({
             method: "GET" ,
-            url: `/commit/${parseInt(params) + 1}` ,
+            url: `/comments/${parseInt(params)}` ,
             mode : "cors"
-        });
-
-        setCommitData(getCommit.data);
+        })
+        .then((response) => { setCommitData(response.data.data); }) 
+        .catch((e) => alert(e.response.data.message));
     }
 
     useEffect(async () => {

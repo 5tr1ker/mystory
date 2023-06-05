@@ -81,7 +81,7 @@ public class Post {
         return Post.builder()
                 .content(postRequest.getContent())
                 .title(postRequest.getTitle())
-                .isPrivate(postRequest.isPrivate())
+                .isPrivate(postRequest.isPrivatePost())
                 .isBlockComment(postRequest.isBlockComment())
                 .build();
     }
@@ -89,7 +89,7 @@ public class Post {
     public void updatePost(PostRequest postRequest) {
         this.content = postRequest.getContent();
         this.title = postRequest.getTitle();
-        this.isPrivate = postRequest.isPrivate();
+        this.isPrivate = postRequest.isPrivatePost();
         this.isBlockComment = postRequest.isBlockComment();
 
         this.tag.clear();

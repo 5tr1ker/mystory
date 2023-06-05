@@ -3,6 +3,7 @@ package com.team.mystory.common;
 import com.team.mystory.post.comment.exception.CommentException;
 import com.team.mystory.post.post.exception.PostException;
 import com.team.mystory.security.jwt.exception.InvalidTokenException;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,13 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler({PostException.class , CommentException.class})
     public ResponseEntity postExceptionHandler(Exception e) {
+        ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
+
+        return ResponseEntity.badRequest().body(message);
+    }
+
+    @ExceptionHandler({FileSizeLimitExceededException.class})
+    public ResponseEntity fileUploadExceptionHandler(Exception e) {
         ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
 
         return ResponseEntity.badRequest().body(message);
