@@ -8,6 +8,7 @@ import com.team.mystory.s3.exception.S3Exception;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -55,6 +56,7 @@ public class S3Service {
         }
     }
 
+    @Transactional
     public void deleteFileByPostId(long postId) {
         List<AttachmentResponse> attachmentResponses = attachmentRepository.findAttachmentsByPostId(postId);
 

@@ -444,7 +444,7 @@
 }
 
 #loginUser{
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .DropBoxContent svg {
@@ -772,7 +772,7 @@
     margin-left: -20px;
     width: 170px;
     height: 210px;
-    font-size: 1.2vw;
+    font-size: 15px;
     border: 1px solid rgb(193, 193, 193);
     z-index: 5;
     background-color: white;
@@ -786,6 +786,7 @@
 .noticeLogin span {
     position:relative;
     top: 0px;
+    font-size: 12px;
 }
 
 .logincommitsetting {

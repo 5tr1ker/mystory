@@ -128,4 +128,12 @@ public class PostRepositoryImpl implements CustomPostRepository {
 		return Optional.ofNullable(result);
 	}
 
+	@Override
+	public List<Long> findPostIdByUserId(String userId) {
+		return queryFactory.select(post.postId)
+				.from(post)
+				.innerJoin(post.writer , user).on(user.id.eq(userId))
+				.fetch();
+	}
+
 }

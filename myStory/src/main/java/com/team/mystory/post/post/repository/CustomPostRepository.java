@@ -28,4 +28,6 @@ public interface CustomPostRepository {
 
 	Optional<Post> findPostByPostIdAndUserId(long postId , String userId);
 
+	List<Long> findPostIdByUserId(String userId);
+
 }

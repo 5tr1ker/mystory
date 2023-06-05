@@ -19,7 +19,7 @@ spring:
   sql:
     init:
       mode: always
-      platform: dev
+      # platform: dev
 
   security:
     oauth2:

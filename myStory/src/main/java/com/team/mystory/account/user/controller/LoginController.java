@@ -24,28 +24,28 @@ public class LoginController {
 	}
 
 	@PostMapping(value = "/logins")
-	public ResponseEntity login(@RequestBody LoginRequest userInfo , HttpServletResponse response) throws AccountException {
+	public ResponseEntity<ResponseMessage> login(@RequestBody LoginRequest userInfo , HttpServletResponse response) throws AccountException {
 		return ResponseEntity.ok().body(loginService.login(userInfo , response));
 	}
 
 	@DeleteMapping(value = "/users")
-	public ResponseEntity<ResponseMessage> deleteUser(@CookieValue String accessToken) throws AccountException {
+	public ResponseEntity deleteUser(@CookieValue String accessToken) throws AccountException {
 		loginService.removeUser(accessToken);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping(value = "/users/{idInfo}")
-	public ResponseEntity findUserByUserId(@PathVariable("idInfo") String userInfo) throws AccountException {
+	public ResponseEntity<ResponseMessage> findUserByUserId(@PathVariable("idInfo") String userInfo) throws AccountException {
 		return ResponseEntity.ok().body(loginService.findUserByUserId(userInfo));
 	}
 
 	@GetMapping(value = "/users")
-	public ResponseEntity findUserByToken(@CookieValue String accessToken) throws AccountException {
+	public ResponseEntity<ResponseMessage> findUserByToken(@CookieValue String accessToken) throws AccountException {
 		return ResponseEntity.ok().body(loginService.findUserByToken(accessToken));
 	}
 
 	@GetMapping(value = "/logout/message")
-	public ResponseEntity logout() {
+	public ResponseEntity<ResponseMessage> logout() {
 		return ResponseEntity.ok().body(ResponseMessage.of(LOGOUT_SUCCESS));
 	}
 }

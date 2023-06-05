@@ -6,6 +6,9 @@ import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.account.user.dto.UserResponse;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.post.post.domain.Post;
+import com.team.mystory.post.post.repository.PostRepository;
+import com.team.mystory.s3.service.S3Service;
 import com.team.mystory.security.jwt.dto.Token;
 import com.team.mystory.security.jwt.service.JwtService;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
@@ -15,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.AccountException;
+
+import java.util.List;
 
 import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
 import static com.team.mystory.security.jwt.support.CreationCookie.createAccessToken;
@@ -26,7 +31,9 @@ import static com.team.mystory.security.jwt.support.CreationCookie.createRefresh
 public class LoginService {
 
 	private final LoginRepository loginRepository;
+	private final PostRepository postRepository;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final S3Service s3Service;
 	private final JwtService jwtService;
 
 	public void validNewAccountVerification(LoginRequest loginRequest) throws AccountException {
@@ -53,7 +60,6 @@ public class LoginService {
 		if(result.getUserType().equals(UserType.OAUTH_USER)) {
 			throw new AccountException("해당 계정은 OAuth2.0 사용자입니다.");
 		}
-
 		if(!result.getPassword().equals(loginRequest.getPassword())) {
 			throw new AccountException("비밀번호가 일치하지 않습니다.");
 		}
@@ -91,8 +97,17 @@ public class LoginService {
 		User result = loginRepository.findById(userId)
 				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
 
+		deleteAllS3FilesUploadedByUserId(userId);
 		loginRepository.delete(result);
 
 		return ResponseMessage.of(REQUEST_SUCCESS);
+	}
+
+	public void deleteAllS3FilesUploadedByUserId(String userId) {
+		List<Long> postIds = postRepository.findPostIdByUserId(userId);
+
+		for(long postId : postIds) {
+			s3Service.deleteFileByPostId(postId);
+		}
 	}
 }
