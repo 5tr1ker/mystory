@@ -129,7 +129,7 @@ create table refresh_token
     token_id bigint       not null auto_increment,
     key_email        varchar(255) not null,
     token    varchar(255) not null,
-    primary key (refresh_token_id)
+    primary key (token_id)
 );
 
 create table tag_seq
