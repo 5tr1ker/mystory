@@ -1,7 +1,5 @@
 package com.team.mystory.oauth.service;
 
-import com.team.mystory.account.user.constant.UserRole;
-import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.oauth.dto.UserSession;
