@@ -126,9 +126,9 @@ insert into profile_seq values ( 1 );
 
 create table refresh_token
 (
-    refresh_token_id bigint       not null auto_increment,
+    token_id bigint       not null auto_increment,
     key_email        varchar(255) not null,
-    refresh_token    varchar(255) not null,
+    token    varchar(255) not null,
     primary key (refresh_token_id)
 );
 

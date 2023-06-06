@@ -1,23 +1,22 @@
 package com.team.mystory.security.jwt.service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import com.team.mystory.common.ResponseCode;
 import com.team.mystory.common.ResponseMessage;
-import jakarta.servlet.http.Cookie;
+import com.team.mystory.security.exception.TokenForgeryException;
+import com.team.mystory.security.jwt.domain.RefreshToken;
+import com.team.mystory.security.jwt.dto.Token;
+import com.team.mystory.security.jwt.repository.RefreshTokenRepository;
+import com.team.mystory.security.jwt.support.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.team.mystory.security.jwt.support.JwtTokenProvider;
-import com.team.mystory.security.jwt.dto.Token;
-import com.team.mystory.security.jwt.repository.RefreshTokenRepository;
-import com.team.mystory.security.jwt.domain.RefreshToken;
+import java.util.NoSuchElementException;
 
 import static com.team.mystory.common.ResponseCode.CREATE_ACCESS_TOKEN;
+import static com.team.mystory.security.jwt.domain.RefreshToken.creareRefreshToken;
+import static com.team.mystory.security.jwt.support.CookieSupport.createAccessToken;
+import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
 @Service
 @RequiredArgsConstructor
@@ -27,11 +26,7 @@ public class JwtService {
 
     @Transactional
     public void login(Token token) {
-        RefreshToken refreshToken = RefreshToken.builder()
-                .keyEmail(token.getKey())
-                .refreshToken(token.getRefreshToken())
-                .build();
-
+        RefreshToken refreshToken = creareRefreshToken(token);
         String loginUserEmail = refreshToken.getKeyEmail();
 
         refreshTokenRepository.existsByKeyEmail(loginUserEmail).ifPresent(a -> {
@@ -41,23 +36,24 @@ public class JwtService {
         refreshTokenRepository.save(refreshToken);
     }
 
-    public Optional<RefreshToken> getRefreshToken(String refreshToken) {
-        return refreshTokenRepository.findByRefreshToken(refreshToken);
+    public RefreshToken getRefreshToken(String refreshToken) {
+        return refreshTokenRepository.findByToken(refreshToken)
+                .orElseThrow(() -> new TokenForgeryException("알 수 없는 RefreshToken 입니다."));
     }
 
-    public ResponseMessage validateRefreshToken(String refreshToken) {
-        RefreshToken refreshToken1 = getRefreshToken(refreshToken).get();
-        String createdAccessToken = jwtTokenProvider.validateRefreshToken(refreshToken1);
+    public ResponseMessage validateRefreshToken(String refreshToken , HttpServletResponse response) {
+        try {
+            RefreshToken token = getRefreshToken(refreshToken);
+            String accessToken = jwtTokenProvider.validateRefreshToken(token);
 
-        return ResponseMessage.of(CREATE_ACCESS_TOKEN , createdAccessToken);
-    }
+            response.addCookie(createAccessToken(accessToken));
 
-    public void deleteJwtToken(HttpServletResponse response) {
-        Cookie accessToken = new Cookie("accessToken" , null);
-        Cookie refreshToken = new Cookie("refreshToken" , null);
+            return ResponseMessage.of(CREATE_ACCESS_TOKEN);
+        } catch (NoSuchElementException e) {
+            deleteJwtTokenInCookie(response);
 
-        response.addCookie(accessToken);
-        response.addCookie(refreshToken);
+            throw new TokenForgeryException("변조된 RefreshToken 입니다.");
+        }
     }
 
 }

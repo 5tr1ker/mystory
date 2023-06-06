@@ -6,7 +6,6 @@ import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.account.user.dto.UserResponse;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.common.ResponseMessage;
-import com.team.mystory.post.post.domain.Post;
 import com.team.mystory.post.post.repository.PostRepository;
 import com.team.mystory.s3.service.S3Service;
 import com.team.mystory.security.jwt.dto.Token;
@@ -22,8 +21,8 @@ import javax.security.auth.login.AccountException;
 import java.util.List;
 
 import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
-import static com.team.mystory.security.jwt.support.CreationCookie.createAccessToken;
-import static com.team.mystory.security.jwt.support.CreationCookie.createRefreshToken;
+import static com.team.mystory.security.jwt.support.CookieSupport.createAccessToken;
+import static com.team.mystory.security.jwt.support.CookieSupport.createRefreshToken;
 
 @Service
 @Transactional
@@ -70,11 +69,11 @@ public class LoginService {
 	}
 
 	public void createJwtToken(User user , HttpServletResponse response) {
-		Token tokenDTO = jwtTokenProvider.createAccessToken(user.getUsername(), user.getRole());
+		Token tokenDTO = jwtTokenProvider.createJwtToken(user.getUsername(), user.getRole());
 		jwtService.login(tokenDTO);
 
-		response.addCookie(createAccessToken(tokenDTO.getRefreshToken()));
-		response.addCookie(createRefreshToken(tokenDTO.getAccessToken()));
+		response.addCookie(createAccessToken(tokenDTO.getAccessToken()));
+		response.addCookie(createRefreshToken(tokenDTO.getRefreshToken()));
 	}
 
 	public ResponseMessage findUserByUserId(String userId) throws AccountException {

@@ -19,6 +19,7 @@ import javax.security.auth.login.AccountException;
 
 import static com.team.mystory.account.profile.dto.ProfileResponse.createProfileResponse;
 import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
+import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +48,7 @@ public class ProfileService {
 					.orElseThrow(() -> new AccountException("찾을 수 없는 아이디입니다."));
 
 			user.updateId(profileRequest.getUserId());
-			jwtService.deleteJwtToken(response);
+			deleteJwtTokenInCookie(response);
 		}
 
 		Profile profile = profileRepository.findProfileByUserId(profileRequest.getUserId())

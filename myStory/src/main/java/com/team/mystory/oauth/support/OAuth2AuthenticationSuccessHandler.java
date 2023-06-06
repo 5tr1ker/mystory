@@ -17,8 +17,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
-import static com.team.mystory.security.jwt.support.CreationCookie.createResponseAccessToken;
-import static com.team.mystory.security.jwt.support.CreationCookie.createResponseRefreshToken;
+import static com.team.mystory.security.jwt.support.CookieSupport.createResponseAccessToken;
+import static com.team.mystory.security.jwt.support.CookieSupport.createResponseRefreshToken;
 
 @Component
 @EqualsAndHashCode(callSuper = false)
@@ -41,7 +41,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             return;
         }
 
-        Token token = jwtTokenProvider.createAccessToken(user.getId(), UserRole.USER);
+        Token token = jwtTokenProvider.createJwtToken(user.getId(), UserRole.USER);
 
         response.addHeader("Set-Cookie" , createResponseAccessToken(token.getAccessToken()).toString());
         response.addHeader("Set-Cookie" , createResponseRefreshToken(token.getRefreshToken()).toString());

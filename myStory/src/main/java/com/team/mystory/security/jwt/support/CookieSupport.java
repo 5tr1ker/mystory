@@ -1,11 +1,12 @@
 package com.team.mystory.security.jwt.support;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseCookie;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-public class CreationCookie {
+public class CookieSupport {
 
     private static final String DOMAIN_URL = "localhost";
 
@@ -32,14 +33,14 @@ public class CreationCookie {
     }
 
     public static Cookie createAccessToken(String access) {
-        Cookie refreshToken = new Cookie("accessToken", access);
-        refreshToken.setPath("/");
-        refreshToken.setMaxAge(30 * 60 * 1000);
-        //refreshToken.setSecure(true);
-        refreshToken.setDomain(DOMAIN_URL);
-        refreshToken.setHttpOnly(true);
+        Cookie accessToken = new Cookie("accessToken", access);
+        accessToken.setPath("/");
+        accessToken.setMaxAge(30 * 60 * 1000);
+        //accessToken.setSecure(true);
+        accessToken.setDomain(DOMAIN_URL);
+        accessToken.setHttpOnly(true);
 
-        return refreshToken;
+        return accessToken;
     }
 
     public static Cookie createRefreshToken(String refresh) {
@@ -52,4 +53,24 @@ public class CreationCookie {
 
         return refreshToken;
     }
+
+    public static void deleteJwtTokenInCookie(HttpServletResponse response) {
+        Cookie accessToken = new Cookie("accessToken", null);
+        accessToken.setPath("/");
+        accessToken.setMaxAge(0);
+        //accessToken.setSecure(true);
+        accessToken.setDomain(DOMAIN_URL);
+        accessToken.setHttpOnly(true);
+
+        Cookie refreshToken = new Cookie("refreshToken", null);
+        refreshToken.setPath("/");
+        refreshToken.setMaxAge(0);
+        //refreshToken.setSecure(true);
+        refreshToken.setDomain(DOMAIN_URL);
+        refreshToken.setHttpOnly(true);
+
+        response.addCookie(accessToken);
+        response.addCookie(refreshToken);
+    }
+
 }

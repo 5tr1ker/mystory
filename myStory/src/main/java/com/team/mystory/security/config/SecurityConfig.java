@@ -2,10 +2,13 @@ package com.team.mystory.security.config;
 
 import java.util.Arrays;
 
+import com.team.mystory.account.user.constant.UserRole;
+import com.team.mystory.common.FilterExceptionHandler;
 import com.team.mystory.oauth.service.CustomOAuth2UserService;
 import com.team.mystory.oauth.support.OAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -33,8 +36,13 @@ public class SecurityConfig {
 		http.csrf().disable().
 			httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().authorizeRequests()
-				.requestMatchers("/auth/**").authenticated()
-				.anyRequest().permitAll()
+				.requestMatchers(HttpMethod.GET , "/**").permitAll()
+				.requestMatchers(HttpMethod.POST , "/logins" , "/registers").permitAll()
+				.requestMatchers(HttpMethod.PATCH , "/posts/views/**").permitAll()
+				.requestMatchers(HttpMethod.DELETE , "/**").hasRole(UserRole.USER.name())
+				.requestMatchers(HttpMethod.PATCH , "/**").hasRole(UserRole.USER.name())
+				.requestMatchers(HttpMethod.PUT , "/**").hasRole(UserRole.USER.name())
+				.requestMatchers(HttpMethod.POST , "/**").hasRole(UserRole.USER.name())
 				.and()
 				.logout()
 				.logoutUrl("/logout")
@@ -44,8 +52,17 @@ public class SecurityConfig {
 					response.sendRedirect("/logout/message");
 				})
 				.and()
+				.exceptionHandling()
+				.authenticationEntryPoint((request, response, Exception) -> {
+					response.sendRedirect("/authentication/denied");
+				})
+				.accessDeniedPage("/authorization/denied")
+				.and()
 				.oauth2Login().successHandler(oauth2AuthenticationSuccessHandler)
 				.userInfoEndpoint().userService(oauth2UserService);
+
+		http.addFilterBefore(new FilterExceptionHandler() ,
+				UsernamePasswordAuthenticationFilter.class);
 
 		http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 				UsernamePasswordAuthenticationFilter.class);
