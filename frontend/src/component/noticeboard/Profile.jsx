@@ -62,6 +62,10 @@ const Profile = ({idStatus , rerenders}) => {
                 mode : "cors"
             })
             .then(async (response) =>{ 
+                if(response.data.data == "4") {
+                    deleteId();
+                    return;
+                }
                 alert("계정이 삭제되었습니다."); 
                 await axios({
                     url : `/logout` ,
@@ -86,7 +90,10 @@ const Profile = ({idStatus , rerenders}) => {
                     headers : {"Content-Type": "application/json"}
                 })
                 .then(async (response) => { 
-                    alert(response.data.message); 
+                    if(response.data.data == "4") {
+                        doneChange();
+                        return;
+                    }
                     alert("User Name이 변경되어 다시 로그인을 시도해주세요."); 
                     await axios({
                         url : `/logout` ,
@@ -104,7 +111,13 @@ const Profile = ({idStatus , rerenders}) => {
                     data : jsonParse ,
                     headers : {"Content-Type": "application/json"}
                 })
-                .then((response) => { alert(response.data.message); nav("/noticelist", { replace: false }); }) 
+                .then((response) => {
+                    if(response.data.data == "4") {
+                        doneChange();
+                        return;
+                    }
+                    alert(response.data.message); 
+                    nav("/noticelist", { replace: false }); }) 
                 .catch((e) => alert(e.response.data.message));
             }
        }

@@ -1,11 +1,13 @@
 package com.team.mystory.security.config;
 
-import java.util.Arrays;
-
 import com.team.mystory.account.user.constant.UserRole;
 import com.team.mystory.common.FilterExceptionHandler;
 import com.team.mystory.oauth.service.CustomOAuth2UserService;
 import com.team.mystory.oauth.support.OAuth2AuthenticationSuccessHandler;
+import com.team.mystory.security.jwt.support.JwtAuthenticationFilter;
+import com.team.mystory.security.jwt.support.JwtTokenProvider;
+import com.team.mystory.security.support.CustomAuthenticationEntryPoint;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,13 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import lombok.RequiredArgsConstructor;
-import com.team.mystory.security.jwt.support.JwtAuthenticationFilter;
-import com.team.mystory.security.jwt.support.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +25,7 @@ public class SecurityConfig {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final CustomOAuth2UserService oauth2UserService;
 	private final OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
+	private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -53,9 +49,7 @@ public class SecurityConfig {
 				})
 				.and()
 				.exceptionHandling()
-				.authenticationEntryPoint((request, response, Exception) -> {
-					response.sendRedirect("/authentication/denied");
-				})
+				.authenticationEntryPoint(customAuthenticationEntryPoint)
 				.accessDeniedPage("/authorization/denied")
 				.and()
 				.oauth2Login().successHandler(oauth2AuthenticationSuccessHandler)

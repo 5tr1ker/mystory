@@ -103,6 +103,15 @@ const PostView = ({ idStatus }) => {
                     data : jsondata , 
                     headers : {"Content-Type": "application/json"}
                 })
+                .then(async(response) => {if(response.data.data == "4") {
+                    await axios({
+                        method : "PATCH" ,
+                        mode : "cors" ,
+                        url: `/posts/likes/${parseInt(params)}`, 
+                        data : jsondata , 
+                        headers : {"Content-Type": "application/json"}
+                    })
+                  }})
                 .catch((e) => {alert(e.response.data.message); return;});
                 
             }
@@ -118,7 +127,13 @@ const PostView = ({ idStatus }) => {
                     url : `/posts/${parseInt(data)}` ,
                     mode : "cors"
                 })
-                .then((response) => { alert(response.data.message); window.location.replace('/noticelist'); }) 
+                .then(async (response) => { 
+                    if(response.data.data == "4") {
+                        postDelete(data);
+                        return;
+                      }
+                    alert(response.data.message);
+                    window.location.replace('/noticelist'); }) 
                 .catch((e) => alert(e.response.data.message));
             }
         } else {
@@ -148,7 +163,12 @@ const PostView = ({ idStatus }) => {
                 mode : "cors" ,
                 headers : {"Content-Type": "application/json"}
             })
-            .then((response) => { document.getElementById('commitinput').value = ''; getCommit(); }) 
+            .then((response) => { 
+                if(response.data.data == "4") {
+                    addCommit(data);
+                    return;
+                  }
+                document.getElementById('commitinput').value = ''; getCommit(); }) 
             .catch((e) => alert(e.response.data.message));
         }
     }
@@ -160,7 +180,12 @@ const PostView = ({ idStatus }) => {
                 url : `/comments/${numbers}` ,
                 mode : "cors"
             })
-            .then((response) => { getCommit(); }) 
+            .then((response) => { 
+                if(response.data.data == "4") {
+                    delCommit(numbers);
+                    return;
+                  }
+                  getCommit(); }) 
             .catch((e) => alert(e.response.data.message));
         }
     }

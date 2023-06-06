@@ -16,8 +16,6 @@ const NoticeFrame = () => {
     const [dropBoxs, setDropBox] = useState(false);
     const [notified, setNotified] = useState(false);
 
-    const [mobileMenu, setMobileMenu] = useState(false);
-
     const [userOption, setUserOption] = useState({ notified: 3 });
     const urlInfo = window.location.pathname.split('/')[1];
     
@@ -39,8 +37,6 @@ const NoticeFrame = () => {
         .then((response) => { localStorage.setItem("userId" , response.data.data.id ); setUserOption({notified: response.data.data.options}) }) 
         .catch((e) => {});
     }
-
-    const setMobileMenuBar = () => { mobileMenu ? setMobileMenu(false) : setMobileMenu(true); }
 
     const setNotifiedPops = () => {
         setDropBox(false);

@@ -73,7 +73,6 @@ const NoticeList = () => {
     }
 
         useEffect(async () => {
-            console.log(searchParams.get("data"));
             if(searchParams.get("type") == "search") { // 일반 검색
                 await axios({ // 게시판 데이터 가져오기
                     method: "GET",

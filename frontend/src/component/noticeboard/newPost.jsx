@@ -115,7 +115,7 @@ const NewPost = ({ idStatus }) => {
           mode : "cors" ,
           method : "GET"
       })
-      .catch((e) => {alert(e.response.data.message); window.location.href = `/viewpost?page=${urlResult[2]}`});
+      .catch((e) => { window.location.href = `/viewpost?page=${urlResult[2]}`});
       
       if (idStatus !== serverResult.data.data.writer) { // url를 통해 불법적 접근은 제어
         alert('비정상적인 접근입니다.');
@@ -177,7 +177,12 @@ const NewPost = ({ idStatus }) => {
               headers : {'Content-Type': 'multipart/form-data'} ,
               data : requestForm
       })
-      .then((response) => { alert(response.data.message); window.location.replace('/noticelist'); }) 
+      .then((response) => { 
+        if(response.data.data == "4") {
+          newPost();
+          return;
+        }
+        window.location.replace('/noticelist'); }) 
       .catch((e) => alert(e.response.data.message));
       
     } else if (urlResult[1] === 'modified') { // 포스트 수정
@@ -198,7 +203,12 @@ const NewPost = ({ idStatus }) => {
         data : requestForm ,
         headers: {'Content-Type': 'multipart/form-data'}
       })
-      .then((response) => { alert(response.data.message); window.location.replace('/noticelist'); }) 
+      .then((response) => { 
+        if(response.data.data == "4") {
+          newPost();
+          return;
+        }
+        window.location.replace('/noticelist'); }) 
       .catch((e) => alert(e.response.data.message));
     }
   }
@@ -234,7 +244,7 @@ const NewPost = ({ idStatus }) => {
       </div>
       <div className="postController">
         <Link to={"/noticelist"} className="linkButtondesign"><button className="postviewbutton_cancel">Cancel</button></Link>
-        <Link to={`/noticelist`} className="linkButtondesign" onClick={newPost}><button className="postviewbutton">Update</button></Link>
+        <Link to={`/newpost`} className="linkButtondesign" onClick={newPost}><button className="postviewbutton">Update</button></Link>
         <div className="centerLine"/>
         <div className="postSettings">
         <span className="publicinSection">Public in Section</span>

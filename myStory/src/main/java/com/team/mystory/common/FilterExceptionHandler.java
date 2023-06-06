@@ -1,6 +1,7 @@
 package com.team.mystory.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team.mystory.security.exception.TokenForgeryException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,12 +19,17 @@ public class FilterExceptionHandler extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        try {
             filterChain.doFilter(request , response);
+        } catch (TokenForgeryException e) {
+            setErrorResponse(response , HttpStatus.UNAUTHORIZED.value() , e.getMessage());
+        }
     }
 
-    private void setErrorResponse(HttpServletResponse response, String message){
+    public static void setErrorResponse(HttpServletResponse response, int status, String message){
         ObjectMapper objectMapper = new ObjectMapper();
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(status);
+        response.setCharacterEncoding("utf-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         ResponseMessage errorResponse = ResponseMessage.of(AUTHENTICATION_ERROR , message);
