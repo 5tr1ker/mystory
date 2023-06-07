@@ -27,7 +27,7 @@ services:
         - database-mysql
         - client-react
       image: tjseocld/tomcat:9.0.64
-      build: ./mystory
+      build: ./myStory
       ports:
         - '18080:8080'
 
