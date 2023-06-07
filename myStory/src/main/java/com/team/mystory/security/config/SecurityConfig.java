@@ -33,7 +33,7 @@ public class SecurityConfig {
 			httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().authorizeRequests()
 				.requestMatchers(HttpMethod.GET , "/**").permitAll()
-				.requestMatchers(HttpMethod.POST , "/logins" , "/registers").permitAll()
+				.requestMatchers(HttpMethod.POST , "/logins" , "/registers" , "/oauth/token").permitAll()
 				.requestMatchers(HttpMethod.PATCH , "/posts/views/**").permitAll()
 				.requestMatchers(HttpMethod.DELETE , "/**").hasRole(UserRole.USER.name())
 				.requestMatchers(HttpMethod.PATCH , "/**").hasRole(UserRole.USER.name())
@@ -44,9 +44,6 @@ public class SecurityConfig {
 				.logoutUrl("/logout")
 				.deleteCookies("refreshToken")
 				.deleteCookies("accessToken")
-				.logoutSuccessHandler((request, response, authentication) -> {
-					response.sendRedirect("/logout/message");
-				})
 				.and()
 				.exceptionHandling()
 				.authenticationEntryPoint(customAuthenticationEntryPoint)
