@@ -25,7 +25,7 @@ spring:
       client:
         registration:
           naver:
-            redirect-uri: https://mystorynews.com/login/oauth2/code/naver
+            redirect-uri: http://43.200.118.151:18080/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             client-secret: sn7W5EVI1B
             client-id: KrgceyS11oJLy_u0tajR
@@ -34,15 +34,10 @@ spring:
             client-id: 7cef126b7f8ea367330765d225a271a6
             client-secret: unknown
             client-authentication-method: POST
-            redirect-uri: https://mystorynews.com/login/oauth2/code/kakao
+            redirect-uri: http://43.200.118.151:18080/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             scope: profile_nickname , account_email
             client-name: kakao
-          google:
-            client-id: 468391770326-850l305qj81ah6s9j2irhfqvsiupnkgk.apps.googleusercontent.com
-            client-secret: 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
-            scope: email , profile
-            redirect-uri: https://mystorynews.com/login/oauth2/code/google
         provider:
           kakao:
             user-name-attribute: id

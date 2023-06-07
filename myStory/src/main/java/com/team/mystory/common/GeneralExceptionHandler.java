@@ -1,5 +1,6 @@
 package com.team.mystory.common;
 
+import com.team.mystory.oauth.exception.OAuth2EmailNotFoundException;
 import com.team.mystory.post.comment.exception.CommentException;
 import com.team.mystory.post.post.exception.PostException;
 import com.team.mystory.security.exception.TokenForgeryException;
@@ -27,7 +28,7 @@ public class GeneralExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
     }
 
-    @ExceptionHandler({AccountException.class})
+    @ExceptionHandler({AccountException.class , OAuth2EmailNotFoundException.class})
     public ResponseEntity accountExceptionHandler(Exception e) {
         ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
 

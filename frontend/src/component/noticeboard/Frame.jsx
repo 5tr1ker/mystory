@@ -51,23 +51,6 @@ const NoticeFrame = () => {
     const setDropers = () => { dropBoxs ? setDropBox(false) : setDropBox(true); }
     
     useEffect(async () => {
-        const url = document.location.href.split("/");
-
-        if(url[url.length - 2] === "logins" && url[url.length - 1].includes("oauth")) {
-            const params = new URLSearchParams(window.location.search);
-
-            await axios({
-                method: "POST",
-                headers : {"Content-Type": "application/json"} , 
-                mode: "cors",
-                url: `/oauth/token?name=${params.get("name")}`
-            })
-            .catch((e) => {
-                alert("로그인 하는 과정에 오류가 발생했습니다.");
-                window.location.replace("/login");
-            });
-        }
-
         if(query.code != undefined) {
             window.location.replace("/noticelist");
         }

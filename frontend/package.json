@@ -72,5 +72,5 @@
   "devDependencies": {
     "react-dev-utils": "^12.0.0"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://server-springBoot:8080"
 }

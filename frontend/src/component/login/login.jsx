@@ -3,7 +3,6 @@ import { Fragment , useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../_style/loginScreen.css'
 import img01 from '../../_image/pic1.png';
-import img02 from '../../_image/googleLoginButton.png';
 import img03 from '../../_image/kakaoLogInButton.png';
 import img04 from '../../_image/naverLoginButton.png';
 
@@ -22,9 +21,6 @@ const Logins = () => {
     
     const kakaoLogin = () => {
         window.location.replace(`http://${serverUrl}/oauth2/authorization/kakao`);
-    }
-    const googleLogin = () => {
-        window.location.replace(`http://${serverUrl}/oauth2/authorization/google`);
     }
     const naverLogin = () => {
         window.location.replace(`http://${serverUrl}/oauth2/authorization/naver`);
@@ -74,7 +70,6 @@ const Logins = () => {
                     </div>
                     <div className="socialLogin">
                         <img src={img03} className = "socialLoginButton" onClick={kakaoLogin}/>
-                        <img src={img02} className = "socialLoginButton" onClick={googleLogin}/>
                         <img src={img04} className = "socialLoginButton" onClick={naverLogin}/>
                     </div>
                 </div>

@@ -41,9 +41,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             return;
         }
 
+        Token token = jwtTokenProvider.createJwtToken(user.getId(), UserRole.USER);
+        response.addCookie(createAccessToken(token.getAccessToken()));
+        response.addCookie(createRefreshToken(token.getRefreshToken()));
+
         httpSession.removeAttribute("user");
 
-        getRedirectStrategy().sendRedirect(request, response, createRedirectUrl(clientUrl + "/logins/oauth?name=" + user.getId()));
+        getRedirectStrategy().sendRedirect(request, response, createRedirectUrl(clientUrl));
     }
 
     public String createRedirectUrl(String url) {
