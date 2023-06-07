@@ -7,11 +7,8 @@ services:
       container_name: database-mysql
       image: tjseocld/mysql:8.0.29
       command: 
-      #- 'mysqld --default-authentication-plugin=mysql_native_password'
       - '--character-set-server=utf8mb4'
       - '--collation-server=utf8mb4_unicode_ci'
-      #volumes:
-      #  - ./my.cnf:/etc/my.cnf
       environment:
         MYSQL_ROOT_PASSWORD: password
         MYSQL_DATABASE: mystory
@@ -45,7 +42,3 @@ services:
         - "/app/node_modules"
       ports:
         - "3000:3000"
-      #environment:
-      #  - NODE_ENV=development
-      #stdin_open: true
-      #tty: true 
