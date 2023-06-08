@@ -14,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
@@ -31,7 +32,7 @@ public class User implements UserDetails {
 	@Column(nullable = false , length = 20)
 	private String id;
 	
-	@Column(nullable = false , length = 45)
+	@Column(nullable = false)
 	private String password;
 
 	@Enumerated(value = EnumType.STRING)
@@ -57,10 +58,10 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "writer" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	private List<Post> post = new ArrayList<>();
 
-	public static User createGeneralUser(LoginRequest loginRequest) {
+	public static User createGeneralUser(LoginRequest loginRequest , PasswordEncoder passwordEncoder) {
 		return User.builder()
 				.id(loginRequest.getId())
-				.password(loginRequest.getPassword())
+				.password(passwordEncoder.encode(loginRequest.getPassword()))
 				.profile(Profile.createInitProfileSetting())
 				.role(UserRole.USER)
 				.userType(UserType.GENERAL_USER)
@@ -80,6 +81,15 @@ public class User implements UserDetails {
 	public void addPost(Post post) {
 		this.post.add(post);
 		post.setWriter(this);
+	}
+
+	public User hashPassword(PasswordEncoder passwordEncoder) {
+		this.password = passwordEncoder.encode(this.password);
+		return this;
+	}
+
+	public boolean checkPassword(String plainPassword, PasswordEncoder passwordEncoder) {
+		return passwordEncoder.matches(plainPassword, this.password);
 	}
 
 	public void updateId(String userId) {

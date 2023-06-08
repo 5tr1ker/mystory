@@ -1,7 +1,6 @@
 package com.team.mystory.security.config;
 
 import com.team.mystory.account.user.constant.UserRole;
-import com.team.mystory.common.FilterExceptionHandler;
 import com.team.mystory.oauth.service.CustomOAuth2UserService;
 import com.team.mystory.oauth.support.CustomAuthenticationFailureHandler;
 import com.team.mystory.oauth.support.OAuth2AuthenticationSuccessHandler;
@@ -15,8 +14,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -29,6 +28,11 @@ public class SecurityConfig {
 	private final OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
 	private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 	private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+	@Bean
+	public BCryptPasswordEncoder encodePassword() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -56,9 +60,6 @@ public class SecurityConfig {
 				.successHandler(oauth2AuthenticationSuccessHandler)
 				.failureHandler(customAuthenticationFailureHandler)
 				.userInfoEndpoint().userService(oauth2UserService);
-
-		http.addFilterBefore(new FilterExceptionHandler() ,
-				UsernamePasswordAuthenticationFilter.class);
 
 		http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 				UsernamePasswordAuthenticationFilter.class);

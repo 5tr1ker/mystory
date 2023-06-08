@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
-import static com.team.mystory.common.FilterExceptionHandler.setErrorResponse;
+import static com.team.mystory.security.support.CustomAuthenticationEntryPoint.setErrorResponse;
 
 @Component
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {

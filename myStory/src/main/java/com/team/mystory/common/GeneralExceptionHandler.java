@@ -1,6 +1,5 @@
 package com.team.mystory.common;
 
-import com.team.mystory.oauth.exception.OAuth2EmailNotFoundException;
 import com.team.mystory.post.comment.exception.CommentException;
 import com.team.mystory.post.post.exception.PostException;
 import com.team.mystory.security.exception.TokenForgeryException;
@@ -16,9 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.naming.AuthenticationException;
 import javax.security.auth.login.AccountException;
 
-import java.io.IOException;
-
-import static com.team.mystory.common.FilterExceptionHandler.setErrorResponse;
 import static com.team.mystory.common.ResponseCode.*;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
@@ -50,14 +46,6 @@ public class GeneralExceptionHandler {
         ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
 
         return ResponseEntity.badRequest().body(message);
-    }
-
-    @ExceptionHandler({TokenForgeryException.class})
-    public ResponseEntity invalidJwtExceptionHandler(Exception e , HttpServletResponse response) {
-        ResponseMessage message = ResponseMessage.of(AUTHORIZATION_ERROR , e.getMessage());
-
-        deleteJwtTokenInCookie(response);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
     }
 
     @ExceptionHandler({MalformedJwtException.class})
