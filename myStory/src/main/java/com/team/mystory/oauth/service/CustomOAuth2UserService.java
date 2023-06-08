@@ -47,17 +47,22 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     public User saveOrUpdateUser(OAuthAttributes attributes) {
-        if (attributes.getEmail() == null) {
-            throw new OAuth2EmailNotFoundException("OAuth2 계정의 이메일을 찾을 수 없습니다.");
+        String userName = getIdWithoutEmail(attributes.getEmail());
+        if (userName == null) {
+            throw new OAuth2EmailNotFoundException("OAuth2 계정의 이메일을 찾을 수 없거나, 이메일 수집 동의를 허용하지 않았습니다.");
         }
 
-        return loginRepository.findById(attributes.getEmail())
+        return loginRepository.findById(userName)
                 .orElseGet(() -> createAndSaveUser(attributes));
     }
 
     public User createAndSaveUser(OAuthAttributes attributes) {
-        User createUser = User.createOAuthUser(attributes.getEmail());
+        User createUser = User.createOAuthUser(getIdWithoutEmail(attributes.getEmail()));
 
         return loginRepository.save(createUser);
+    }
+
+    public String getIdWithoutEmail(String email) {
+        return email.split("@")[0];
     }
 }

@@ -20,9 +20,9 @@ import javax.security.auth.login.AccountException;
 
 import java.util.List;
 
+import static com.team.mystory.common.ResponseCode.LOGIN_SUCCESS;
 import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
-import static com.team.mystory.security.jwt.support.CookieSupport.createAccessToken;
-import static com.team.mystory.security.jwt.support.CookieSupport.createRefreshToken;
+import static com.team.mystory.security.jwt.support.CookieSupport.*;
 
 @Service
 @Transactional
@@ -65,15 +65,14 @@ public class LoginService {
 
 		createJwtToken(result , response);
 		
-		return ResponseMessage.of(REQUEST_SUCCESS);
+		return ResponseMessage.of(LOGIN_SUCCESS);
 	}
 
 	public void createJwtToken(User user , HttpServletResponse response) {
-		Token tokenDTO = jwtTokenProvider.createJwtToken(user.getUsername(), user.getRole());
-		jwtService.login(tokenDTO);
+		Token token = jwtTokenProvider.createJwtToken(user.getUsername(), user.getRole());
+		jwtService.login(token);
 
-		response.addCookie(createAccessToken(tokenDTO.getAccessToken()));
-		response.addCookie(createRefreshToken(tokenDTO.getRefreshToken()));
+		setCookieFromJwt(token , response);
 	}
 
 	public ResponseMessage findUserByUserId(String userId) throws AccountException {

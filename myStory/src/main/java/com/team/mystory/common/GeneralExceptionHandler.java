@@ -1,5 +1,6 @@
 package com.team.mystory.common;
 
+import com.team.mystory.oauth.exception.OAuth2EmailNotFoundException;
 import com.team.mystory.post.comment.exception.CommentException;
 import com.team.mystory.post.post.exception.PostException;
 import com.team.mystory.security.exception.TokenForgeryException;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.naming.AuthenticationException;
 import javax.security.auth.login.AccountException;
 
+import java.io.IOException;
+
+import static com.team.mystory.common.FilterExceptionHandler.setErrorResponse;
 import static com.team.mystory.common.ResponseCode.*;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 

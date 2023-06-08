@@ -17,17 +17,18 @@ const Logins = () => {
     const headers = {
         "Content-Type": "application/json"
     }
+
+    const serverUrl = "mystorynews.com";
     
     const kakaoLogin = () => {
-        window.location.replace('http://localhost:8080/oauth2/authorization/kakao');
+        window.location.replace(`https://${serverUrl}/oauth2/authorization/kakao`);
     }
     const googleLogin = () => {
-        window.location.replace('http://localhost:8080/oauth2/authorization/google');
+        window.location.replace(`https://${serverUrl}/oauth2/authorization/google`);
     }
     const naverLogin = () => {
-        window.location.replace('http://localhost:8080/oauth2/authorization/naver');
+        window.location.replace(`https://${serverUrl}/oauth2/authorization/naver`);
     }
-
     
     const signUp = async () => {
         await axios({

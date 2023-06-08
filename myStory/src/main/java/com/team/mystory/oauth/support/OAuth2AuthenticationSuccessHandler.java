@@ -4,6 +4,7 @@ import com.team.mystory.account.user.constant.UserRole;
 import com.team.mystory.oauth.dto.UserSession;
 import com.team.mystory.security.jwt.dto.Token;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -17,8 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
-import static com.team.mystory.security.jwt.support.CookieSupport.createResponseAccessToken;
-import static com.team.mystory.security.jwt.support.CookieSupport.createResponseRefreshToken;
+import static com.team.mystory.security.jwt.support.CookieSupport.*;
 
 @Component
 @EqualsAndHashCode(callSuper = false)
@@ -36,15 +36,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         UserSession user = (UserSession) httpSession.getAttribute("user");
 
         if (user == null) {
-            getRedirectStrategy().sendRedirect(request, response,
-                    createRedirectUrl(clientUrl + "/oauth2/disallowance"));
+            getRedirectStrategy().sendRedirect(request, response, createRedirectUrl(clientUrl + "/oauth2/disallowance"));
+
             return;
         }
 
         Token token = jwtTokenProvider.createJwtToken(user.getId(), UserRole.USER);
-
-        response.addHeader("Set-Cookie" , createResponseAccessToken(token.getAccessToken()).toString());
-        response.addHeader("Set-Cookie" , createResponseRefreshToken(token.getRefreshToken()).toString());
+        setCookieFromJwt(token , response);
 
         httpSession.removeAttribute("user");
 

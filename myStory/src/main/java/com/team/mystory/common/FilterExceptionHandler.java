@@ -1,6 +1,8 @@
 package com.team.mystory.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team.mystory.oauth.exception.OAuth2EmailNotFoundException;
+import com.team.mystory.oauth.support.OAuth2AuthenticationSuccessHandler;
 import com.team.mystory.security.exception.TokenForgeryException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,18 +28,15 @@ public class FilterExceptionHandler extends OncePerRequestFilter {
         }
     }
 
-    public static void setErrorResponse(HttpServletResponse response, int status, String message){
+    public static void setErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         response.setStatus(status);
         response.setCharacterEncoding("utf-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         ResponseMessage errorResponse = ResponseMessage.of(AUTHENTICATION_ERROR , message);
-        try {
-            response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+
+        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
     }
 
 }

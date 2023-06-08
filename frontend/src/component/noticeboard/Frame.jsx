@@ -1,4 +1,5 @@
-import { Link, Route, Routes } from 'react-router-dom';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Link, Route, Routes, useParams } from 'react-router-dom';
 import React, { Fragment, useEffect, useState } from "react";
 import '../../_style/noticeFrame.css';
 import NewPost from "./newPost";
@@ -34,7 +35,11 @@ const NoticeFrame = () => {
             mode: "cors",
             url: `/users`,
         })
-        .then((response) => { localStorage.setItem("userId" , response.data.data.id ); setUserOption({notified: response.data.data.options}) }) 
+        .then((response) => { 
+            localStorage.setItem("userId" , response.data.data.id ); 
+            setUserOption({notified: response.data.data.options});
+            window.location.replace("/noticelist"); 
+        }) 
         .catch((e) => {});
     }
 

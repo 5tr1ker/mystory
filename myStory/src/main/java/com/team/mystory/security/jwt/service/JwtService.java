@@ -53,7 +53,7 @@ public class JwtService {
             RefreshToken token = getRefreshToken(request);
             String accessToken = jwtTokenProvider.validateRefreshToken(token);
 
-            response.addCookie(createAccessToken(accessToken));
+            response.addHeader("Set-Cookie" , createAccessToken(accessToken).toString());
 
             return ResponseMessage.of(CREATE_ACCESS_TOKEN);
         } catch (NoSuchElementException e) {
@@ -70,7 +70,7 @@ public class JwtService {
         if (cookies != null && cookies.length != 0) {
             refreshToken = Arrays.stream(cookies)
                     .filter(c -> c.getName().equals("refreshToken")).findFirst().map(Cookie::getValue)
-                    .orElse(null);
+                    .orElseThrow(() -> new AuthenticationException("인증되지 않은 사용자입니다."));
 
             return refreshToken;
         }

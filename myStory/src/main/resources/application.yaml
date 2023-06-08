@@ -1,5 +1,7 @@
 client:
   url: http://localhost:3000
+server:
+  url: http://localhost:8080
 
 spring:
   datasource:
@@ -9,14 +11,14 @@ spring:
     password: password
   jpa:
     database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
-        # show_sql: true
-        # format_sql: true
+        show_sql: true
+        format_sql: true
 
   sql:
     init:
