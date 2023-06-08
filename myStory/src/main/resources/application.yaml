@@ -43,6 +43,11 @@ spring:
             authorization-grant-type: authorization_code
             scope: profile_nickname , account_email
             client-name: kakao
+          google:
+            client-id: 468391770326-850l305qj81ah6s9j2irhfqvsiupnkgk.apps.googleusercontent.com
+            client-secret: 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
+            scope: email , profile
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
         provider:
           kakao:
             user-name-attribute: id

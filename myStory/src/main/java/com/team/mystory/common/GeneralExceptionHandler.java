@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.naming.AuthenticationException;
 import javax.security.auth.login.AccountException;
 
+import java.io.IOException;
+
+import static com.team.mystory.common.FilterExceptionHandler.setErrorResponse;
 import static com.team.mystory.common.ResponseCode.*;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
@@ -28,7 +31,7 @@ public class GeneralExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
     }
 
-    @ExceptionHandler({AccountException.class , OAuth2EmailNotFoundException.class})
+    @ExceptionHandler({AccountException.class})
     public ResponseEntity accountExceptionHandler(Exception e) {
         ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
 

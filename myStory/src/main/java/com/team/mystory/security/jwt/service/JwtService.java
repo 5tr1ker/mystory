@@ -53,7 +53,7 @@ public class JwtService {
             RefreshToken token = getRefreshToken(request);
             String accessToken = jwtTokenProvider.validateRefreshToken(token);
 
-            response.addCookie(createAccessToken(accessToken));
+            response.addHeader("Set-Cookie" , createAccessToken(accessToken).toString());
 
             return ResponseMessage.of(CREATE_ACCESS_TOKEN);
         } catch (NoSuchElementException e) {

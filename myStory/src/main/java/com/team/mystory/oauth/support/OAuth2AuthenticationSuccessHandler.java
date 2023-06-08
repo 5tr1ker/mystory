@@ -36,14 +36,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         UserSession user = (UserSession) httpSession.getAttribute("user");
 
         if (user == null) {
-            getRedirectStrategy().sendRedirect(request, response,
-                    createRedirectUrl(clientUrl + "/oauth2/disallowance"));
+            getRedirectStrategy().sendRedirect(request, response, createRedirectUrl(clientUrl + "/oauth2/disallowance"));
+
             return;
         }
 
         Token token = jwtTokenProvider.createJwtToken(user.getId(), UserRole.USER);
-        response.addCookie(createAccessToken(token.getAccessToken()));
-        response.addCookie(createRefreshToken(token.getRefreshToken()));
+        setCookieFromJwt(token , response);
 
         httpSession.removeAttribute("user");
 
