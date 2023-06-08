@@ -57,12 +57,15 @@
 > Security 설정을 추가해 인가된 사용자만 특정 API에 접근할 수 있도록 제한합니다. 
 
 프로젝트 구조는 다음과 같습니다.</br>
+
+![image](https://github.com/5tr1ker/mystory/assets/49367338/df7cec92-a205-4bb3-aaee-cf1ab68c0453)
+
 - CSRF : disable
 - Session Creation Policy : STATELESS
-- JwtAuthenticationFilter : UsernamePasswordAuthenticationFilter.class
+- JwtAuthenticationFilter : before UsernamePasswordAuthenticationFilter.class
 </br>
-- GET 을 제외한 모든 Methods 는 인증이 필요하며 특수한 경우 ( 로그인 , 회원가입 ) 만 인증을 제외합니다. 
-- 인가가 필요한 API는 .hasRole("USER") 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.
+- GET 을 제외한 모든 Methods 는 인증이 필요하며 특수한 경우 ( 로그인 , 회원가입 ) 만 인증을 제외합니다. </br>
+- 인가가 필요한 API는 .hasRole(UserRole.USER.name()) 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.</br>
 
 <h2>JPA & QueryDSL</h2>
 
@@ -81,7 +84,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 > 구글 & 네이버 OAuth provider를 이용해 불필요한 회원가입을 줄이고 , JWT Token을 이용해 Authorization 인증 시스템을 구현했습니다.
 
 - OAuth & JWT 구조는 다음과 같습니다.
-![image](https://github.com/5tr1ker/mystory/assets/49367338/d04a0849-cef6-498a-8c8f-fbb63467635b)
+![image](https://github.com/5tr1ker/mystory/assets/49367338/8efff265-cfb9-499a-b98d-6a3b9ff40ffd)
 
 - Access Token과 Refresh Token은 클라이언트에 httpOnly , Secure 옵션으로 보안처리 했습니다
 
@@ -92,8 +95,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 ![도커 다이어그램](https://user-images.githubusercontent.com/49367338/196452012-d1ac40b4-987f-4bb3-8717-33255ce338e9.png)
 
 - 각 컨테이너의 환경을 개발 환경과 동일화합니다.
-- volumes 을 이용해 로컬 파일에 미리 생성해둔 환경 설정 파일을 컨테이너와 공유합니다.
-- environment 를 이용해 서버에 환경 설정 변수를 지정했습니다.
+- volumes 을 이용해 로컬과 서버간의 데이터를 공유합니다.
 - depends_on 설정을 이용해 각 컨테이너 끼리 통신할 수 있게 지정했습니다.
 
 <h2>AWS EC2</h2>
@@ -113,8 +115,8 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 - Oauth 2.0 를 통해 불필요한 회원가입을 단축시켰습니다.
 - 로그인 후 발급되는 Access Token 과 Refresh Token은 클라이언트에서 다음과 같이 보관합니다. 
   - AccessToken과 RefreshToken은 쿠키에 보관하나 Security , HTTPOnly 옵션을 추가해서 서버와 클라이언트 간 https 통신 및 자바스크립트로 쿠키 접근을 제한합니다. 
-  - 로그아웃시 Access Token, Refresh Token 쿠키 삭제 및 세션 무효화를 합니다.
-  - OAuth 2.0 로그인 시 사용자 이름을 이용해 회원가입 또는 로그인을 진행합니다.
+  - 로그아웃시 Access Token, Refresh Token 쿠키 삭제합니다.
+  - OAuth 2.0 로그인 시 사용자 이름을 이용해 회원가입 및 로그인을 진행합니다.
   
 <h2>2 . 메인 화면</h2>
 
@@ -139,7 +141,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 ![image](https://user-images.githubusercontent.com/49367338/197680769-2354229c-01e5-42f4-935e-f27f3c20df7f.png)
 
-- 수정 시 DB에 있는 Entity를 그대로 가져오기 때문에 작성되어 있는 데이터에 값을 덮어쓰기 할 수 있습니다.
+- 수정 시 DB에 있는 Entity를 그대로 가져오기 때문에 작성되어 있는 데이터에 값을 이어쓸 수 있습니다.
 - 쿼리 스트링을 변조하는 불법적인 침입을 금지했습니다.
 
 <h2>5 . 프로필 조회</h2>
@@ -148,8 +150,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 ![image](https://user-images.githubusercontent.com/49367338/197685138-6754e6d7-bdc7-4a5e-857b-40652d4ba761.png)
 
-- 계정이 수정되거나 삭제됐을 때 사용자와 연관된 값을 벌크 연산으로 DB에 값을 직접 변경해줬습니다.
-- 변경된 DB는 영속성 컨텍스트와 데이터 불일치 오류가 발생할 수 있어,  @Modifying(clearAutomatically = true)를 이용해 영속성 컨텍스트를 clear 해줬습니다.
+- 계정이 바뀌었을 경우 보안을 위해 모든 Token을 삭제합니다.
 
 <h2>6 . 알림창</h2>
 
