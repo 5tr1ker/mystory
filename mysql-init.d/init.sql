@@ -12,7 +12,7 @@ create table user
     user_key            bigint       not null,
     id                  varchar(20)  not null,
     join_date           date         not null,
-    password            varchar(45)  not null,
+    password            varchar(255)  not null,
     role                varchar(255) not null,
     user_type           varchar(255) not null,
     profile_profile_key bigint       not null,

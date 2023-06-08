@@ -14,6 +14,7 @@ import com.team.mystory.security.jwt.support.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.AccountException;
@@ -34,6 +35,7 @@ public class LoginService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final S3Service s3Service;
 	private final JwtService jwtService;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public void validNewAccountVerification(LoginRequest loginRequest) throws AccountException {
 		if(loginRepository.findById(loginRequest.getId()).isPresent()) {
@@ -48,7 +50,7 @@ public class LoginService {
 	public ResponseMessage register(LoginRequest loginRequest) throws AccountException {
 		validNewAccountVerification(loginRequest);
 
-		loginRepository.save(User.createGeneralUser(loginRequest));
+		loginRepository.save(User.createGeneralUser(loginRequest , bCryptPasswordEncoder));
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 	
@@ -59,7 +61,7 @@ public class LoginService {
 		if(result.getUserType().equals(UserType.OAUTH_USER)) {
 			throw new AccountException("해당 계정은 OAuth2.0 사용자입니다.");
 		}
-		if(!result.getPassword().equals(loginRequest.getPassword())) {
+		if(!result.checkPassword(loginRequest.getPassword() , bCryptPasswordEncoder)) {
 			throw new AccountException("비밀번호가 일치하지 않습니다.");
 		}
 
