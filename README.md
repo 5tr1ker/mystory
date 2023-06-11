@@ -17,7 +17,7 @@
 - 게시판 : CRUD 기능, 조회수 , 추천 , 페이징 및 검색 처리
 - 사용자 : Security 회원가입 및 로그인 ( JWT ) , OAuth 2.0 (구글, 네이버 , 카카오) , 회원정보 수정, 회원가입시 중복 검사 , 알림
 - 댓글 : CRUD 기능
-- 보안 : SSL 인증서를 이용해 https 적용 , 쿠키 접근 제한 ( Security , Samesite ('none') , AccessToken 과 RefreshToken 를 활용해 API 요청에 대한 권한 확인
+- 보안 : SSL 인증서를 이용해 https 적용 , 쿠키 접근 제한 ( Security , Samesite ('none') , AccessToken 과 RefreshToken 를 활용해 API 요청에 대한 권한 확인 , 비밀번호 단방향 암호화
 - 최적화 : 수정할 수 없는 데이터는 읽기 전용 모드를 이용해 메모리 최적화 , 페이징을 활용해 데이터 조회 속도 개선
 
 <h2>Project Structure</h2>
@@ -61,6 +61,7 @@
 ![image](https://github.com/5tr1ker/mystory/assets/49367338/df7cec92-a205-4bb3-aaee-cf1ab68c0453)
 
 - CSRF : disable
+- password encryption : BCryptPasswordEncoder
 - Session Creation Policy : STATELESS
 - JwtAuthenticationFilter : before UsernamePasswordAuthenticationFilter.class
 </br>
