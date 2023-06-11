@@ -31,6 +31,7 @@
 - Docker ( Container )
 - AWS EC2 ( Infra )
 - AWS S3 ( Storage )
+- AWS ELB ( Load Balancer )
 
 <h2>React</h2>
 
@@ -95,14 +96,17 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 - volumes 을 이용해 로컬과 서버간의 데이터를 공유합니다.
 - depends_on 설정을 이용해 각 컨테이너 끼리 통신할 수 있게 지정했습니다.
 
-<h2>AWS EC2</h2>
+<h2>AWS EC2 & ELB </h2>
 
 > 전체 프로젝트 인프라 구성
 
 ![image](https://github.com/5tr1ker/mystory/assets/49367338/9c3cacb3-7723-42e4-9a76-ee9105450e1f)
 
-- SSL 인증서를 이용해 https 보안설정을 했습니다.
-- ALB ( Application Load Balance ) 를 활용해 OAuth2.0 을 처리하기 위해 경로 기반 포워딩을 했습니다.
+- Route 53 를 통해 도메인으로 오는 요청을 ELB 에게 전달합니다.
+- 도메인은 SSL 인증서를 이용해 https 보안설정을 했습니다.
+- ELB ( Application Load Balance ) 를 활용해 OAuth2.0 을 처리하기 위해 경로 기반 포워딩을 했습니다.
+  - OAuth2.0 요청으로 오는 /oauth2/authorization/* 과 /login/oauth2/code/* 로 오는 요청은 직접 백엔드 서버와 연결됩니다.
+  - 그 외 요청은 모두 클라이언트 서버 로 연결됩니다. [상세히](https://velog.io/@tjseocld/AWS-AWS-EC2-ALB-%ED%99%9C%EC%9A%A9)
 <h2>1 . 로그인 / 회원가입</h2>
 
 > 구글 , 네이버 계정으로 회원가입을 하거나 , 별도로 가입할 수 있습니다.
