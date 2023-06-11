@@ -12,5 +12,5 @@ public interface CustomCommentRepository {
 
     List<CommentResponse> findCommentByPostId(long postId);
 
-    List<CommentResponse> findCommentFromRegisteredPostByUserId(String userId);
+    List<CommentResponse> findCommentByCommentPostWithoutMe(String userId);
 }

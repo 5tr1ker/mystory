@@ -65,6 +65,6 @@ public class CommentService {
 
         loginRepository.findById(userId).orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
 
-        return ResponseMessage.of(REQUEST_SUCCESS, commentRepository.findCommentFromRegisteredPostByUserId(userId));
+        return ResponseMessage.of(REQUEST_SUCCESS, commentRepository.findCommentByCommentPostWithoutMe(userId));
     }
 }
