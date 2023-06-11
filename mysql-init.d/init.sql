@@ -1,6 +1,6 @@
 create table profile
 (
-    profile_key bigint  not null,
+    profile_key bigint  not null AUTO_INCREMENT,
     email       varchar(255),
     options      integer not null,
     phone       varchar(255),
@@ -9,7 +9,7 @@ create table profile
 
 create table user
 (
-    user_key            bigint       not null,
+    user_key            bigint       not null AUTO_INCREMENT,
     id                  varchar(20)  not null,
     join_date           date         not null,
     password            varchar(255)  not null,
@@ -39,7 +39,7 @@ create fulltext index idx_post_content on post(content);
 
 create table attachment
 (
-    attachment_id  bigint       not null,
+    attachment_id  bigint       not null AUTO_INCREMENT,
     file_size      bigint       not null,
     real_file_name varchar(30)  not null,
     s3url          varchar(100) not null,
@@ -49,15 +49,9 @@ create table attachment
     foreign key (post_post_id) references post (post_id)
 );
 
-create table attachment_seq
-(
-    next_val bigint
-);
-insert into attachment_seq values ( 1 );
-
 create table comment
 (
-    comment_id      bigint       not null,
+    comment_id      bigint       not null AUTO_INCREMENT,
     content         varchar(200) not null,
     post_date       datetime(6),
     post_post_id    bigint       not null,
@@ -67,24 +61,18 @@ create table comment
     foreign key (writer_user_key) references user (user_key)
 );
 
-create table comment_seq
-(
-    next_val bigint
-);
-insert into comment_seq values ( 1 );
-
 create table post_recommendation
 (
     post_post_id            bigint not null,
     recommendation_user_key bigint not null,
-    unique (recommendation_user_key),
+    unique (recommendation_user_key , post_post_id),
     foreign key (recommendation_user_key) references user (user_key),
     foreign key (post_post_id) references post (post_id)
 );
 
 create table tag
 (
-    tag_id   bigint      not null,
+    tag_id   bigint      not null AUTO_INCREMENT,
     tag_data varchar(15) not null,
     primary key (tag_id)
 );
@@ -97,14 +85,6 @@ create table post_tag
     foreign key (post_post_id) references post (post_id)
 );
 
-
-
-create table profile_seq
-(
-    next_val bigint
-);
-insert into profile_seq values ( 1 );
-
 create table refresh_token
 (
     token_id bigint       not null auto_increment,
@@ -112,15 +92,3 @@ create table refresh_token
     token    varchar(255) not null,
     primary key (token_id)
 );
-
-create table tag_seq
-(
-    next_val bigint
-);
-insert into tag_seq values ( 1 );
-
-create table user_seq
-(
-    next_val bigint
-);
-insert into user_seq values ( 1 );
