@@ -42,7 +42,7 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
     }
 
     @Override
-    public List<CommentResponse> findCommentFromRegisteredPostByUserId(String userId) {
+    public List<CommentResponse> findCommentByCommentPostWithoutMe(String userId) {
         QUser subUser = new QUser("subUser");
 
         return queryFactory.select(Projections.constructor(CommentResponse.class ,
@@ -50,7 +50,7 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
                 .from(comment)
                 .innerJoin(comment.writer , user).on(user.id.ne(userId))
                 .innerJoin(comment.post , post)
-                .where(comment.post.eqAny(JPAExpressions.select(post)
+                .on(post.eqAny(JPAExpressions.select(post)
                         .from(post)
                         .innerJoin(post.writer , subUser).on(subUser.id.eq(userId))
                 ))

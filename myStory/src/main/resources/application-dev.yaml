@@ -16,10 +16,6 @@ spring:
     hibernate:
       ddl-auto: validate
 
-  sql:
-    init:
-      mode: always
-
   security:
     oauth2:
       client:

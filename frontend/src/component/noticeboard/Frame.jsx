@@ -17,7 +17,7 @@ const NoticeFrame = () => {
     const [dropBoxs, setDropBox] = useState(false);
     const [notified, setNotified] = useState(false);
 
-    const [userOption, setUserOption] = useState({ notified: 3 });
+    const [userOption, setUserOption] = useState();
     const urlInfo = window.location.pathname.split('/')[1];
     
     const query = qs.parse(window.location.search, { // ?tag=데이터 로 찾음 query.tag
@@ -36,9 +36,8 @@ const NoticeFrame = () => {
             url: `/users`,
         })
         .then((response) => { 
-            localStorage.setItem("userId" , response.data.data.id ); 
+            localStorage.setItem("userId" , response.data.data.id );
             setUserOption({notified: response.data.data.options});
-            window.location.replace("/noticelist"); 
         }) 
         .catch((e) => {});
     }
@@ -55,10 +54,10 @@ const NoticeFrame = () => {
             window.location.replace("/noticelist");
         }
 
-        if (sessionUserId == undefined) {
-            getInitData();
-        }
-    }, []);
+    });
+    if(sessionUserId == null || userOption == undefined) {
+        getInitData();
+    }
 
     return (
         <Fragment>

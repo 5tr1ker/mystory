@@ -3,16 +3,17 @@ import axios from "axios";
 import React , { Fragment , useEffect , useState } from "react";
 
 const Notificate = ({dropDownSet , notifiedMode}) => {
-
+    
     const [list , setList] = useState([]);
 
     const connectUrl = (postNumber) => {
         window.location.href = `/viewpost?page=${postNumber}`;
     }
     
+    let keys = 0;
     const Notifycontent = ({data}) => {
         return (data.map(item => (
-        <div key={item.id} className="notificateitem" onClick={() => connectUrl(item.postId)}>
+        <div key={keys++} className="notificateitem" onClick={() => connectUrl(item.postId)}>
             <header className="nfitemheader">
                 <span id="headerNamed">{item.writer}</span>님이 댓글을 달았습니다.</header>
             <div className="nfitemcontent">
