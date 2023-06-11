@@ -17,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Comment {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long commentId;
 
 	@Setter

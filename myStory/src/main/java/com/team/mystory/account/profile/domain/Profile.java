@@ -1,10 +1,7 @@
 package com.team.mystory.account.profile.domain;
 
 import com.team.mystory.account.profile.dto.ProfileRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +11,7 @@ import lombok.Setter;
 public class Profile {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long profileKey;
 	
 	@Column

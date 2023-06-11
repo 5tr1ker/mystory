@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class Attachment {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long attachmentId;
 
 	@Setter

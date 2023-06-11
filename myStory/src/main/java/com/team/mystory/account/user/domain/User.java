@@ -26,7 +26,7 @@ import java.util.*;
 @JsonIdentityInfo(generator = IntSequenceGenerator.class , property = "id")
 public class User implements UserDetails {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long userKey;
 	
 	@Column(nullable = false , length = 20)
