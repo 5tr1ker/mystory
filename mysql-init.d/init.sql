@@ -10,7 +10,7 @@ create table profile
 create table user
 (
     user_key            bigint       not null AUTO_INCREMENT,
-    id                  varchar(20)  not null,
+    id                  varchar(30)  not null,
     join_date           date         not null,
     password            varchar(255)  not null,
     role                varchar(255) not null,
@@ -23,12 +23,12 @@ create table user
 create table post
 (
     post_id          bigint       not null auto_increment,
-    content          varchar(255) not null,
+    content          varchar(1100) not null,
     is_block_comment varchar(255) not null,
     is_private       varchar(255) not null,
     likes            integer      not null,
     post_date        datetime(6),
-    title            varchar(30)  not null,
+    title            varchar(50)  not null,
     views            integer      not null,
     writer_user_key  bigint,
     primary key (post_id),
@@ -41,9 +41,9 @@ create table attachment
 (
     attachment_id  bigint       not null AUTO_INCREMENT,
     file_size      bigint       not null,
-    real_file_name varchar(30)  not null,
+    real_file_name varchar(50)  not null,
     s3url          varchar(100) not null,
-    uuid_file_name varchar(40)  not null,
+    uuid_file_name varchar(50)  not null,
     post_post_id   bigint       not null,
     primary key (attachment_id) ,
     foreign key (post_post_id) references post (post_id)

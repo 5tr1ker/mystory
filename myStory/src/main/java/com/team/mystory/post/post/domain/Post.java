@@ -32,7 +32,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long postId;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 50)
     private String title;
 
     @Column(nullable = false)
@@ -54,7 +54,7 @@ public class Post {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Date postDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false , length = 1100)
     private String content;
 
     @Builder.Default

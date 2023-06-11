@@ -12,7 +12,7 @@ import axios from 'axios';
 import { deleteAllToken } from './DeleteAllCookie';
 
 const NoticeFrame = () => {
-    const sessionUserId = localStorage.getItem("userId");
+    let sessionUserId = localStorage.getItem("userId");
 
     const [dropBoxs, setDropBox] = useState(false);
     const [notified, setNotified] = useState(false);
@@ -27,6 +27,13 @@ const NoticeFrame = () => {
     const noticeInfo = window.location.pathname.split('/')[1];
     if ((noticeInfo === undefined || noticeInfo === '') && urlInfo !== 'profile' && urlInfo !== 'newpost') { // 비정상적인 경로 확인
         window.location.replace("/noticelist");
+    }
+
+    const logout = () => {
+        sessionUserId = null;
+        localStorage.removeItem("userId");
+        setUserOption(); // 강제 리렌더링
+        window.location.replace("/logout");
     }
 
     const getInitData = async () => {
@@ -144,7 +151,7 @@ const NoticeFrame = () => {
                     <Route path='/newpost' element={<NewPost idStatus={sessionUserId} />}></Route>
                     <Route path='/modified/:id' element={<NewPost idStatus={sessionUserId} />}></Route>
                     <Route path='/viewpost' element={<PostView idStatus={sessionUserId} />}></Route>
-                    <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={getInitData} />}></Route>
+                    <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} />}></Route>
                 </Routes>
             </div>
         </Fragment>

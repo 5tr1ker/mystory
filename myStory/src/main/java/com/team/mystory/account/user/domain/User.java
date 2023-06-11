@@ -29,7 +29,7 @@ public class User implements UserDetails {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long userKey;
 	
-	@Column(nullable = false , length = 20)
+	@Column(nullable = false , length = 30)
 	private String id;
 	
 	@Column(nullable = false)
