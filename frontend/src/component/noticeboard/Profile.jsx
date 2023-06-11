@@ -3,8 +3,6 @@ import { Fragment , useState } from "react"
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import React from "react";
-import { deleteAllToken } from "./DeleteAllCookie";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({idStatus , rerenders}) => {
     const [profileEdits , setEdits] = useState(false);
@@ -72,9 +70,12 @@ const Profile = ({idStatus , rerenders}) => {
                     method : "GET" ,
                     mode : "cors"
                 });
-                localStorage.removeItem("userId")
+                rerenders();
                 nav("/login", { replace: true }); }) 
-            .catch((e) => alert(e.response.data.message));
+            .catch((e) =>{
+                rerenders();
+                nav("/login", { replace: true });
+            });
         }
     }
 
@@ -100,9 +101,12 @@ const Profile = ({idStatus , rerenders}) => {
                         method : "GET" ,
                         mode : "cors"
                     });
-                    localStorage.removeItem("userId")
+                    rerenders();
                     nav("/login", { replace: false }); }) 
-                .catch((e) => alert(e.response.data.message));
+                .catch((e) => {
+                    rerenders();
+                nav("/login", { replace: false });
+                });
             } else {
                 await axios({
                     url : "/profiles" ,

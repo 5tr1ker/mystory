@@ -20,10 +20,10 @@ public class Attachment {
 	@JoinColumn(nullable = false)
 	private Post post;
 	
-	@Column(nullable = false , length = 30)
+	@Column(nullable = false , length = 50)
 	private String realFileName;
 
-	@Column(nullable = false , length = 40)
+	@Column(nullable = false , length = 50)
 	private String uuidFileName;
 
 	@Column(nullable = false , length = 100)
