@@ -1,4 +1,4 @@
-# 📎myStory ( https://mystorynews.com )
+# 📎 myStory ( https://mystorynews.com )
 > 웹 서버의 기본 소양이 되는 게시판 프로젝트입니다.
 
 ![img1](https://user-images.githubusercontent.com/49367338/196038573-aee974a6-edba-4118-9c29-e71a518ce945.png)
@@ -12,9 +12,9 @@
 프로젝트 주요 기능은 다음과 같습니다.<br/><br/>
 
 - 게시판 : CRUD 기능, 조회수 , 추천 ( 좋아요 ) , 페이징 및 검색
-- 사용자 : Security 회원가입 및 로그인 ( JWT ) , OAuth 2.0 (구글, 네이버 , 카카오) , 회원정보 수정, 회원가입시 중복 검사 , 알림
+- 사용자 : 회원가입 및 로그인 ( JWT ) , OAuth 2.0 (구글, 네이버 , 카카오) , 회원정보 수정, 회원가입시 중복 검사 , 알림
 - 댓글 : CRUD 기능
-- 보안 : SSL 인증서를 이용해 https 적용 , 쿠키 접근 제한 ( Security , Samesite ('none')) , AccessToken 과 RefreshToken 를 활용해 API 요청에 대한 권한 확인 , 비밀번호 단방향 암호화
+- 보안 : SSL 인증서를 이용해 https 적용 , 쿠키 접근 제한 , AccessToken 과 RefreshToken 를 활용해 API 요청에 대한 권한 확인 , 비밀번호 단방향 암호화
 
 <h2>Project Structure</h2>
 
