@@ -11,10 +11,8 @@
 <h3># 주요 기능</h3>
 프로젝트 주요 기능은 다음과 같습니다.<br/><br/>
 
-- 게시판 : CRUD 기능, 조회수 , 추천 ( 좋아요 ) , 페이징 및 검색
+- 게시판 : CRUD 기능, 조회수 , 추천 ( 좋아요 ) , 페이징 및 검색 , 댓글 CRUD
 - 사용자 : 회원가입 및 로그인 ( JWT ) , OAuth 2.0 (구글, 네이버 , 카카오) , 회원정보 수정, 회원가입시 중복 검사 , 알림
-- 댓글 : CRUD 기능
-- 보안 : SSL 인증서를 이용해 https 적용 , 쿠키 접근 제한 , AccessToken 과 RefreshToken 를 활용해 API 요청에 대한 권한 확인 , 비밀번호 단방향 암호화
 
 <h2>Project Structure</h2>
 
@@ -81,9 +79,6 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 > 구글 & 네이버 & 카카오 소셜 서버를 이용해 불필요한 회원가입을 줄이고 , JWT Token을 이용해 인증 시스템을 구현했습니다.
 
-- OAuth & JWT 구조는 다음과 같습니다.
-![image](https://github.com/5tr1ker/mystory/assets/49367338/8efff265-cfb9-499a-b98d-6a3b9ff40ffd)
-
 - Access Token과 Refresh Token은 클라이언트에 httpOnly , Secure 옵션으로 보안처리 했습니다
 
 <h2>Docker</h2>
@@ -102,8 +97,8 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 ![image](https://github.com/5tr1ker/mystory/assets/49367338/9c3cacb3-7723-42e4-9a76-ee9105450e1f)
 
-- Route 53 를 통해 도메인으로 오는 요청을 ELB 에게 전달합니다.
-- 도메인은 SSL 인증서를 이용해 https 보안설정을 했습니다.
+- Route 53 도메인으로 오는 요청을 ELB 에게 전달합니다.
+- SSL 인증서를 이용해 https 보안설정을 했습니다.
 - ELB ( Application Load Balance ) 를 활용해 OAuth2.0 을 처리하기 위해 경로 기반 포워딩을 했습니다.
   - OAuth2.0 요청으로 오는 /oauth2/authorization/* 과 /login/oauth2/code/* 로 오는 요청은 직접 백엔드 서버와 연결됩니다.
   - 그 외 요청은 모두 클라이언트 서버 로 연결됩니다. [상세히](https://velog.io/@tjseocld/AWS-AWS-EC2-ALB-%ED%99%9C%EC%9A%A9)
@@ -115,7 +110,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 - Oauth 2.0 를 통해 회원가입 과정을 생략할 수 있습니다.
 - 로그인 후 발급되는 Access Token 과 Refresh Token은 클라이언트에서 다음과 같이 보관합니다. 
-  - AccessToken과 RefreshToken은 쿠키에 보관하나 Security , HTTPOnly , samesite('none') 옵션을 추가해서 서버와 클라이언트 간 https 통신 및 자바스크립트로 쿠키 접근을 제한합니다. 
+  - AccessToken과 RefreshToken은 쿠키에 보관하나 Security , HTTPOnly 옵션을 추가해서 서버와 클라이언트 간 https 통신 및 자바스크립트로 쿠키 접근을 제한합니다. 
   - 로그아웃시 Access Token, Refresh Token 쿠키 삭제합니다.
   - OAuth 2.0 로그인 시 사용자 이름을 이용해 회원가입 및 로그인을 진행합니다.
   
