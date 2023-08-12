@@ -68,6 +68,8 @@
 > 객체 중심 설계와 반복적인 CRUD를 Spring Data JPA 로 최소화해 비즈니스 로직에 집중합니다.
 
 - QueryDSL : 복잡한 JPQL 작성시 발생할 수 있는 문법오류를 컴파일 시점에 빠르게 찾아냅니다.</br>
+- Spring Data JPA 를 이용해 반복적인 CRUD를 최소화 하고 , 페이징을 이용해 성능을 높혔습니다.
+- QueryDSL 을 이용해 복잡한 JPQL 작성시 발생할 수 있는 문법오류를 최소화 합니다.
 
 JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
@@ -77,9 +79,9 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 <h2>OAuth2.0 & JWT</h2>
 
-> 구글 & 네이버 & 카카오 소셜 서버를 이용해 불필요한 회원가입을 줄이고 , JWT Token을 이용해 인증 시스템을 구현했습니다.
+> 구글 & 네이버 & 카카오 소셜 서버를 이용해 불필요한 회원가입을 줄이고 , JWT을 이용해 사용자 인증 정보를 저장합니다.
 
-- Access Token과 Refresh Token은 클라이언트에 httpOnly , Secure 옵션으로 보안처리 했습니다
+- Access Token과 Refresh Token은 브라우저 쿠키에 저장되며 httpOnly , Secure 옵션으로 보안처리 했습니다
 
 <h2>Docker</h2>
 
@@ -120,8 +122,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 ![image](https://user-images.githubusercontent.com/49367338/197678129-d36ca987-ebf2-4803-ab50-3af49db5d28b.png)
 
-- Spring Data JPA 를 이용해 반복적인 CRUD를 최소화 하고 , 페이징을 이용해 성능을 높혔습니다.
-- QueryDSL 을 이용해 복잡한 JPQL 작성시 발생할 수 있는 문법오류를 최소화 합니다.
+- 각 게시글에 작성되어 있는 댓글 수를 제목 오른쪽에 출력합니다.
 
 <h2>3 . 게시물 조회</h2>
 
@@ -129,7 +130,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 ![image](https://user-images.githubusercontent.com/49367338/197679483-236fd600-419f-468a-a0af-1af995aa6ae9.png)
 
-- 하단 textbox에 댓글을 추가할 수 있고, 본인이 작성한 댓글만 삭제할 수 있습니다. 또한 작성자가 등록한 태그 및 첨부파일을 이용할 수 있습니다.
+- 하단 textbox를 이용하여 댓글을 작성 및 추가할 수 있고, 본인이 작성한 댓글만 삭제할 수 있습니다. 또한 작성자가 등록한 태그 및 첨부파일을 이용할 수 있습니다.
 
 <h2>4 . 게시물 수정 / 작성</h2>
 
@@ -137,8 +138,9 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 ![image](https://user-images.githubusercontent.com/49367338/197680769-2354229c-01e5-42f4-935e-f27f3c20df7f.png)
 
-- 수정 시 DB에 있는 Entity를 그대로 가져오기 때문에 작성되어 있는 데이터에 값을 이어쓸 수 있습니다.
+- 수정 시 DB에 있는 Data를 그대로 가져오기 때문에 작성되어 있는 데이터에 값을 이어쓸 수 있습니다.
 - 쿼리 스트링을 변조하는 불법적인 침입을 금지했습니다.
+- 게시글 수정 시 추가된 첨부 파일은 단순히 S3에 저장되지만 , 삭제된 첨부파일의 Id값을 따로 요청하여 S3 파일을 제거합니다.
 
 <h2>5 . 프로필 조회</h2>
 
@@ -146,7 +148,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 ![image](https://user-images.githubusercontent.com/49367338/197685138-6754e6d7-bdc7-4a5e-857b-40652d4ba761.png)
 
-- 계정이 바뀌었을 경우 보안을 위해 모든 Token을 삭제하며 로그아웃을 합니다.
+- 계정 이름이 바뀌었을 경우 보안을 위해 모든 Token을 삭제하며 로그아웃을 합니다.
 
 <h2>6 . 알림창</h2>
 
