@@ -2,7 +2,9 @@
 > 웹 서버의 기본 소양이 되는 게시판 프로젝트입니다.
 
 ![img1](https://user-images.githubusercontent.com/49367338/196038573-aee974a6-edba-4118-9c29-e71a518ce945.png)
+
 <h2>Version</h2>
+
 - V 1.0.0 - 서비스 배포 ( React.js + Node.js )
 - V 1.0.1 - 반응형 웹 버그 수정
 - V 1.1.0 - Node.js 서버를 Spring FrameWork 로 수정
