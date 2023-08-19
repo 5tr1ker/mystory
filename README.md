@@ -2,6 +2,11 @@
 > 웹 서버의 기본 소양이 되는 게시판 프로젝트입니다.
 
 ![img1](https://user-images.githubusercontent.com/49367338/196038573-aee974a6-edba-4118-9c29-e71a518ce945.png)
+<h2>Version</h2>
+- V 1.0.0 - 서비스 배포 ( React.js + Node.js )
+- V 1.0.1 - 반응형 웹 버그 수정
+- V 1.1.0 - Node.js 서버를 Spring FrameWork 로 수정
+- V 1.2.0 - Spring FrameWork 를 Spring Boot 서버로 수정
 
 <h2>Project Introduce</h2>
 백엔드의 기초를 다지기 위한 개인 프로젝트이며 첨부 파일 , 댓글 , 알림 , 포스트 CRUD , 페이지네이션 , 해시 태그 등 인터넷 게시판의 주요 기능들을 취합하여 만든 프로젝트입니다. <br/>
