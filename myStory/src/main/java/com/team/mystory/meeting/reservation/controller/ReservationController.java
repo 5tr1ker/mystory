@@ -27,14 +27,14 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/reservation/{reservationId}/join}")
+    @PostMapping("/reservation/{reservationId}/join")
     public ResponseEntity joinReservation(@PathVariable long reservationId , @CookieValue String accessToken) throws AccountException {
         reservationService.joinReservation(reservationId , accessToken);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/reservation/{reservationId}/leave}")
+    @DeleteMapping("/reservation/{reservationId}/leave")
     public ResponseEntity leaveReservation(@PathVariable long reservationId , @CookieValue String accessToken) throws AccountException {
         reservationService.leaveReservation(reservationId , accessToken);
 

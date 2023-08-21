@@ -41,7 +41,7 @@ public class MeetingController {
     }
 
     @DeleteMapping("/{meetingId}")
-    public ResponseEntity createMeeting(@CookieValue String accessToken , @PathVariable long meetingId) throws IOException {
+    public ResponseEntity createMeeting(@CookieValue String accessToken , @PathVariable long meetingId) {
         meetingService.deleteMeetingById(accessToken , meetingId);
 
         return ResponseEntity.noContent().build();
