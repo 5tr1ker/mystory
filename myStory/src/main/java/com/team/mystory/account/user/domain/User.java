@@ -7,6 +7,7 @@ import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.user.constant.UserRole;
 import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.dto.LoginRequest;
+import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.post.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.*;
@@ -55,8 +56,12 @@ public class User implements UserDetails {
 	private Profile profile = new Profile();
 
 	@Builder.Default
-	@OneToMany(mappedBy = "writer" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "writer" , cascade = CascadeType.ALL)
 	private List<Post> post = new ArrayList<>();
+
+	@Builder.Default
+	@OneToMany(mappedBy = "meetingOwner" , cascade = CascadeType.ALL)
+	private List<Meeting> meetings = new ArrayList<>();
 
 	public static User createGeneralUser(LoginRequest loginRequest , PasswordEncoder passwordEncoder) {
 		return User.builder()

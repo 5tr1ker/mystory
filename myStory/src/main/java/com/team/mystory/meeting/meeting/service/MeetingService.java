@@ -1,5 +1,7 @@
 package com.team.mystory.meeting.meeting.service;
 
+import com.team.mystory.account.user.domain.User;
+import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.AuthenticationException;
+import javax.security.auth.login.AccountException;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -27,9 +30,15 @@ public class MeetingService {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final LoginRepository loginRepository;
+
     @Transactional
-    public void createMeeting(MeetingRequest meeting, MultipartFile image) throws IOException {
-        Meeting meetingEntity = Meeting.createMeetingEntity(meeting);
+    public void createMeeting(MeetingRequest meeting, MultipartFile image , String accessToken) throws IOException, AccountException {
+        String userPk = jwtTokenProvider.getUserPk(accessToken);
+        User user = loginRepository.findById(userPk)
+                .orElseThrow(() -> new AccountException("사용자 장보를 찾을 수 없습니다."));
+
+        Meeting meetingEntity = Meeting.createMeetingEntity(meeting , user);
         String url = s3Service.uploadFileToS3(image , UUID.randomUUID().toString());
 
         meetingEntity.updateMeetingImage(url);

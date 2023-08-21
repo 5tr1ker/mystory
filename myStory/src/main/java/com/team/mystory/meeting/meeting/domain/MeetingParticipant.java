@@ -20,10 +20,10 @@ public class MeetingParticipant {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meetingId")
-    Meeting meetingList;
+    private Meeting meetingList;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
-    User userList;
+    private User userList;
 
 }

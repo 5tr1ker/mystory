@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.security.auth.login.AccountException;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,8 +23,10 @@ public class MeetingController {
     private final MeetingService meetingService;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity createMeeting(@RequestPart MeetingRequest meeting , @RequestPart MultipartFile image) throws IOException {
-        meetingService.createMeeting(meeting , image);
+    public ResponseEntity createMeeting(@RequestPart MeetingRequest meeting , @RequestPart MultipartFile image
+            , @CookieValue String accessToken) throws IOException, AccountException {
+
+        meetingService.createMeeting(meeting , image , accessToken);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -31,6 +34,7 @@ public class MeetingController {
     @PutMapping("/{meetingId}")
     public ResponseEntity modifyMeeting(@RequestPart MeetingRequest meeting , @RequestPart(required = false) MultipartFile image
             , @CookieValue String accessToken , @PathVariable long meetingId) throws IOException {
+
         meetingService.modifyMeeting(meeting , image , accessToken , meetingId);
 
         return ResponseEntity.status(HttpStatus.OK).build();

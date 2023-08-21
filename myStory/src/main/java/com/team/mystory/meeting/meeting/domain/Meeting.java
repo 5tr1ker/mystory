@@ -1,6 +1,9 @@
 package com.team.mystory.meeting.meeting.domain;
 
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
+import com.team.mystory.meeting.reservation.entity.Reservation;
+import com.team.mystory.meeting.reservation.service.ReservationService;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +20,12 @@ public class Meeting {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long meetingId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User meetingOwner;
+
+    @OneToMany(cascade = { CascadeType.PERSIST , CascadeType.REMOVE })
+    private List<Reservation> reservations = new ArrayList<>();
 
     @Column(nullable = false)
     private double locateX;
@@ -37,8 +46,9 @@ public class Meeting {
     @OneToMany(mappedBy = "meetingList")
     private List<MeetingParticipant> meetingParticipants = new ArrayList<>();
 
-    public static Meeting createMeetingEntity(MeetingRequest meetingRequest) {
+    public static Meeting createMeetingEntity(MeetingRequest meetingRequest , User user) {
         return Meeting.builder()
+                .meetingOwner(user)
                 .locateY(meetingRequest.getLocateY())
                 .locateX(meetingRequest.getLocateX())
                 .address(meetingRequest.getAddress())
