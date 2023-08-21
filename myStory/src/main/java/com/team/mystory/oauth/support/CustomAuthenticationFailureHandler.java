@@ -23,7 +23,6 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         setErrorResponse(response , HttpStatus.UNAUTHORIZED.value() , exception.getMessage());
-        System.out.println(exception.getMessage());
 
         getRedirectStrategy().sendRedirect(request, response, createRedirectUrl(clientUrl));
     }
