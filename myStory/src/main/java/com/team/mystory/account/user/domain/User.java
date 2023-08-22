@@ -9,6 +9,7 @@ import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.post.post.domain.Post;
+import com.team.mystory.todo.domain.TodoList;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
