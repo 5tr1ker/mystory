@@ -1,18 +1,31 @@
 package com.team.mystory.meeting.chat.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class ChatResponse {
 
-    private String userName;
+    private String sender;
 
     private String message;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:MM" , timezone = "Asia/Seoul")
-    private Date sendTime;
+    private String sendTime;
+
+    public static ChatResponse createChatResponse(ChatRequest chatMessage) {
+        return ChatResponse.builder()
+                .sender(chatMessage.getSender())
+                .sendTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .message(chatMessage.getMessage())
+                .build();
+    }
 
 }

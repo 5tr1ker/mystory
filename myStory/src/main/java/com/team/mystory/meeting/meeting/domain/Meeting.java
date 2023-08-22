@@ -1,6 +1,7 @@
 package com.team.mystory.meeting.meeting.domain;
 
 import com.team.mystory.account.user.domain.User;
+import com.team.mystory.meeting.chat.entity.Chat;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.reservation.entity.Reservation;
 import com.team.mystory.meeting.reservation.service.ReservationService;
@@ -45,6 +46,10 @@ public class Meeting {
     @Builder.Default
     @OneToMany(mappedBy = "meetingList")
     private List<MeetingParticipant> meetingParticipants = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "meetingId" , cascade = { CascadeType.PERSIST })
+    private List<Chat> chats = new ArrayList<>();
 
     public static Meeting createMeetingEntity(MeetingRequest meetingRequest , User user) {
         return Meeting.builder()
