@@ -24,4 +24,6 @@ public class CommentResponse {
     private Date postDate;
 
     private String writer;
+
+    private String writerImage;
 }
