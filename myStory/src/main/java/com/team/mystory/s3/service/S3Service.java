@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,21 @@ public class S3Service {
         return amazonS3Client.getUrl(bucket , uuid).toString();
     }
 
+    public String uploadImageToS3(MultipartFile file) throws IOException {
+        String uuid = UUID.randomUUID().toString();
+
+        if(isValidImage(file)) {
+            throw new S3Exception("올바르지 않은 이미지입니다.");
+        }
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(file.getContentType());
+        metadata.setContentLength(file.getInputStream().available());
+        amazonS3Client.putObject(bucket , uuid ,file.getInputStream() , metadata);
+
+        return amazonS3Client.getUrl(bucket , uuid).toString();
+    }
+
     public boolean isValidFile(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
@@ -46,6 +62,17 @@ public class S3Service {
         }
 
         return true;
+    }
+
+    public boolean isValidImage(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+
+        if(extension.equals("jpg") || extension.equals("png")) {
+            return true;
+        }
+
+        return false;
     }
 
     public void deleteFile(String fileName) {

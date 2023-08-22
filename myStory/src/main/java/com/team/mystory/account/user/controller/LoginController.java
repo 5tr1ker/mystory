@@ -7,8 +7,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.security.auth.login.AccountException;
+
+import java.io.IOException;
 
 import static com.team.mystory.common.ResponseCode.LOGOUT_SUCCESS;
 
@@ -19,8 +22,16 @@ public class LoginController {
 	private final LoginService loginService;
 
 	@PostMapping(value = "/registers")
-	public ResponseEntity<ResponseMessage> register(@RequestBody LoginRequest loginRequest) throws AccountException {
-		return ResponseEntity.ok().body(loginService.register(loginRequest));
+	public ResponseEntity<ResponseMessage> register(@RequestPart(value = "data") LoginRequest loginRequest , @RequestPart(value = "image") MultipartFile multipartFile)
+			throws AccountException, IOException {
+		return ResponseEntity.ok().body(loginService.register(loginRequest , multipartFile));
+	}
+
+	@PatchMapping(value = "/profile-image")
+	public ResponseEntity modifyProfileImage(@RequestPart(value = "image") MultipartFile multipartFile , @CookieValue String accessToken) throws AccountException, IOException {
+		loginService.modifyProfileImage(accessToken , multipartFile);
+
+		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping(value = "/logins")

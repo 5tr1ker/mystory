@@ -68,4 +68,11 @@ public class MeetingController {
         return ResponseEntity.ok().body(meetingList);
     }
 
+    @GetMapping("/participants")
+    public ResponseEntity getMeetingsParticipantIn(@CookieValue String accessToken) {
+        List<MeetingResponse> meetingList = meetingService.getMeetingsParticipantIn(accessToken);
+
+        return ResponseEntity.ok().body(meetingList);
+    }
+
 }

@@ -39,7 +39,7 @@ public class MeetingService {
                 .orElseThrow(() -> new AccountException("사용자 장보를 찾을 수 없습니다."));
 
         Meeting meetingEntity = Meeting.createMeetingEntity(meeting , user);
-        String url = s3Service.uploadFileToS3(image , UUID.randomUUID().toString());
+        String url = s3Service.uploadImageToS3(image);
 
         meetingEntity.updateMeetingImage(url);
 
@@ -82,10 +82,16 @@ public class MeetingService {
     }
 
     public void modifyImage(Meeting meeting , MultipartFile image) throws IOException {
-        String url = s3Service.uploadFileToS3(image , UUID.randomUUID().toString());
+        String url = s3Service.uploadImageToS3(image);
         s3Service.deleteFile(meeting.getMeetingImage());
 
         meeting.updateMeetingImage(url);
+    }
+
+    public List<MeetingResponse> getMeetingsParticipantIn(String accessToken) {
+        String userPk = jwtTokenProvider.getUserPk(accessToken);
+
+        return meetingRepository.getMeetingsParticipantIn(userPk);
     }
 
 }

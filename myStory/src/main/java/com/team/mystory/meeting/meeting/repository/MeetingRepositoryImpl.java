@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import static com.team.mystory.account.user.domain.QUser.user;
 import static com.team.mystory.meeting.meeting.domain.QMeetingParticipant.meetingParticipant;
 import static com.team.mystory.meeting.meeting.domain.QMeeting.meeting;
 
@@ -55,6 +56,21 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                         meeting.meetingImage
                 )).from(meeting)
                 .where(meeting.title.like(title))
+                .fetch();
+    }
+
+    @Override
+    public List<MeetingResponse> getMeetingsParticipantIn(String userId) {
+        return jpaQueryFactory.select(Projections.constructor(
+                        MeetingResponse.class,
+                        meeting.meetingId,
+                        meeting.locateX,
+                        meeting.locateY,
+                        meeting.address,
+                        meeting.meetingImage
+                )).from(meetingParticipant)
+                .innerJoin(meetingParticipant.userList , user).on(user.id.eq(userId))
+                .innerJoin(meetingParticipant.meetingList , meeting)
                 .fetch();
     }
 

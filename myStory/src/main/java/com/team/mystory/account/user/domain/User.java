@@ -36,6 +36,8 @@ public class User implements UserDetails {
 	@Column(nullable = false)
 	private String password;
 
+	private String profileImage;
+
 	@Enumerated(value = EnumType.STRING)
 	@Column(nullable = false)
 	private UserRole role;
@@ -63,10 +65,11 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "meetingOwner" , cascade = CascadeType.ALL)
 	private List<Meeting> meetings = new ArrayList<>();
 
-	public static User createGeneralUser(LoginRequest loginRequest , PasswordEncoder passwordEncoder) {
+	public static User createGeneralUser(LoginRequest loginRequest , String url , String password) {
 		return User.builder()
 				.id(loginRequest.getId())
-				.password(passwordEncoder.encode(loginRequest.getPassword()))
+				.profileImage(url)
+				.password(password)
 				.profile(Profile.createInitProfileSetting())
 				.role(UserRole.USER)
 				.userType(UserType.GENERAL_USER)
@@ -88,17 +91,16 @@ public class User implements UserDetails {
 		post.setWriter(this);
 	}
 
-	public User hashPassword(PasswordEncoder passwordEncoder) {
-		this.password = passwordEncoder.encode(this.password);
-		return this;
-	}
-
 	public boolean checkPassword(String plainPassword, PasswordEncoder passwordEncoder) {
 		return passwordEncoder.matches(plainPassword, this.password);
 	}
 
 	public void updateId(String userId) {
 		this.id = userId;
+	}
+
+	public void updateProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	@Override

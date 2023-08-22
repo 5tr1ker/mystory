@@ -12,5 +12,7 @@ public interface CustomMeetingRepository {
 
     List<MeetingResponse> findMeetingByTitle(String title);
 
+    List<MeetingResponse> getMeetingsParticipantIn(String userId);
+
     long deleteMeetingById(String userPk, long meetingId);
 }
