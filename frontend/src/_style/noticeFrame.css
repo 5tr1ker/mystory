@@ -239,6 +239,16 @@
     display: none;
 }
 
+.profileImageData {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-radius: 15px;
+    margin-right: 10px;
+    position: relative;
+    top: 0px;
+}
+
 .profileimage {
     width: 20px;
     height: 20px;
@@ -323,7 +333,7 @@
 }
 
 #buttonArea {
-    width: 600px;
+    width: 700px;
     position: relative;
     left: -50px;
 }
@@ -362,7 +372,7 @@
 }
 
 #buttonArea{
-    width: 450px;
+    width: 500px;
     height: 100%;
     display:flex;
     justify-content: center;

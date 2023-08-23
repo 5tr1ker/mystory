@@ -16,6 +16,7 @@ const NoticeFrame = () => {
 
     const [dropBoxs, setDropBox] = useState(false);
     const [notified, setNotified] = useState(false);
+    const [profileImage , setProfileImage] = useState("");
 
     const [userOption, setUserOption] = useState();
     const urlInfo = window.location.pathname.split('/')[1];
@@ -45,6 +46,7 @@ const NoticeFrame = () => {
         .then((response) => { 
             localStorage.setItem("userId" , response.data.data.id );
             setUserOption({notified: response.data.data.options});
+            setProfileImage(response.data.data.profileImage);
         }) 
         .catch((e) => {});
     }
@@ -76,6 +78,7 @@ const NoticeFrame = () => {
                     <div id="buttonArea">
                         {notified ? <Notificate dropDownSet={setNotified} notifiedMode={userOption.notified} userId={sessionUserId} /> : null}
                         <span><Link to="/noticelist" id="notDecor">게시판</Link></span>
+                        <span><Link to="/meeting" id="notDecor">모임</Link></span>
                         <span><a href="https://velog.io/@tjseocld" target="_blank" id="notDecor">블로그</a></span>
                         <span><a href="https://github.com/5tr1ker" target="_blank" id="notDecor">GitHub</a></span>
                     </div>
@@ -85,10 +88,7 @@ const NoticeFrame = () => {
                                 <Fragment>
                                     <div className='noticeLogin' onClick={setDropers}>
                                         <div className="profileimage">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-person-circle peopleicon" viewBox="0 0 16 16">
-                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                                                <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                                            </svg>
+                                            <img src={profileImage} className="profileImageData"/>
                                         </div>
                                         <span style={{ borderRight: "none" }}>{sessionUserId} 님
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill profilepointer" viewBox="0 0 16 16">
