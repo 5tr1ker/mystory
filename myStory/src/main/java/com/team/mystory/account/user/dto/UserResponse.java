@@ -23,5 +23,7 @@ public class UserResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd" , timezone = "Asia/Seoul")
     private Date joinDate;
 
+    private String profileImage;
+
     private int options;
 }

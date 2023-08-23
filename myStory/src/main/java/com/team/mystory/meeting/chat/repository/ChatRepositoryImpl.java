@@ -26,7 +26,7 @@ public class ChatRepositoryImpl implements CustomChatRepository {
                         chat.message,
                         chat.sendTime
                 )).from(chat)
-                .where(chat.meetingId.eq(meetingId))
+                .innerJoin(chat.meetingId , meeting).on(meeting.meetingId.eq(meetingId))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

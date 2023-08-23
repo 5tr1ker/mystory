@@ -41,7 +41,7 @@ public class S3Service {
     public String uploadImageToS3(MultipartFile file) throws IOException {
         String uuid = UUID.randomUUID().toString();
 
-        if(isValidImage(file)) {
+        if(!isValidImage(file)) {
             throw new S3Exception("올바르지 않은 이미지입니다.");
         }
 

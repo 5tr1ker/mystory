@@ -5,6 +5,7 @@ import com.team.mystory.account.user.service.LoginService;
 import com.team.mystory.common.ResponseMessage;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,13 +23,13 @@ public class LoginController {
 	private final LoginService loginService;
 
 	@PostMapping(value = "/registers")
-	public ResponseEntity<ResponseMessage> register(@RequestPart(value = "data") LoginRequest loginRequest , @RequestPart(value = "image") MultipartFile multipartFile)
+	public ResponseEntity<ResponseMessage> register(@RequestPart(name = "data") LoginRequest loginRequest , @RequestPart(name = "image") MultipartFile multipartFile)
 			throws AccountException, IOException {
 		return ResponseEntity.ok().body(loginService.register(loginRequest , multipartFile));
 	}
 
 	@PatchMapping(value = "/profile-image")
-	public ResponseEntity modifyProfileImage(@RequestPart(value = "image") MultipartFile multipartFile , @CookieValue String accessToken) throws AccountException, IOException {
+	public ResponseEntity modifyProfileImage(@RequestPart(name = "image") MultipartFile multipartFile , @CookieValue String accessToken) throws AccountException, IOException {
 		loginService.modifyProfileImage(accessToken , multipartFile);
 
 		return ResponseEntity.ok().build();
@@ -59,4 +60,5 @@ public class LoginController {
 	public ResponseEntity<ResponseMessage> logout() {
 		return ResponseEntity.ok().body(ResponseMessage.of(LOGOUT_SUCCESS));
 	}
+
 }

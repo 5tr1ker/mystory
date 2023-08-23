@@ -16,7 +16,7 @@ public class TodoListRepositoryImpl implements CustomTodoListRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<TodoListResponse> findInProgressTodoListUserId(String userPk) {
+    public List<TodoListResponse> findUnfinishedTodoListByUserId(String userPk) {
         return jpaQueryFactory.select(Projections.constructor(
                         TodoListResponse.class,
                         todoList.data,
@@ -29,7 +29,7 @@ public class TodoListRepositoryImpl implements CustomTodoListRepository {
     }
 
     @Override
-    public List<TodoListResponse> findAchievedTodoListByUserId(String userPk) {
+    public List<TodoListResponse> findFinishedTodoListByUserId(String userPk) {
         return jpaQueryFactory.select(Projections.constructor(
                         TodoListResponse.class,
                         todoList.data,
@@ -42,7 +42,7 @@ public class TodoListRepositoryImpl implements CustomTodoListRepository {
     }
 
     @Override
-    public List<TodoListResponse> getTodoListByDateAchieved(String userPk, String date) {
+    public List<TodoListResponse> findTodoListInSpecificDateByCompletedDateAndUserId(String userPk, String date) {
         return jpaQueryFactory.select(Projections.constructor(
                         TodoListResponse.class,
                         todoList.data,
@@ -55,7 +55,7 @@ public class TodoListRepositoryImpl implements CustomTodoListRepository {
     }
 
     @Override
-    public List<TodoListResponse> getTodoListForASpecificMonth(String userPk, String date) {
+    public List<TodoListResponse> findTodoListInSpecificMonthByCompletedDateAndUserId(String userPk, String date) {
         return jpaQueryFactory.select(Projections.constructor(
                         TodoListResponse.class,
                         todoList.data,

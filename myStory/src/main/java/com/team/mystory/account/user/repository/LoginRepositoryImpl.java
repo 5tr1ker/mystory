@@ -18,7 +18,7 @@ public class LoginRepositoryImpl implements CustomLoginRepository {
     @Override
     public Optional<UserResponse> findUserResponseById(String id) {
         UserResponse result = queryFactory.select(Projections.constructor(UserResponse.class
-                        , user.userKey , user.id , user.password , user.joinDate , profile.options))
+                        , user.userKey , user.id , user.password , user.joinDate , user.profileImage , profile.options))
                 .from(user)
                 .innerJoin(user.profile , profile).on(profile.eq(profile))
                 .where(user.id.eq(id))

@@ -1,8 +1,12 @@
 package com.team.mystory.account.user.dto;
 
-import lombok.Getter;
+import lombok.*;
 
+@Builder
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginRequest {
     private String id;
     private String password;

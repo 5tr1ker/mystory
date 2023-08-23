@@ -5,12 +5,12 @@ import com.team.mystory.todo.dto.TodoListResponse;
 import java.util.List;
 
 public interface CustomTodoListRepository {
-    List<TodoListResponse> findInProgressTodoListUserId(String userPk);
+    List<TodoListResponse> findUnfinishedTodoListByUserId(String userPk);
 
-    List<TodoListResponse> findAchievedTodoListByUserId(String userPk);
+    List<TodoListResponse> findFinishedTodoListByUserId(String userPk);
 
-    List<TodoListResponse> getTodoListByDateAchieved(String userPk , String date);
+    List<TodoListResponse> findTodoListInSpecificDateByCompletedDateAndUserId(String userPk , String date);
 
-    List<TodoListResponse> getTodoListForASpecificMonth(String userPk , String date);
+    List<TodoListResponse> findTodoListInSpecificMonthByCompletedDateAndUserId(String userPk , String date);
 
 }

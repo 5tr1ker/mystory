@@ -60,25 +60,25 @@ public class TodoListService {
     public List<TodoListResponse> findInProgressTodoListUserId(String accessToken) {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
-        return todoRepository.findInProgressTodoListUserId(userPk);
+        return todoRepository.findUnfinishedTodoListByUserId(userPk);
     }
 
     public List<TodoListResponse> findAchievedTodoListByUserId(String accessToken) {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
-        return todoRepository.findAchievedTodoListByUserId(userPk);
+        return todoRepository.findFinishedTodoListByUserId(userPk);
     }
 
     public List<TodoListResponse> findTodoListByDateAchieved(String accessToken , TodoListRequest todoListRequest) {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
-        return todoRepository.getTodoListByDateAchieved(userPk , todoListRequest.getData());
+        return todoRepository.findTodoListInSpecificDateByCompletedDateAndUserId(userPk , todoListRequest.getData());
     }
 
     public List<TodoListResponse> getTodoListForASpecificMonth(String accessToken , TodoListRequest todoListRequest) {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
-        return todoRepository.getTodoListForASpecificMonth(userPk , todoListRequest.getData());
+        return todoRepository.findTodoListInSpecificMonthByCompletedDateAndUserId(userPk , todoListRequest.getData());
     }
 
 }
