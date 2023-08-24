@@ -11,6 +11,16 @@
     height: 400px;
   }
 
+  .mask-group {
+    display: inline-block;
+    position: relative;
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 10px;
+    top: 130px;
+  }
+
   .screen .text-wrapper-3 {
     color: #000000;
     font-family: "Noto Sans KR-Medium", Helvetica;
@@ -55,7 +65,8 @@
     left: -270px;
     display: inline-block;
     margin-left: 200px;
-    margin-top: -60px;
+    margin-top: -150px;
+    cursor: pointer;
   }
 
   .screen .rectangle-2 {
