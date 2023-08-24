@@ -7,9 +7,11 @@ import NoticeList from "./postlist";
 import PostView from "./postview";
 import Profile from './Profile';
 import Notificate from './notificate';
+import Meeting from '../meeting/meeting';
 import qs from 'qs';
 import axios from 'axios';
 import { deleteAllToken } from './DeleteAllCookie';
+import NewMeeting from '../meeting/newmetting';
 
 const NoticeFrame = () => {
     let sessionUserId = localStorage.getItem("userId");
@@ -152,6 +154,8 @@ const NoticeFrame = () => {
                     <Route path='/modified/:id' element={<NewPost idStatus={sessionUserId} />}></Route>
                     <Route path='/viewpost' element={<PostView idStatus={sessionUserId} />}></Route>
                     <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} />}></Route>
+                    <Route path="/meeting" element={<Meeting />}></Route>
+                    <Route path="/newmeeting" element={<NewMeeting/>}></Route>
                 </Routes>
             </div>
         </Fragment>

@@ -1,0 +1,238 @@
+.screen {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.screen .div {
+  background-color: #ffffff;
+  height: 1014px;
+  position: relative;
+  width: 821px;
+}
+
+.screen .text-wrapper {
+  color: #ffffff;
+  font-family: "Abel-Regular", Helvetica;
+  font-size: 18px;
+  font-weight: 400;
+  left: 390px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  text-align: center;
+  top: 519px;
+  white-space: nowrap;
+}
+
+.screen .overlap {
+  border-radius: 22px;
+  height: 36px;
+  left: 151px;
+  position: absolute;
+  top: 142px;
+  width: 510px;
+}
+
+.screen .light-s {
+  height: 23px;
+  left: 470px;
+  position: absolute;
+  top: 6px;
+  width: 23px;
+}
+
+.screen .text-wrapper-2 {
+  color: #c4c4c4;
+  font-family: "Amiri Quran Colored-Regular", Helvetica;
+  font-size: 13px;
+  font-weight: 400;
+  left: 15px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  width: 255px;
+}
+
+.screen .rectangle {
+  border: 1px solid;
+  border-color: #000000;
+  border-radius: 22px;
+  height: 36px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 510px;
+}
+
+.screen .overlap-group {
+  background-color: #5b1fd9;
+  border-radius: 30.5px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 61px;
+  left: 701px;
+  position: absolute;
+  top: 117px;
+  width: 61px;
+}
+
+.screen .thin-s {
+  height: 33px;
+  left: 14px;
+  position: absolute;
+  top: 13px;
+  width: 33px;
+}
+
+.screen .overlap-2 {
+  height: 412px;
+  left: 39px;
+  position: absolute;
+  top: 209px;
+  width: 348px;
+}
+
+.screen .text-wrapper-7 {
+  color: #000000;
+  font-family: "ABeeZee-Italic", Helvetica;
+  font-size: 15px;
+  font-weight: 700;
+  left: 211px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  text-align: center;
+  top: 83px;
+  width: 145px;
+}
+
+.screen .text-wrapper-8 {
+  color: #000000;
+  font-family: "ABeeZee-Italic", Helvetica;
+  font-size: 15px;
+  font-weight: 700;
+  left: 465px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  text-align: center;
+  top: 83px;
+  width: 108px;
+}
+
+.screen .overlap-3 {
+  height: 4px;
+  left: 150px;
+  position: absolute;
+  top: 112px;
+  width: 511px;
+}
+
+.screen .line {
+  height: 1px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 1px;
+  width: 511px;
+}
+
+.screen .rectangle-3 {
+  background-color: #5b1fd9;
+  height: 4px;
+  left: 1px;
+  position: absolute;
+  top: 0;
+  width: 263px;
+}
+
+.screen .vector {
+  height: 12px;
+  left: 311px;
+  position: absolute;
+  top: 957px;
+  width: 10px;
+}
+
+.screen .img {
+  height: 12px;
+  left: 517px;
+  position: absolute;
+  top: 957px;
+  width: 10px;
+}
+
+.screen .overlap-4 {
+  height: 28px;
+  left: 364px;
+  position: absolute;
+  top: 948px;
+  width: 13px;
+}
+
+.screen .text-wrapper-9 {
+  color: #000000;
+  font-family: "ABeeZee-Regular", Helvetica;
+  font-size: 13px;
+  font-weight: 400;
+  left: 2px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  white-space: nowrap;
+}
+
+.screen .rectangle-4 {
+  background-color: #5b1fd9;
+  height: 3px;
+  left: 0;
+  position: absolute;
+  top: 22px;
+  width: 13px;
+}
+
+.screen .text-wrapper-10 {
+  color: #000000;
+  font-family: "ABeeZee-Regular", Helvetica;
+  font-size: 13px;
+  font-weight: 400;
+  left: 414px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  text-align: center;
+  top: 948px;
+  white-space: nowrap;
+}
+
+.screen .text-wrapper-11 {
+  color: #000000;
+  font-family: "ABeeZee-Regular", Helvetica;
+  font-size: 13px;
+  font-weight: 400;
+  left: 462px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  text-align: center;
+  top: 948px;
+  white-space: nowrap;
+}
+
+.meetingPageNation {
+  position: relative;
+  top: 370px;
+}
+
+.meetingContentArea {
+  width: 1200px;
+  height: 600px;
+  position: relative;
+  top: 200px;
+}

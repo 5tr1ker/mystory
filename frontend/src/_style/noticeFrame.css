@@ -806,7 +806,7 @@
 }
 
 .noticeRegister {
-    font-size: 1vw;
+    font-size: 13px;
     margin-left: -15px;
     text-decoration: none;
     color: rgb(23, 34, 43);
@@ -828,7 +828,7 @@
     text-align: center;
     font-weight: 700;
     cursor: pointer;
-    font-size: 1vw;
+    font-size: 13px;
     -webkit-user-select:none; 
     -moz-user-select:none; 
     -ms-user-select:none; 
