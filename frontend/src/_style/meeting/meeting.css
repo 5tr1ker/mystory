@@ -79,6 +79,7 @@
   position: absolute;
   top: 117px;
   width: 61px;
+  cursor: pointer;
 }
 
 .screen .thin-s {

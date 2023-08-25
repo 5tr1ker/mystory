@@ -10,7 +10,6 @@ import MeetingContent from "./meetingContent.jsx";
 const Meeting = () => {
 
     const newmeeting = () => {
-        alert("섹")
         window.location.href = "/newmeeting";
     }
 
