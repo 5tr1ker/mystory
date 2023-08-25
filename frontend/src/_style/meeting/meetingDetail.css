@@ -1,0 +1,295 @@
+.meetingDetails {
+  position: absolute;
+  z-index: 1000;
+  border: 1px solid black;
+  box-shadow: 3px 3px 12px 5px #00000040;
+  border-radius: 21px;
+  margin-top: 115px;
+}
+
+.screen-detail {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .screen-detail .div-detail {
+    background-color: #ffffff;
+    height: 520px;
+    overflow: hidden;
+    position: relative;
+    width: 880px;
+  }
+  
+  .screen-detail .overlap-group-detail {
+    background-image: url(https://generation-sessions.s3.amazonaws.com/414ebf7288748dd8acff66c202be8e65/img/mask-group@2x.png);
+    background-size: 100% 100%;
+    height: 219px;
+    left: 59px;
+    position: absolute;
+    top: 86px;
+    width: 390px;
+  }
+  
+  .screen-detail .ellipse-detail {
+    background-color: #aff73c;
+    border-radius: 2px;
+    height: 4px;
+    left: 179px;
+    position: absolute;
+    top: 201px;
+    width: 4px;
+  }
+  
+  .screen-detail .ellipse-2-detail {
+    background-color: #aff73c;
+    border-radius: 2px;
+    height: 4px;
+    left: 193px;
+    position: absolute;
+    top: 201px;
+    width: 4px;
+  }
+  
+  .screen-detail .ellipse-3-detail {
+    background-color: #aff73c;
+    border-radius: 2px;
+    height: 4px;
+    left: 207px;
+    position: absolute;
+    top: 201px;
+    width: 4px;
+  }
+  
+  .screen-detail .text-wrapper-detail {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 400;
+    left: 80px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    top: 324px;
+    white-space: nowrap;
+  }
+  
+  .screen-detail .element-detail {
+    color: #000000;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 80px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 372px;
+  }
+  
+  .screen-detail .text-wrapper-2-detail {
+    color: #5b1fd9;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 474px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 107px;
+    white-space: nowrap;
+  }
+  
+  .screen-detail .text-wrapper-3-detail {
+    color: #5b1fd9;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 474px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 223px;
+    white-space: nowrap;
+  }
+  
+  .screen-detail .text-wrapper-4-detail {
+    color: #5b1fd9;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 466px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 347px;
+    white-space: nowrap;
+  }
+  
+  .screen-detail .p-detail {
+    color: #000000;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 516px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 263px;
+    white-space: nowrap;
+  }
+  
+  .screen-detail .text-wrapper-5-detail {
+    color: #000000;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 516px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 307px;
+    white-space: nowrap;
+  }
+  
+  .screen-detail .line-detail {
+    height: 1px;
+    left: 474px;
+    object-fit: cover;
+    position: absolute;
+    top: 85px;
+    width: 348px;
+  }
+  
+  .screen-detail .img-detail {
+    height: 1px;
+    left: 474px;
+    object-fit: cover;
+    position: absolute;
+    top: 208px;
+    width: 348px;
+  }
+  
+  .screen-detail .mask-group-detail {
+    height: 39px;
+    left: 520px;
+    position: absolute;
+    top: 147px;
+    width: 39px;
+  }
+  
+  .screen-detail .mask-group-2-detail {
+    height: 39px;
+    left: 474px;
+    position: absolute;
+    top: 147px;
+    width: 39px;
+  }
+  
+  .screen-detail .mask-group-3-detail {
+    height: 39px;
+    left: 612px;
+    position: absolute;
+    top: 147px;
+    width: 39px;
+  }
+  
+  .screen-detail .mask-group-4-detail {
+    height: 39px;
+    left: 566px;
+    position: absolute;
+    top: 147px;
+    width: 39px;
+  }
+  
+  .screen-detail .mask-group-5-detail {
+    height: 39px;
+    left: 658px;
+    position: absolute;
+    top: 147px;
+    width: 39px;
+  }
+  
+  .screen-detail .light-s-detail {
+    height: 23px;
+    left: 475px;
+    position: absolute;
+    top: 265px;
+    width: 19px;
+  }
+  
+  .screen-detail .vector-detail {
+    height: 17px;
+    left: 474px;
+    position: absolute;
+    top: 311px;
+    width: 30px;
+  }
+  
+  .screen-detail .text-wrapper-6-detail {
+    color: #ffffff;
+    font-family: "Abel", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    left: 449px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 519px;
+    white-space: nowrap;
+  }
+  
+  .screen-detail .overlap-detail {
+    background-color: #5b1fd9;
+    border-radius: 28px;
+    height: 51px;
+    left: 263px;
+    position: absolute;
+    top: 446px;
+    width: 348px;
+  }
+  
+  .screen-detail .text-wrapper-7-detail {
+    color: #ffffff;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 144px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 12px;
+    white-space: nowrap;
+  }
+  
+  .screen-detail .text-wrapper-8-detail {
+    color: #000000;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 516px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 382px;
+    white-space: nowrap;
+  }
+  
+  .screen-detail .light-s-2-detail {
+    height: 23px;
+    left: 474px;
+    position: absolute;
+    top: 386px;
+    width: 24px;
+  }
+  
+  .exit-meetingDetail {
+    width: 25px;
+    position: relative;
+    left: 830px;
+    top: 20px;
+    cursor: pointer;
+  }

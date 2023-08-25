@@ -6,6 +6,7 @@ import pen from '../../_image/pen.png'
 import line_3 from '../../_image/line-3.svg'
 import PostPointer from "../noticeboard/postpagenation";
 import MeetingContent from "./meetingContent.jsx";
+import MeetingDetail from "./meetingDetail";
 
 const Meeting = () => {
 
@@ -15,6 +16,9 @@ const Meeting = () => {
 
     return (
       <div className="screen">
+        <div className="meetingDetails">
+          <MeetingDetail/>
+        </div>
       <div className="div">
         <div className="text-wrapper">참여</div>
         <div className="overlap">
