@@ -10,6 +10,7 @@ import MeetingContent from "./meetingContent.jsx";
 const Meeting = () => {
 
     const newmeeting = () => {
+        alert("섹")
         window.location.href = "/newmeeting";
     }
 
@@ -22,8 +23,8 @@ const Meeting = () => {
           <div className="text-wrapper-2">지역 혹은 이름을 입력해주세요.</div>
           <div className="rectangle" />
         </div>
-        <div className="overlap-group">
-          <img className="thin-s" alt="Thin s" src={pen} />
+        <div className="overlap-group" onClick={newmeeting}>
+          <img className="thin-s" alt="Thin s" src={pen}/>
         </div>
         <div className="text-wrapper-7">새로운 모임</div>
         <div className="text-wrapper-8">나의 모임</div>

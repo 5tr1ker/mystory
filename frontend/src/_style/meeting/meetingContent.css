@@ -7,18 +7,24 @@
     letter-spacing: 0;
     line-height: normal;
     position: relative;
-    bottom: 200px;
-    height: 400px;
+    bottom: 150px;
+    height: 100px;
+  }
+
+  .imageSession {
+    position: relative;
+    width: 297px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 21px;
+    left: 1px;
   }
 
   .mask-group {
     display: inline-block;
-    position: relative;
-    width: 300px;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 10px;
-    top: 130px;
+    width: 297px;
+    position: absolute;
+    top: -120px;
   }
 
   .screen .text-wrapper-3 {
@@ -30,7 +36,7 @@
     letter-spacing: 0;
     line-height: normal;
     position: relative;
-    bottom: 120px;
+    bottom: 65px;
   }
   
   .screen .text-wrapper-4 {
@@ -42,7 +48,7 @@
     letter-spacing: 0;
     line-height: normal;
     position: relative;
-    bottom: 80px;
+    bottom: 25px;
   }
   
   .screen .text-wrapper-5 {
@@ -54,18 +60,17 @@
     letter-spacing: 0;
     line-height: normal;
     position: relative;
-    bottom: 70px;
+    bottom: 20px;
   }
 
   .screen .overlap-group-2 {
-    height: 412px;
+    height: 100px;
     width: 148px;
     position: relative;
     top: 80px;
     left: -270px;
     display: inline-block;
     margin-left: 200px;
-    margin-top: -150px;
     cursor: pointer;
   }
 
@@ -74,6 +79,10 @@
     border-color: #f5f5f5;
     border-radius: 21px;
     box-shadow: 3px 3px 12px 5px #00000040;
-    height: 287px;
+    height: 360px;
     width: 298px;
+    position: relative;
+    top: -200px;
+    left: 1px;
+    margin-bottom: -250px;
   }

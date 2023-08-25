@@ -8,9 +8,10 @@
 
 .screen .div {
   background-color: #ffffff;
-  height: 1014px;
+  height: 1214px;
   position: relative;
   width: 821px;
+  top: -50px;
 }
 
 .screen .text-wrapper {
