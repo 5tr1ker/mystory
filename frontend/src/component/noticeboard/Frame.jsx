@@ -14,6 +14,7 @@ import NewMeeting from '../meeting/newmetting';
 import Chat from '../meeting/chat';
 import MeetingList from '../meeting/meetingList';
 import MeetingView from '../meeting/meetingView';
+import NewReservation from '../meeting/newReservation';
 
 const NoticeFrame = () => {
     let sessionUserId = localStorage.getItem("userId");
@@ -172,6 +173,7 @@ const NoticeFrame = () => {
                     <Route path="/meeting" element={<MeetingList />}></Route>
                     <Route path="/newmeeting" element={<NewMeeting/>}></Route>
                     <Route path="/meeting/:id" element={<MeetingView />}></Route>
+                    <Route path="/newmeeting/:id" element={<NewReservation />}></Route>
                 </Routes>
             </div>
         </Fragment>

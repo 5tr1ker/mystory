@@ -1,0 +1,378 @@
+.screen-newReservation {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .screen-newReservation .div-newReservation {
+    background-color: #ffffff;
+    height: 1559px;
+    position: relative;
+    width: 390px;
+    top: -50px;
+  }
+  
+  .screen-newReservation .text-wrapper-newReservation {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 18px;
+    font-weight: 700;
+    left: 130px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    top: 95px;
+    white-space: nowrap;
+    width: 175px;
+  }
+  
+  .screen-newReservation .overlap-newReservation {
+    border-radius: 4.5px;
+    height: 6px;
+    left: 21px;
+    position: absolute;
+    top: 141px;
+    width: 348px;
+  }
+  
+  .screen-newReservation .line-newReservation {
+    height: 1px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 2px;
+    width: 348px;
+  }
+  
+  .screen-newReservation .rectangle-newReservation {
+    background-color: #5b1fd9;
+    border-radius: 4.5px;
+    height: 6px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 348px;
+  }
+  
+  .screen-newReservation .text-wrapper-2-newReservation {
+    color: #000000;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 48px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    top: 168px;
+    white-space: nowrap;
+    width: 165px;
+  }
+  
+  .screen-newReservation .text-wrapper-3-newReservation {
+    color: #000000;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 153px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    top: 155px;
+    white-space: nowrap;
+    width: 165px;
+  }
+  
+  .screen-newReservation .text-wrapper-4-newReservation {
+    color: #000000;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 153px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    top: 317px;
+    white-space: nowrap;
+    width: 165px;
+  }
+  
+  .screen-newReservation .text-wrapper-5-newReservation {
+    color: #000000;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 100px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    top: 434px;
+    white-space: nowrap;
+    width: 189px;
+  }
+  
+  .screen-newReservation .rectangle-2-newReservation {
+    border: 1px solid;
+    border-color: #000000;
+    border-radius: 22px;
+    height: 202px;
+    left: 21px;
+    position: absolute;
+    top: 195px;
+    width: 348px;
+  }
+  
+  .screen-newReservation .rectangle-3-newReservation {
+    border: 1px solid;
+    border-color: #000000;
+    border-radius: 22px;
+    height: 36px;
+    left: 21px;
+    position: absolute;
+    top: 357px;
+    width: 348px;
+  }
+  
+  .screen-newReservation .light-s-newReservation {
+    height: 21px;
+    left: 340px;
+    position: absolute;
+    top: 96px;
+    width: 22px;
+    cursor: pointer;
+  }
+  
+  .screen-newReservation .overlap-group-newReservation {
+    height: 80px;
+    left: 151px;
+    position: absolute;
+    top: 209px;
+    width: 80px;
+  }
+  
+  .screen-newReservation .ellipse-newReservation {
+    background-color: #d9d9d9;
+    border-radius: 39.8px;
+    height: 80px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: rotate(-0.55deg);
+    width: 80px;
+    cursor: pointer;
+  }
+  
+  .screen-newReservation .thin-s-newReservation {
+    height: 22px;
+    left: 28px;
+    position: absolute;
+    top: 29px;
+    width: 24px;
+    cursor: pointer;
+  }
+  
+  .screen-newReservation .text-wrapper-6-newReservation {
+    color: #d9d9d9;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    left: 21px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    top: 1132px;
+    white-space: nowrap;
+  }
+  
+  
+  .screen-newReservation .IMG-newReservation {
+    height: 344px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 480px;
+    width: 390px;
+  }
+  
+  .screen-newReservation .text-wrapper-7-newReservation {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 400;
+    left: 21px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    top: 1209px;
+    white-space: nowrap;
+    width: 253px;
+  }
+  
+  .screen-newReservation .text-wrapper-8-newReservation {
+    color: #c4c4c4;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 13px;
+    font-weight: 400;
+    left: 21px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    top: 1237px;
+    white-space: nowrap;
+    width: 255px;
+  }
+  
+  .screen-newReservation .overlap-2-newReservation {
+    height: 28px;
+    left: 21px;
+    position: absolute;
+    top: 1300px;
+    width: 348px;
+  }
+  
+  .screen-newReservation .overlap-group-2-newReservation {
+    height: 28px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 348px;
+  }
+  
+  .screen-newReservation .line-3-newReservation {
+    height: 1px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 26px;
+    width: 348px;
+  }
+  
+  .screen-newReservation .text-wrapper-9-newReservation {
+    color: #000000;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 162px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    white-space: nowrap;
+  }
+  
+  .screen-newReservation .light-s-2-newReservation {
+    height: 8px;
+    left: 198px;
+    position: absolute;
+    top: 12px;
+    width: 13px;
+  }
+  
+  .screen-newReservation .text-wrapper-10-newReservation {
+    color: #d9d9d9;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 183px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 1272px;
+    white-space: nowrap;
+  }
+  
+  .screen-newReservation .text-wrapper-11-newReservation {
+    color: #d9d9d9;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 183px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 1328px;
+    white-space: nowrap;
+  }
+  
+  .screen-newReservation .rectangle-4-newReservation {
+    background-color: #5b1fd9;
+    border-radius: 4.5px;
+    height: 6px;
+    left: 21px;
+    position: absolute;
+    top: 410px;
+    width: 348px;
+  }
+
+  .rectangle-5-newReservation {
+    background-color: #5b1fd9;
+    border-radius: 4.5px;
+    height: 6px;
+    left: 21px;
+    position: absolute;
+    top: 850px;
+    width: 348px;
+  }
+
+  .howMeetText-01 {
+    position: absolute;
+    top: 890px;
+    margin-left: 20px;
+    white-space: nowrap;
+    color: #000000;
+  font-family: "Sandoll GothicNeo2-06Bd", Helvetica;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 28px;
+  }
+
+  .howMeetText-02 {
+    position: absolute;
+    top: 920px;
+    margin-left: 20px;
+    color: #c4c4c4;
+  font-family: "Abel-Regular", Helvetica;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 28px;
+  }
+  
+  .screen-newReservation .div-wrapper-newReservation {
+    background-color: #5b1fd9;
+    border-radius: 28px;
+    height: 51px;
+    left: 22px;
+    position: absolute;
+    top: 1422px;
+    width: 348px;
+  }
+  
+  .screen-newReservation .text-wrapper-12-newReservation {
+    color: #ffffff;
+    font-family: "Amiri Quran Colored-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    left: 121px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 6px;
+    white-space: nowrap;
+    width: 105px;
+  }
+  
+  .screen-newReservation .vector-newReservation {
+    height: 24px;
+    left: 29px;
+    position: absolute;
+    top: 83px;
+    width: 14px;
+  }
