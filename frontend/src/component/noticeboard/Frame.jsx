@@ -13,6 +13,7 @@ import { deleteAllToken } from './DeleteAllCookie';
 import NewMeeting from '../meeting/newmetting';
 import Chat from '../meeting/chat';
 import MeetingList from '../meeting/meetingList';
+import MeetingView from '../meeting/meetingView';
 
 const NoticeFrame = () => {
     let sessionUserId = localStorage.getItem("userId");
@@ -170,6 +171,7 @@ const NoticeFrame = () => {
                     <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} />}></Route>
                     <Route path="/meeting" element={<MeetingList />}></Route>
                     <Route path="/newmeeting" element={<NewMeeting/>}></Route>
+                    <Route path="/meeting/:id" element={<MeetingView />}></Route>
                 </Routes>
             </div>
         </Fragment>
