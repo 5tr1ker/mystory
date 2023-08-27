@@ -1,0 +1,236 @@
+.element-chatData {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    top: 20px;
+  }
+  
+  .element-chatData .div-chatData {
+    background-color: #ffffff;
+    height: 438px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
+    width: 390px;
+  }
+
+  .chattingInput {
+    border-radius: 20px;
+    width: 90%;
+    position: relative;
+    left: 10px;
+    top: 5px;
+  }
+  
+  .element-chatData .text-wrapper-chatData {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 15px;
+    
+    font-weight: 400;
+    left: 148px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 13px;
+    white-space: nowrap;
+    width: 94px;
+  }
+  
+  .element-chatData .light-s-chatData {
+    height: 22px;
+    left: 347px;
+    position: absolute;
+    top: 16px;
+    width: 22px;
+  }
+  
+  .element-chatData .new-chatData {
+    background-color: #c4c4c4;
+    height: 39px;
+    width: 390px;
+  }
+  
+  .element-chatData .p-chatData {
+    color: transparent;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 28px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  .element-chatData .span-chatData {
+    color: #5b1fd9;
+  }
+  
+  .element-chatData .text-wrapper-2-chatData {
+    color: #000000;
+    
+  }
+  
+  .element-chatData .overlap-group-chatData {
+    min-height: 56px;
+    width: 207px;
+  }
+  
+  .element-chatData .rectangle-chatData {
+    background-color: #aff73c80;
+    border-radius: 7px;
+    min-height: 29px;
+    min-width: 97px;
+    display:inline-block;
+    position: relative;
+    left: 80px;
+    top: -20px;
+  }
+  
+  .element-chatData .text-wrapper-3-chatData {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 28px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  .element-chatData .text-wrapper-4-chatData {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    top: -15px;
+  }
+  
+  .element-chatData .overlap-group-2-chatData {
+    height: 66px;
+    left: 272px;
+    position: absolute;
+    top: 143px;
+    width: 98px;
+  }
+  
+  .element-chatData .text-wrapper-5-chatData {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 10px;
+    
+    font-weight: 400;
+    left: 49px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 38px;
+    white-space: nowrap;
+  }
+  
+  .element-chatData .overlap-2-chatData {
+    height: 66px;
+    left: 76px;
+    position: absolute;
+    top: 393px;
+    width: 111px;
+  }
+  
+  .element-chatData .rectangle-2-chatData {
+    background-color: #aff73c80;
+    border-radius: 7px;
+    height: 39px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 111px;
+  }
+  
+  .element-chatData .text-wrapper-6-chatData {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 13px;
+    
+    font-weight: 400;
+    left: 20px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 4px;
+    white-space: nowrap;
+  }
+  
+  .element-chatData .text-wrapper-7-chatData {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: relative;
+    left: 25px;
+    top: -25px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  .element-chatData .text-wrapper-8-chatData {
+    color: #000000;
+    font-family: "ABeeZee", Helvetica;
+    font-size: 15px;
+    
+    font-weight: 400;
+    left: 76px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 359px;
+    white-space: nowrap;
+  }
+  
+  .element-chatData .mask-group-chatData {
+    height: 39px;
+    width: 39px;
+    position: relative;
+    left: 25px;
+    top: 20px;
+  }
+  
+  .element-chatData .img-chatData {
+    height: 39px;
+    left: 21px;
+    position: absolute;
+    top: 227px;
+    width: 39px;
+  }
+  
+  .element-chatData .rectangle-3-chatData {
+    background-color: #5b1fd9;
+    box-shadow: 0px 4px 7px #00000066;
+    height: 41px;
+    position: absolute;
+    bottom: 0px;
+    width: 390px;
+  }
+  
+  .element-chatData .line-chatData {
+    height: 2px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 51px;
+    width: 389px;
+  }
+  

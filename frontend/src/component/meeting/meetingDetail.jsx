@@ -3,6 +3,7 @@ import exit from '../../_image/exit.png';
 import time from '../../_image/time.png';
 import locate from '../../_image/locate.png';
 import people from '../../_image/people.svg';
+import etc from '../../_image/etc.svg';
 
 const MeetingDetail = () => {
 
@@ -52,6 +53,11 @@ const MeetingDetail = () => {
           className="mask-group-5-detail"
           alt="Mask group"
           src="https://generation-sessions.s3.amazonaws.com/414ebf7288748dd8acff66c202be8e65/img/mask-group-1@2x.png"
+        />
+        <img
+          className="mask-group-6-detail"
+          alt="Mask group"
+          src={etc}
         />
         <img
           className="light-s-detail"

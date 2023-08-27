@@ -483,7 +483,7 @@
     list-style-type: none;
     height: 40%;
     display: block;
-    font-size: 1vw;
+    font-size: 14px;
     color:#545454;
     font-weight: 500;
     position: relative;
@@ -781,7 +781,7 @@
     margin-top : 10px;
     margin-left: -20px;
     width: 170px;
-    height: 210px;
+    height: 245px;
     font-size: 15px;
     border: 1px solid rgb(193, 193, 193);
     z-index: 5;

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-undef */
 import React from "react";
-import '../../_style/meeting/meeting.css'
+import '../../_style/meeting/meetingList.css'
 import search from '../../_image/search.png'
 import pen from '../../_image/pen.png'
 import line_3 from '../../_image/line-3.svg'
@@ -8,7 +8,7 @@ import PostPointer from "../noticeboard/postpagenation";
 import MeetingContent from "./meetingContent.jsx";
 import MeetingDetail from "./meetingDetail";
 
-const Meeting = () => {
+const MeetingList = () => {
 
     const newmeeting = () => {
         window.location.href = "/newmeeting";
@@ -52,4 +52,4 @@ const Meeting = () => {
     )
 }
 
-export default Meeting;
+export default MeetingList;

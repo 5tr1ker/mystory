@@ -1,0 +1,132 @@
+.element-chat {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 390px;
+    height: 400px;
+    position: absolute;
+    top: 70px;
+  }
+
+  .chatContent {
+    height: 64px;
+  }
+
+  .chatContent:hover {
+    cursor: pointer;
+    background-color: rgb(195, 195, 195);
+  }
+  
+  .element-chat .div-chat {
+    background-color: #ffffff;
+    height: 500px;
+    position: relative;
+    width: 390px;
+    border: 1px solid gray;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  .chatContentArea {
+    width: 390px;
+    position: relative;
+    top: 40px;
+  }
+  
+  .element-chat .ellipse-chat {
+    background-color: #d9d9d9;
+    border-radius: 19.5px;
+    height: 39px;
+    margin-top: 20px;
+    position: relative;
+    top: 14px;
+    margin-left: 40px;
+    width: 39px;
+  }
+  
+  .element-chat .text-wrapper-chat {
+    color: #000000;
+    font-family: "ABeeZee-Italic", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 28px;
+    margin-top: -30px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .element-chat .text-wrapper-chat-last {
+    color: gray;
+    font-family: "ABeeZee-Italic", Helvetica;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 28px;
+    margin-top: 0px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  .element-chat .text-wrapper-2-chat {
+    color: #000000;
+    font-family: "ABeeZee-Italic", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 85px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 221px;
+    white-space: nowrap;
+  }
+  
+  .element-chat .text-wrapper-3-chat {
+    color: #000000;
+    font-family: "ABeeZee-Italic", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 84px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 151px;
+    white-space: nowrap;
+  }
+  
+  .element-chat .text-wrapper-4-chat {
+    color: #000000;
+    font-family: "ABeeZee-Italic", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 149px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 12px;
+    white-space: nowrap;
+    width: 94px;
+  }
+  
+  .element-chat .light-s-chat {
+    height: 22px;
+    left: 348px;
+    position: absolute;
+    top: 15px;
+    width: 22px;
+    cursor: pointer;
+  }
+  
+  .element-chat .line-chat {
+    height: 2px;
+    left: -1px;
+    object-fit: cover;
+    position: absolute;
+    top: 50px;
+    width: 389px;
+  }
+  

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../_style/meeting/newMeeting.css';
 import exit from '../../_image/exit.png';
+import camera from '../../_image/camera.png';
 
 const NewMeeting = () => {
 
@@ -70,7 +71,7 @@ const NewMeeting = () => {
           <img
             className="thin-s-newMeeting"
             alt="Thin s"
-            src="https://generation-sessions.s3.amazonaws.com/89c072f30457b4615fe7d1fda014350b/img/thin-s@2x.png"
+            src={camera}
             onClick={() => imageInput.current.click()}
           />
           <input type="file" onChange={(e) => uploadImage(e)} name="file" ref={imageInput} style={{ display: "none" }}/>
