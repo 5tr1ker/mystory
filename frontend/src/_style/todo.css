@@ -5,19 +5,19 @@
     width: 300px;
     position: absolute;
     left: 0px;
-    top: 270px;
+    top: 100px;
   }
   
   .screen-todo .div-todo {
-    background-color: #ffffff;
     height: 1080px;
     position: relative;
     width: 1920px;
+    left: 100px;
   }
   
   .screen-todo .overlap-group-todo {
     height: 19px;
-    left: 171px;
+    left: 41px;
     position: absolute;
     top: 25px;
     width: 73px;
@@ -53,8 +53,8 @@
     background-color: #f5f5f5;
     border-radius: 14px;
     box-shadow: 3px 3px 12px -2px #00000040;
-    height: 269px;
-    left: 49px;
+    height: 409px;
+    left: -70px;
     position: absolute;
     top: 52px;
     width: 316px;
@@ -265,8 +265,8 @@
   .todoArea {
     position: relative;
     left: 10px;
-    top: 40px;
-    height: 170px;
+    top: 50px;
+    height: 300px;
     width: 300px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -295,7 +295,7 @@
     height: 27px;
     left: 275px;
     position: absolute;
-    top: 228px;
+    top: 368px;
     width: 28px;
   }
   
@@ -314,7 +314,7 @@
     height: 29px;
     left: 18px;
     position: absolute;
-    top: 227px;
+    top: 367px;
     width: 247px;
   }
   

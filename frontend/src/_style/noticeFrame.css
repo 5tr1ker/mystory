@@ -520,7 +520,7 @@
 }
 
 .profiledesc {
-    width: 65%;
+    width: 700px;
     height: 300px;
     box-shadow: 0px 1px 10px 0px #b7b7b7;
     border-radius: 10px;
@@ -605,10 +605,11 @@
 }
 
 .profile-data {
-    width: 50%;
+    width: 350px;
     height: 80%;
     position: relative;
-    bottom: 20px;
+    bottom: 4px;
+    left: 50px;
 }
 
 .settings-contents {
@@ -642,7 +643,7 @@
 }
 
 .profile_settings {
-    width: 25%;
+    width: 200px;
     min-width: 300px;
     height: 300px;
     box-shadow: 0px 1px 10px 0px #b7b7b7;
