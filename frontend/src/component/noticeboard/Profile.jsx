@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import React from "react";
 import { useRef } from "react";
-import Todo from "./todo";
 
 const Profile = ({idStatus , rerenders}) => {
     const [profileEdits , setEdits] = useState(false);
@@ -262,7 +261,6 @@ const Profile = ({idStatus , rerenders}) => {
                 </div>
             </div>
         </section>
-        <Todo />
         </Fragment>
         )
 }

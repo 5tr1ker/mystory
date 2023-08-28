@@ -2,10 +2,23 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 300px;
+    width: 375px;
+    height: 500px;
     position: absolute;
-    left: 0px;
-    top: 100px;
+    left: 50px;
+    top: 70px;
+    background-color: #f5f5f5;
+    border-radius: 25px;
+  }
+
+  .todoList-exit {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    z-index: 9999;
   }
   
   .screen-todo .div-todo {

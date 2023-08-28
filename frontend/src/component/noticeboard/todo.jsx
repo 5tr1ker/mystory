@@ -4,10 +4,11 @@ import addpen from '../../_image/addpen.png';
 import line from '../../_image/line-3.svg';
 import exit from '../../_image/exit.png';
 
-const Todo = () => {
+const Todo = ({dropDownSet}) => {
 
     return (
         <div className="screen-todo">
+          <img src={exit} className='todoList-exit' alt="exit" onClick={dropDownSet}/>
       <div className="div-todo">
         <div className="overlap-group-todo">
           <div className="text-wrapper-12-todo">TO DO LIST</div>
@@ -47,8 +48,6 @@ const Todo = () => {
                 </div>
                 <span className="text-wrapper-14-todo">대학도서관 운영론대충 공부 블라블라~ㅇ22ㅇ2ㅇ2ㅇ</span>
             </div>
-            
-            
             </div>
           <div className="group-wrapper-todo">
             <img
