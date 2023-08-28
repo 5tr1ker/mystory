@@ -3,6 +3,8 @@ import { Fragment , useState } from "react"
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import React from "react";
+import { useRef } from "react";
+import Todo from "./todo";
 
 const Profile = ({idStatus , rerenders}) => {
     const [profileEdits , setEdits] = useState(false);
@@ -15,6 +17,33 @@ const Profile = ({idStatus , rerenders}) => {
         options : 0 ,
         postid : 0
     });
+
+    const imageInput = useRef();
+    const [profileImage, setProfileImage] = useState(); // 이미지
+    const [imageName , setImageName] = useState("프로필 이미지를 꼭 선택해주세요. ( 필수 ) "); // 이미지 이름
+
+    const checkValidImage = (e) => {
+        if (e.target.files[0].size > 10 * 1024 * 1024) {
+         alert("10M가 넘는 파일은 제외되었습니다.");
+         return false;
+       } else if (e.target.files[0].name.length > 30) {
+         alert("파일명이 30자가 넘는 파일은 제외되었습니다.");
+         return false;
+       } else if (e.target.files[0].name.split('.')[1] == 'jpg' || e.target.files[0].name.split('.')[1] == 'png') {
+         setImageName(e.target.files[0].name);
+         return true;
+       }
+
+       alert("jpg , png 파일만 업로드할 수 있습니다..");
+       return false;
+ }
+
+    const uploadImage = (e) => {
+        if(checkValidImage(e)) {
+            setProfileImage(e.target.files);
+        }
+      }
+
     const nav = useNavigate();
     const getData = async () => {
         if(idStatus == undefined) return -1; 
@@ -131,6 +160,7 @@ const Profile = ({idStatus , rerenders}) => {
     },[idStatus]);
 
     return (
+        <Fragment>
         <section className="profileArea">
             <div className="profilestatistics">
                 <div className="viewdesign">
@@ -170,12 +200,13 @@ const Profile = ({idStatus , rerenders}) => {
                     <header>Profile</header>
                     <div className="profileEdits-area">
                         <div className="profile-pic">
-                            <div className="userprofilepic">
+                            <div className="userprofilepic" onClick={() => imageInput.current.click()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-person-circle peopleicon" viewBox="0 0 16 16">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                                     <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                                 </svg>
                             </div>
+                            <input type="file" onChange={(e) => uploadImage(e)} name="file" ref={imageInput} style={{ display: "none" }}/>
                             <button className="saveandreturn" onClick={doneChange}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-house" viewBox="0 0 16 16">
                                     <path fillRule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
@@ -231,6 +262,8 @@ const Profile = ({idStatus , rerenders}) => {
                 </div>
             </div>
         </section>
+        <Todo />
+        </Fragment>
         )
 }
 
