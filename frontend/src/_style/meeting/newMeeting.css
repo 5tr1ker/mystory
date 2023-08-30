@@ -8,7 +8,7 @@
   
   .screen-newMeeting .div-newMeeting {
     background-color: #ffffff;
-    height: 1559px;
+    height: 1659px;
     position: relative;
     width: 390px;
     top: -50px;
@@ -207,8 +207,42 @@
     left: 0;
     object-fit: cover;
     position: absolute;
-    top: 770px;
+    top: 800px;
     width: 390px;
+  }
+
+  .meetingAddressSearch {
+    position: absolute;
+    top: 720px;
+    width : 390px;
+    height: 30px;
+    z-index: 5555;
+    border-radius: 25px;
+  }
+
+  .meetingAddressInput {
+    position: absolute;
+    top: 1260px;
+    width : 390px;
+    height: 30px;
+    z-index: 5555;
+    border-radius: 25px;
+  }
+
+  .currentButton {
+    position: absolute;
+    top: 757px;
+    border-radius: 20px;;
+    left: 300px;
+    border: 2px solid gray;
+    background-color: white;
+  }
+
+  .meetingAddress {
+    position: absolute;
+    top: 760px;
+    z-index: 5555;
+    color: gray;
   }
   
   .screen-newMeeting .text-wrapper-7-newMeeting {
@@ -221,7 +255,7 @@
     letter-spacing: 0;
     line-height: 28px;
     position: absolute;
-    top: 1209px;
+    top: 1339px;
     white-space: nowrap;
     width: 253px;
   }
@@ -235,7 +269,7 @@
     letter-spacing: 0;
     line-height: 28px;
     position: absolute;
-    top: 1237px;
+    top: 1367px;
     white-space: nowrap;
     width: 255px;
   }
@@ -244,7 +278,7 @@
     height: 28px;
     left: 21px;
     position: absolute;
-    top: 1300px;
+    top: 1420px;
     width: 348px;
   }
   
@@ -331,7 +365,7 @@
     height: 51px;
     left: 22px;
     position: absolute;
-    top: 1422px;
+    top: 1502px;
     width: 348px;
   }
   

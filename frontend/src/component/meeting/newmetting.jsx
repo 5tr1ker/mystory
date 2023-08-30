@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import '../../_style/meeting/newMeeting.css';
 import exit from '../../_image/exit.png';
 import camera from '../../_image/camera.png';
+import Maps from '../map/maps';
 
 const NewMeeting = () => {
 
@@ -76,11 +77,7 @@ const NewMeeting = () => {
           />
           <input type="file" onChange={(e) => uploadImage(e)} name="file" ref={imageInput} style={{ display: "none" }}/>
         </div>
-        <img
-          className="IMG-newMeeting"
-          alt="Img"
-          src="https://generation-sessions.s3.amazonaws.com/89c072f30457b4615fe7d1fda014350b/img/img-7110-1@2x.png"
-        />
+        <Maps/>
         <div className="text-wrapper-7-newMeeting">
           최대 인원 수를 선택해주세요.
         </div>
