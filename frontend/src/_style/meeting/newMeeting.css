@@ -75,7 +75,7 @@
     font-family: "Amiri Quran Colored-Regular", Helvetica;
     font-size: 15px;
     font-weight: 400;
-    left: 153px;
+    left: 113px;
     letter-spacing: 0;
     line-height: 28px;
     position: absolute;
@@ -89,7 +89,7 @@
     font-family: "Amiri Quran Colored-Regular", Helvetica;
     font-size: 15px;
     font-weight: 400;
-    left: 153px;
+    left: 118px;
     letter-spacing: 0;
     line-height: 28px;
     position: absolute;
@@ -121,6 +121,7 @@
     position: absolute;
     top: 445px;
     width: 348px;
+    resize: none;
   }
   
   .screen-newMeeting .rectangle-3-newMeeting {
@@ -278,7 +279,7 @@
     height: 28px;
     left: 21px;
     position: absolute;
-    top: 1420px;
+    top: 1400px;
     width: 348px;
   }
   
@@ -358,6 +359,16 @@
     top: 660px;
     width: 348px;
   }
+
+  .screen-newMeeting .rectangle-5-newMeeting {
+    background-color: #5b1fd9;
+    border-radius: 4.5px;
+    height: 3px;
+    left: 21px;
+    position: absolute;
+    top: 1310px;
+    width: 348px;
+  }
   
   .screen-newMeeting .div-wrapper-newMeeting {
     background-color: #5b1fd9;
@@ -367,6 +378,7 @@
     position: absolute;
     top: 1502px;
     width: 348px;
+    cursor: pointer;
   }
   
   .screen-newMeeting .text-wrapper-12-newMeeting {

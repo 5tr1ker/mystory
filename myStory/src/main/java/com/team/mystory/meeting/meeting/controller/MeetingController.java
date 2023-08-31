@@ -2,9 +2,11 @@ package com.team.mystory.meeting.meeting.controller;
 
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
+import com.team.mystory.meeting.meeting.repository.MeetingRepository;
 import com.team.mystory.meeting.meeting.service.MeetingService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.util.List;
 public class MeetingController {
 
     private final MeetingService meetingService;
+    private final MeetingRepository meetingRepository;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity createMeeting(@RequestPart MeetingRequest meeting , @RequestPart MultipartFile image
@@ -29,6 +32,13 @@ public class MeetingController {
         meetingService.createMeeting(meeting , image , accessToken);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/{meetingId}")
+    public ResponseEntity joinMeeting(@PathVariable long meetingId, @CookieValue String accessToken) throws AccountException {
+        meetingService.joinMeeting(meetingId , accessToken);
+
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{meetingId}")
@@ -48,24 +58,40 @@ public class MeetingController {
     }
 
     @GetMapping
-    public ResponseEntity findAllMeeting() {
-        List<MeetingResponse> meetingList = meetingService.findAllMeeting();
+    public ResponseEntity findAllMeeting(Pageable pageable) {
+        List<MeetingResponse> meetingList = meetingService.findAllMeeting(pageable);
 
         return ResponseEntity.ok().body(meetingList);
     }
 
-    @GetMapping("/address")
-    public ResponseEntity findMeetingByArea(@PathParam(value = "address") String address) {
-        List<MeetingResponse> meetingList = meetingService.findMeetingByAddress(address);
+    @GetMapping("/count")
+    public ResponseEntity findAllMeetingCount() {
+        return ResponseEntity.ok().body(meetingRepository.findAllMeetingCount());
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity findAllMeetingByUserId(Pageable pageable , @CookieValue String accessToken) {
+        List<MeetingResponse> meetingList = meetingService.findAllMeetingByUserId(pageable , accessToken);
 
         return ResponseEntity.ok().body(meetingList);
     }
 
-    @GetMapping("/title")
-    public ResponseEntity findMeetingByTitle(@PathParam(value = "title") String title) {
-        List<MeetingResponse> meetingList = meetingService.findMeetingByTitle(title);
+    @GetMapping("/user/count")
+    public ResponseEntity findAllMeetingByUserIdCount(@CookieValue String accessToken) {
+        return ResponseEntity.ok().body(meetingService.findAllMeetingByUserIdCount(accessToken));
+    }
+
+    @GetMapping("/title-address")
+    public ResponseEntity findMeetingByTitleOrAddress(Pageable pageable , @PathParam(value = "data") String data) {
+        List<MeetingResponse> meetingList = meetingService.findMeetingByTitleOrAddress(pageable , data);
 
         return ResponseEntity.ok().body(meetingList);
+    }
+
+    @GetMapping("/title-address/count")
+    public ResponseEntity findMeetingByTitleOrAddressCount(@PathParam(value = "data") String data) {
+
+        return ResponseEntity.ok().body(meetingService.findMeetingByTitleOrAddressCount(data));
     }
 
     @GetMapping("/participants")

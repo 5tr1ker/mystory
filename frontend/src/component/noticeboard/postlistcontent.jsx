@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Postcontent = ({ data }) => {
-    console.log(data);
-    
     return (
         data.map(posts => (
             <Link to={`/viewpost?page=${posts.numbers}`} className="linktopost" key={posts.numbers}>

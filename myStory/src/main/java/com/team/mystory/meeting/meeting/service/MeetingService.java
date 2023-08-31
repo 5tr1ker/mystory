@@ -3,22 +3,25 @@ package com.team.mystory.meeting.meeting.service;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.meeting.meeting.domain.Meeting;
+import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
 import com.team.mystory.meeting.meeting.exception.MeetingException;
+import com.team.mystory.meeting.meeting.repository.MeetingParticipantRepository;
 import com.team.mystory.meeting.meeting.repository.MeetingRepository;
 import com.team.mystory.s3.service.S3Service;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.naming.AuthenticationException;
 import javax.security.auth.login.AccountException;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
+
+import static com.team.mystory.meeting.meeting.domain.MeetingParticipant.createMeetingParticipant;
 
 @Service
 @RequiredArgsConstructor
@@ -32,30 +35,45 @@ public class MeetingService {
 
     private final LoginRepository loginRepository;
 
+    private final MeetingParticipantRepository meetingParticipantRepository;
+
     @Transactional
     public void createMeeting(MeetingRequest meeting, MultipartFile image , String accessToken) throws IOException, AccountException {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
         User user = loginRepository.findById(userPk)
-                .orElseThrow(() -> new AccountException("사용자 장보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new AccountException("사용자 정보를 찾을 수 없습니다."));
 
         Meeting meetingEntity = Meeting.createMeetingEntity(meeting , user);
         String url = s3Service.uploadImageToS3(image);
 
         meetingEntity.updateMeetingImage(url);
 
-        meetingRepository.save(meetingEntity);
+        Meeting result = meetingRepository.save(meetingEntity);
+        joinMeeting(result.getMeetingId(), accessToken);
     }
 
-    public List<MeetingResponse> findAllMeeting() {
-        return meetingRepository.findAllMeeting();
+    @Transactional
+    public void joinMeeting(long meetingId , String accessToken) throws AccountException {
+        String userPk = jwtTokenProvider.getUserPk(accessToken);
+        User user = loginRepository.findById(userPk)
+                .orElseThrow(() -> new AccountException("사용자 정보를 찾을 수 없습니다."));
+
+        Meeting meeting = meetingRepository.findById(meetingId)
+                .orElseThrow(() -> new MeetingException("미팅정보를 찾을 수 없습니다."));
+
+        meetingParticipantRepository.save(createMeetingParticipant(meeting , user));
     }
 
-    public List<MeetingResponse> findMeetingByAddress(String address) {
-        return meetingRepository.findMeetingByAddress(address);
+    public List<MeetingResponse> findAllMeeting(Pageable pageable) {
+        return meetingRepository.findAllMeeting(pageable);
     }
 
-    public List<MeetingResponse> findMeetingByTitle(String title) {
-        return meetingRepository.findMeetingByTitle(title);
+    public List<MeetingResponse> findMeetingByTitleOrAddress(Pageable pageable , String title) {
+        return meetingRepository.findMeetingByTitleOrAddress(pageable , title);
+    }
+
+    public Object findMeetingByTitleOrAddressCount(String data) {
+        return meetingRepository.findMeetingByTitleOrAddressCount(data);
     }
 
     @Transactional
@@ -94,4 +112,15 @@ public class MeetingService {
         return meetingRepository.getMeetingsParticipantIn(userPk);
     }
 
+    public List<MeetingResponse> findAllMeetingByUserId(Pageable pageable , String accessToken) {
+        String userPk = jwtTokenProvider.getUserPk(accessToken);
+
+        return meetingRepository.findAllMeetingByUserId(pageable , userPk);
+    }
+
+    public long findAllMeetingByUserIdCount(String accessToken) {
+        String userPk = jwtTokenProvider.getUserPk(accessToken);
+
+        return meetingRepository.findAllMeetingByUserIdCount(userPk);
+    }
 }

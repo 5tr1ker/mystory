@@ -3,11 +3,10 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const { kakao } = window;
 
-const Maps = () => {
+const Maps = (props) => {
   const [locate, setLocate] = useState({address: "지도를 눌러주세요." , road_address: ""});
   const [position, setPosition] = useState();
   const [search , setSearch] = useState();
-  const [detailAddress , setDetailAddress] = useState();
 
   const [info, setInfo] = useState()
   const [markers, setMarkers] = useState([])
@@ -17,24 +16,27 @@ const Maps = () => {
     setSearch(e.target.value);
   }
 
-  const onChangeAddress = (e) => {
-    setSearch(e.target.value);
+  const onChangeDetainAddress = (e) => {
+    props.detailAddressData(e.target.value);
   }
 
   var geocoder = new kakao.maps.services.Geocoder(); // 좌표로 주소 찾기
   const ps = new kakao.maps.services.Places(); // 주소로 자표찾기
 
- 
-
   const findAddress = (lat , lng) => {
   let coord = new kakao.maps.LatLng(lat, lng);
+  props.locateData({locateX : coord.getLng() , locateY : coord.getLat()});
 
   geocoder.coord2Address(coord.getLng(), coord.getLat(), function(result, status) {
   if (status === kakao.maps.services.Status.OK) {
-    setLocate({address : !! result[0].address ? result[0].address.address_name : "" , road_address: !! result[0].road_address ? result[0].road_address.address_name : ""});
+      setLocate({address : !! result[0].address ? result[0].address.address_name : "" , road_address: !! result[0].road_address ? result[0].road_address.address_name : ""});
     }
   });
   }
+
+  useEffect(() => {
+    props.addressData(locate);
+  } , [locate]);
 
   const searchAddress = (e) => {
     if(e.key == 'Enter') {
@@ -114,7 +116,11 @@ const Maps = () => {
       
       // 지도 중심좌표를 접속위치로 변경합니다
       map.setCenter(locPosition);      
-  }    
+  }
+
+  useEffect(() => {
+    
+  } , []);
 
   return (
     <Fragment>
@@ -155,7 +161,7 @@ const Maps = () => {
         </MapMarker>
       ))}
         </Map>
-        <input className="meetingAddressInput" placeholder="상세 주소를 입력해주세요." onChange={setDetailAddress}/>
+        <input className="meetingAddressInput" maxLength={20} placeholder="상세 주소를 입력해주세요." onChange={onChangeDetainAddress}/>
       </Fragment>
   )
 }

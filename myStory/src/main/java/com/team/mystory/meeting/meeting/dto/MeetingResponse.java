@@ -21,4 +21,15 @@ public class MeetingResponse {
 
     private String meetingImage;
 
+    // !-
+    private String detailAddress;
+
+    private String description;
+
+    private String title;
+
+    private int maxParticipants;
+
+    private long nowParticipants;
+
 }

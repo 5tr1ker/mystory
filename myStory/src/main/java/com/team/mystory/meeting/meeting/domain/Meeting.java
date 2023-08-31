@@ -43,6 +43,10 @@ public class Meeting {
 
     private String description;
 
+    private String detailAddress;
+
+    private int maxParticipants;
+
     @Builder.Default
     @OneToMany(mappedBy = "meetingList")
     private List<MeetingParticipant> meetingParticipants = new ArrayList<>();
@@ -59,6 +63,8 @@ public class Meeting {
                 .address(meetingRequest.getAddress())
                 .title(meetingRequest.getTitle())
                 .description(meetingRequest.getDescription())
+                .maxParticipants(meetingRequest.getMaxParticipants())
+                .detailAddress(meetingRequest.getDetailAddress())
                 .build();
     }
 

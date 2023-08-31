@@ -104,7 +104,7 @@ const NoticeFrame = () => {
                     </div>
                     <div id="loginStatus">
                         <span id="loginUser">
-                            {sessionUserId == undefined ?
+                            {sessionUserId != undefined ?
                                 <Fragment>
                                     <div className='noticeLogin' onClick={setDropers}>
                                         <div className="profileimage">
@@ -146,7 +146,7 @@ const NoticeFrame = () => {
                                                     Chat
                                                 </li>
                                                 <li className='DropBoxContent' onClick={setTodoDropTool} style={{ marginLeft: "-1px" }}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                                                 </svg>
                                                     Todo
                                                 </li>
@@ -183,7 +183,7 @@ const NoticeFrame = () => {
                     <Route path='/modified/:id' element={<NewPost idStatus={sessionUserId} />}></Route>
                     <Route path='/viewpost' element={<PostView idStatus={sessionUserId} />}></Route>
                     <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} />}></Route>
-                    <Route path="/meeting" element={<MeetingList />}></Route>
+                    <Route path="/meeting" element={<MeetingList idStatus={sessionUserId}/>}></Route>
                     <Route path="/newmeeting" element={<NewMeeting/>}></Route>
                     <Route path="/meeting/:id" element={<MeetingView />}></Route>
                     <Route path="/newmeeting/:id" element={<NewReservation />}></Route>

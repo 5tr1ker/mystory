@@ -2,12 +2,16 @@ package com.team.mystory.meeting.meeting.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.team.mystory.meeting.meeting.domain.QMeetingParticipant;
+
+import com.team.mystory.meeting.meeting.domain.QMeeting;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+import static com.querydsl.core.types.ExpressionUtils.count;
+import static com.querydsl.jpa.JPAExpressions.select;
 import static com.team.mystory.account.user.domain.QUser.user;
 import static com.team.mystory.meeting.meeting.domain.QMeetingParticipant.meetingParticipant;
 import static com.team.mystory.meeting.meeting.domain.QMeeting.meeting;
@@ -18,56 +22,117 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<MeetingResponse> findAllMeeting() {
+    public List<MeetingResponse> findAllMeeting(Pageable pageable) {
+        QMeeting meeting1 = new QMeeting("meeting1");
+
         return jpaQueryFactory.select(Projections.constructor(
                 MeetingResponse.class,
                 meeting.meetingId,
                 meeting.locateX,
                 meeting.locateY,
                 meeting.address,
-                meeting.meetingImage
+                meeting.meetingImage,
+                meeting.detailAddress ,
+                meeting.description ,
+                meeting.title ,
+                meeting.maxParticipants ,
+                select(count(meetingParticipant)).from(meetingParticipant)
+                        .innerJoin(meetingParticipant.meetingList , meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
         )).from(meeting)
                 .orderBy(meeting.meetingId.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
     }
 
     @Override
-    public List<MeetingResponse> findMeetingByAddress(String address) {
+    public long findAllMeetingCount() {
+        return jpaQueryFactory.select(meeting.count()).from(meeting)
+                .orderBy(meeting.meetingId.desc())
+                .fetchOne();
+    }
+
+    @Override
+    public List<MeetingResponse> findMeetingByTitleOrAddress(Pageable pageable , String data) {
+        QMeeting meeting1 = new QMeeting("meeting1");
+
         return jpaQueryFactory.select(Projections.constructor(
                         MeetingResponse.class,
                         meeting.meetingId,
                         meeting.locateX,
                         meeting.locateY,
                         meeting.address,
-                        meeting.meetingImage
+                        meeting.meetingImage,
+                        meeting.detailAddress ,
+                        meeting.description ,
+                        meeting.title ,
+                        meeting.maxParticipants ,
+                        select(count(meetingParticipant)).from(meetingParticipant)
+                                .innerJoin(meetingParticipant.meetingList , meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
                 )).from(meeting)
-                .where(meeting.address.startsWith(address))
+                .where(meeting.title.contains(data).or(meeting.address.contains(data)))
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
                 .fetch();
     }
 
     @Override
-    public List<MeetingResponse> findMeetingByTitle(String title) {
+    public long findMeetingByTitleOrAddressCount(String data) {
+        return jpaQueryFactory.select(meeting.count()).from(meeting)
+                .where(meeting.title.contains(data).or(meeting.address.contains(data)))
+                .fetchOne();
+    }
+
+    @Override
+    public List<MeetingResponse> findAllMeetingByUserId(Pageable pageable , String userId) {
+        QMeeting meeting1 = new QMeeting("meeting1");
+
         return jpaQueryFactory.select(Projections.constructor(
                         MeetingResponse.class,
                         meeting.meetingId,
                         meeting.locateX,
                         meeting.locateY,
                         meeting.address,
-                        meeting.meetingImage
-                )).from(meeting)
-                .where(meeting.title.like(title))
+                        meeting.meetingImage,
+                        meeting.detailAddress ,
+                        meeting.description ,
+                        meeting.title ,
+                        meeting.maxParticipants ,
+                        select(count(meetingParticipant)).from(meetingParticipant)
+                                .innerJoin(meetingParticipant.meetingList , meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
+                )).from(meetingParticipant)
+                .innerJoin(meetingParticipant.userList , user).on(user.id.eq(userId))
+                .innerJoin(meetingParticipant.meetingList , meeting)
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
                 .fetch();
+    }
+
+    @Override
+    public long findAllMeetingByUserIdCount(String userId) {
+        return jpaQueryFactory.select(meeting.count()).from(meetingParticipant)
+                .innerJoin(meetingParticipant.userList , user).on(user.id.eq(userId))
+                .innerJoin(meetingParticipant.meetingList , meeting)
+                .fetchOne();
     }
 
     @Override
     public List<MeetingResponse> getMeetingsParticipantIn(String userId) {
+        QMeeting meeting1 = new QMeeting("meeting1");
+
         return jpaQueryFactory.select(Projections.constructor(
                         MeetingResponse.class,
                         meeting.meetingId,
                         meeting.locateX,
                         meeting.locateY,
                         meeting.address,
-                        meeting.meetingImage
+                        meeting.meetingImage,
+                        meeting.detailAddress ,
+                        meeting.description ,
+                        meeting.title ,
+                        meeting.maxParticipants ,
+                        select(count(meetingParticipant)).from(meetingParticipant)
+                                .innerJoin(meetingParticipant.meetingList , meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
                 )).from(meetingParticipant)
                 .innerJoin(meetingParticipant.userList , user).on(user.id.eq(userId))
                 .innerJoin(meetingParticipant.meetingList , meeting)

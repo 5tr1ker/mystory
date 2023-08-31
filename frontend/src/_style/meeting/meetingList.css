@@ -8,7 +8,7 @@
 
 .screen .div {
   background-color: #ffffff;
-  height: 1214px;
+  height: 1264px;
   position: relative;
   width: 821px;
   top: -50px;
@@ -43,6 +43,7 @@
   position: absolute;
   top: 6px;
   width: 23px;
+  z-index: 123;
 }
 
 .screen .text-wrapper-2 {
@@ -110,6 +111,7 @@
   text-align: center;
   top: 83px;
   width: 145px;
+  cursor: pointer;
 }
 
 .screen .text-wrapper-8 {
@@ -124,6 +126,7 @@
   text-align: center;
   top: 83px;
   width: 108px;
+  cursor: pointer;
 }
 
 .screen .overlap-3 {
@@ -147,6 +150,15 @@
   background-color: #5b1fd9;
   height: 4px;
   left: 1px;
+  position: absolute;
+  top: 0;
+  width: 263px;
+}
+
+.screen .rectangle-3-mine {
+  background-color: #5b1fd9;
+  height: 4px;
+  left: 250px;
   position: absolute;
   top: 0;
   width: 263px;
@@ -234,7 +246,7 @@
 
 .meetingContentArea {
   width: 1200px;
-  height: 600px;
+  height: 725px;
   position: relative;
-  top: 150px;
+  top: 250px;
 }

@@ -3,10 +3,12 @@ package com.team.mystory.meeting.meeting.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class MeetingRequest {
@@ -20,5 +22,9 @@ public class MeetingRequest {
     private String title;
 
     private String description;
+
+    private String detailAddress;
+
+    private int maxParticipants;
 
 }

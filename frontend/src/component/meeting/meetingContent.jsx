@@ -1,20 +1,26 @@
 import '../../_style/meeting/meetingContent.css'
-import testImage from '../../_image/testImage.jpg'
 
-const MeetingContent = () => {
+const MeetingContent = ({data}) => {
+  if(data == undefined) {
+    return (
+      <div></div>
+    )
+  }
 
     return (
-      <div className="overlap-group-2">
+      data.map(posts => (
+        <div className="overlap-group-2" key={posts.meetingId}>
         <div className="imageSession">
-        <img className="mask-group" alt="Mask group" src={testImage} />
+        <img className="mask-group" alt="Mask group" src={posts.meetingImage} />
         </div>
           <div className="rectangle-2" />
-          <div className="text-wrapper-3">간단한 설명 정도</div>
-          <div className="text-wrapper-4">경기도 김포시 사우동</div>
-          <div className="text-wrapper-5">참여자 수 0</div>
-          <div className="text-wrapper-6">방 제목</div>
+          <div className="text-wrapper-3">{posts.description}</div>
+          <div className="text-wrapper-4">{posts.address} <br/> {posts.detailAddress}</div>
+          <div className="text-wrapper-5">참여자 수 {posts.nowParticipants} / {posts.maxParticipants}</div>
+          <div className="text-wrapper-6">{posts.title}</div>
         </div>
+      )
     )
-}
+)}
 
 export default MeetingContent;
