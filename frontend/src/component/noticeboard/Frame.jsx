@@ -16,6 +16,7 @@ import MeetingList from '../meeting/meetingList';
 import MeetingView from '../meeting/meetingView';
 import NewReservation from '../meeting/newReservation';
 import Todo from './todo';
+import ModifyMeeting from '../meeting/modifyMeeting';
 
 const NoticeFrame = () => {
     let sessionUserId = localStorage.getItem("userId");
@@ -185,6 +186,7 @@ const NoticeFrame = () => {
                     <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} />}></Route>
                     <Route path="/meeting" element={<MeetingList idStatus={sessionUserId}/>}></Route>
                     <Route path="/newmeeting" element={<NewMeeting/>}></Route>
+                    <Route path="/modify/meeeting/:id" element={<ModifyMeeting />}></Route>
                     <Route path="/meeting/:id" element={<MeetingView />}></Route>
                     <Route path="/newmeeting/:id" element={<NewReservation />}></Route>
                 </Routes>

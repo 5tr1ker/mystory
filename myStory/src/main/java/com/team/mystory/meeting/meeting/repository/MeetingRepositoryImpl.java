@@ -157,14 +157,6 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
     }
 
     @Override
-    public long deleteMeetingById(String userPk, long meetingId) {
-        return jpaQueryFactory.delete(meeting)
-                .where(meetingParticipant.meetingList.meetingId.eq(meetingId)
-                        .and(meetingParticipant.userList.id.eq(userPk)))
-                .execute();
-    }
-
-    @Override
     public List<ParticipantResponse> findParticipantsByMeetingId(long meetingId) {
         return jpaQueryFactory.select(Projections.constructor(
                         ParticipantResponse.class,

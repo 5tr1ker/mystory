@@ -3,7 +3,6 @@ package com.team.mystory.meeting.meeting.service;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.meeting.meeting.domain.Meeting;
-import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
@@ -92,10 +91,16 @@ public class MeetingService {
     public void deleteMeetingById(String accessToken , long meetingId) {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
-        long result = meetingRepository.deleteMeetingById(userPk , meetingId);
+        checkMeetingOwner(userPk , meetingId);
 
-        if(result == 0) {
-            throw new MeetingException("유효하지 않은 접근입니다.");
+        meetingRepository.deleteById(meetingId);
+    }
+
+    public void checkMeetingOwner(String userPk , long meetingId) {
+        MeetingMemberResponse result = meetingRepository.findMeetingOwnerByMeetingId(meetingId);
+
+        if(!result.getUserId().equals(userPk)) {
+            throw new MeetingException("모임장은 파티를 나갈 수 없습니다.");
         }
     }
 

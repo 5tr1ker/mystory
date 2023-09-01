@@ -27,9 +27,6 @@ public interface CustomMeetingRepository {
 
     long findAllMeetingByUserIdCount(String userId);
 
-
-    long deleteMeetingById(String userPk, long meetingId);
-
     List<ParticipantResponse> findParticipantsByMeetingId(long meetingId);
 
     MeetingMemberResponse findMeetingOwnerByMeetingId(long meetingId);

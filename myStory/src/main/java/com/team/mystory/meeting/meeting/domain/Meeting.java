@@ -48,7 +48,7 @@ public class Meeting {
     private int maxParticipants;
 
     @Builder.Default
-    @OneToMany(mappedBy = "meetingList")
+    @OneToMany(mappedBy = "meetingList" , cascade = {CascadeType.REMOVE} , orphanRemoval = true)
     private List<MeetingParticipant> meetingParticipants = new ArrayList<>();
 
     @Builder.Default

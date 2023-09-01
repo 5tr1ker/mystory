@@ -6,6 +6,7 @@ import locate from '../../_image/locate.png';
 import time from '../../_image/time.png';
 import people from '../../_image/people.svg';
 import pen from '../../_image/pen.png';
+import trash from '../../_image/trash.svg';
 import { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -16,6 +17,10 @@ const MeetingView = () => {
   const [participants, setParticipants] = useState([]);
   const [owner, setOwner] = useState({});
   const [moreMember , setMoreMember] = useState(false);
+
+  const modifyMeeting = () => {
+    window.location.replace(`/modify/meeeting/${urlStat[2]}`);
+  }
 
   useEffect(async () => {
     await axios({ // 컨텐츠 갯수
@@ -88,7 +93,22 @@ const MeetingView = () => {
       }).then((response) => {
         window.location.replace("/meeting");
       }).catch((err) => {
-  
+
+        console.log(err)
+      });
+    }
+  }
+
+  const deleteParty = async () => {
+    if(window.confirm("모임을 삭제하시겠습니까?")) {
+      await axios({ // 컨텐츠 갯수
+        method: "DELETE",
+        mode: "cors",
+        url: `/meeting/${urlStat[2]}`
+      }).then((response) => {
+        window.location.replace("/meeting");
+      }).catch((err) => {
+        alert("모임장만 모임을 지울 수 있습니다.");
       });
     }
   }
@@ -367,7 +387,14 @@ const MeetingView = () => {
           <div className="rectangle-3-meetingView" />
           <div className="text-wrapper-16-meetingView">모임 나가기</div>
         </div>
-        <div className="thin-s-wrapper-meetingView">
+        <div className="overlap-3-meetingDelete" onClick={deleteParty}>
+          <img
+            className="thin-s-meetingDelete"
+            alt="Thin s"
+            src={trash}
+          />
+        </div>
+        <div className="thin-s-wrapper-meetingView" onClick={modifyMeeting}>
           <img
             className="thin-s-meetingView"
             alt="Thin s"

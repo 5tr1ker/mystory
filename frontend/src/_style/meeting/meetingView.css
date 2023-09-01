@@ -509,9 +509,9 @@
   .screen-meetingView .text-wrapper-15-meetingView {
     color: #000000;
     font-family: "ABeeZee", Helvetica;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
-    left: 57px;
+    left: 30px;
     letter-spacing: 0;
     line-height: 28px;
     position: absolute;
@@ -537,8 +537,8 @@
     font-family: "Abel", Helvetica;
     font-size: 15px;
     font-weight: 400;
-    left: 57px;
-    width: 350px;
+    left: 30px;
+    width: 410px;
     overflow-y: scroll;
     height: 125px;
     word-break: break-all;
@@ -648,17 +648,40 @@
     background-color: #5b1fd9;
     border-radius: 30.5px;
     box-shadow: 0px 4px 4px #00000040;
-    height: 61px;
-    left: 699px;
+    height: 55px;
+    left: 689px;
     position: absolute;
-    top: 32px;
-    width: 61px;
+    top: 35px;
+    width: 55px;
+    cursor: pointer;
+  }
+
+  .overlap-3-meetingDelete {
+    background-color: #5b1fd9;
+    border-radius: 30.5px;
+    box-shadow: 0px 4px 4px #00000040;
+    height: 55px;
+    left: 754px;
+    position: absolute;
+    top: 35px;
+    width: 55px;
+    cursor: pointer;
   }
   
   .screen-meetingView .thin-s-meetingView {
     height: 33px;
-    left: 13px;
+    left: 11px;
     position: absolute;
-    top: 15px;
+    color:white;
+    top: 10px;
     width: 33px;
   }  
+
+  .thin-s-meetingDelete {
+    height: 33px;
+    left: 11px;
+    position: absolute;
+    top: 10px;
+    width: 33px;
+    fill: white;
+  }

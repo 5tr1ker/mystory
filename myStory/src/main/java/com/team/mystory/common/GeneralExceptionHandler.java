@@ -46,7 +46,7 @@ public class GeneralExceptionHandler {
     public ResponseEntity meetingExceptionHandler(Exception e) {
         ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
 
-        return ResponseEntity.badRequest().body(message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
     @ExceptionHandler({FileSizeLimitExceededException.class})
