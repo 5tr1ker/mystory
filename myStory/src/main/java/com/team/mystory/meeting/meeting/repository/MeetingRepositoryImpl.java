@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.meeting.meeting.domain.QMeeting;
 import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
@@ -48,6 +49,16 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+    }
+
+    @Override
+    public Optional<Meeting> findMeetingByMeetingIdAndMeetingOwner(long meetingId, String userId) {
+        Meeting result = jpaQueryFactory.select(meeting).from(meeting)
+                .innerJoin(meeting.meetingOwner , user).on(user.id.eq(userId))
+                .where(meeting.meetingId.eq(meetingId))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
     }
 
     @Override

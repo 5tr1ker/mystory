@@ -1,5 +1,6 @@
 package com.team.mystory.meeting.meeting.repository;
 
+import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public interface CustomMeetingRepository {
 
     List<MeetingResponse> findAllMeeting(Pageable pageable);
+
+    Optional<Meeting> findMeetingByMeetingIdAndMeetingOwner(long meetingId , String userId);
 
     Optional<MeetingResponse> findMeetingByMeetingId(long meetingId);
 

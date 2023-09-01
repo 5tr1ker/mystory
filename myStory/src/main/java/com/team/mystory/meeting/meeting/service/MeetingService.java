@@ -106,8 +106,9 @@ public class MeetingService {
 
     @Transactional
     public void modifyMeeting(MeetingRequest meetingRequest, MultipartFile image, String accessToken, long meetingId) throws IOException {
-        Meeting meeting = meetingRepository.findById(meetingId)
-                .orElseThrow(() -> new MeetingException("해당 미팅을 찾을 수 없습니다."));
+        String userPk = jwtTokenProvider.getUserPk(accessToken);
+        Meeting meeting = meetingRepository.findMeetingByMeetingIdAndMeetingOwner(meetingId , userPk)
+                .orElseThrow(() -> new MeetingException("파티를 찾을 수 없거나 , 파티장만 수정할 수 있습니다."));
 
         if(image != null) {
             modifyImage(meeting , image);

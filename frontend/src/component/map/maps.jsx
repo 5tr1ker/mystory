@@ -4,7 +4,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 const { kakao } = window;
 
 const Maps = (props) => {
-  const [locate, setLocate] = useState({address: "지도를 눌러주세요." , road_address: ""});
+  const [locate, setLocate] = useState("지도를 눌러주세요.");
   const [position, setPosition] = useState();
   const [search , setSearch] = useState();
 
@@ -29,10 +29,11 @@ const Maps = (props) => {
 
   geocoder.coord2Address(coord.getLng(), coord.getLat(), function(result, status) {
   if (status === kakao.maps.services.Status.OK) {
-      setLocate({address : !! result[0].address ? result[0].address.address_name : "" , road_address: !! result[0].road_address ? result[0].road_address.address_name : ""});
+      setLocate(!! result[0].address ? result[0].address.address_name : "알 수 없음.");
     }
   });
   }
+
 
   useEffect(() => {
     props.addressData(locate);
@@ -125,7 +126,7 @@ const Maps = (props) => {
   return (
     <Fragment>
       <input className="meetingAddressSearch" placeholder="검색할 주소를 입력 후 엔터를 눌러주세요." onChange={onChangeSearch} onKeyDown={searchAddress}/>
-      <span className="meetingAddress">{"주소 : " + locate.address}</span>
+      {props.address == undefined ? <span className="meetingAddress">{"주소 : 지도를 눌러주세요."}</span> : <span className="meetingAddress">{"주소 : " + props.address}</span>}
       <button className="currentButton" onClick={currentLocation}>현재 위치</button>
     <Map // 지도를 표시할 Container
       className="IMG-newMeeting"
@@ -161,7 +162,7 @@ const Maps = (props) => {
         </MapMarker>
       ))}
         </Map>
-        <input className="meetingAddressInput" maxLength={20} placeholder="상세 주소를 입력해주세요." onChange={onChangeDetainAddress}/>
+        <input className="meetingAddressInput" maxLength={20} placeholder="상세 주소를 입력해주세요." defaultValue={props.detailAddress} onChange={onChangeDetainAddress}/>
       </Fragment>
   )
 }

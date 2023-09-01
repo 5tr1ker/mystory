@@ -67,7 +67,7 @@ const NewMeeting = () => {
         return;
       }
 
-      const jsonPostData = {"title" : title , "description" : content , "detailAddress" : detailAddress , "address" : address.address ,
+      const jsonPostData = {"title" : title , "description" : content , "detailAddress" : detailAddress , "address" : address ,
       "locateX" : locate.locateX , "locateY" : locate.locateY , "maxParticipants" : participant};
 
       console.log(jsonPostData);
@@ -142,7 +142,7 @@ const NewMeeting = () => {
           />
           <input type="file" onChange={(e) => uploadImage(e)} name="file" ref={imageInput} style={{ display: "none" }}/>
         </div>
-        <Maps locateData={setLocate} addressData={setAddress} detailAddressData={onChangeDetailAddress} />
+        <Maps locateData={setLocate} addressData={setAddress} detailAddressData={onChangeDetailAddress} detailAddress={detailAddress} address={address}/>
         <div className="text-wrapper-7-newMeeting">
           최대 인원 수를 선택해주세요.
         </div>

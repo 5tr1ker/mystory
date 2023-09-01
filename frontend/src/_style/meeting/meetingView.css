@@ -630,6 +630,7 @@
     height: 950px;
     width: 800px;
     overflow-y: scroll;
+    overflow-x: hidden;
   }
   
   .screen-meetingView .text-wrapper-16-meetingView {

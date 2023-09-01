@@ -78,5 +78,6 @@ public class Meeting {
         this.title = meetingRequest.getTitle();
         this.address = meetingRequest.getAddress();
         this.description = meetingRequest.getDescription();
+        this.detailAddress = meetingRequest.getDetailAddress();
     }
 }
