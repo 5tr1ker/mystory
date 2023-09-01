@@ -1,7 +1,9 @@
 package com.team.mystory.meeting.meeting.repository;
 
 import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
+import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
+import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -26,7 +28,12 @@ public interface CustomMeetingRepository {
     long findAllMeetingByUserIdCount(String userId);
 
 
-    List<MeetingResponse> getMeetingsParticipantIn(String userId);
-
     long deleteMeetingById(String userPk, long meetingId);
+
+    List<ParticipantResponse> findParticipantsByMeetingId(long meetingId);
+
+    MeetingMemberResponse findMeetingOwnerByMeetingId(long meetingId);
+
+    long deleteParticipantsByMeetingIdAndUserId(long meetingId , String userId);
+
 }

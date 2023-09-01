@@ -21,7 +21,6 @@ public class MeetingResponse {
 
     private String meetingImage;
 
-    // !-
     private String detailAddress;
 
     private String description;

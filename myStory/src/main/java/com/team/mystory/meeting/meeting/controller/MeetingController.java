@@ -1,7 +1,9 @@
 package com.team.mystory.meeting.meeting.controller;
 
+import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
+import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import com.team.mystory.meeting.meeting.repository.MeetingRepository;
 import com.team.mystory.meeting.meeting.service.MeetingService;
 import jakarta.websocket.server.PathParam;
@@ -51,8 +53,15 @@ public class MeetingController {
     }
 
     @DeleteMapping("/{meetingId}")
-    public ResponseEntity createMeeting(@CookieValue String accessToken , @PathVariable long meetingId) {
+    public ResponseEntity deleteMeeting(@CookieValue String accessToken , @PathVariable long meetingId) {
         meetingService.deleteMeetingById(accessToken , meetingId);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/participants/{meetingId}")
+    public ResponseEntity leaveMeeting(@CookieValue String accessToken , @PathVariable long meetingId) {
+        meetingService.leaveMeeting(accessToken , meetingId);
 
         return ResponseEntity.noContent().build();
     }
@@ -101,11 +110,11 @@ public class MeetingController {
         return ResponseEntity.ok().body(meetingService.findMeetingByTitleOrAddressCount(data));
     }
 
-    @GetMapping("/participants")
-    public ResponseEntity getMeetingsParticipantIn(@CookieValue String accessToken) {
-        List<MeetingResponse> meetingList = meetingService.getMeetingsParticipantIn(accessToken);
+    @GetMapping("/participants/{meetingId}")
+    public ResponseEntity findParticipantsByMeetingId(@PathVariable long meetingId) {
+        MeetingMemberResponse result = meetingService.findMeetingMemberByMeetingId(meetingId);
 
-        return ResponseEntity.ok().body(meetingList);
+        return ResponseEntity.ok().body(result);
     }
 
 }

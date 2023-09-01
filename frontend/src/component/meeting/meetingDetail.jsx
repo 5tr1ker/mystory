@@ -40,7 +40,6 @@ const MeetingDetail = ({hideDetail , detailNumber , meetingOption}) => {
       mode: "cors",
       url: `/meeting/${detailNumber}`
     }).then((response) => {
-      console.log(response.data);
       alert("모임에 참여하셨습니다. 모임 방은 \" 나의 모임 \" 란에서 이동이 가능합니다.");
       hideDetail();
     }).catch((err) => {

@@ -4,8 +4,10 @@ import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
+import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
+import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import com.team.mystory.meeting.meeting.exception.MeetingException;
 import com.team.mystory.meeting.meeting.repository.MeetingParticipantRepository;
 import com.team.mystory.meeting.meeting.repository.MeetingRepository;
@@ -116,12 +118,6 @@ public class MeetingService {
         meeting.updateMeetingImage(url);
     }
 
-    public List<MeetingResponse> getMeetingsParticipantIn(String accessToken) {
-        String userPk = jwtTokenProvider.getUserPk(accessToken);
-
-        return meetingRepository.getMeetingsParticipantIn(userPk);
-    }
-
     public List<MeetingResponse> findAllMeetingByUserId(Pageable pageable , String accessToken) {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
@@ -132,5 +128,29 @@ public class MeetingService {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
         return meetingRepository.findAllMeetingByUserIdCount(userPk);
+    }
+
+    public List<ParticipantResponse> findParticipantsByMeetingId(long meetingId) {
+        return meetingRepository.findParticipantsByMeetingId(meetingId);
+    }
+
+    public MeetingMemberResponse findMeetingMemberByMeetingId(long meetingId) {
+         MeetingMemberResponse result = meetingRepository.findMeetingOwnerByMeetingId(meetingId);
+
+         result.setParticipantResponses(findParticipantsByMeetingId(meetingId));
+
+         return result;
+    }
+
+    @Transactional
+    public void leaveMeeting(String accessToken, long meetingId) {
+        String userPk = jwtTokenProvider.getUserPk(accessToken);
+
+        MeetingMemberResponse response = meetingRepository.findMeetingOwnerByMeetingId(meetingId);
+        if(response.getUserId().equals(userPk)) {
+            throw new MeetingException("모임장은 모임을 나갈 수 없습니다.");
+        }
+
+        meetingRepository.deleteParticipantsByMeetingIdAndUserId(meetingId , userPk);
     }
 }

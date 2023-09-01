@@ -148,6 +148,26 @@
     margin-left: 10px;
     width: 39px;
   }
+
+  .screen-meetingView .mask-group-2-meetingView-viewMore {
+    height: 39px;
+    position: relative;
+    top: 5px;
+    margin-left: 10px;
+    width: 39px;
+  }
+
+  .memberName {
+    position: relative;
+    font-weight: 700;
+    top: 6px;
+    left: 10px;
+    display: inline-block;
+  }
+
+  .memberLine {
+    margin-bottom: 10px;;
+  }
   
   .screen-meetingView .mask-group-3-meetingView {
     height: 39px;
@@ -398,13 +418,24 @@
   .screen-meetingView .rectangle-2-meetingView {
     border-bottom: 2px solid #5b1fd9;
   }
+
+  .screen-meetingView .vector-3-meetingView-more {
+    height: 20px;
+    left: 679px;
+    position: absolute;
+    top: 254px;
+    width: 20px;
+    border-radius: 10px;
+    background-color: rgb(220, 220, 220);
+    cursor: pointer;
+  }
   
   .screen-meetingView .vector-3-meetingView {
     height: 4px;
-    left: 679px;
-    position: absolute;
-    top: 264px;
+    position: relative;
+    top: -4px;
     width: 20px;
+    z-index: 3;
   }
   
   .screen-meetingView .text-wrapper-14-meetingView {
@@ -487,6 +518,19 @@
     top: 276px;
     white-space: nowrap;
   }
+
+  .moreMemberArea {
+    width: 200px;
+    height: 250px;
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 290px;
+    left: 590px;
+    z-index: 2;
+    overflow-y: scroll;
+  }
   
   .screen-meetingView .element-meetingView {
     color: #000000;
@@ -494,6 +538,10 @@
     font-size: 15px;
     font-weight: 400;
     left: 57px;
+    width: 350px;
+    overflow-y: scroll;
+    height: 125px;
+    word-break: break-all;
     letter-spacing: 0;
     line-height: 25px;
     position: absolute;
@@ -547,6 +595,7 @@
     position: absolute;
     top: 0;
     width: 231px;
+    cursor: pointer;
   }
 
   .partyDescription {

@@ -58,7 +58,6 @@ const MeetingList = ({ idStatus }) => {
   const [meetingDetail , setMeetingDetail] = useState(false); // false -> 비공개 , -> true -> 공개
   const [detailNumber , setDetailNumber] = useState(0);
   const showMeetingDetail = (number) => {
-    console.log("섹스");
     setMeetingDetail(false);
     setMeetingDetail(true);
 
