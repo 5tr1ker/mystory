@@ -3,12 +3,14 @@ package com.team.mystory.meeting.meeting.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.meeting.meeting.domain.QMeeting;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.querydsl.core.types.ExpressionUtils.count;
 import static com.querydsl.jpa.JPAExpressions.select;
@@ -43,6 +45,41 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+    }
+
+    @Override
+    public Optional<MeetingResponse> findMeetingByMeetingId(long meetingId) {
+        QMeeting meeting1 = new QMeeting("meeting1");
+
+        MeetingResponse result = jpaQueryFactory.select(Projections.constructor(
+                        MeetingResponse.class,
+                        meeting.meetingId,
+                        meeting.locateX,
+                        meeting.locateY,
+                        meeting.address,
+                        meeting.meetingImage,
+                        meeting.detailAddress ,
+                        meeting.description ,
+                        meeting.title ,
+                        meeting.maxParticipants ,
+                        select(count(meetingParticipant)).from(meetingParticipant)
+                                .innerJoin(meetingParticipant.meetingList , meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
+                )).from(meeting)
+                .where(meeting.meetingId.eq(meetingId))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
+    }
+
+    @Override
+    public Optional<MeetingParticipant> findMeetingParticipantByMeetingIdAndUserId(long meetingId, String userId) {
+        MeetingParticipant result = jpaQueryFactory.select(meetingParticipant)
+                .from(meetingParticipant)
+                .innerJoin(meetingParticipant.meetingList , meeting).on(meeting.meetingId.eq(meetingId))
+                .innerJoin(meetingParticipant.userList , user).on(user.id.eq(userId))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
     }
 
     @Override

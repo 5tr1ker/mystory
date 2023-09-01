@@ -64,6 +64,13 @@ public class MeetingController {
         return ResponseEntity.ok().body(meetingList);
     }
 
+    @GetMapping("/{meetingId}")
+    public ResponseEntity findMeetingByMeetingId(@PathVariable long meetingId) {
+        MeetingResponse result = meetingService.findMeetingByMeetingId(meetingId);
+
+        return ResponseEntity.ok().body(result);
+    }
+
     @GetMapping("/count")
     public ResponseEntity findAllMeetingCount() {
         return ResponseEntity.ok().body(meetingRepository.findAllMeetingCount());

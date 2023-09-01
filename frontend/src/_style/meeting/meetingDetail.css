@@ -24,7 +24,6 @@
   }
   
   .screen-detail .overlap-group-detail {
-    background-image: url(https://generation-sessions.s3.amazonaws.com/414ebf7288748dd8acff66c202be8e65/img/mask-group@2x.png);
     background-size: 100% 100%;
     height: 219px;
     left: 59px;
@@ -67,13 +66,12 @@
     color: #000000;
     font-family: "ABeeZee", Helvetica;
     font-size: 18px;
-    font-style: italic;
     font-weight: 400;
-    left: 80px;
+    left: 480px;
     letter-spacing: 0;
     line-height: 28px;
     position: absolute;
-    top: 324px;
+    top: 124px;
     white-space: nowrap;
   }
   
@@ -82,11 +80,17 @@
     font-family: "Abel", Helvetica;
     font-size: 15px;
     font-weight: 400;
-    left: 80px;
+    left: 480px;
+    width: 360px;
+    height: 125px;
+    overflow-y: scroll;
+    display: block;
+    word-break:break-all;
     letter-spacing: 0;
     line-height: 25px;
     position: absolute;
-    top: 372px;
+    top: 202px;
+    box-shadow: 0px 0px 1px 1px gray;
   }
   
   .screen-detail .text-wrapper-2-detail {
@@ -107,11 +111,37 @@
     font-family: "Abel", Helvetica;
     font-size: 15px;
     font-weight: 400;
-    left: 474px;
+    left: 74px;
     letter-spacing: 0;
     line-height: 25px;
     position: absolute;
-    top: 223px;
+    top: 323px;
+    white-space: nowrap;
+  }
+
+  .screen-detail .text-wrapper-10-detail {
+    color: #5b1fd9;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 700;
+    left: 480px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 93px;
+    white-space: nowrap;
+  }
+
+  .screen-detail .text-wrapper-11-detail {
+    color: #5b1fd9;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 700;
+    left: 480px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 173px;
     white-space: nowrap;
   }
   
@@ -133,11 +163,11 @@
     font-family: "Abel", Helvetica;
     font-size: 15px;
     font-weight: 400;
-    left: 516px;
+    left: 116px;
     letter-spacing: 0;
     line-height: 25px;
     position: absolute;
-    top: 263px;
+    top: 363px;
     white-space: nowrap;
   }
   
@@ -146,11 +176,11 @@
     font-family: "Abel", Helvetica;
     font-size: 15px;
     font-weight: 400;
-    left: 516px;
+    left: 116px;
     letter-spacing: 0;
     line-height: 25px;
     position: absolute;
-    top: 307px;
+    top: 407px;
     white-space: nowrap;
   }
   
@@ -222,17 +252,17 @@
   
   .screen-detail .light-s-detail {
     height: 23px;
-    left: 475px;
+    left: 75px;
     position: absolute;
-    top: 265px;
+    top: 365px;
     width: 19px;
   }
   
   .screen-detail .vector-detail {
     height: 17px;
-    left: 474px;
+    left: 74px;
     position: absolute;
-    top: 311px;
+    top: 411px;
     width: 30px;
   }
   
@@ -258,6 +288,7 @@
     position: absolute;
     top: 446px;
     width: 348px;
+    cursor: pointer;
   }
   
   .screen-detail .text-wrapper-7-detail {
@@ -266,6 +297,19 @@
     font-size: 15px;
     font-weight: 400;
     left: 144px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 12px;
+    white-space: nowrap;
+  }
+
+  .text-wrapper-7-detail-join {
+    color: #ffffff;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 119px;
     letter-spacing: 0;
     line-height: 25px;
     position: absolute;

@@ -56,8 +56,13 @@ const MeetingList = ({ idStatus }) => {
 
   // 미팅 상세 정보
   const [meetingDetail , setMeetingDetail] = useState(false); // false -> 비공개 , -> true -> 공개
+  const [detailNumber , setDetailNumber] = useState(0);
   const showMeetingDetail = (number) => {
+    console.log("섹스");
+    setMeetingDetail(false);
+    setMeetingDetail(true);
 
+    setDetailNumber(number);
   }
   const exitMeetingDetail = () => {
     setMeetingDetail(false);
@@ -145,7 +150,7 @@ const MeetingList = ({ idStatus }) => {
 
   return (
     <div className="screen">
-        {meetingDetail ? <div className="meetingDetails"><MeetingDetail /></div> : null}
+        {meetingDetail ? <div className="meetingDetails"><MeetingDetail hideDetail={exitMeetingDetail} detailNumber={detailNumber} meetingOption={meetingOption}/></div> : null}
       <div className="div">
         <div className="text-wrapper">참여</div>
         <div className="overlap">
@@ -162,7 +167,7 @@ const MeetingList = ({ idStatus }) => {
           {meetingOption ? <div className="rectangle-3-mine" /> : <div className="rectangle-3" />}
         </div>
         <div className="meetingContentArea">
-          <MeetingContent data={meetingList} />
+          <MeetingContent data={meetingList} showDetail={showMeetingDetail} />
         </div>
         <div className="meetingPageNation">
           <nav aria-label="Page navigation example" className="pagenations">

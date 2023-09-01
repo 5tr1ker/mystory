@@ -52,9 +52,19 @@ public class MeetingService {
         joinMeeting(result.getMeetingId(), accessToken);
     }
 
+    public MeetingResponse findMeetingByMeetingId(long meetingId) {
+        return meetingRepository.findMeetingByMeetingId(meetingId)
+                .orElseThrow(() -> new MeetingException("모임 정보를 찾을 수 없습니다."));
+    }
+
     @Transactional
     public void joinMeeting(long meetingId , String accessToken) throws AccountException {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
+
+        if(meetingRepository.findMeetingParticipantByMeetingIdAndUserId(meetingId , userPk).isPresent()) {
+            throw new MeetingException("이미 참여하고 있습니다.");
+        }
+
         User user = loginRepository.findById(userPk)
                 .orElseThrow(() -> new AccountException("사용자 정보를 찾을 수 없습니다."));
 
@@ -72,7 +82,7 @@ public class MeetingService {
         return meetingRepository.findMeetingByTitleOrAddress(pageable , title);
     }
 
-    public Object findMeetingByTitleOrAddressCount(String data) {
+    public long findMeetingByTitleOrAddressCount(String data) {
         return meetingRepository.findMeetingByTitleOrAddressCount(data);
     }
 

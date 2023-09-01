@@ -1,6 +1,6 @@
 import '../../_style/meeting/meetingContent.css'
 
-const MeetingContent = ({data}) => {
+const MeetingContent = ({showDetail  , data}) => {
   if(data == undefined) {
     return (
       <div></div>
@@ -9,7 +9,7 @@ const MeetingContent = ({data}) => {
 
     return (
       data.map(posts => (
-        <div className="overlap-group-2" key={posts.meetingId}>
+        <div className="overlap-group-2" key={posts.meetingId} onClick={() => showDetail(posts.meetingId)}>
         <div className="imageSession">
         <img className="mask-group" alt="Mask group" src={posts.meetingImage} />
         </div>
