@@ -186,7 +186,7 @@ const NoticeFrame = () => {
                     <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} />}></Route>
                     <Route path="/meeting" element={<MeetingList idStatus={sessionUserId}/>}></Route>
                     <Route path="/newmeeting" element={<NewMeeting/>}></Route>
-                    <Route path="/modify/meeeting/:id" element={<ModifyMeeting />}></Route>
+                    <Route path="/modify/meeting/:id" element={<ModifyMeeting />}></Route>
                     <Route path="/meeting/:id" element={<MeetingView />}></Route>
                     <Route path="/newmeeting/:id" element={<NewReservation />}></Route>
                 </Routes>

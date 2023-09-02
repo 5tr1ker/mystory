@@ -1,5 +1,6 @@
 package com.team.mystory.meeting.reservation.controller;
 
+import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import com.team.mystory.meeting.reservation.dto.ReservationRequest;
 import com.team.mystory.meeting.reservation.dto.ReservationResponse;
 import com.team.mystory.meeting.reservation.service.ReservationService;
@@ -42,17 +43,17 @@ public class ReservationController {
     }
 
     @GetMapping("/{meetingId}/reservation")
-    public ResponseEntity findReservation(@PathVariable long meetingId) throws AccountException {
-        List<ReservationResponse> result = reservationService.findReservation(meetingId);
+    public ResponseEntity findReservation(@PathVariable long meetingId) {
+        List<ReservationResponse> result = reservationService.findReservationByMeetingId(meetingId);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @DeleteMapping("/reservation/{reservationId}")
-    public ResponseEntity deleteReservation(@PathVariable long reservationId , @CookieValue String accessToken) throws AccountException {
-        reservationService.deleteReservation(reservationId , accessToken);
+    @GetMapping("/reservation/{reservationId}")
+    public ResponseEntity findParticipantsById(@PathVariable long reservationId) {
+        List<ParticipantResponse> result = reservationService.findParticipantsById(reservationId);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 }

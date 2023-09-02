@@ -1,6 +1,7 @@
 package com.team.mystory.common;
 
 import com.team.mystory.meeting.meeting.exception.MeetingException;
+import com.team.mystory.meeting.reservation.exception.ReservationException;
 import com.team.mystory.post.comment.exception.CommentException;
 import com.team.mystory.post.post.exception.PostException;
 import com.team.mystory.security.exception.TokenForgeryException;
@@ -42,7 +43,7 @@ public class GeneralExceptionHandler {
         return ResponseEntity.badRequest().body(message);
     }
 
-    @ExceptionHandler({MeetingException.class})
+    @ExceptionHandler({MeetingException.class , ReservationException.class})
     public ResponseEntity meetingExceptionHandler(Exception e) {
         ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
 

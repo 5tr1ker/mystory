@@ -62,6 +62,7 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "writer" , cascade = CascadeType.ALL)
 	private List<Post> post = new ArrayList<>();
 
+
 	@Builder.Default
 	@OneToMany(mappedBy = "meetingOwner" , cascade = CascadeType.ALL)
 	private List<Meeting> meetings = new ArrayList<>();

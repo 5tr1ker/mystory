@@ -8,10 +8,48 @@
   
   .screen-newReservation .div-newReservation {
     background-color: #ffffff;
-    height: 1559px;
+    height: 1709px;
     position: relative;
     width: 390px;
     top: -50px;
+  }
+
+  .calanderData {
+    position: absolute;
+    top: 1120px;
+    left: 20px;
+    z-index: 20;
+  }
+
+  .reservMap {
+    position: absolute;
+    top: 475px;
+  }
+
+  .meetingAddressSearch-reserv {
+    height: 30px;
+    z-index: 5555;
+    display: block;
+    width: 400px;
+    border-radius: 25px;
+  }
+  
+  .meetingAddress-reserv {
+    z-index: 5555;
+    color: gray;
+  }
+
+  .currentButton-reserv {
+    border-radius: 20px;;
+    border: 2px solid gray;
+    background-color: white;
+  }
+
+  .meetingAddressInput-reserv {
+    width : 390px;
+    height: 30px;
+    z-index: 5555;
+    border-radius: 25px;
   }
   
   .screen-newReservation .text-wrapper-newReservation {
@@ -199,13 +237,12 @@
     color: #000000;
     font-family: "ABeeZee", Helvetica;
     font-size: 18px;
-    font-style: italic;
     font-weight: 400;
     left: 21px;
     letter-spacing: 0;
     line-height: 28px;
     position: absolute;
-    top: 1209px;
+    top: 1459px;
     white-space: nowrap;
     width: 253px;
   }
@@ -219,7 +256,7 @@
     letter-spacing: 0;
     line-height: 28px;
     position: absolute;
-    top: 1237px;
+    top: 1487px;
     white-space: nowrap;
     width: 255px;
   }
@@ -228,7 +265,7 @@
     height: 28px;
     left: 21px;
     position: absolute;
-    top: 1300px;
+    top: 1525px;
     width: 348px;
   }
   
@@ -315,13 +352,13 @@
     height: 6px;
     left: 21px;
     position: absolute;
-    top: 850px;
+    top: 1030px;
     width: 348px;
   }
 
   .howMeetText-01 {
     position: absolute;
-    top: 890px;
+    top: 1050px;
     margin-left: 20px;
     white-space: nowrap;
     color: #000000;
@@ -334,7 +371,7 @@
 
   .howMeetText-02 {
     position: absolute;
-    top: 920px;
+    top: 1080px;
     margin-left: 20px;
     color: #c4c4c4;
   font-family: "Abel-Regular", Helvetica;
@@ -350,8 +387,23 @@
     height: 51px;
     left: 22px;
     position: absolute;
-    top: 1422px;
+    top: 1602px;
     width: 348px;
+    cursor: pointer;
+  }
+
+  .timePicker{
+    position: absolute;
+    top: 1400px;
+    width: 200px;
+    height: 200px;
+    left: 20px;
+  }
+
+  .calanderSubData {
+    position: absolute;
+    top: 1402px;
+    left: 210px;
   }
   
   .screen-newReservation .text-wrapper-12-newReservation {

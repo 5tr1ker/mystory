@@ -25,7 +25,7 @@ public class Meeting {
     @ManyToOne(fetch = FetchType.LAZY)
     private User meetingOwner;
 
-    @OneToMany(cascade = { CascadeType.PERSIST , CascadeType.REMOVE })
+    @OneToMany(cascade = { CascadeType.PERSIST , CascadeType.REMOVE } , mappedBy = "meetings")
     private List<Reservation> reservations = new ArrayList<>();
 
     @Column(nullable = false)
@@ -79,5 +79,10 @@ public class Meeting {
         this.address = meetingRequest.getAddress();
         this.description = meetingRequest.getDescription();
         this.detailAddress = meetingRequest.getDetailAddress();
+    }
+
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+        reservation.setMeetings(this);
     }
 }

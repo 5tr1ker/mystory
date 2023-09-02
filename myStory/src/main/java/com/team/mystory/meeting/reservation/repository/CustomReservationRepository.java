@@ -1,5 +1,7 @@
 package com.team.mystory.meeting.reservation.repository;
 
+import com.team.mystory.account.user.dto.UserResponse;
+import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import com.team.mystory.meeting.reservation.dto.ReservationResponse;
 import com.team.mystory.meeting.reservation.entity.Reservation;
 
@@ -10,8 +12,14 @@ public interface CustomReservationRepository {
 
     List<ReservationResponse> findAllReservationByMeetingId(long meetingId);
 
-    long deleteReservation(long reservationId , long userKey);
+    Optional<Reservation> findReservationByIdAndUserId(long reservationId , String userKey);
 
-    Optional<Reservation> findReservationBeforeExpiry(long reservationId);
-    
+    Optional<Reservation> findReservationBeforeExpiry(long reservationId , String userPk);
+
+    long leaveReservationById(long reservationId , String userPk);
+
+    Optional<Reservation> findReservationAndParticipantsById(long reservationId);
+
+    List<ParticipantResponse> findParticipantsById(long reservationId);
+
 }

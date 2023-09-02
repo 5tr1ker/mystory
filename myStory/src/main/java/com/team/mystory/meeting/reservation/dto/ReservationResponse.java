@@ -1,5 +1,6 @@
 package com.team.mystory.meeting.reservation.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.dto.UserResponse;
 import jakarta.persistence.JoinColumn;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,14 +22,21 @@ public class ReservationResponse {
 
     private long reservationId;
 
-    private List<UserResponse> participates = new ArrayList<>();
+    @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy년MM월dd일 HH시MM분" , timezone = "Asia/Seoul")
+    private LocalDateTime date;
 
-    private Date meetingDate;
+    private String address;
 
-    private String meetingAddress;
+    private String description;
 
-    private String meetingLocateX;
+    private String detailAddress;
 
-    private String meetingLocateY;
+    private String locateX;
+
+    private String locateY;
+
+    private int maxParticipants;
+
+    private long userCount;
 
 }

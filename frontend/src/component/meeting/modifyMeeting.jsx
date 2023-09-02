@@ -87,8 +87,6 @@ const ModifyMeeting = () => {
       "locateX": locate.locateX, "locateY": locate.locateY, "maxParticipants": participant
     };
 
-    console.log(jsonPostData);
-
     let requestForm = new FormData();
     const blob = new Blob([JSON.stringify(jsonPostData)], { type: "application/json" });
     requestForm.append("meeting", blob);

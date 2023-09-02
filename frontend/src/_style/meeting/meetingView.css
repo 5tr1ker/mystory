@@ -77,6 +77,19 @@
     position: relative;
     white-space: nowrap;
   }
+
+  .screen-meetingView .text-wrapper-122-meetingView {
+    color: #5b1fd9;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 120px;
+    top: 20px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    white-space: nowrap;
+  }
   
   .screen-meetingView .text-wrapper-3-meetingView {
     color: #000000;
@@ -212,7 +225,7 @@
     height: 23px;
     left: 468px;
     position: absolute;
-    margin-top: 6px;
+    margin-top: 17px;
     width: 19px;
   }
   
@@ -253,6 +266,7 @@
     position: absolute;
     top: 0;
     width: 348px;
+    cursor: pointer;
   }
   
   .screen-meetingView .text-wrapper-6-meetingView {
@@ -266,16 +280,63 @@
     position: absolute;
     top: 12px;
     white-space: nowrap;
+    cursor: pointer;
   }
   
   .screen-meetingView .div-wrapper-meetingView {
     background-color: #5b1fd9;
     border-radius: 28px;
     height: 51px;
-    left: 455px;
+    left: 405px;
     top: -50px;
     position: relative;
-    width: 282px;
+    width: 182px;
+    cursor: pointer;
+  }
+
+  .showParticipants {
+    color: gray;
+    position: absolute;
+    left: 655px;
+    bottom: 161px;
+    cursor:pointer;
+  }
+
+  .showParticipantsElement {
+    width: 200px;
+    height: 300px;
+    overflow-y: scroll;
+    left: 500px;
+    top: 140px;
+    border-radius: 15px;
+    z-index: 30;
+    position: absolute;
+    background-color: white;
+    border: 1px solid gray;
+  }
+
+  .div-wrapper-meetingView-remove {
+    background-color: #5b1fd9;
+    border-radius: 28px;
+    height: 51px;
+    left: 605px;
+    top: -100px;
+    position: relative;
+    width: 182px;
+    cursor: pointer;
+  }
+
+  .screen-meetingView .text-wrapper-7-meetingView-remove {
+    color: #ffffff;
+    font-family: "Abel", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 60px;
+    letter-spacing: 0;
+    line-height: 25px;
+    position: absolute;
+    top: 12px;
+    width: 65px;
   }
   
   .screen-meetingView .text-wrapper-7-meetingView {
@@ -283,7 +344,7 @@
     font-family: "Abel", Helvetica;
     font-size: 15px;
     font-weight: 400;
-    left: 117px;
+    left: 60px;
     letter-spacing: 0;
     line-height: 25px;
     position: absolute;
@@ -373,7 +434,7 @@
     font-family: "ABeeZee", Helvetica;
     font-size: 15px;
     font-weight: 400;
-    left: 244px;
+    left: 354px;
     letter-spacing: 0;
     top: -27px;
     line-height: 28px;
@@ -411,7 +472,7 @@
     left: 0;
     object-fit: cover;
     position: absolute;
-    top: -20px;
+    top: 0px;
     width: 511px;
   }
   
@@ -554,7 +615,7 @@
     font-size: 15px;
     font-weight: 400;
     left: 120px;
-    margin-top: -130px;
+    margin-top: -100px;
     letter-spacing: 0;
     line-height: 25px;
     position: absolute;
@@ -575,7 +636,7 @@
     left: 104px;
     object-fit: cover;
     position: relative;
-    top: -197px;
+    top: -215px;
     width: 674px;
   }
   
@@ -622,12 +683,13 @@
     position: relative;
     width: 800px;
     height: 300px;
-    left: -15px;
-    top: -80px;
+    left: -50px;
+    top: 40px;
   }
 
   .reservationArea {
-    height: 950px;
+    height: 550px;
+    border:1px solid gray;
     width: 800px;
     overflow-y: scroll;
     overflow-x: hidden;

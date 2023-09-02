@@ -3,12 +3,12 @@ import '../../_style/meeting/meetingView.css';
 import line from '../../_image/line-3.svg';
 import etc from '../../_image/etc.svg';
 import locate from '../../_image/locate.png';
-import time from '../../_image/time.png';
 import people from '../../_image/people.svg';
 import pen from '../../_image/pen.png';
 import trash from '../../_image/trash.svg';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import ShowReservation from './reservationContent';
 
 const MeetingView = () => {
   const urlStat = window.location.pathname.split("/");
@@ -16,14 +16,19 @@ const MeetingView = () => {
   const [meeting, setMeeting] = useState(undefined);
   const [participants, setParticipants] = useState([]);
   const [owner, setOwner] = useState({});
-  const [moreMember , setMoreMember] = useState(false);
+  const [moreMember, setMoreMember] = useState(false);
+  const [reservation, setReservation] = useState([]);
 
   const modifyMeeting = () => {
-    window.location.replace(`/modify/meeeting/${urlStat[2]}`);
+    window.location.replace(`/modify/meeting/${urlStat[2]}`);
+  }
+
+  const gotoReserv = () => {
+    window.location.replace(`/newMeeting/${urlStat[2]}`);
   }
 
   useEffect(async () => {
-    await axios({ // 컨텐츠 갯수
+    await axios({
       method: "GET",
       mode: "cors",
       url: `/meeting/${urlStat[2]}`
@@ -38,7 +43,7 @@ const MeetingView = () => {
 
     });
 
-    await axios({ // 컨텐츠 갯수
+    await axios({
       method: "GET",
       mode: "cors",
       url: `/meeting/participants/${urlStat[2]}`
@@ -48,9 +53,19 @@ const MeetingView = () => {
     }).catch((err) => {
 
     });
+
+    await axios({
+      method: "GET",
+      mode: "cors",
+      url: `/meeting/${urlStat[2]}/reservation`,
+    })
+      .then((response) => {
+        setReservation(response.data);
+      })
+      .catch((e) => console.log(e.response.data));
   }, []);
 
-  const ShowMember = ({member}) => {
+  const ShowMember = ({ member }) => {
     return (
       member.map(data => (
         <img
@@ -67,25 +82,25 @@ const MeetingView = () => {
     setMoreMember(moreMember ? false : true);
   }
 
-  const MoreMemberContent = ({member}) => {
+  const MoreMemberContent = ({ member }) => {
     return (
       member.map(data => (
         <div key={data.userKey}>
-        <img
-          className="mask-group-2-meetingView-viewMore"
-          alt="Mask group"
-          src={data.profileImage}
-          title={data.userId}
-        />
-        <span className="memberName">{data.userId}</span> 
-        <div className="memberLine"></div>
+          <img
+            className="mask-group-2-meetingView-viewMore"
+            alt="Mask group"
+            src={data.profileImage}
+            title={data.userId}
+          />
+          <span className="memberName">{data.userId}</span>
+          <div className="memberLine"></div>
         </div>
       ))
     )
   }
 
   const leaveParty = async () => {
-    if(window.confirm("모임을 나가시겠습니까?")) {
+    if (window.confirm("모임을 나가시겠습니까?")) {
       await axios({ // 컨텐츠 갯수
         method: "DELETE",
         mode: "cors",
@@ -94,13 +109,12 @@ const MeetingView = () => {
         window.location.replace("/meeting");
       }).catch((err) => {
 
-        console.log(err)
       });
     }
   }
 
   const deleteParty = async () => {
-    if(window.confirm("모임을 삭제하시겠습니까?")) {
+    if (window.confirm("모임을 삭제하시겠습니까?")) {
       await axios({ // 컨텐츠 갯수
         method: "DELETE",
         mode: "cors",
@@ -135,7 +149,7 @@ const MeetingView = () => {
           />
           {/* 파티원 */}
           <div className="partyGroup">
-            <ShowMember member={participants}/>
+            <ShowMember member={participants} />
           </div>
           <div className="vector-3-meetingView-more" onClick={showMoreMember}>
             <img
@@ -144,8 +158,8 @@ const MeetingView = () => {
               src={etc}
             />
           </div>
-          {moreMember ? <div className="moreMemberArea"><MoreMemberContent member={participants}/></div> : null}
-          
+          {moreMember ? <div className="moreMemberArea"><MoreMemberContent member={participants} /></div> : null}
+
           <div className="text-wrapper-15-meetingView">{meeting.title}</div>
           <p className="element-meetingView">
             {meeting.description}
@@ -160,7 +174,7 @@ const MeetingView = () => {
           />
           <div className="overlap-meetingView">
             <div className="text-wrapper-5-meetingView">참여</div>
-            <div className="rectangle-meetingView" />
+            <div className="rectangle-meetingView" onClick={gotoReserv} />
             <div className="text-wrapper-6-meetingView">일정 추가</div>
           </div>
           <div className="text-wrapper-8-meetingView">주 모임 장소</div>
@@ -184,7 +198,6 @@ const MeetingView = () => {
           />
         </div>
         <div className="text-wrapper-12-meetingView rectangle-2-meetingView">예약된 모임</div>
-        <div className="text-wrapper-13-meetingView">종료된 모임</div> {/* "rectangle-2-meetingView" 선택 CSS */}
         <div className="overlap-2-meetingView">
           <img
             className="line-3-meetingView"
@@ -194,193 +207,7 @@ const MeetingView = () => {
         </div>
         {/* 모임 예약 데이터 */}
         <div className='reservationArea'>
-          <div className="reservation">
-            <div className="text-wrapper-14-meetingView">참여 모임원 5명</div>
-            <div className="partyGroup-reservation">
-              <img
-                className="mask-group-2-meetingView"
-                alt="Mask group"
-                src="https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group-10@2x.png"
-              />
-              <img
-                className="mask-group-2-meetingView"
-                alt="Mask group"
-                src="https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group-10@2x.png"
-              />
-              <img
-                className="mask-group-2-meetingView"
-                alt="Mask group"
-                src="https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group-10@2x.png"
-              />
-            </div>
-            <img
-              className="vector-4-meetingView-reservation"
-              alt="Vector"
-              src={etc}
-            />
-            <div className="text-wrapper-2-meetingView">장소 및 일정</div>
-            <img
-              className="light-s-meetingView"
-              alt="Light s"
-              src={time}
-            />
-            <div className="text-wrapper-3-meetingView">6월 23일 오후 6시</div>
-            <img
-              className="light-s-2-meetingView"
-              alt="Light s"
-              src={locate}
-            />
-            <p className="p-meetingView">서울특별시 동대문구 경희대로1길 8-14 1층</p>
-            <img
-              className="vector-meetingView"
-              alt="Vector"
-              src={people}
-            />
-            <p className="text-wrapper-4-meetingView">최대 6명 / 현재 0명</p>
-            <p className="element-2-meetingView">
-              경희대 근처 사시는 20대 남녀 모두 환영합니다.
-              <br />
-              같이 즐겁게 술 마셔요!
-            </p>
-            <img
-              className="line-4-meetingView"
-              alt="Line"
-              src={line}
-            />
-            <img
-              className="line-5-meetingView"
-              alt="Line"
-              src={line}
-            />
-            <div className="div-wrapper-meetingView">
-              <div className="text-wrapper-7-meetingView">일정 참가</div>
-            </div>
-          </div>
-          <div className="reservation">
-            <div className="text-wrapper-14-meetingView">참여 모임원 5명</div>
-            <div className="partyGroup-reservation">
-              <img
-                className="mask-group-2-meetingView"
-                alt="Mask group"
-                src="https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group-10@2x.png"
-              />
-              <img
-                className="mask-group-2-meetingView"
-                alt="Mask group"
-                src="https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group-10@2x.png"
-              />
-              <img
-                className="mask-group-2-meetingView"
-                alt="Mask group"
-                src="https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group-10@2x.png"
-              />
-            </div>
-            <img
-              className="vector-4-meetingView-reservation"
-              alt="Vector"
-              src={etc}
-            />
-            <div className="text-wrapper-2-meetingView">장소 및 일정</div>
-            <img
-              className="light-s-meetingView"
-              alt="Light s"
-              src={time}
-            />
-            <div className="text-wrapper-3-meetingView">6월 23일 오후 6시</div>
-            <img
-              className="light-s-2-meetingView"
-              alt="Light s"
-              src={locate}
-            />
-            <p className="p-meetingView">서울특별시 동대문구 경희대로1길 8-14 1층</p>
-            <img
-              className="vector-meetingView"
-              alt="Vector"
-              src={people}
-            />
-            <p className="text-wrapper-4-meetingView">최대 6명 / 현재 0명</p>
-            <p className="element-2-meetingView">
-              경희대 근처 사시는 20대 남녀 모두 환영합니다.
-              <br />
-              같이 즐겁게 술 마셔요!
-            </p>
-            <img
-              className="line-4-meetingView"
-              alt="Line"
-              src={line}
-            />
-            <img
-              className="line-5-meetingView"
-              alt="Line"
-              src={line}
-            />
-            <div className="div-wrapper-meetingView">
-              <div className="text-wrapper-7-meetingView">일정 참가</div>
-            </div>
-          </div>
-          <div className="reservation">
-            <div className="text-wrapper-14-meetingView">참여 모임원 5명</div>
-            <div className="partyGroup-reservation">
-              <img
-                className="mask-group-2-meetingView"
-                alt="Mask group"
-                src="https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group-10@2x.png"
-              />
-              <img
-                className="mask-group-2-meetingView"
-                alt="Mask group"
-                src="https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group-10@2x.png"
-              />
-              <img
-                className="mask-group-2-meetingView"
-                alt="Mask group"
-                src="https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group-10@2x.png"
-              />
-            </div>
-            <img
-              className="vector-4-meetingView-reservation"
-              alt="Vector"
-              src={etc}
-            />
-            <div className="text-wrapper-2-meetingView">장소 및 일정</div>
-            <img
-              className="light-s-meetingView"
-              alt="Light s"
-              src={time}
-            />
-            <div className="text-wrapper-3-meetingView">6월 23일 오후 6시</div>
-            <img
-              className="light-s-2-meetingView"
-              alt="Light s"
-              src={locate}
-            />
-            <p className="p-meetingView">서울특별시 동대문구 경희대로1길 8-14 1층</p>
-            <img
-              className="vector-meetingView"
-              alt="Vector"
-              src={people}
-            />
-            <p className="text-wrapper-4-meetingView">최대 6명 / 현재 0명</p>
-            <p className="element-2-meetingView">
-              경희대 근처 사시는 20대 남녀 모두 환영합니다.
-              <br />
-              같이 즐겁게 술 마셔요!
-            </p>
-            <img
-              className="line-4-meetingView"
-              alt="Line"
-              src={line}
-            />
-            <img
-              className="line-5-meetingView"
-              alt="Line"
-              src={line}
-            />
-            <div className="div-wrapper-meetingView">
-              <div className="text-wrapper-7-meetingView">일정 참가</div>
-            </div>
-          </div>
-
+          <ShowReservation reservation={reservation} />
         </div>
         {/* 모임 컨트롤러 */}
         <div className="overlap-3-meetingView" onClick={leaveParty}>

@@ -1,10 +1,14 @@
 package com.team.mystory.meeting.reservation.entity;
 
 import com.team.mystory.account.user.domain.User;
+import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.reservation.dto.ReservationRequest;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,29 +24,37 @@ public class Reservation {
     private long reservationId;
 
     @Builder.Default
-    @OneToMany
-    @JoinColumn(name = "participates")
-    private List<User> participates = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.PERSIST , mappedBy = "reservation")
+    private List<ReservationParticipants> participates = new ArrayList<>();
 
-    private Date meetingDate;
+    @ManyToOne
+    @Setter
+    private Meeting meetings;
 
-    private String meetingAddress;
+    private LocalDateTime date;
 
-    private String meetingLocateX;
+    private String address;
 
-    private String meetingLocateY;
+    private String description;
+
+    private String detailAddress;
+
+    private String locateX;
+
+    private String locateY;
+
+    private int maxParticipants;
 
     public static Reservation createReservation(ReservationRequest request) {
         return Reservation.builder()
-                .meetingDate(request.getMeetingDate())
-                .meetingAddress(request.getMeetingAddress())
-                .meetingLocateX(request.getMeetingLocateX())
-                .meetingLocateY(request.getMeetingLocateY())
+                .date(request.getDate())
+                .address(request.getAddress())
+                .detailAddress(request.getDetailAddress())
+                .description(request.getDescription())
+                .locateX(request.getLocateX())
+                .locateY(request.getLocateY())
+                .maxParticipants(request.getMaxParticipants())
                 .build();
-    }
-
-    public void leaveReservation(User user) {
-        participates.remove(user);
     }
 
 }
