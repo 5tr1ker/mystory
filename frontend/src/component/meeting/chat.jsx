@@ -28,6 +28,9 @@ const Chat = ({ dropDownSet }) => {
   }
   const onPushEnter = (e) => {
     if (e.key == 'Enter') {
+      if(inputData == "") {
+        alert("메세지를 입력해 주세요.");
+      }
       if (socketConnected) {
         ws.current.send(
           JSON.stringify({
@@ -38,7 +41,7 @@ const Chat = ({ dropDownSet }) => {
             messageType: "SEND"
           })
         );
-
+        setInputData("");
       }
     }
   }
@@ -125,7 +128,6 @@ const Chat = ({ dropDownSet }) => {
   }
 
   const ChatRoomContent = ({ room }) => {
-
     return (
       room.map(data => (
         <div className="chatContent" key={data.chatId} onClick={() => getChatData(data.chatId, data.meetingId)}>
@@ -138,10 +140,9 @@ const Chat = ({ dropDownSet }) => {
   }
 
   const ChatDataContent = ({ data }) => {
-
     return (
       data.map(detail => (
-        <div className="overlap-group-chatData" key={detail.chatId}>
+        <div className="overlap-group-chatData" key={detail.chatId == 0 ? Math.floor(Math.random() * 10_000_000_001) : detail.chatId}>
           <img
             className="mask-group-chatData"
             alt="Mask group"
@@ -173,7 +174,7 @@ const Chat = ({ dropDownSet }) => {
                 </div>
 
                 <div className="rectangle-3-chatData">
-                  <input className="chattingInput" onChange={onChangeInputData} onKeyDown={onPushEnter} value={inputData.current} />
+                  <input className="chattingInput" onChange={onChangeInputData} onKeyDown={onPushEnter} value={inputData} />
                 </div>
               </div>
             </Fragment>

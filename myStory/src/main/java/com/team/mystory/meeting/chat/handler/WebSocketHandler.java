@@ -30,7 +30,6 @@ import static com.team.mystory.meeting.chat.dto.ChatResponse.createChatResponse;
 public class WebSocketHandler extends TextWebSocketHandler {
 
     private Map<Long , List<WebSocketSession>> sessionList = new HashMap<>();
-
     private final MeetingRepository meetingRepository;
     private final ChatRepository chatRepository;
 
@@ -81,7 +80,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         for(Long meetingId : sessionList.keySet()) {
             List<WebSocketSession> webSocketSessions = sessionList.get(meetingId);
 
