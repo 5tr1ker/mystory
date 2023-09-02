@@ -40,11 +40,11 @@ public class ReservationRepositoryImpl implements CustomReservationRepository {
                         reservation.locateX,
                         reservation.locateY,
                         reservation.maxParticipants,
-                        select(count(reservationParticipants.user)).from(reservationParticipants)
-                                .innerJoin(reservationParticipants.reservation)
-                                .innerJoin(reservation.meetings, meeting).on(meeting.meetingId.eq(meetingId))
+                        reservationParticipants.count()
                 )).from(reservation)
                 .innerJoin(reservation.meetings, meeting).on(meeting.meetingId.eq(meetingId))
+                .leftJoin(reservation.participates , reservationParticipants)
+                .groupBy(reservation.reservationId)
                 .orderBy(reservation.date.desc())
                 .fetch();
     }
@@ -87,7 +87,7 @@ public class ReservationRepositoryImpl implements CustomReservationRepository {
     @Override
     public Optional<Reservation> findReservationAndParticipantsById(long reservationId) {
         Reservation result = jpaQueryFactory.select(reservation).from(reservation)
-                .innerJoin(reservation.participates).fetchJoin()
+                .leftJoin(reservation.participates).fetchJoin()
                 .where(reservation.reservationId.eq(reservationId))
                 .fetchOne();
 
