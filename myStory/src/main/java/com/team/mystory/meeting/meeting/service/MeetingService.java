@@ -2,6 +2,7 @@ package com.team.mystory.meeting.meeting.service;
 
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
+import com.team.mystory.meeting.chat.service.ChatService;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
@@ -29,14 +30,11 @@ import static com.team.mystory.meeting.meeting.domain.MeetingParticipant.createM
 public class MeetingService {
 
     private final MeetingRepository meetingRepository;
-
     private final S3Service s3Service;
-
     private final JwtTokenProvider jwtTokenProvider;
-
     private final LoginRepository loginRepository;
-
     private final MeetingParticipantRepository meetingParticipantRepository;
+    private final ChatService chatService;
 
     @Transactional
     public void createMeeting(MeetingRequest meeting, MultipartFile image , String accessToken) throws IOException, AccountException {
@@ -50,6 +48,7 @@ public class MeetingService {
         meetingEntity.updateMeetingImage(url);
 
         Meeting result = meetingRepository.save(meetingEntity);
+        chatService.createChatRoom(result);
         joinMeeting(result.getMeetingId(), accessToken);
     }
 

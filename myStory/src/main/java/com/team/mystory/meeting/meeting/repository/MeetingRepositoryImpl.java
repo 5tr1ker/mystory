@@ -62,6 +62,16 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
     }
 
     @Override
+    public Optional<Meeting> findMeetingAndChatById(long meetingId) {
+        Meeting result = jpaQueryFactory.select(meeting).from(meeting)
+                .leftJoin(meeting.chats).fetchJoin()
+                .where(meeting.meetingId.eq(meetingId))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
+    }
+
+    @Override
     public Optional<MeetingResponse> findMeetingByMeetingId(long meetingId) {
         QMeeting meeting1 = new QMeeting("meeting1");
 

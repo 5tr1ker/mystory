@@ -28,11 +28,15 @@ public class Chat {
 
     private String sender;
 
-    public static Chat createChat(ChatResponse chatResponse) {
+    private String senderImage;
+
+    public static Chat createChat(ChatResponse chatResponse , Meeting meeting) {
         return Chat.builder()
                 .message(chatResponse.getMessage())
                 .sendTime(chatResponse.getSendTime())
+                .meetingId(meeting)
                 .sender(chatResponse.getSender())
+                .senderImage(chatResponse.getSenderImage())
                 .build();
     }
 }

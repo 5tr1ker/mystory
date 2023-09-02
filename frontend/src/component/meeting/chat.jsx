@@ -1,87 +1,189 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/jsx-no-undef */
 import '../../_style/meeting/chat.css'
 import '../../_style/meeting/chatData.css'
 import line from '../../_image/line-3.svg'
 import exit from '../../_image/exit.png'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
+import axios from "axios";
 
 const Chat = ({ dropDownSet }) => {
+  const [chatRoom, setChatRoom] = useState([]); // 방 번호
+  const [meetingId, setMeetingId] = useState(0); // 채팅방이 속한 채팅 방 번호
+  const [toogle, setToogle] = useState(true);
+  const [chatData, setChatData] = useState([]); // 전송된 데이터 목록
+  const [userInfo, setUserInfo] = useState({ userKey: 0, userId: "", profileImage: "" });
+
+  // Chatting 관련 끝
+  const webSocketUrl = `ws://localhost:8080/chat`;
+  let ws = useRef(null);
+
+  const [socketConnected, setSocketConnected] = useState(false);
+
+  // Chatting 관련 종료
+
+  const [inputData, setInputData] = useState(""); // 입력 데이터
+  const onChangeInputData = (e) => {
+    setInputData(e.target.value);
+  }
+  const onPushEnter = (e) => {
+    if (e.key == 'Enter') {
+      if (socketConnected) {
+        ws.current.send(
+          JSON.stringify({
+            sender: userInfo.userId,
+            message: inputData,
+            meetingId: meetingId,
+            senderImage: userInfo.profileImage,
+            messageType: "SEND"
+          })
+        );
+
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (toogle == false) {
+      // Socket
+      if (!ws.current) {
+        ws.current = new WebSocket(webSocketUrl);
+        ws.current.onopen = () => {
+          console.log("connected to " + webSocketUrl);
+          setSocketConnected(true);
+        };
+        ws.current.onclose = (error) => {
+          console.log("disconnect from " + webSocketUrl);
+          console.log(error);
+        };
+        ws.current.onerror = (error) => {
+          console.log("connection error " + webSocketUrl);
+          console.log(error);
+        };
+        ws.current.onmessage = (evt) => {
+          const data = JSON.parse(evt.data);
+          setChatData((prevItems) => [...prevItems, data]);
+        };
+      }
+
+      return () => {
+        console.log("clean up");
+        ws.current.close();
+      };
+    }
+  }, [toogle])
+
+  useEffect(() => {
+    if (socketConnected) {
+      ws.current.send(
+        JSON.stringify({
+          sender: userInfo.userId,
+          message: "",
+          meetingId: meetingId,
+          senderImage: "",
+          messageType: "ENTER"
+        })
+      );
+    }
+  }, [socketConnected]);
+
+
+  useEffect(async () => {
+    await axios({
+      method: "GET",
+      mode: "cors",
+      url: `/chat/participants`
+    }).then((response) => {
+      setChatRoom(response.data);
+    }).catch((err) => {
+      console.log(err.response.data)
+    });
+
+    await axios({ // 유저의 개인 정보
+      method: "GET",
+      mode: "cors",
+      url: `/users`
+    }).then((response) => {
+      setUserInfo({ userKey: response.data.data.userKey, userId: response.data.data.id, profileImage: response.data.data.profileImage });
+    }).catch((err) => {
+      console.log(err.response.data)
+    });
+  }, []);
+
+  const getChatData = async (roomId, meetingId) => {
+    setMeetingId(meetingId);
+    setToogle(false);
+    await axios({ // 데이터 가져오기
+      method: "GET",
+      mode: "cors",
+      url: `/chat/${meetingId}`
+    }).then((response) => {
+      setChatData(response.data);
+    }).catch((err) => {
+      console.log(err.response.data)
+    });
+  }
+
+  const ChatRoomContent = ({ room }) => {
 
     return (
-        <div className="element-chat">
+      room.map(data => (
+        <div className="chatContent" key={data.chatId} onClick={() => getChatData(data.chatId, data.meetingId)}>
+          <img className="ellipse-chat" alt="image" src={data.meetingImage} />
+          <div className="text-wrapper-chat">{data.meetingTitle}</div>
+          <div className="text-wrapper-chat-last">마지막 대화 : {data.lastChat}</div>
+        </div>
+      ))
+    )
+  }
+
+  const ChatDataContent = ({ data }) => {
+
+    return (
+      data.map(detail => (
+        <div className="overlap-group-chatData" key={detail.chatId}>
+          <img
+            className="mask-group-chatData"
+            alt="Mask group"
+            src={detail.senderImage}
+          />
+          <div className="text-wrapper-7-chatData">{detail.sender}</div>
+          <span className="rectangle-chatData">
+            {detail.message}
+          </span>
+          <div className="text-wrapper-4-chatData">{detail.sendTime}</div>
+        </div>
+      ))
+    )
+  }
+
+  return (
+    <div className="element-chat">
       <div className="div-chat">
         <div className="text-wrapper-4-chat">모임 채팅</div>
         <div className="chatContentArea">
-            { true ?
+          {toogle ?
             <Fragment>
-            <div className="chatContent">
-                <div className="ellipse-chat" />
-                <div className="text-wrapper-chat">회기 꽃술 6인팟!!</div>
-                <div className="text-wrapper-chat-last">마지막 대화 : 16시 20분</div>
-            </div>
-            <div className="chatContent">
-                <div className="ellipse-chat" />
-                <div className="text-wrapper-chat">회기 꽃술 6인팟!!</div>
-                <div className="text-wrapper-chat-last">마지막 대화 : 16시 20분</div>
-            </div>
-            <div className="chatContent">
-                <div className="ellipse-chat" />
-                <div className="text-wrapper-chat">회기 꽃술 6인팟!!</div>
-                <div className="text-wrapper-chat-last">마지막 대화 : 16시 20분</div>
-            </div>
-            <div className="chatContent">
-                <div className="ellipse-chat" />
-                <div className="text-wrapper-chat">회기 꽃술 6인팟!!</div>
-                <div className="text-wrapper-chat-last">마지막 대화 : 16시 20분</div>
-                </div>
+              <ChatRoomContent room={chatRoom} />
             </Fragment> :
             <Fragment>
-                <div className="element-chatData">
-      <div className="div-chatData">
-        <div className="new-chatData">
-          <p className="p-chatData">
-            <span className="span-chatData">콧물흘리는 맹구</span>
-            <span className="text-wrapper-2-chatData"> 님이 모임채팅을 시작하였습니다.</span>
-          </p>
-        </div>
-        <div className="overlap-group-chatData">
-          <img
-          className="mask-group-chatData"
-          alt="Mask group"
-          src="https://generation-sessions.s3.amazonaws.com/3d73c7ae9ccc9618cff009f94c868a41/img/mask-group@2x.png"
-            />
-          <div className="text-wrapper-7-chatData">와구와구 토끼</div>
-          <span className="rectangle-chatData">
-            안녕하세요안녕하세요안녕하세요안녕하세요
-          </span>
-          <div className="text-wrapper-4-chatData">오후 02:25</div>
-        </div>
-        <div className="overlap-group-chatData">
-          <img
-          className="mask-group-chatData"
-          alt="Mask group"
-          src="https://generation-sessions.s3.amazonaws.com/3d73c7ae9ccc9618cff009f94c868a41/img/mask-group@2x.png"
-            />
-          <div className="text-wrapper-7-chatData">와구와구 토끼</div>
-          <span className="rectangle-chatData">
-            야이 싀 ㅋㅋㅋ
-          </span>
-          <div className="text-wrapper-4-chatData">오후 02:25</div>
-        </div>
-        </div>
-        
-                    <div className="rectangle-3-chatData">
-                        <input className="chattingInput"/>
-                    </div>
+              <div className="element-chatData">
+                <div className="div-chatData">
+                  <ChatDataContent data={chatData}/>
                 </div>
+
+                <div className="rectangle-3-chatData">
+                  <input className="chattingInput" onChange={onChangeInputData} onKeyDown={onPushEnter} value={inputData.current} />
+                </div>
+              </div>
             </Fragment>
-            }
+          }
         </div>
         <img className="light-s-chat" alt="Light s" src={exit} onClick={dropDownSet} />
         <img className="line-chat" alt="Line" src={line} />
       </div>
     </div>
-    )
+  )
 
 }
 

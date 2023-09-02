@@ -32,6 +32,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private Map<Long , List<WebSocketSession>> sessionList = new HashMap<>();
 
     private final MeetingRepository meetingRepository;
+    private final ChatRepository chatRepository;
 
     @Override
     @Transactional
@@ -71,11 +72,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
     }
 
     private void saveChatData(long meetingId , ChatResponse chatResponse) {
-        Chat chat = Chat.createChat(chatResponse);
-        Meeting meeting = meetingRepository.findById(meetingId)
+        Meeting meeting = meetingRepository.findMeetingAndChatById(meetingId)
                 .orElseThrow(() -> new MeetingException("모임 정보를 찾을 수 없습니다."));
 
+        Chat chat = Chat.createChat(chatResponse , meeting);
         meeting.getChats().add(chat);
+        chatRepository.save(chat);
     }
 
     @Override

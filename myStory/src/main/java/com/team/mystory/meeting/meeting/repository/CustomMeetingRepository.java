@@ -16,6 +16,8 @@ public interface CustomMeetingRepository {
 
     Optional<Meeting> findMeetingByMeetingIdAndMeetingOwner(long meetingId , String userId);
 
+    Optional<Meeting> findMeetingAndChatById(long meetingId);
+
     Optional<MeetingResponse> findMeetingByMeetingId(long meetingId);
 
     Optional<MeetingParticipant> findMeetingParticipantByMeetingIdAndUserId(long meetingId , String userId);

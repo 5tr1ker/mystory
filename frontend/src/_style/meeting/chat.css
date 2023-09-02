@@ -11,6 +11,8 @@
 
   .chatContent {
     height: 64px;
+    position: relative;
+    top: 30px;
   }
 
   .chatContent:hover {
@@ -38,10 +40,10 @@
     background-color: #d9d9d9;
     border-radius: 19.5px;
     height: 39px;
-    margin-top: 20px;
+    margin-top: 0px;
     position: relative;
-    top: 14px;
-    margin-left: 40px;
+    top: 12px;
+    margin-left: 20px;
     width: 39px;
   }
   
@@ -52,7 +54,7 @@
     font-weight: 400;
     letter-spacing: 0;
     line-height: 28px;
-    margin-top: -30px;
+    margin-top: -35px;
     text-align: center;
     white-space: nowrap;
   }

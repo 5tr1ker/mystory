@@ -2,6 +2,7 @@ package com.team.mystory.meeting.meeting.domain;
 
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.meeting.chat.entity.Chat;
+import com.team.mystory.meeting.chat.entity.ChatRoom;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.reservation.entity.Reservation;
 import com.team.mystory.meeting.reservation.service.ReservationService;
@@ -25,8 +26,12 @@ public class Meeting {
     @ManyToOne(fetch = FetchType.LAZY)
     private User meetingOwner;
 
-    @OneToMany(cascade = { CascadeType.PERSIST , CascadeType.REMOVE } , mappedBy = "meetings")
+    @OneToMany(cascade = { CascadeType.PERSIST , CascadeType.REMOVE } , mappedBy = "meetings" , orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
+
+    @Setter
+    @OneToOne(cascade = { CascadeType.PERSIST , CascadeType.REMOVE } , orphanRemoval = true)
+    private ChatRoom chatRoom;
 
     @Column(nullable = false)
     private double locateX;

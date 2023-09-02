@@ -11,6 +11,8 @@ public class ChatRequest {
 
     private String sender;
 
+    private String senderImage;
+
     private String message;
 
     private long meetingId;

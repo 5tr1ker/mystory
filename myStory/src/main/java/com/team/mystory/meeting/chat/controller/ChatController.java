@@ -1,14 +1,11 @@
 package com.team.mystory.meeting.chat.controller;
 
 import com.team.mystory.meeting.chat.dto.ChatResponse;
-import com.team.mystory.meeting.chat.repository.ChatRepository;
+import com.team.mystory.meeting.chat.dto.ChatRoomResponse;
+import com.team.mystory.meeting.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,11 +14,18 @@ import java.util.List;
 @RequestMapping("/chat")
 public class ChatController {
 
-    private final ChatRepository chatRepository;
+    private final ChatService chatService;
 
     @GetMapping("/{meetingId}")
-    public ResponseEntity getPreviousChats(Pageable pageable , @PathVariable long meetingId) {
-        List<ChatResponse> result = chatRepository.findChatsByMeetingId(pageable , meetingId);
+    public ResponseEntity findChatDataById(@PathVariable long meetingId) {
+        List<ChatResponse> result = chatService.findChatDataByMeetingId(meetingId);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @GetMapping("/participants")
+    public ResponseEntity findChattingRoomByUserId(@CookieValue String accessToken) {
+        List<ChatRoomResponse> result = chatService.findChattingRoomByUserId(accessToken);
 
         return ResponseEntity.ok().body(result);
     }
