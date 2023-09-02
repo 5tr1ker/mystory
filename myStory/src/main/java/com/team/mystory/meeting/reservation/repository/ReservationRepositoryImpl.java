@@ -50,9 +50,9 @@ public class ReservationRepositoryImpl implements CustomReservationRepository {
     }
 
     @Override
-    public Optional<Reservation> findReservationByIdAndUserId(long reservationId, String userKey) {
+    public Optional<Reservation> findReservationByIdAndUserId(long reservationId, String userPk) {
         Reservation result = jpaQueryFactory.select(reservation).from(reservationParticipants)
-                .innerJoin(reservationParticipants.user , user).on(user.id.eq(userKey))
+                .innerJoin(reservationParticipants.user , user).on(user.id.eq(userPk))
                 .innerJoin(reservationParticipants.reservation , reservation).on(reservation.reservationId.eq(reservationId))
                 .fetchOne();
 

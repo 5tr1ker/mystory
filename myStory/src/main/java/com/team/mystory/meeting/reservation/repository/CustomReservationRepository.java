@@ -12,7 +12,7 @@ public interface CustomReservationRepository {
 
     List<ReservationResponse> findAllReservationByMeetingId(long meetingId);
 
-    Optional<Reservation> findReservationByIdAndUserId(long reservationId , String userKey);
+    Optional<Reservation> findReservationByIdAndUserId(long reservationId , String userPk);
 
     Optional<Reservation> findReservationBeforeExpiry(long reservationId , String userPk);
 
