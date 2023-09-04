@@ -114,13 +114,15 @@ public class LoginService {
 	}
 
 	@Transactional
-	public void modifyProfileImage(String accessToken, MultipartFile multipartFile) throws AccountException, IOException {
+	public String modifyProfileImage(String accessToken, MultipartFile multipartFile) throws AccountException, IOException {
 		User result = findByUserByAccessToken(accessToken);
 
 		s3Service.deleteFile(result.getProfileImage());
 		String url = s3Service.uploadImageToS3(multipartFile);
 
 		result.updateProfileImage(url);
+
+		return url;
 	}
 
 	public User findByUserByAccessToken(String accessToken) throws AccountException {

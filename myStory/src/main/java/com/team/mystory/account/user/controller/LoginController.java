@@ -30,9 +30,9 @@ public class LoginController {
 
 	@PatchMapping(value = "/profile-image")
 	public ResponseEntity modifyProfileImage(@RequestPart(name = "image") MultipartFile multipartFile , @CookieValue String accessToken) throws AccountException, IOException {
-		loginService.modifyProfileImage(accessToken , multipartFile);
+		String result = loginService.modifyProfileImage(accessToken , multipartFile);
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body(result);
 	}
 
 	@PostMapping(value = "/logins")

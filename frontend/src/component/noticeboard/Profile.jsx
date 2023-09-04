@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import React from "react";
 import { useRef } from "react";
 
-const Profile = ({idStatus , rerenders}) => {
+const Profile = ({idStatus , rerenders , profileImageUrl}) => {
     const [profileEdits , setEdits] = useState(false);
     const [profileData , getProfileData] = useState([]) // 내 profile 데이터
     const [postStatistics , setPostStatistics] = useState([]); // 통계
@@ -18,7 +18,6 @@ const Profile = ({idStatus , rerenders}) => {
     });
 
     const imageInput = useRef();
-    const [profileImage, setProfileImage] = useState(); // 이미지
     const [imageName , setImageName] = useState("프로필 이미지를 꼭 선택해주세요. ( 필수 ) "); // 이미지 이름
 
     const checkValidImage = (e) => {
@@ -37,9 +36,19 @@ const Profile = ({idStatus , rerenders}) => {
        return false;
  }
 
-    const uploadImage = (e) => {
+    const uploadImage = async (e) => {
         if(checkValidImage(e)) {
-            setProfileImage(e.target.files);
+            let requestForm = new FormData();
+
+            requestForm.append('image', e.target.files[0]);
+            await axios({
+                method : "PATCH" ,
+                mode: "cors" , 
+                url : `/profile-image` , 
+                headers : {'Content-Type': 'multipart/form-data'} ,
+                data : requestForm})
+                .then((response) => { alert("프로필 사진이 성공적으로 바뀌었습니다."); window.location.reload(); }) 
+                .catch((e) => alert(e.response.data.message));
         }
       }
 
@@ -48,7 +57,7 @@ const Profile = ({idStatus , rerenders}) => {
         if(idStatus == undefined) return -1; 
         const result = await axios({
             method: "GET" ,
-            url : `/profiles/statistics` ,
+            url : `/profiles/statistics`,
             mode : "cors"
         });
 
@@ -156,6 +165,7 @@ const Profile = ({idStatus , rerenders}) => {
 
     useEffect(async () => {
         getData();
+        setImageName(profileImageUrl);
     },[idStatus]);
 
     return (
@@ -200,10 +210,7 @@ const Profile = ({idStatus , rerenders}) => {
                     <div className="profileEdits-area">
                         <div className="profile-pic">
                             <div className="userprofilepic" onClick={() => imageInput.current.click()}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-person-circle peopleicon" viewBox="0 0 16 16">
-                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                                    <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                                </svg>
+                                <img className="userprofilepic" src={profileImageUrl} alt="profileImage" />
                             </div>
                             <input type="file" onChange={(e) => uploadImage(e)} name="file" ref={imageInput} style={{ display: "none" }}/>
                             <button className="saveandreturn" onClick={doneChange}>

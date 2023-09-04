@@ -170,7 +170,7 @@ const NoticeFrame = () => {
                     <Route path='/newpost' element={<NewPost idStatus={sessionUserId} />}></Route>
                     <Route path='/modified/:id' element={<NewPost idStatus={sessionUserId} />}></Route>
                     <Route path='/viewpost' element={<PostView idStatus={sessionUserId} />}></Route>
-                    <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} />}></Route>
+                    <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} profileImageUrl={profileImage} />}></Route>
                     <Route path="/meeting" element={<MeetingList idStatus={sessionUserId}/>}></Route>
                     <Route path="/newmeeting" element={<NewMeeting/>}></Route>
                     <Route path="/modify/meeting/:id" element={<ModifyMeeting />}></Route>
