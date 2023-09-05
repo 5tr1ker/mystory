@@ -7,7 +7,12 @@ import axios from 'axios';
 import { Fragment, useEffect, useState } from 'react';
 
 const ShowReservation = ({ reservation }) => {
-    const joinReserv = async (reservationId) => {
+    const joinReserv = async (reservationId , maxPart , nowPart) => {
+        if(nowPart >= maxPart) {
+            alert("인원이 꽉 찬 모임입니다.");
+            return;
+        }
+
         await axios({
             method: "POST",
             mode: "cors",
@@ -121,7 +126,7 @@ const ShowReservation = ({ reservation }) => {
                     alt="Line"
                     src={line}
                 />
-                <div className="div-wrapper-meetingView" onClick={() => joinReserv(data.reservationId)}>
+                <div className="div-wrapper-meetingView" onClick={() => joinReserv(data.reservationId , data.maxParticipants , data.userCount)}>
                     <div className="text-wrapper-7-meetingView">일정 참가</div>
                 </div>
                 <div className="div-wrapper-meetingView-remove" onClick={() => leaveReserv(data.reservationId)}>
