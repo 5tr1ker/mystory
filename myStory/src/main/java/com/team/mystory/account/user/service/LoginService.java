@@ -117,7 +117,10 @@ public class LoginService {
 	public String modifyProfileImage(String accessToken, MultipartFile multipartFile) throws AccountException, IOException {
 		User result = findByUserByAccessToken(accessToken);
 
-		s3Service.deleteFile(result.getProfileImage());
+		if(result.getProfileImage() != null && !result.getProfileImage().isEmpty()) {
+			s3Service.deleteFile(result.getProfileImage());
+		}
+
 		String url = s3Service.uploadImageToS3(multipartFile);
 
 		result.updateProfileImage(url);
