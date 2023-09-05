@@ -50,7 +50,6 @@ const PostView = ({ idStatus }) => {
                     window.URL.revokeObjectURL(url);
                 }, 60000);
                 a.remove();
-                // setOpen(false);
             })
             .catch((err) => {
                 console.error('err: ', err);

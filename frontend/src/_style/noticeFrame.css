@@ -779,9 +779,9 @@
 }
 
 .LoginDropBox{
-    position: absolute;
-    margin-top : 10px;
-    margin-left: -20px;
+    position: relative;
+    top: 100px;
+    right: 10px;
     width: 170px;
     height: 245px;
     font-size: 15px;
@@ -1129,11 +1129,14 @@
 
 .noticedescription span:nth-child(2) {
     text-align: left;
-    width: 50%;
+    width: 45%;
 }
 
 .noticedescription span:nth-child(3) {
-    width: 10%;
+    width: 15%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
 }
 
 .noticedescription span:nth-child(4) {

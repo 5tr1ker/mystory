@@ -28,6 +28,7 @@ public class ChatRoom {
     @OneToMany(cascade = { CascadeType.PERSIST , CascadeType.REMOVE } , orphanRemoval = true)
     private List<Chat> chatData;
 
+    @UpdateTimestamp
     private LocalDate lastChat;
 
     public static ChatRoom createChatRoom(Meeting meeting) {
