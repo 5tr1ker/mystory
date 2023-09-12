@@ -9,6 +9,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: password
+  sql:
+    init:
+      mode: always
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
