@@ -15,7 +15,7 @@ public class SecurityController {
 
     @GetMapping(value = "/authorization/denied")
     public ResponseEntity<ResponseMessage> informAuthorizationDenied() {
-        ResponseMessage message = ResponseMessage.of(AUTHORIZATION_ERROR);
+        ResponseMessage message = ResponseMessage.of(AUTHORIZATION_ERROR , "로그인이 필요한 서비스입니다.");
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
     }

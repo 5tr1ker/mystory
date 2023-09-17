@@ -96,11 +96,13 @@ public class LoginService {
 		return ResponseMessage.of(REQUEST_SUCCESS , userResponse);
 	}
 
-	public ResponseMessage removeUser(String accessToken) throws AccountException {
+	public ResponseMessage removeUser(String accessToken , HttpServletResponse response) throws AccountException {
 		User result = findByUserByAccessToken(accessToken);
 
 		deleteAllS3FilesUploadedByUserId(result.getId());
 		loginRepository.delete(result);
+
+		deleteJwtTokenInCookie(response);
 
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}

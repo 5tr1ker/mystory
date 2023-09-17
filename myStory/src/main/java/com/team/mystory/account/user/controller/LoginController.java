@@ -5,13 +5,11 @@ import com.team.mystory.account.user.service.LoginService;
 import com.team.mystory.common.ResponseMessage;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.security.auth.login.AccountException;
-
 import java.io.IOException;
 
 import static com.team.mystory.common.ResponseCode.LOGOUT_SUCCESS;
@@ -41,8 +39,9 @@ public class LoginController {
 	}
 
 	@DeleteMapping(value = "/users")
-	public ResponseEntity deleteUser(@CookieValue String accessToken) throws AccountException {
-		loginService.removeUser(accessToken);
+	public ResponseEntity deleteUser(@CookieValue String accessToken , HttpServletResponse response) throws AccountException {
+		loginService.removeUser(accessToken , response);
+
 		return ResponseEntity.noContent().build();
 	}
 	

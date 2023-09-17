@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.AuthenticationException;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
@@ -40,15 +39,14 @@ public class JwtService {
         refreshTokenRepository.save(refreshToken);
     }
 
-    public RefreshToken getRefreshToken(HttpServletRequest request) throws AuthenticationException {
+    public RefreshToken getRefreshToken(HttpServletRequest request) {
         String refreshToken = getRefreshTokenFromHeader(request);
 
         return refreshTokenRepository.findByToken(refreshToken)
                 .orElseThrow(() -> new TokenForgeryException("알 수 없는 RefreshToken 입니다."));
     }
 
-    public ResponseMessage validateRefreshToken(HttpServletRequest request , HttpServletResponse response)
-            throws AuthenticationException {
+    public ResponseMessage validateRefreshToken(HttpServletRequest request , HttpServletResponse response) {
         try {
             RefreshToken token = getRefreshToken(request);
             String accessToken = jwtTokenProvider.validateRefreshToken(token);
@@ -63,19 +61,16 @@ public class JwtService {
         }
     }
 
-    public String getRefreshTokenFromHeader(HttpServletRequest request) throws AuthenticationException {
+    public String getRefreshTokenFromHeader(HttpServletRequest request) {
         Cookie cookies[] = request.getCookies();
-        String refreshToken = null;
 
         if (cookies != null && cookies.length != 0) {
-            refreshToken = Arrays.stream(cookies)
+            return Arrays.stream(cookies)
                     .filter(c -> c.getName().equals("refreshToken")).findFirst().map(Cookie::getValue)
-                    .orElseThrow(() -> new AuthenticationException("인증되지 않은 사용자입니다."));
-
-            return refreshToken;
+                    .orElseThrow(() -> new SecurityException("인증되지 않은 사용자입니다."));
         }
 
-        throw new AuthenticationException("인증되지 않은 사용자입니다.");
+        throw new SecurityException("인증되지 않은 사용자입니다.");
     }
 
 }

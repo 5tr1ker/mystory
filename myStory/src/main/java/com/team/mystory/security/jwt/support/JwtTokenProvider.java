@@ -1,12 +1,10 @@
 package com.team.mystory.security.jwt.support;
 
 import com.team.mystory.account.user.constant.UserRole;
+import com.team.mystory.security.exception.TokenForgeryException;
 import com.team.mystory.security.jwt.domain.RefreshToken;
 import com.team.mystory.security.jwt.dto.Token;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -78,8 +76,10 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
+        } catch (ExpiredJwtException e) {
             return false;
+        } catch (SignatureException e) {
+            throw new TokenForgeryException("알 수 없는 토큰이거나 , 변조되었습니다.");
         }
     }
 
