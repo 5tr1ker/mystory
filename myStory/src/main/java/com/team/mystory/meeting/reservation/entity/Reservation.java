@@ -1,16 +1,12 @@
 package com.team.mystory.meeting.reservation.entity;
 
-import com.team.mystory.account.user.domain.User;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.reservation.dto.ReservationRequest;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity

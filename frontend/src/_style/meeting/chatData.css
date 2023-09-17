@@ -76,17 +76,22 @@
   }
   
   .element-chatData .overlap-group-chatData {
-    min-height: 56px;
+    min-height: 26px;
     width: 207px;
+    margin-bottom: 25px;
+    margin-top: -50px;
   }
   
   .element-chatData .rectangle-chatData {
     background-color: #aff73c80;
     border-radius: 7px;
     min-height: 29px;
-    min-width: 97px;
+    min-width: 5px;
+    max-width: 300px;
+    word-break:break-all;
     display:inline-block;
     position: relative;
+    padding: 5px;
     left: 80px;
     top: -20px;
   }
@@ -179,7 +184,7 @@
     letter-spacing: 0;
     line-height: 28px;
     position: relative;
-    left: 25px;
+    left: 0px;
     top: -25px;
     text-align: center;
     white-space: nowrap;
@@ -205,7 +210,7 @@
     width: 39px;
     position: relative;
     left: 25px;
-    top: 20px;
+    top: 30px;
   }
   
   .element-chatData .img-chatData {

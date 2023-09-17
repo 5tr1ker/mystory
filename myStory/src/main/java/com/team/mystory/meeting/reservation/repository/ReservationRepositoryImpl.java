@@ -2,26 +2,19 @@ package com.team.mystory.meeting.reservation.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.team.mystory.account.user.dto.UserResponse;
-import com.team.mystory.meeting.meeting.domain.QMeeting;
 import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
-import com.team.mystory.meeting.reservation.dto.ReservationRequest;
 import com.team.mystory.meeting.reservation.dto.ReservationResponse;
-import com.team.mystory.meeting.reservation.entity.QReservation;
 import com.team.mystory.meeting.reservation.entity.Reservation;
 import lombok.RequiredArgsConstructor;
 
-import static com.querydsl.core.types.ExpressionUtils.count;
-import static com.team.mystory.account.user.domain.QUser.user;
-import static com.querydsl.jpa.JPAExpressions.select;
-import static com.team.mystory.meeting.meeting.domain.QMeeting.meeting;
-import static com.team.mystory.meeting.reservation.entity.QReservationParticipants.reservationParticipants;
-import static com.team.mystory.meeting.reservation.entity.QReservation.reservation;
-
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static com.team.mystory.account.user.domain.QUser.user;
+import static com.team.mystory.meeting.meeting.domain.QMeeting.meeting;
+import static com.team.mystory.meeting.reservation.entity.QReservation.reservation;
+import static com.team.mystory.meeting.reservation.entity.QReservationParticipants.reservationParticipants;
 
 @RequiredArgsConstructor
 public class ReservationRepositoryImpl implements CustomReservationRepository {

@@ -7,11 +7,8 @@
 }
 
 .screen .div {
-  background-color: #ffffff;
-  height: 1264px;
   position: relative;
   width: 821px;
-  top: -50px;
 }
 
 .screen .text-wrapper {

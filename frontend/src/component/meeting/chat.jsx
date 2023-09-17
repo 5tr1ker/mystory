@@ -4,7 +4,7 @@ import '../../_style/meeting/chat.css'
 import '../../_style/meeting/chatData.css'
 import line from '../../_image/line-3.svg'
 import exit from '../../_image/exit.png'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import axios from "axios";
 
 const Chat = ({ dropDownSet }) => {
@@ -14,12 +14,22 @@ const Chat = ({ dropDownSet }) => {
   const [chatData, setChatData] = useState([]); // 전송된 데이터 목록
   const [userInfo, setUserInfo] = useState({ userKey: 0, userId: "", profileImage: "" });
 
+  // Chat Scroll
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatData]);
+
   // Chatting 관련 끝
   const webSocketUrl = `ws://localhost:8080/chat`;
   let ws = useRef(null);
 
   const [socketConnected, setSocketConnected] = useState(false);
-
   // Chatting 관련 종료
 
   const [inputData, setInputData] = useState(""); // 입력 데이터
@@ -74,7 +84,7 @@ const Chat = ({ dropDownSet }) => {
         ws.current.close();
       };
     }
-  }, [toogle])
+  }, [toogle]);
 
   useEffect(() => {
     if (socketConnected) {
@@ -153,6 +163,7 @@ const Chat = ({ dropDownSet }) => {
             {detail.message}
           </span>
           <div className="text-wrapper-4-chatData">{detail.sendTime}</div>
+          <div ref={messagesEndRef} />
         </div>
       ))
     )
@@ -172,7 +183,6 @@ const Chat = ({ dropDownSet }) => {
                 <div className="div-chatData">
                   <ChatDataContent data={chatData}/>
                 </div>
-
                 <div className="rectangle-3-chatData">
                   <input className="chattingInput" onChange={onChangeInputData} onKeyDown={onPushEnter} value={inputData} />
                 </div>

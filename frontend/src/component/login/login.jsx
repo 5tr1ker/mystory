@@ -18,16 +18,17 @@ const Logins = () => {
         "Content-Type": "application/json"
     }
 
-    const serverUrl = "mystorynews.com";
-    
+    //const serverUrl = "mystorynews.com";
+    const serverUrl = "localhost:8080";
+
     const kakaoLogin = () => {
-        window.location.replace(`https://${serverUrl}/oauth2/authorization/kakao`);
+        window.location.replace(`http://${serverUrl}/oauth2/authorization/kakao`);
     }
     const googleLogin = () => {
-        window.location.replace(`https://${serverUrl}/oauth2/authorization/google`);
+        window.location.replace(`http://${serverUrl}/oauth2/authorization/google`);
     }
     const naverLogin = () => {
-        window.location.replace(`https://${serverUrl}/oauth2/authorization/naver`);
+        window.location.replace(`http://${serverUrl}/oauth2/authorization/naver`);
     }
     
     const signUp = async () => {
@@ -55,6 +56,7 @@ const Logins = () => {
     
     return (
         <Fragment>
+            <div className="loginBackGround">
             <div className="loginFrame">
                 <Link to="/noticelist">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-left Arrows" viewBox="0 0 16 16">
@@ -83,6 +85,7 @@ const Logins = () => {
                 <span className='platformTextbox'>Sign Up Now</span>
                 <span className='platformTextbox2'>Create a new account and connect with others.</span>
                 <img src={img01} alt='img' className="loginImg" />
+            </div>
             </div>
         </Fragment>
     )
