@@ -21,6 +21,6 @@ public class ChatRoomResponse {
 
     private String meetingImage;
 
-    private LocalDate lastChat;
+    private LocalDate createDate;
 
 }

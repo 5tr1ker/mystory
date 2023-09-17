@@ -48,7 +48,7 @@ public class ChatRepositoryImpl implements CustomChatRepository {
                         meeting.meetingId,
                         meeting.title,
                         meeting.meetingImage,
-                        chatRoom.lastChat
+                        chatRoom.createDate
                 )).from(meetingParticipant)
                 .innerJoin(meetingParticipant.userList, user).on(user.id.eq(userId))
                 .innerJoin(meetingParticipant.meetingList, meeting)

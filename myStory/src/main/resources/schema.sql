@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `mystory`.`attachment`
 CREATE TABLE IF NOT EXISTS `mystory`.`chat_room`
 (
     `chat_id`               BIGINT NOT NULL AUTO_INCREMENT,
-    `last_chat`             DATE   NULL DEFAULT NULL,
+    `createDate`             DATE   NULL DEFAULT NULL,
     `meeting_id_meeting_id` BIGINT NULL DEFAULT NULL,
     PRIMARY KEY (`chat_id`),
     INDEX `FKsdnli3jk4g4h8oxbh42gkkyvi` (`meeting_id_meeting_id` ASC) VISIBLE,

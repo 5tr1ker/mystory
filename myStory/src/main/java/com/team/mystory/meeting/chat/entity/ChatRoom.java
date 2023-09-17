@@ -6,10 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -25,16 +24,12 @@ public class ChatRoom {
     @ManyToOne(fetch = FetchType.LAZY)
     private Meeting meetingId;
 
-    @OneToMany(cascade = { CascadeType.PERSIST , CascadeType.REMOVE } , orphanRemoval = true)
-    private List<Chat> chatData;
-
-    @UpdateTimestamp
-    private LocalDate lastChat;
+    @CreationTimestamp
+    private LocalDate createDate;
 
     public static ChatRoom createChatRoom(Meeting meeting) {
         return ChatRoom.builder()
                 .meetingId(meeting)
-                .lastChat(LocalDate.now())
                 .build();
     }
 

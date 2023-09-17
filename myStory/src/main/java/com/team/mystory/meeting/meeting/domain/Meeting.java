@@ -26,6 +26,7 @@ public class Meeting {
     @ManyToOne(fetch = FetchType.LAZY)
     private User meetingOwner;
 
+    @Builder.Default
     @OneToMany(cascade = { CascadeType.PERSIST , CascadeType.REMOVE } , mappedBy = "meetings" , orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 

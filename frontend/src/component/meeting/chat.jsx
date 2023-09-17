@@ -143,7 +143,7 @@ const Chat = ({ dropDownSet }) => {
         <div className="chatContent" key={data.chatId} onClick={() => getChatData(data.chatId, data.meetingId)}>
           <img className="ellipse-chat" alt="image" src={data.meetingImage} />
           <div className="text-wrapper-chat">{data.meetingTitle}</div>
-          <div className="text-wrapper-chat-last">참여 날짜 : {data.lastChat}</div>
+          <div className="text-wrapper-chat-last">참여 날짜 : {data.createDate}</div>
         </div>
       ))
     )
