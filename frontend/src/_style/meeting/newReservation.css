@@ -11,7 +11,7 @@
     height: 1709px;
     position: relative;
     width: 390px;
-    top: -50px;
+    margin-top: 800px;
   }
 
   .calanderData {
@@ -159,6 +159,7 @@
     position: absolute;
     top: 195px;
     width: 348px;
+    resize: none;
   }
   
   .screen-newReservation .rectangle-3-newReservation {
