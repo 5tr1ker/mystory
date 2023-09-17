@@ -28,6 +28,21 @@ const MeetingView = () => {
   }
 
   useEffect(async () => {
+
+    await axios({
+      method: "GET",
+      mode: "cors",
+      url: `/meeting/is-participants/${urlStat[2]}`
+    }).then((response) => {
+      if(response.data == false) {
+        alert("비 정상적인 접근입니다.");
+
+        window.location.replace(`/meeting`);
+      }
+    }).catch((err) => {
+
+    });
+
     await axios({
       method: "GET",
       mode: "cors",

@@ -74,6 +74,16 @@ public class MeetingService {
         meetingParticipantRepository.save(createMeetingParticipant(meeting , user));
     }
 
+    public boolean IsMeetingParticipant(long meetingId , String accessToken) {
+        String userPk = jwtTokenProvider.getUserPk(accessToken);
+
+        if(meetingRepository.findMeetingParticipantByMeetingIdAndUserId(meetingId , userPk).isPresent()) {
+            return true;
+        }
+
+        return false;
+    }
+
     public List<MeetingResponse> findAllMeeting(Pageable pageable) {
         return meetingRepository.findAllMeeting(pageable);
     }

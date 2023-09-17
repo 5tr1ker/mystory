@@ -117,4 +117,11 @@ public class MeetingController {
         return ResponseEntity.ok().body(result);
     }
 
+    @GetMapping("/is-participants/{meetingId}")
+    public ResponseEntity IsMeetingParticipant(@PathVariable long meetingId , @CookieValue String accessToken) {
+        boolean result = meetingService.IsMeetingParticipant(meetingId , accessToken);
+
+        return ResponseEntity.ok().body(result);
+    }
+
 }
