@@ -5,7 +5,7 @@ import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import com.team.mystory.meeting.meeting.exception.MeetingException;
-import com.team.mystory.meeting.meeting.repository.MeetingRepository;
+import com.team.mystory.meeting.meeting.repository.meeting.MeetingRepository;
 import com.team.mystory.meeting.reservation.dto.ReservationRequest;
 import com.team.mystory.meeting.reservation.dto.ReservationResponse;
 import com.team.mystory.meeting.reservation.entity.Reservation;

@@ -8,7 +8,7 @@ import com.team.mystory.meeting.chat.entity.Chat;
 import com.team.mystory.meeting.chat.repository.ChatRepository;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.exception.MeetingException;
-import com.team.mystory.meeting.meeting.repository.MeetingRepository;
+import com.team.mystory.meeting.meeting.repository.meeting.MeetingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

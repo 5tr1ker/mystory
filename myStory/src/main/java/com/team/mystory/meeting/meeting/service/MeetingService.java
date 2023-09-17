@@ -9,8 +9,8 @@ import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
 import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import com.team.mystory.meeting.meeting.exception.MeetingException;
-import com.team.mystory.meeting.meeting.repository.MeetingParticipantRepository;
-import com.team.mystory.meeting.meeting.repository.MeetingRepository;
+import com.team.mystory.meeting.meeting.repository.participant.MeetingParticipantRepository;
+import com.team.mystory.meeting.meeting.repository.meeting.MeetingRepository;
 import com.team.mystory.s3.service.S3Service;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +61,7 @@ public class MeetingService {
     public void joinMeeting(long meetingId , String accessToken) throws AccountException {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
-        if(meetingRepository.findMeetingParticipantByMeetingIdAndUserId(meetingId , userPk).isPresent()) {
+        if(meetingParticipantRepository.findMeetingParticipantByMeetingIdAndUserId(meetingId , userPk).isPresent()) {
             throw new MeetingException("이미 참여하고 있습니다.");
         }
 
@@ -77,7 +77,7 @@ public class MeetingService {
     public boolean IsMeetingParticipant(long meetingId , String accessToken) {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
-        if(meetingRepository.findMeetingParticipantByMeetingIdAndUserId(meetingId , userPk).isPresent()) {
+        if(meetingParticipantRepository.findMeetingParticipantByMeetingIdAndUserId(meetingId , userPk).isPresent()) {
             return true;
         }
 
@@ -93,7 +93,7 @@ public class MeetingService {
     }
 
     public long findMeetingByTitleOrAddressCount(String data) {
-        return meetingRepository.findMeetingByTitleOrAddressCount(data);
+        return meetingRepository.countMeetingByTitleOrAddress(data);
     }
 
     @Transactional
@@ -136,17 +136,17 @@ public class MeetingService {
     public List<MeetingResponse> findAllMeetingByUserId(Pageable pageable , String accessToken) {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
-        return meetingRepository.findAllMeetingByUserId(pageable , userPk);
+        return meetingParticipantRepository.findAllMeetingByParticipant(pageable , userPk);
     }
 
     public long findAllMeetingByUserIdCount(String accessToken) {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
-        return meetingRepository.findAllMeetingByUserIdCount(userPk);
+        return meetingParticipantRepository.countAllMeetingByParticipant(userPk);
     }
 
     public List<ParticipantResponse> findParticipantsByMeetingId(long meetingId) {
-        return meetingRepository.findParticipantsByMeetingId(meetingId);
+        return meetingParticipantRepository.findParticipantsByMeetingId(meetingId);
     }
 
     public MeetingMemberResponse findMeetingMemberByMeetingId(long meetingId) {
@@ -166,6 +166,6 @@ public class MeetingService {
             throw new MeetingException("모임장은 모임을 나갈 수 없습니다.");
         }
 
-        meetingRepository.deleteParticipantsByMeetingIdAndUserId(meetingId , userPk);
+        meetingParticipantRepository.deleteParticipantsByMeetingIdAndUserId(meetingId , userPk);
     }
 }

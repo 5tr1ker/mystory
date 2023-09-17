@@ -1,10 +1,8 @@
-package com.team.mystory.meeting.meeting.repository;
+package com.team.mystory.meeting.meeting.repository.meeting;
 
 import com.team.mystory.meeting.meeting.domain.Meeting;
-import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
-import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -20,22 +18,12 @@ public interface CustomMeetingRepository {
 
     Optional<MeetingResponse> findMeetingByMeetingId(long meetingId);
 
-    Optional<MeetingParticipant> findMeetingParticipantByMeetingIdAndUserId(long meetingId , String userId);
-
-    long findAllMeetingCount();
+    long countAllMeeting();
 
     List<MeetingResponse> findMeetingByTitleOrAddress(Pageable pageable , String data);
 
-    long findMeetingByTitleOrAddressCount(String data);
-
-    List<MeetingResponse> findAllMeetingByUserId(Pageable pageable , String userId);
-
-    long findAllMeetingByUserIdCount(String userId);
-
-    List<ParticipantResponse> findParticipantsByMeetingId(long meetingId);
+    long countMeetingByTitleOrAddress(String data);
 
     MeetingMemberResponse findMeetingOwnerByMeetingId(long meetingId);
-
-    long deleteParticipantsByMeetingIdAndUserId(long meetingId , String userId);
 
 }

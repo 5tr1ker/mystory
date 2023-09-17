@@ -3,8 +3,7 @@ package com.team.mystory.meeting.meeting.controller;
 import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
-import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
-import com.team.mystory.meeting.meeting.repository.MeetingRepository;
+import com.team.mystory.meeting.meeting.repository.meeting.MeetingRepository;
 import com.team.mystory.meeting.meeting.service.MeetingService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
@@ -82,7 +81,7 @@ public class MeetingController {
 
     @GetMapping("/count")
     public ResponseEntity findAllMeetingCount() {
-        return ResponseEntity.ok().body(meetingRepository.findAllMeetingCount());
+        return ResponseEntity.ok().body(meetingRepository.countAllMeeting());
     }
 
     @GetMapping("/user")
