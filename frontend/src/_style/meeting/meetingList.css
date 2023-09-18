@@ -8,6 +8,7 @@
 .screen .div {
   position: relative;
   width: 821px;
+  margin-top: 0px;
 }
 
 .screen .text-wrapper {

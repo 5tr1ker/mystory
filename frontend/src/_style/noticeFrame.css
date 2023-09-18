@@ -858,6 +858,7 @@
     width: 800px;
     height: 100%;
     min-height: 610px;
+    margin-top: -50px;
 }
 
 .noticeFooter {
@@ -1307,6 +1308,7 @@
     height: auto;
     min-height: 650px;
     margin: 0 auto;
+    margin-top: 200px;
     display: flex;
     justify-content: space-between;
     background-color: white;
