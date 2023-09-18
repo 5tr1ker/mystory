@@ -23,5 +23,14 @@ public class UserResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd" , timezone = "Asia/Seoul")
     private Date joinDate;
 
+    private String profileImage;
+
     private int options;
+
+    public UserResponse(long userKey , String id , Date joinDate , String profileImage) {
+        this.userKey = userKey;
+        this.id = id;
+        this.joinDate = joinDate;
+        this.profileImage = profileImage;
+    }
 }

@@ -15,6 +15,7 @@ public class PostListResponse {
 	private long numbers;
 	private String title;
 	private String writer;
+	private String writerImage;
 	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd" , timezone = "Asia/Seoul")
 	private Date postDate;
 	private int likes;

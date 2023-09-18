@@ -40,7 +40,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> findPostBySearch(Pageable pageable , String content) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title
-				, user.id , post.postDate , post.likes , post.views , comment.count()))
+				, user.id , user.profileImage , post.postDate , post.likes , post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
 				.leftJoin(post.comment , comment).on(comment.post.eq(post))
@@ -55,7 +55,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> findPostByTag(Pageable pageable , String tagData) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title ,
-						user.id , post.postDate , post.likes , post.views , comment.count()))
+						user.id , user.profileImage , post.postDate , post.likes , post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.tag , tag).on(tag.tagData.eq(tagData))
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
@@ -71,7 +71,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	public Optional<Post> findPostByPostId(long postId) {
 		Post result = queryFactory.select(post)
 				.from(post)
-				.join(post.writer , user)
+				.join(post.writer , user).fetchJoin()
 				.where(post.postId.eq(postId))
 				.fetchOne();
 
@@ -81,7 +81,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> getPostList(Pageable pageable) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId
-						, post.title , user.id , post.postDate , post.likes
+						, post.title , user.id , user.profileImage , post.postDate , post.likes
 						, post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.writer , user).on(post.writer.eq(user))

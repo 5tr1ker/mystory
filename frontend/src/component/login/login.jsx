@@ -19,7 +19,7 @@ const Logins = () => {
     }
 
     const serverUrl = "mystorynews.com";
-    
+
     const kakaoLogin = () => {
         window.location.replace(`https://${serverUrl}/oauth2/authorization/kakao`);
     }
@@ -55,6 +55,7 @@ const Logins = () => {
     
     return (
         <Fragment>
+            <div className="loginBackGround">
             <div className="loginFrame">
                 <Link to="/noticelist">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-left Arrows" viewBox="0 0 16 16">
@@ -83,6 +84,7 @@ const Logins = () => {
                 <span className='platformTextbox'>Sign Up Now</span>
                 <span className='platformTextbox2'>Create a new account and connect with others.</span>
                 <img src={img01} alt='img' className="loginImg" />
+            </div>
             </div>
         </Fragment>
     )

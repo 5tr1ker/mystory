@@ -7,8 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.security.auth.login.AccountException;
+import java.io.IOException;
 
 import static com.team.mystory.common.ResponseCode.LOGOUT_SUCCESS;
 
@@ -19,8 +21,16 @@ public class LoginController {
 	private final LoginService loginService;
 
 	@PostMapping(value = "/registers")
-	public ResponseEntity<ResponseMessage> register(@RequestBody LoginRequest loginRequest) throws AccountException {
-		return ResponseEntity.ok().body(loginService.register(loginRequest));
+	public ResponseEntity<ResponseMessage> register(@RequestPart(name = "data") LoginRequest loginRequest , @RequestPart(name = "image") MultipartFile multipartFile)
+			throws AccountException, IOException {
+		return ResponseEntity.ok().body(loginService.register(loginRequest , multipartFile));
+	}
+
+	@PatchMapping(value = "/profile-image")
+	public ResponseEntity modifyProfileImage(@RequestPart(name = "image") MultipartFile multipartFile , @CookieValue String accessToken) throws AccountException, IOException {
+		String result = loginService.modifyProfileImage(accessToken , multipartFile);
+
+		return ResponseEntity.ok().body(result);
 	}
 
 	@PostMapping(value = "/logins")
@@ -29,8 +39,9 @@ public class LoginController {
 	}
 
 	@DeleteMapping(value = "/users")
-	public ResponseEntity deleteUser(@CookieValue String accessToken) throws AccountException {
-		loginService.removeUser(accessToken);
+	public ResponseEntity deleteUser(@CookieValue String accessToken , HttpServletResponse response) throws AccountException {
+		loginService.removeUser(accessToken , response);
+
 		return ResponseEntity.noContent().build();
 	}
 	
@@ -48,4 +59,5 @@ public class LoginController {
 	public ResponseEntity<ResponseMessage> logout() {
 		return ResponseEntity.ok().body(ResponseMessage.of(LOGOUT_SUCCESS));
 	}
+
 }

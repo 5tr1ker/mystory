@@ -23,6 +23,7 @@ public class PostResponse {
     private boolean isPrivate;
     private boolean isBlockComment;
     private String writer;
+    private String writerImage;
     @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:MM:SS" , timezone = "Asia/Seoul")
     private Date postDate;
 
@@ -43,6 +44,7 @@ public class PostResponse {
                 .isPrivate(post.isPrivate())
                 .isBlockComment(post.isBlockComment())
                 .writer(post.getWriter().getId())
+                .writerImage(post.getWriter().getProfileImage())
                 .postDate(post.getPostDate())
                 .build();
     }

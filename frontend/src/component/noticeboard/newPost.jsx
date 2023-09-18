@@ -24,7 +24,6 @@ const NewPost = ({ idStatus }) => {
   const labelInputData = useRef(''); // 라벨입력 값
 
   const deleteFile = (e) => { // 삭제된 파일 정보를 반환
-    console.log(e);
     const result = showFileList.filter(item => item !== e );
     setDeletedFileList(prevList => [...prevList , e[0].id]);
     setShowFileList(result);
@@ -177,7 +176,7 @@ const NewPost = ({ idStatus }) => {
               headers : {'Content-Type': 'multipart/form-data'} ,
               data : requestForm
       })
-      .then((response) => { 
+      .then((response) => {
         if(response.data.data == "4") {
           newPost();
           return;

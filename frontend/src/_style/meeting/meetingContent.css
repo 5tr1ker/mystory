@@ -1,0 +1,103 @@
+.screen .text-wrapper-6 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+  width: 200px;
+  color: #000000;
+  font-family: "Noto Sans KR-Bold", Helvetica;
+  font-size: 15px;
+  font-weight: 700;
+  left: 26px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  bottom: 195px;
+  height: 100px;
+}
+
+.imageSession {
+  position: relative;
+  width: 297px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 21px;
+  left: 1px;
+}
+
+.mask-group {
+  display: inline-block;
+  width: 297px;
+  position: absolute;
+}
+
+.screen .text-wrapper-3 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: normal;
+  height: 40px;
+  width: 250px;
+  color: #000000;
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 15px;
+  font-weight: 500;
+  left: 26px;
+  letter-spacing: 0;
+  position: relative;
+  bottom: 75px;
+}
+
+.screen .text-wrapper-4 {
+  color: #000000;
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 13px;
+  font-weight: 500;
+  left: 26px;
+  width: 300px;
+  overflow: hidden;  	
+  text-overflow: ellipsis;  	
+  white-space: nowrap;
+  word-break:break-all;
+  height: 35px;
+  line-height: 120px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  bottom: 68px;
+}
+
+.screen .text-wrapper-5 {
+  color: #000000;
+  font-family: "Noto Sans KR-Regular", Helvetica;
+  font-size: 15px;
+  font-weight: 700;
+  left: 26px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  bottom: 60px;
+}
+
+.screen .overlap-group-2 {
+  height: 100px;
+  width: 148px;
+  position: relative;
+  top: 0px;
+  left: -270px;
+  display: inline-block;
+  margin-left: 200px;
+  cursor: pointer;
+}
+
+.screen .rectangle-2 {
+  border: 1px solid;
+  border-color: #f5f5f5;
+  border-radius: 21px;
+  box-shadow: 3px 3px 12px 5px #00000040;
+  height: 360px;
+  width: 298px;
+  position: relative;
+  top: -200px;
+  left: 1px;
+  margin-bottom: -250px;
+}

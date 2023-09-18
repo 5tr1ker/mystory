@@ -34,7 +34,7 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
     @Override
     public List<CommentResponse> findCommentByPostId(long postId) {
         return queryFactory.select(Projections.constructor(CommentResponse.class ,
-                       post.postId , comment.commentId , comment.content , comment.postDate , user.id))
+                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage))
                 .from(comment)
                 .innerJoin(comment.writer , user)
                 .innerJoin(comment.post , post).on(post.postId.eq(postId))
@@ -46,7 +46,7 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
         QUser subUser = new QUser("subUser");
 
         return queryFactory.select(Projections.constructor(CommentResponse.class ,
-                       post.postId , comment.commentId , comment.content , comment.postDate , user.id))
+                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage))
                 .from(comment)
                 .innerJoin(comment.writer , user).on(user.id.ne(userId))
                 .innerJoin(comment.post , post)

@@ -7,9 +7,13 @@ import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.user.constant.UserRole;
 import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.dto.LoginRequest;
+import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.post.post.domain.Post;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,6 +39,8 @@ public class User implements UserDetails {
 	@Column(nullable = false)
 	private String password;
 
+	private String profileImage;
+
 	@Enumerated(value = EnumType.STRING)
 	@Column(nullable = false)
 	private UserRole role;
@@ -55,13 +61,19 @@ public class User implements UserDetails {
 	private Profile profile = new Profile();
 
 	@Builder.Default
-	@OneToMany(mappedBy = "writer" , fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "writer" , cascade = CascadeType.ALL)
 	private List<Post> post = new ArrayList<>();
 
-	public static User createGeneralUser(LoginRequest loginRequest , PasswordEncoder passwordEncoder) {
+
+	@Builder.Default
+	@OneToMany(mappedBy = "meetingOwner" , cascade = CascadeType.ALL)
+	private List<Meeting> meetings = new ArrayList<>();
+
+	public static User createGeneralUser(LoginRequest loginRequest , String url , String password) {
 		return User.builder()
 				.id(loginRequest.getId())
-				.password(passwordEncoder.encode(loginRequest.getPassword()))
+				.profileImage(url)
+				.password(password)
 				.profile(Profile.createInitProfileSetting())
 				.role(UserRole.USER)
 				.userType(UserType.GENERAL_USER)
@@ -83,17 +95,16 @@ public class User implements UserDetails {
 		post.setWriter(this);
 	}
 
-	public User hashPassword(PasswordEncoder passwordEncoder) {
-		this.password = passwordEncoder.encode(this.password);
-		return this;
-	}
-
 	public boolean checkPassword(String plainPassword, PasswordEncoder passwordEncoder) {
 		return passwordEncoder.matches(plainPassword, this.password);
 	}
 
 	public void updateId(String userId) {
 		this.id = userId;
+	}
+
+	public void updateProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	@Override

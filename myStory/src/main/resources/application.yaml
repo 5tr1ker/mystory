@@ -5,10 +5,13 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/mystory?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/mystory?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: password
+  sql:
+    init:
+      mode: always
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -19,11 +22,6 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
-#  sql:
-#    init:
-#      mode: always
-#      platform: dev
 
   security:
     oauth2:
