@@ -1,4 +1,4 @@
-CREATE TABLE `mystory`.`profile`
+CREATE TABLE `profile`
 (
     `profile_key` BIGINT       NOT NULL AUTO_INCREMENT,
     `email`       VARCHAR(255) NULL DEFAULT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE `mystory`.`profile`
     PRIMARY KEY (`profile_key`)
 );
 
-CREATE TABLE `mystory`.`user`
+CREATE TABLE `user`
 (
     `user_key`            BIGINT       NOT NULL AUTO_INCREMENT,
     `id`                  VARCHAR(30)  NOT NULL,
@@ -18,10 +18,10 @@ CREATE TABLE `mystory`.`user`
     `user_type`           VARCHAR(255) NOT NULL,
     `profile_profile_key` BIGINT       NOT NULL,
     PRIMARY KEY (`user_key`),
-    FOREIGN KEY (`profile_profile_key`) REFERENCES `mystory`.`profile` (`profile_key`)
+    FOREIGN KEY (`profile_profile_key`) REFERENCES `profile` (`profile_key`)
 );
 
-CREATE TABLE `mystory`.`post`
+CREATE TABLE `post`
 (
     `post_id`          BIGINT        NOT NULL AUTO_INCREMENT,
     `content`          VARCHAR(1100) NOT NULL,
@@ -33,10 +33,10 @@ CREATE TABLE `mystory`.`post`
     `views`            INT           NOT NULL,
     `writer_user_key`  BIGINT        NULL DEFAULT NULL,
     PRIMARY KEY (`post_id`),
-    FOREIGN KEY (`writer_user_key`) REFERENCES `mystory`.`user` (`user_key`)
+    FOREIGN KEY (`writer_user_key`) REFERENCES `user` (`user_key`)
 );
 
-CREATE TABLE `mystory`.`attachment`
+CREATE TABLE `attachment`
 (
     `attachment_id`  BIGINT       NOT NULL AUTO_INCREMENT,
     `file_size`      BIGINT       NOT NULL,
@@ -45,19 +45,10 @@ CREATE TABLE `mystory`.`attachment`
     `uuid_file_name` VARCHAR(50)  NOT NULL,
     `post_post_id`   BIGINT       NOT NULL,
     PRIMARY KEY (`attachment_id`),
-    FOREIGN KEY (`post_post_id`) REFERENCES `mystory`.`post` (`post_id`)
+    FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`)
 );
 
-CREATE TABLE `mystory`.`chat_room`
-(
-    `chat_id`               BIGINT NOT NULL AUTO_INCREMENT,
-    `createDate`             DATE   NULL DEFAULT NULL,
-    `meeting_id_meeting_id` BIGINT NULL DEFAULT NULL,
-    PRIMARY KEY (`chat_id`),
-    FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `mystory`.`meeting` (`meeting_id`)
-);
-
-CREATE TABLE `mystory`.`meeting`
+CREATE TABLE `meeting`
 (
     `meeting_id`             BIGINT       NOT NULL AUTO_INCREMENT,
     `address`                VARCHAR(255) NOT NULL,
@@ -71,11 +62,20 @@ CREATE TABLE `mystory`.`meeting`
     `chat_room_chat_id`      BIGINT       NULL DEFAULT NULL,
     `meeting_owner_user_key` BIGINT       NULL DEFAULT NULL,
     PRIMARY KEY (`meeting_id`),
-    FOREIGN KEY (`chat_room_chat_id`) REFERENCES `mystory`.`chat_room` (`chat_id`),
-    FOREIGN KEY (`meeting_owner_user_key`) REFERENCES `mystory`.`user` (`user_key`)
+    FOREIGN KEY (`meeting_owner_user_key`) REFERENCES `user` (`user_key`)
+);
+CREATE TABLE `chat_room`
+(
+    `chat_id`               BIGINT NOT NULL AUTO_INCREMENT,
+    `createDate`             DATE   NULL DEFAULT NULL,
+    `meeting_id_meeting_id` BIGINT NULL DEFAULT NULL,
+    PRIMARY KEY (`chat_id`),
+    FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
 );
 
-CREATE TABLE `mystory`.`chat`
+ALTER TABLE `meeting` ADD CONSTRAINT `MEETINGFORIEGNKEY` FOREIGN KEY(`chat_room_chat_id`) REFERENCES `chat_room` (`chat_id`);
+
+CREATE TABLE `chat`
 (
     `chat_id`               BIGINT       NOT NULL AUTO_INCREMENT,
     `message`               VARCHAR(255) NULL DEFAULT NULL,
@@ -84,18 +84,18 @@ CREATE TABLE `mystory`.`chat`
     `sender_image`          VARCHAR(255) NULL DEFAULT NULL,
     `meeting_id_meeting_id` BIGINT       NULL DEFAULT NULL,
     PRIMARY KEY (`chat_id`),
-    FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `mystory`.`meeting` (`meeting_id`)
+    FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
 );
 
-CREATE TABLE `mystory`.`chat_room_chat_data`
+CREATE TABLE `chat_room_chat_data`
 (
     `chat_room_chat_id` BIGINT NOT NULL,
     `chat_data_chat_id` BIGINT NOT NULL,
-    FOREIGN KEY (`chat_room_chat_id`) REFERENCES `mystory`.`chat_room` (`chat_id`),
-    FOREIGN KEY (`chat_data_chat_id`) REFERENCES `mystory`.`chat` (`chat_id`)
+    FOREIGN KEY (`chat_room_chat_id`) REFERENCES `chat_room` (`chat_id`),
+    FOREIGN KEY (`chat_data_chat_id`) REFERENCES `chat` (`chat_id`)
 );
 
-CREATE TABLE `mystory`.`comment`
+CREATE TABLE `comment`
 (
     `comment_id`      BIGINT       NOT NULL AUTO_INCREMENT,
     `content`         VARCHAR(200) NOT NULL,
@@ -103,45 +103,45 @@ CREATE TABLE `mystory`.`comment`
     `post_post_id`    BIGINT       NOT NULL,
     `writer_user_key` BIGINT       NULL DEFAULT NULL,
     PRIMARY KEY (`comment_id`),
-    FOREIGN KEY (`post_post_id`) REFERENCES `mystory`.`post` (`post_id`),
-    FOREIGN KEY (`writer_user_key`) REFERENCES `mystory`.`user` (`user_key`)
+    FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`),
+    FOREIGN KEY (`writer_user_key`) REFERENCES `user` (`user_key`)
 );
 
-CREATE TABLE `mystory`.`meeting_participant`
+CREATE TABLE `meeting_participant`
 (
     `meeting_participant_id` BIGINT NOT NULL AUTO_INCREMENT,
     `meeting_id`             BIGINT NULL DEFAULT NULL,
     `user_id`                BIGINT NULL DEFAULT NULL,
     PRIMARY KEY (`meeting_participant_id`),
-    FOREIGN KEY (`meeting_id`) REFERENCES `mystory`.`meeting` (`meeting_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `mystory`.`user` (`user_key`)
+    FOREIGN KEY (`meeting_id`) REFERENCES `meeting` (`meeting_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `user` (`user_key`)
 );
 
-CREATE TABLE `mystory`.`post_recommendation`
+CREATE TABLE `post_recommendation`
 (
     `post_post_id`            BIGINT NOT NULL,
     `recommendation_user_key` BIGINT NOT NULL,
     INDEX `FKjx9y24ucmuk0jhifttugnevq6` (`post_post_id` ASC) VISIBLE,
-    FOREIGN KEY (`post_post_id`) REFERENCES `mystory`.`post` (`post_id`),
-    FOREIGN KEY (`recommendation_user_key`) REFERENCES `mystory`.`user` (`user_key`)
+    FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`),
+    FOREIGN KEY (`recommendation_user_key`) REFERENCES `user` (`user_key`)
 );
 
-CREATE TABLE `mystory`.`tag`
+CREATE TABLE `tag`
 (
     `tag_id`   BIGINT      NOT NULL AUTO_INCREMENT,
     `tag_data` VARCHAR(15) NOT NULL,
     PRIMARY KEY (`tag_id`)
 );
 
-CREATE TABLE `mystory`.`post_tag`
+CREATE TABLE `post_tag`
 (
     `post_post_id` BIGINT NOT NULL,
     `tag_tag_id`   BIGINT NOT NULL,
-    FOREIGN KEY (`tag_tag_id`) REFERENCES `mystory`.`tag` (`tag_id`),
-    FOREIGN KEY (`post_post_id`) REFERENCES `mystory`.`post` (`post_id`)
+    FOREIGN KEY (`tag_tag_id`) REFERENCES `tag` (`tag_id`),
+    FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`)
 );
 
-CREATE TABLE `mystory`.`refresh_token`
+CREATE TABLE `refresh_token`
 (
     `token_id`  BIGINT       NOT NULL AUTO_INCREMENT,
     `key_email` VARCHAR(255) NOT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE `mystory`.`refresh_token`
     PRIMARY KEY (`token_id`)
 );
 
-CREATE TABLE `mystory`.`reservation`
+CREATE TABLE `reservation`
 (
     `reservation_id`      BIGINT       NOT NULL AUTO_INCREMENT,
     `address`             VARCHAR(255) NULL DEFAULT NULL,
@@ -161,20 +161,20 @@ CREATE TABLE `mystory`.`reservation`
     `max_participants`    INT          NOT NULL,
     `meetings_meeting_id` BIGINT       NULL DEFAULT NULL,
     PRIMARY KEY (`reservation_id`),
-    FOREIGN KEY (`meetings_meeting_id`) REFERENCES `mystory`.`meeting` (`meeting_id`)
+    FOREIGN KEY (`meetings_meeting_id`) REFERENCES `meeting` (`meeting_id`)
 );
 
-CREATE TABLE `mystory`.`reservation_participants`
+CREATE TABLE `reservation_participants`
 (
     `reservation_participants_id` BIGINT NOT NULL,
     `reservation_reservation_id`  BIGINT NULL DEFAULT NULL,
     `user_user_key`               BIGINT NULL DEFAULT NULL,
     PRIMARY KEY (`reservation_participants_id`),
-    FOREIGN KEY (`reservation_reservation_id`) REFERENCES `mystory`.`reservation` (`reservation_id`),
-    FOREIGN KEY (`user_user_key`) REFERENCES `mystory`.`user` (`user_key`)
+    FOREIGN KEY (`reservation_reservation_id`) REFERENCES `reservation` (`reservation_id`),
+    FOREIGN KEY (`user_user_key`) REFERENCES `user` (`user_key`)
 );
 
-CREATE TABLE `mystory`.`reservation_participants_seq`
+CREATE TABLE `reservation_participants_seq`
 (
     `next_val` BIGINT NULL DEFAULT NULL
 );
