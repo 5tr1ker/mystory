@@ -110,7 +110,6 @@ const Map = /*#__PURE__*/React.forwardRef(function Map(_ref, ref) {
     } else {
       map.setCenter(centerPosition);
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
   }, [map, center.lat, center.lng, center.x, center.y]);
   useIsomorphicLayoutEffect(() => {
