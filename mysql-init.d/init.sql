@@ -67,7 +67,7 @@ CREATE TABLE `meeting`
 CREATE TABLE `chat_room`
 (
     `chat_id`               BIGINT NOT NULL AUTO_INCREMENT,
-    `createDate`             DATE   NULL DEFAULT NULL,
+    `create_date`             DATE   NULL DEFAULT NULL,
     `meeting_id_meeting_id` BIGINT NULL DEFAULT NULL,
     PRIMARY KEY (`chat_id`),
     FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
