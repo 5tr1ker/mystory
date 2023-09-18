@@ -850,6 +850,7 @@
     justify-content: center;
     background-color: white;
     z-index: 1;
+    margin-top: 10%;
 }
 
 .noticeFrameArea {
