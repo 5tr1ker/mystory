@@ -287,7 +287,7 @@
     max-height: 60px;
     display:flex;
     flex-direction: row;
-    z-index: 10;
+    z-index: 65535;
     position: fixed;
     top: 0px;
     margin: 0 auto;

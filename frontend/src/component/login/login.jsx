@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Fragment , useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../_style/loginScreen.css'
+import '../../_style/loginScreen.css';
 import img01 from '../../_image/pic1.png';
 import img02 from '../../_image/googleLoginButton.png';
 import img03 from '../../_image/kakaoLogInButton.png';
