@@ -9799,7 +9799,7 @@ react-js-pagination@^3.0.3:
     react "15.x.x - 16.x.x"
     tar "2.2.2"
 
-react-kakao-maps-sdk@^1.1.12:
+react-kakao-maps-sdk@^1.1.21:
   version "1.1.21"
   resolved "https://registry.npmjs.org/react-kakao-maps-sdk/-/react-kakao-maps-sdk-1.1.21.tgz"
   integrity sha512-LOtrgYjsFy3zoeu6yZqbbEOS7nHhpV5Nns+0jBEcm9KgFsETaEn71+pfMm9Lu2R2nIu4+PvlIImocCccF4jTtA==

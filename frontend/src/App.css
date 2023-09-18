@@ -2,7 +2,8 @@
   display:flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 500px;
+  height: auto;
   background-color: white;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
