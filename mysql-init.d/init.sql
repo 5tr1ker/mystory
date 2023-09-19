@@ -166,15 +166,10 @@ CREATE TABLE `reservation`
 
 CREATE TABLE `reservation_participants`
 (
-    `reservation_participants_id` BIGINT NOT NULL,
+    `reservation_participants_id` BIGINT NOT NULL AUTO_INCREMENT,
     `reservation_reservation_id`  BIGINT NULL DEFAULT NULL,
     `user_user_key`               BIGINT NULL DEFAULT NULL,
     PRIMARY KEY (`reservation_participants_id`),
     FOREIGN KEY (`reservation_reservation_id`) REFERENCES `reservation` (`reservation_id`),
     FOREIGN KEY (`user_user_key`) REFERENCES `user` (`user_key`)
-);
-
-CREATE TABLE `reservation_participants_seq`
-(
-    `next_val` BIGINT NULL DEFAULT NULL
 );

@@ -1,4 +1,4 @@
-CREATE TABLE `profile`
+CREATE TABLE IF NOT EXISTS `profile`
 (
     `profile_key` BIGINT       NOT NULL AUTO_INCREMENT,
     `email`       VARCHAR(255) NULL DEFAULT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE `profile`
     PRIMARY KEY (`profile_key`)
 );
 
-CREATE TABLE `user`
+CREATE TABLE IF NOT EXISTS `user`
 (
     `user_key`            BIGINT       NOT NULL AUTO_INCREMENT,
     `id`                  VARCHAR(30)  NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE `user`
     FOREIGN KEY (`profile_profile_key`) REFERENCES `profile` (`profile_key`)
 );
 
-CREATE TABLE `post`
+CREATE TABLE IF NOT EXISTS `post`
 (
     `post_id`          BIGINT        NOT NULL AUTO_INCREMENT,
     `content`          VARCHAR(1100) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `post`
     FOREIGN KEY (`writer_user_key`) REFERENCES `user` (`user_key`)
 );
 
-CREATE TABLE `attachment`
+CREATE TABLE IF NOT EXISTS `attachment`
 (
     `attachment_id`  BIGINT       NOT NULL AUTO_INCREMENT,
     `file_size`      BIGINT       NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE `attachment`
     FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`)
 );
 
-CREATE TABLE `meeting`
+CREATE TABLE IF NOT EXISTS `meeting`
 (
     `meeting_id`             BIGINT       NOT NULL AUTO_INCREMENT,
     `address`                VARCHAR(255) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE `meeting`
     PRIMARY KEY (`meeting_id`),
     FOREIGN KEY (`meeting_owner_user_key`) REFERENCES `user` (`user_key`)
 );
-CREATE TABLE `chat_room`
+CREATE TABLE IF NOT EXISTS `chat_room`
 (
     `chat_id`               BIGINT NOT NULL AUTO_INCREMENT,
     `create_date`             DATE   NULL DEFAULT NULL,
@@ -73,9 +73,9 @@ CREATE TABLE `chat_room`
     FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
 );
 
-ALTER TABLE `meeting` ADD CONSTRAINT `MEETINGFORIEGNKEY` FOREIGN KEY(`chat_room_chat_id`) REFERENCES `chat_room` (`chat_id`);
+# ALTER TABLE `meeting` ADD CONSTRAINT `MEETINGFORIEGNKEY` FOREIGN KEY(`chat_room_chat_id`) REFERENCES `chat_room` (`chat_id`);
 
-CREATE TABLE `chat`
+CREATE TABLE IF NOT EXISTS `chat`
 (
     `chat_id`               BIGINT       NOT NULL AUTO_INCREMENT,
     `message`               VARCHAR(255) NULL DEFAULT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE `chat`
     FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
 );
 
-CREATE TABLE `chat_room_chat_data`
+CREATE TABLE IF NOT EXISTS `chat_room_chat_data`
 (
     `chat_room_chat_id` BIGINT NOT NULL,
     `chat_data_chat_id` BIGINT NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE `chat_room_chat_data`
     FOREIGN KEY (`chat_data_chat_id`) REFERENCES `chat` (`chat_id`)
 );
 
-CREATE TABLE `comment`
+CREATE TABLE IF NOT EXISTS `comment`
 (
     `comment_id`      BIGINT       NOT NULL AUTO_INCREMENT,
     `content`         VARCHAR(200) NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE `comment`
     FOREIGN KEY (`writer_user_key`) REFERENCES `user` (`user_key`)
 );
 
-CREATE TABLE `meeting_participant`
+CREATE TABLE IF NOT EXISTS `meeting_participant`
 (
     `meeting_participant_id` BIGINT NOT NULL AUTO_INCREMENT,
     `meeting_id`             BIGINT NULL DEFAULT NULL,
@@ -117,7 +117,7 @@ CREATE TABLE `meeting_participant`
     FOREIGN KEY (`user_id`) REFERENCES `user` (`user_key`)
 );
 
-CREATE TABLE `post_recommendation`
+CREATE TABLE IF NOT EXISTS `post_recommendation`
 (
     `post_post_id`            BIGINT NOT NULL,
     `recommendation_user_key` BIGINT NOT NULL,
@@ -126,14 +126,14 @@ CREATE TABLE `post_recommendation`
     FOREIGN KEY (`recommendation_user_key`) REFERENCES `user` (`user_key`)
 );
 
-CREATE TABLE `tag`
+CREATE TABLE IF NOT EXISTS `tag`
 (
     `tag_id`   BIGINT      NOT NULL AUTO_INCREMENT,
     `tag_data` VARCHAR(15) NOT NULL,
     PRIMARY KEY (`tag_id`)
 );
 
-CREATE TABLE `post_tag`
+CREATE TABLE IF NOT EXISTS `post_tag`
 (
     `post_post_id` BIGINT NOT NULL,
     `tag_tag_id`   BIGINT NOT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE `post_tag`
     FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`)
 );
 
-CREATE TABLE `refresh_token`
+CREATE TABLE IF NOT EXISTS `refresh_token`
 (
     `token_id`  BIGINT       NOT NULL AUTO_INCREMENT,
     `key_email` VARCHAR(255) NOT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE `refresh_token`
     PRIMARY KEY (`token_id`)
 );
 
-CREATE TABLE `reservation`
+CREATE TABLE IF NOT EXISTS `reservation`
 (
     `reservation_id`      BIGINT       NOT NULL AUTO_INCREMENT,
     `address`             VARCHAR(255) NULL DEFAULT NULL,
@@ -164,17 +164,12 @@ CREATE TABLE `reservation`
     FOREIGN KEY (`meetings_meeting_id`) REFERENCES `meeting` (`meeting_id`)
 );
 
-CREATE TABLE `reservation_participants`
+CREATE TABLE IF NOT EXISTS `reservation_participants`
 (
-    `reservation_participants_id` BIGINT NOT NULL,
+    `reservation_participants_id` BIGINT NOT NULL AUTO_INCREMENT,
     `reservation_reservation_id`  BIGINT NULL DEFAULT NULL,
     `user_user_key`               BIGINT NULL DEFAULT NULL,
     PRIMARY KEY (`reservation_participants_id`),
     FOREIGN KEY (`reservation_reservation_id`) REFERENCES `reservation` (`reservation_id`),
     FOREIGN KEY (`user_user_key`) REFERENCES `user` (`user_key`)
-);
-
-CREATE TABLE `reservation_participants_seq`
-(
-    `next_val` BIGINT NULL DEFAULT NULL
 );

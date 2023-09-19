@@ -1308,7 +1308,7 @@
     height: auto;
     min-height: 650px;
     margin: 0 auto;
-    margin-top: 200px;
+    margin-top: 50px;
     display: flex;
     justify-content: space-between;
     background-color: white;
@@ -1380,7 +1380,7 @@
     width: 900px;
     margin: 0 auto;
     height: auto;
-    margin-top: 23px;
+    margin-top: 100px;
     position: relative;
     display: flex;
     justify-content: flex-start;

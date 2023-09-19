@@ -238,12 +238,12 @@
 
 .meetingPageNation {
   position: relative;
-  top: 450px;
+  top: -20px;
 }
 
 .meetingContentArea {
   width: 1200px;
-  height: 725px;
+  height: 1200px;
   position: relative;
   top: 250px;
 }
