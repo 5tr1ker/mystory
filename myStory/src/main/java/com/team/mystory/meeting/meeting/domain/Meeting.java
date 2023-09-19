@@ -83,6 +83,7 @@ public class Meeting {
         this.address = meetingRequest.getAddress();
         this.description = meetingRequest.getDescription();
         this.detailAddress = meetingRequest.getDetailAddress();
+        this.maxParticipants = meetingRequest.getMaxParticipants();
     }
 
     public void addReservation(Reservation reservation) {

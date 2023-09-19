@@ -26,7 +26,7 @@ const Chat = ({ dropDownSet }) => {
   }, [chatData]);
 
   // Chatting 관련 끝
-  const webSocketUrl = `ws://server-springBoot:8080/chat`;
+  const webSocketUrl = `server-springBoot:8080/chat`;
   let ws = useRef(null);
 
   const [socketConnected, setSocketConnected] = useState(false);
