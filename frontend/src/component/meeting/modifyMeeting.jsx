@@ -55,7 +55,6 @@ const ModifyMeeting = () => {
       setParticipant(response.data.maxParticipants);
       setDetailAddress(response.data.detailAddress);
       setAddress(response.data.address);
-      console.log(response.data);
     }).catch((err) => {
 
     });
