@@ -39,7 +39,7 @@ public class LoginController {
 		return ResponseEntity.ok().body(loginService.login(userInfo , response));
 	}
 
-	@PostMapping(value = "/logout")
+	@PostMapping(value = "/user/logout")
 	public ResponseEntity logout(HttpServletResponse response) {
 		deleteJwtTokenInCookie(response);
 

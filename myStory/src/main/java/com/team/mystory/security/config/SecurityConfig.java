@@ -42,7 +42,7 @@ public class SecurityConfig {
 				.and()
 				.authorizeHttpRequests()
 				.requestMatchers(HttpMethod.GET , "/**").permitAll()
-				.requestMatchers(HttpMethod.POST , "/logins" , "/registers" , "/oauth/token").permitAll()
+				.requestMatchers(HttpMethod.POST , "/logins" , "/registers" , "/oauth/token" , "/user/logout").permitAll()
 				.requestMatchers(HttpMethod.PATCH , "/posts/views/**").permitAll()
 				.requestMatchers(HttpMethod.DELETE , "/**").hasRole(UserRole.USER.name())
 				.requestMatchers(HttpMethod.PATCH , "/**").hasRole(UserRole.USER.name())
