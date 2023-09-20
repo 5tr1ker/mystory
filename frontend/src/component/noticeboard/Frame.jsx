@@ -41,7 +41,6 @@ const NoticeFrame = () => {
         sessionUserId = null;
         localStorage.removeItem("userId");
         setUserOption(); // 강제 리렌더링
-        window.location.replace("/logout");
     }
 
     const getInitData = async () => {
