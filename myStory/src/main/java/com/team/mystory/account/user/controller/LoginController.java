@@ -13,6 +13,7 @@ import javax.security.auth.login.AccountException;
 import java.io.IOException;
 
 import static com.team.mystory.common.ResponseCode.LOGOUT_SUCCESS;
+import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +37,13 @@ public class LoginController {
 	@PostMapping(value = "/logins")
 	public ResponseEntity<ResponseMessage> login(@RequestBody LoginRequest userInfo , HttpServletResponse response) throws AccountException {
 		return ResponseEntity.ok().body(loginService.login(userInfo , response));
+	}
+
+	@PostMapping(value = "/logout")
+	public ResponseEntity logout(HttpServletResponse response) {
+		deleteJwtTokenInCookie(response);
+
+		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping(value = "/users")
