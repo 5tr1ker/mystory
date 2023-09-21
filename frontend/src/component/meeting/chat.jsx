@@ -40,6 +40,8 @@ const Chat = ({ dropDownSet }) => {
     if (e.key == 'Enter') {
       if(inputData == "") {
         alert("메세지를 입력해 주세요.");
+
+        return;
       }
       if (socketConnected) {
         ws.current.send(
