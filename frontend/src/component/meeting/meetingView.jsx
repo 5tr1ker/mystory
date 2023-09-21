@@ -8,6 +8,7 @@ import pen from '../../_image/pen.png';
 import trash from '../../_image/trash.svg';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import defaultALT from '../../_image/defaultALT.png'
 import ShowReservation from './reservationContent';
 
 const MeetingView = () => {
@@ -86,7 +87,7 @@ const MeetingView = () => {
         <img
           key={data.userKey}
           className="mask-group-2-meetingView"
-          alt="Mask group"
+          alt={defaultALT}
           src={data.profileImage}
           title={data.userId}
         />
@@ -103,7 +104,7 @@ const MeetingView = () => {
         <div key={data.userKey}>
           <img
             className="mask-group-2-meetingView-viewMore"
-            alt="Mask group"
+            alt={defaultALT}
             src={data.profileImage}
             title={data.userId}
           />
@@ -183,7 +184,7 @@ const MeetingView = () => {
           {/* 파티 장 이미지 */}
           <img
             className="mask-group-3-meetingView"
-            alt="meeting Owner"
+            alt={defaultALT}
             title={owner.userId}
             src={owner.profileImage}
           />
