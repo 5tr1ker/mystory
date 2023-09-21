@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import React from "react";
 import { useRef } from "react";
+import defaultALT from '../../_image/defaultALT.png'
 
 const Profile = ({idStatus , rerenders , profileImageUrl}) => {
     const [profileEdits , setEdits] = useState(false);
@@ -209,7 +210,7 @@ const Profile = ({idStatus , rerenders , profileImageUrl}) => {
                     <div className="profileEdits-area">
                         <div className="profile-pic">
                             <div className="userprofilepic" onClick={() => imageInput.current.click()}>
-                                <img className="userprofilepic" src={profileImageUrl} alt="profileImage" />
+                                <img className="userprofilepic" src={profileImageUrl || defaultALT} alt="img" />
                             </div>
                             <input type="file" onChange={(e) => uploadImage(e)} name="file" ref={imageInput} style={{ display: "none" }}/>
                             <button className="saveandreturn" onClick={doneChange}>

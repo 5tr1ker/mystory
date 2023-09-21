@@ -1,5 +1,5 @@
 import line from '../../_image/line-3.svg';
-import etc from '../../_image/etc.svg';
+import defaultALT from '../../_image/defaultALT.png'
 import locate from '../../_image/locate.png';
 import time from '../../_image/time.png';
 import people from '../../_image/people.svg';
@@ -78,7 +78,7 @@ const ShowReservation = ({ reservation }) => {
                 <div key={data.userKey}>
                     <img
                         className="mask-group-2-meetingView-viewMore"
-                        alt="Mask group"
+                        alt="img" onError={(event) => {event.target.src = defaultALT}} 
                         src={data.profileImage}
                         title={data.userId}
                     />

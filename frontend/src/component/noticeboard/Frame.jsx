@@ -16,6 +16,7 @@ import MeetingList from '../meeting/meetingList';
 import MeetingView from '../meeting/meetingView';
 import NewReservation from '../meeting/newReservation';
 import ModifyMeeting from '../meeting/modifyMeeting';
+import defaultALT from '../../_image/defaultALT.png'
 
 const NoticeFrame = () => {
     let sessionUserId = localStorage.getItem("userId");
@@ -100,7 +101,7 @@ const NoticeFrame = () => {
                                 <Fragment>
                                     <div className='noticeLogin' onClick={setDropers}>
                                         <div className="profileimage">
-                                            <img src={profileImage} className="profileImageData"/>
+                                            <img src={profileImage || defaultALT} alt="img"className="profileImageData"/>
                                         </div>
                                         <span style={{ borderRight: "none" }}>{sessionUserId} 님
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill profilepointer" viewBox="0 0 16 16">

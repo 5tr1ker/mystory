@@ -8,6 +8,7 @@ import pen from '../../_image/pen.png';
 import trash from '../../_image/trash.svg';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import defaultALT from '../../_image/defaultALT.png'
 import ShowReservation from './reservationContent';
 
 const MeetingView = () => {
@@ -86,8 +87,8 @@ const MeetingView = () => {
         <img
           key={data.userKey}
           className="mask-group-2-meetingView"
-          alt="Mask group"
-          src={data.profileImage}
+          alt="img"
+          src={data.profileImage || defaultALT}
           title={data.userId}
         />
       ))
@@ -103,8 +104,8 @@ const MeetingView = () => {
         <div key={data.userKey}>
           <img
             className="mask-group-2-meetingView-viewMore"
-            alt="Mask group"
-            src={data.profileImage}
+            alt="img"
+            src={data.profileImage || defaultALT}
             title={data.userId}
           />
           <span className="memberName">{data.userId}</span>
@@ -183,9 +184,9 @@ const MeetingView = () => {
           {/* 파티 장 이미지 */}
           <img
             className="mask-group-3-meetingView"
-            alt="meeting Owner"
+            alt="img"
             title={owner.userId}
-            src={owner.profileImage}
+            src={owner.profileImage || defaultALT}
           />
           <div className="overlap-meetingView">
             <div className="text-wrapper-5-meetingView">참여</div>
