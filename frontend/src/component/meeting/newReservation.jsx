@@ -11,7 +11,7 @@ import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 
-const NewReservation = () => {
+const NewReservation = ({idStatus}) => {
   const urlStat = window.location.pathname.split("/");
   const [arrs, setArrs] = useState([]);
   const [locate, setLocate] = useState();
@@ -36,6 +36,11 @@ const NewReservation = () => {
   }
 
   useEffect(() => {
+    if (idStatus == undefined) {
+      alert('로그인 후 사용해주세요.');
+      window.history.back();
+    }
+    
     let data = [];
     for (let i = 1; i <= 20; i++) {
       data.push(<option key={i} value={i} style={{ fontWeight: "600" }}>{i}</option>);

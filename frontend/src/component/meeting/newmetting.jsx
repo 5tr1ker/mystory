@@ -5,7 +5,7 @@ import camera from '../../_image/camera.png';
 import Maps from '../map/maps';
 import axios from 'axios';
 
-const NewMeeting = () => {
+const NewMeeting = ({idStatus}) => {
 
     const [arrs , setArrs] = useState([]);
 
@@ -35,6 +35,10 @@ const NewMeeting = () => {
     }
 
     useEffect(() => {
+      if (idStatus == undefined) {
+        alert('로그인 후 사용해주세요.');
+        window.history.back();
+      }
       let data = [];
         for(let i = 1; i <= 20; i++) {
             data.push(<option key={i} value={i} style={{ fontWeight: "600" }}>{i}</option>);
