@@ -56,7 +56,7 @@ public class Meeting {
     private List<MeetingParticipant> meetingParticipants = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "meetingId" , cascade = { CascadeType.PERSIST })
+    @OneToMany(mappedBy = "meetingId" , cascade = { CascadeType.PERSIST , CascadeType.REMOVE } , orphanRemoval = true)
     private List<Chat> chats = new ArrayList<>();
 
     public static Meeting createMeetingEntity(MeetingRequest meetingRequest , User user) {
