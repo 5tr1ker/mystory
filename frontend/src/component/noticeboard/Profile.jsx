@@ -132,17 +132,16 @@ const Profile = ({idStatus , rerenders , profileImageUrl}) => {
                         doneChange();
                         return;
                     }
-                    alert("User Name이 변경되어 다시 로그인을 시도해주세요."); 
                     await axios({
-                        url : `/logout` ,
-                        method : "GET" ,
+                        url : `/user/logout` ,
+                        method : "POST" ,
                         mode : "cors"
                     });
+                    alert("User Name이 변경되어 다시 로그인을 시도해주세요.");
                     rerenders();
                     nav("/login", { replace: false }); }) 
                 .catch((e) => {
-                    rerenders();
-                nav("/login", { replace: false });
+                    alert(e.response.data.message);
                 });
             } else {
                 await axios({
