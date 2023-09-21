@@ -4,7 +4,7 @@ export function deleteAllToken () {
     axios({
         method: "POST",
         mode: "cors",
-        url: `/logout`,
+        url: `/user/logout`,
     });
     localStorage.removeItem("userId");
 }

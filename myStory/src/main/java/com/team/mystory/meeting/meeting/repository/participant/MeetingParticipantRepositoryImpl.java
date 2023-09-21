@@ -54,6 +54,7 @@ public class MeetingParticipantRepositoryImpl implements CustomMeetingParticipan
                 )).from(meetingParticipant)
                 .innerJoin(meetingParticipant.userList, user).on(user.id.eq(userId))
                 .innerJoin(meetingParticipant.meetingList, meeting)
+                .orderBy(meeting.meetingId.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

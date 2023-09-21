@@ -19,8 +19,13 @@
     background-color: #ffffff;
     height: 520px;
     overflow: hidden;
-    position: relative;
+    position: fixed;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 75px;
     width: 880px;
+    border: 1px solid black;
   }
   
   .screen-detail .overlap-group-detail {

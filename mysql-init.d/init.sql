@@ -1,94 +1,175 @@
-create table profile
+CREATE TABLE `profile`
 (
-    profile_key bigint  not null AUTO_INCREMENT,
-    email       varchar(255),
-    options      integer not null,
-    phone       varchar(255),
-    primary key (profile_key)
+    `profile_key` BIGINT       NOT NULL AUTO_INCREMENT,
+    `email`       VARCHAR(255) NULL DEFAULT NULL,
+    `options`     INT          NOT NULL,
+    `phone`       VARCHAR(255) NULL DEFAULT NULL,
+    PRIMARY KEY (`profile_key`)
 );
 
-create table user
+CREATE TABLE `user`
 (
-    user_key            bigint       not null AUTO_INCREMENT,
-    id                  varchar(30)  not null,
-    join_date           date         not null,
-    password            varchar(255)  not null,
-    role                varchar(255) not null,
-    user_type           varchar(255) not null,
-    profile_profile_key bigint       not null,
-    primary key (user_key),
-    foreign key (profile_profile_key) references profile (profile_key)
+    `user_key`            BIGINT       NOT NULL AUTO_INCREMENT,
+    `id`                  VARCHAR(30)  NOT NULL,
+    `join_date`           DATE         NOT NULL,
+    `password`            VARCHAR(255) NOT NULL,
+    `profile_image`       VARCHAR(255) NULL DEFAULT NULL,
+    `role`                VARCHAR(255) NOT NULL,
+    `user_type`           VARCHAR(255) NOT NULL,
+    `profile_profile_key` BIGINT       NOT NULL,
+    PRIMARY KEY (`user_key`),
+    FOREIGN KEY (`profile_profile_key`) REFERENCES `profile` (`profile_key`)
 );
 
-create table post
+CREATE TABLE `post`
 (
-    post_id          bigint       not null auto_increment,
-    content          varchar(1100) not null,
-    is_block_comment varchar(255) not null,
-    is_private       varchar(255) not null,
-    likes            integer      not null,
-    post_date        datetime(6),
-    title            varchar(50)  not null,
-    views            integer      not null,
-    writer_user_key  bigint,
-    primary key (post_id),
-    foreign key (writer_user_key) references user (user_key)
-);
-create fulltext index idx_post_title on post(title);
-create fulltext index idx_post_content on post(content);
-
-create table attachment
-(
-    attachment_id  bigint       not null AUTO_INCREMENT,
-    file_size      bigint       not null,
-    real_file_name varchar(50)  not null,
-    s3url          varchar(100) not null,
-    uuid_file_name varchar(50)  not null,
-    post_post_id   bigint       not null,
-    primary key (attachment_id) ,
-    foreign key (post_post_id) references post (post_id)
+    `post_id`          BIGINT        NOT NULL AUTO_INCREMENT,
+    `content`          VARCHAR(1100) NOT NULL,
+    `is_block_comment` VARCHAR(255)  NOT NULL,
+    `is_private`       VARCHAR(255)  NOT NULL,
+    `likes`            INT           NOT NULL,
+    `post_date`        DATETIME(6)   NULL DEFAULT NULL,
+    `title`            VARCHAR(50)   NOT NULL,
+    `views`            INT           NOT NULL,
+    `writer_user_key`  BIGINT        NULL DEFAULT NULL,
+    PRIMARY KEY (`post_id`),
+    FOREIGN KEY (`writer_user_key`) REFERENCES `user` (`user_key`)
 );
 
-create table comment
+CREATE TABLE `attachment`
 (
-    comment_id      bigint       not null AUTO_INCREMENT,
-    content         varchar(200) not null,
-    post_date       datetime(6),
-    post_post_id    bigint       not null,
-    writer_user_key bigint,
-    primary key (comment_id) ,
-    foreign key (post_post_id) references post (post_id) ,
-    foreign key (writer_user_key) references user (user_key)
+    `attachment_id`  BIGINT       NOT NULL AUTO_INCREMENT,
+    `file_size`      BIGINT       NOT NULL,
+    `real_file_name` VARCHAR(50)  NOT NULL,
+    `s3url`          VARCHAR(100) NOT NULL,
+    `uuid_file_name` VARCHAR(50)  NOT NULL,
+    `post_post_id`   BIGINT       NOT NULL,
+    PRIMARY KEY (`attachment_id`),
+    FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`)
 );
 
-create table post_recommendation
+CREATE TABLE `meeting`
 (
-    post_post_id            bigint not null,
-    recommendation_user_key bigint not null,
-    unique (recommendation_user_key , post_post_id),
-    foreign key (recommendation_user_key) references user (user_key),
-    foreign key (post_post_id) references post (post_id)
+    `meeting_id`             BIGINT       NOT NULL AUTO_INCREMENT,
+    `address`                VARCHAR(255) NOT NULL,
+    `description`            VARCHAR(255) NULL DEFAULT NULL,
+    `detail_address`         VARCHAR(255) NULL DEFAULT NULL,
+    `locatex`                DOUBLE       NOT NULL,
+    `locatey`                DOUBLE       NOT NULL,
+    `max_participants`       INT          NOT NULL,
+    `meeting_image`          VARCHAR(255) NULL DEFAULT NULL,
+    `title`                  VARCHAR(255) NULL DEFAULT NULL,
+    `chat_room_chat_id`      BIGINT       NULL DEFAULT NULL,
+    `meeting_owner_user_key` BIGINT       NULL DEFAULT NULL,
+    PRIMARY KEY (`meeting_id`),
+    FOREIGN KEY (`meeting_owner_user_key`) REFERENCES `user` (`user_key`)
+);
+CREATE TABLE `chat_room`
+(
+    `chat_id`               BIGINT NOT NULL AUTO_INCREMENT,
+    `create_date`             DATE   NULL DEFAULT NULL,
+    `meeting_id_meeting_id` BIGINT NULL DEFAULT NULL,
+    PRIMARY KEY (`chat_id`),
+    FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
 );
 
-create table tag
+ALTER TABLE `meeting` ADD CONSTRAINT `MEETINGFORIEGNKEY` FOREIGN KEY(`chat_room_chat_id`) REFERENCES `chat_room` (`chat_id`);
+
+CREATE TABLE `chat`
 (
-    tag_id   bigint      not null AUTO_INCREMENT,
-    tag_data varchar(15) not null,
-    primary key (tag_id)
+    `chat_id`               BIGINT       NOT NULL AUTO_INCREMENT,
+    `message`               VARCHAR(255) NULL DEFAULT NULL,
+    `send_time`             VARCHAR(255) NULL DEFAULT NULL,
+    `sender`                VARCHAR(255) NULL DEFAULT NULL,
+    `sender_image`          VARCHAR(255) NULL DEFAULT NULL,
+    `meeting_id_meeting_id` BIGINT       NULL DEFAULT NULL,
+    PRIMARY KEY (`chat_id`),
+    FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
 );
 
-create table post_tag
+CREATE TABLE `chat_room_chat_data`
 (
-    post_post_id bigint not null,
-    tag_tag_id   bigint not null,
-    foreign key (tag_tag_id) references tag (tag_id),
-    foreign key (post_post_id) references post (post_id)
+    `chat_room_chat_id` BIGINT NOT NULL,
+    `chat_data_chat_id` BIGINT NOT NULL,
+    FOREIGN KEY (`chat_room_chat_id`) REFERENCES `chat_room` (`chat_id`),
+    FOREIGN KEY (`chat_data_chat_id`) REFERENCES `chat` (`chat_id`)
 );
 
-create table refresh_token
+CREATE TABLE `comment`
 (
-    token_id bigint       not null auto_increment,
-    key_email        varchar(255) not null,
-    token    varchar(255) not null,
-    primary key (token_id)
+    `comment_id`      BIGINT       NOT NULL AUTO_INCREMENT,
+    `content`         VARCHAR(200) NOT NULL,
+    `post_date`       DATETIME(6)  NULL DEFAULT NULL,
+    `post_post_id`    BIGINT       NOT NULL,
+    `writer_user_key` BIGINT       NULL DEFAULT NULL,
+    PRIMARY KEY (`comment_id`),
+    FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`),
+    FOREIGN KEY (`writer_user_key`) REFERENCES `user` (`user_key`)
+);
+
+CREATE TABLE `meeting_participant`
+(
+    `meeting_participant_id` BIGINT NOT NULL AUTO_INCREMENT,
+    `meeting_id`             BIGINT NULL DEFAULT NULL,
+    `user_id`                BIGINT NULL DEFAULT NULL,
+    PRIMARY KEY (`meeting_participant_id`),
+    FOREIGN KEY (`meeting_id`) REFERENCES `meeting` (`meeting_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `user` (`user_key`)
+);
+
+CREATE TABLE `post_recommendation`
+(
+    `post_post_id`            BIGINT NOT NULL,
+    `recommendation_user_key` BIGINT NOT NULL,
+    INDEX `FKjx9y24ucmuk0jhifttugnevq6` (`post_post_id` ASC) VISIBLE,
+    FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`),
+    FOREIGN KEY (`recommendation_user_key`) REFERENCES `user` (`user_key`)
+);
+
+CREATE TABLE `tag`
+(
+    `tag_id`   BIGINT      NOT NULL AUTO_INCREMENT,
+    `tag_data` VARCHAR(15) NOT NULL,
+    PRIMARY KEY (`tag_id`)
+);
+
+CREATE TABLE `post_tag`
+(
+    `post_post_id` BIGINT NOT NULL,
+    `tag_tag_id`   BIGINT NOT NULL,
+    FOREIGN KEY (`tag_tag_id`) REFERENCES `tag` (`tag_id`),
+    FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`)
+);
+
+CREATE TABLE `refresh_token`
+(
+    `token_id`  BIGINT       NOT NULL AUTO_INCREMENT,
+    `key_email` VARCHAR(255) NOT NULL,
+    `token`     VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`token_id`)
+);
+
+CREATE TABLE `reservation`
+(
+    `reservation_id`      BIGINT       NOT NULL AUTO_INCREMENT,
+    `address`             VARCHAR(255) NULL DEFAULT NULL,
+    `date`                DATETIME(6)  NULL DEFAULT NULL,
+    `description`         VARCHAR(255) NULL DEFAULT NULL,
+    `detail_address`      VARCHAR(255) NULL DEFAULT NULL,
+    `locatex`             VARCHAR(255) NULL DEFAULT NULL,
+    `locatey`             VARCHAR(255) NULL DEFAULT NULL,
+    `max_participants`    INT          NOT NULL,
+    `meetings_meeting_id` BIGINT       NULL DEFAULT NULL,
+    PRIMARY KEY (`reservation_id`),
+    FOREIGN KEY (`meetings_meeting_id`) REFERENCES `meeting` (`meeting_id`)
+);
+
+CREATE TABLE `reservation_participants`
+(
+    `reservation_participants_id` BIGINT NOT NULL AUTO_INCREMENT,
+    `reservation_reservation_id`  BIGINT NULL DEFAULT NULL,
+    `user_user_key`               BIGINT NULL DEFAULT NULL,
+    PRIMARY KEY (`reservation_participants_id`),
+    FOREIGN KEY (`reservation_reservation_id`) REFERENCES `reservation` (`reservation_id`),
+    FOREIGN KEY (`user_user_key`) REFERENCES `user` (`user_key`)
 );

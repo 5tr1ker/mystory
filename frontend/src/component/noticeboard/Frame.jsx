@@ -41,7 +41,6 @@ const NoticeFrame = () => {
         sessionUserId = null;
         localStorage.removeItem("userId");
         setUserOption(); // 강제 리렌더링
-        window.location.replace("/logout");
     }
 
     const getInitData = async () => {
@@ -171,11 +170,11 @@ const NoticeFrame = () => {
                     <Route path='/modified/:id' element={<NewPost idStatus={sessionUserId} />}></Route>
                     <Route path='/viewpost' element={<PostView idStatus={sessionUserId} />}></Route>
                     <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} profileImageUrl={profileImage} />}></Route>
-                    <Route path="/meeting" element={<MeetingList idStatus={sessionUserId}/>}></Route>
-                    <Route path="/newmeeting" element={<NewMeeting/>}></Route>
-                    <Route path="/modify/meeting/:id" element={<ModifyMeeting />}></Route>
+                    <Route path="/meeting" element={<MeetingList />}></Route>
+                    <Route path="/newmeeting" element={<NewMeeting idStatus={sessionUserId}/>}></Route>
+                    <Route path="/modify/meeting/:id" element={<ModifyMeeting idStatus={sessionUserId} />}></Route>
                     <Route path="/meeting/:id" element={<MeetingView />}></Route>
-                    <Route path="/newmeeting/:id" element={<NewReservation />}></Route>
+                    <Route path="/newmeeting/:id" element={<NewReservation idStatus={sessionUserId} />}></Route>
                 </Routes>
             </div>
         </Fragment>

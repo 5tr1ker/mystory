@@ -83,6 +83,7 @@ const Register = () => {
 
     return (
         <Fragment>
+            <div className="loginBackGround">
             <div className="loginFrame">
                 <Link to="/login">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-left Arrows" viewBox="0 0 16 16">
@@ -108,6 +109,7 @@ const Register = () => {
                 <span className='platformTextbox'>Sign Up Now</span>
                 <span className='platformTextbox2'>Create a new account and connect with others.</span>
                 <img src={img01} alt='img' className="loginImg" />
+            </div>
             </div>
         </Fragment>
     )

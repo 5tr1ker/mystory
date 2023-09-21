@@ -36,7 +36,6 @@ public class ChatRepositoryImpl implements CustomChatRepository {
                         chat.senderImage
                 )).from(chat)
                 .innerJoin(chat.meetingId , meeting).on(meeting.meetingId.eq(meetingId))
-                .orderBy(chat.chatId.desc())
                 .fetch();
     }
 

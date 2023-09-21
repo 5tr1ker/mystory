@@ -26,7 +26,7 @@ const Chat = ({ dropDownSet }) => {
   }, [chatData]);
 
   // Chatting 관련 끝
-  const webSocketUrl = `ws://server-springBoot:8080/chat`;
+  const webSocketUrl = `wss://mystorynews.com/chat`;
   let ws = useRef(null);
 
   const [socketConnected, setSocketConnected] = useState(false);
@@ -40,6 +40,8 @@ const Chat = ({ dropDownSet }) => {
     if (e.key == 'Enter') {
       if(inputData == "") {
         alert("메세지를 입력해 주세요.");
+
+        return;
       }
       if (socketConnected) {
         ws.current.send(
@@ -155,7 +157,7 @@ const Chat = ({ dropDownSet }) => {
         <div className="overlap-group-chatData" key={detail.chatId == 0 ? Math.floor(Math.random() * 10_000_000_001) : detail.chatId}>
           <img
             className="mask-group-chatData"
-            alt="Mask group"
+            alt="Pic"
             src={detail.senderImage}
           />
           <div className="text-wrapper-7-chatData">{detail.sender}</div>

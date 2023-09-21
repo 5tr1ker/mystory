@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map } from "./kakao-maps/esm/components/Map.js";
+import { MapMarker } from "./kakao-maps/esm/components/MapMarker.js";
 
 const { kakao } = window;
 

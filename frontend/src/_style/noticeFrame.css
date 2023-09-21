@@ -287,7 +287,7 @@
     max-height: 60px;
     display:flex;
     flex-direction: row;
-    z-index: 10;
+    z-index: 65535;
     position: fixed;
     top: 0px;
     margin: 0 auto;
@@ -499,6 +499,7 @@
     height: 600px;
     min-height: 600px;
     margin: 0 auto;
+    margin-top: 100px;
 }
 
 .profileArea div {
@@ -850,12 +851,14 @@
     justify-content: center;
     background-color: white;
     z-index: 1;
+    margin-top: 10%;
 }
 
 .noticeFrameArea {
     width: 800px;
     height: 100%;
     min-height: 610px;
+    margin-top: -50px;
 }
 
 .noticeFooter {
@@ -1305,6 +1308,7 @@
     height: auto;
     min-height: 650px;
     margin: 0 auto;
+    margin-top: 50px;
     display: flex;
     justify-content: space-between;
     background-color: white;
@@ -1376,7 +1380,7 @@
     width: 900px;
     margin: 0 auto;
     height: auto;
-    margin-top: 23px;
+    margin-top: 100px;
     position: relative;
     display: flex;
     justify-content: flex-start;

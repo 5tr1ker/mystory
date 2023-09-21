@@ -123,7 +123,7 @@ const MeetingView = () => {
       }).then((response) => {
         window.location.replace("/meeting");
       }).catch((err) => {
-
+        alert(err.response.data.message);
       });
     }
   }

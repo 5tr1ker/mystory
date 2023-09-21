@@ -10,7 +10,7 @@ import MeetingContent from "./meetingContent.jsx";
 import MeetingDetail from "./meetingDetail";
 import axios from "axios";
 
-const MeetingList = ({ idStatus }) => {
+const MeetingList = () => {
 
   const newmeeting = () => {
     window.location.href = "/newmeeting";
@@ -100,11 +100,6 @@ const MeetingList = ({ idStatus }) => {
 
   useEffect(async () => {
     if (meetingOption) {
-      if (idStatus == undefined) {
-        alert("로그인 후 진행해주세요.");
-
-        setMeetingOption(false);
-      }
       await axios({ // 컨텐츠 갯수
         method: "GET",
         mode: "cors",

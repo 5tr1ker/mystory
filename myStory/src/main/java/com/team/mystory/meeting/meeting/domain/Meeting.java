@@ -5,12 +5,10 @@ import com.team.mystory.meeting.chat.entity.Chat;
 import com.team.mystory.meeting.chat.entity.ChatRoom;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.reservation.entity.Reservation;
-import com.team.mystory.meeting.reservation.service.ReservationService;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -58,7 +56,7 @@ public class Meeting {
     private List<MeetingParticipant> meetingParticipants = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "meetingId" , cascade = { CascadeType.PERSIST })
+    @OneToMany(mappedBy = "meetingId" , cascade = { CascadeType.PERSIST , CascadeType.REMOVE } , orphanRemoval = true)
     private List<Chat> chats = new ArrayList<>();
 
     public static Meeting createMeetingEntity(MeetingRequest meetingRequest , User user) {
@@ -85,6 +83,7 @@ public class Meeting {
         this.address = meetingRequest.getAddress();
         this.description = meetingRequest.getDescription();
         this.detailAddress = meetingRequest.getDetailAddress();
+        this.maxParticipants = meetingRequest.getMaxParticipants();
     }
 
     public void addReservation(Reservation reservation) {

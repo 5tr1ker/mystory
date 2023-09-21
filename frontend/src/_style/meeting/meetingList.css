@@ -3,12 +3,12 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 100%;
 }
 
 .screen .div {
   position: relative;
   width: 821px;
+  margin-top: 0px;
 }
 
 .screen .text-wrapper {
@@ -238,12 +238,12 @@
 
 .meetingPageNation {
   position: relative;
-  top: 450px;
+  top: -20px;
 }
 
 .meetingContentArea {
   width: 1200px;
-  height: 725px;
+  height: 1200px;
   position: relative;
   top: 250px;
 }

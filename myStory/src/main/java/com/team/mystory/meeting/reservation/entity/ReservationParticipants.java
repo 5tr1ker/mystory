@@ -12,8 +12,8 @@ import lombok.*;
 public class ReservationParticipants {
 
     @Id
-    @GeneratedValue
-    long reservationParticipantsId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long reservationParticipantsId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

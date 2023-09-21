@@ -6,7 +6,7 @@ import camera from '../../_image/camera.png';
 import Maps from '../map/maps';
 import axios from 'axios';
 
-const ModifyMeeting = () => {
+const ModifyMeeting = ({idStatus}) => {
   const urlStat = window.location.pathname.split("/");
   const [arrs, setArrs] = useState([]);
   const [title, setTitle] = useState([]);
@@ -36,6 +36,11 @@ const ModifyMeeting = () => {
   }
 
   useEffect(async () => {
+    if (idStatus == undefined) {
+      alert('로그인 후 사용해주세요.');
+      window.history.back();
+    }
+
     let data = [];
     for (let i = 1; i <= 20; i++) {
       data.push(<option key={i} value={i} style={{ fontWeight: "600" }}>{i}</option>);
@@ -55,7 +60,6 @@ const ModifyMeeting = () => {
       setParticipant(response.data.maxParticipants);
       setDetailAddress(response.data.detailAddress);
       setAddress(response.data.address);
-      console.log(response.data);
     }).catch((err) => {
 
     });
