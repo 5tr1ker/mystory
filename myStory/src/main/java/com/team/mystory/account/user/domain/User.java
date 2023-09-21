@@ -8,6 +8,7 @@ import com.team.mystory.account.user.constant.UserRole;
 import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.meeting.meeting.domain.Meeting;
+import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.post.post.domain.Post;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -68,6 +69,10 @@ public class User implements UserDetails {
 	@Builder.Default
 	@OneToMany(mappedBy = "meetingOwner" , cascade = CascadeType.ALL)
 	private List<Meeting> meetings = new ArrayList<>();
+
+	@Builder.Default
+	@OneToMany(mappedBy = "userList" , cascade = CascadeType.REMOVE , orphanRemoval = true)
+	private List<MeetingParticipant> participants = new LinkedList<>();
 
 	public static User createGeneralUser(LoginRequest loginRequest , String url , String password) {
 		return User.builder()

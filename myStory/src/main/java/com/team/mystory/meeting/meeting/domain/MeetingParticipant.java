@@ -29,10 +29,14 @@ public class MeetingParticipant {
     private User userList;
 
     public static MeetingParticipant createMeetingParticipant(Meeting meeting , User user) {
-        return MeetingParticipant.builder()
+        MeetingParticipant participant = MeetingParticipant.builder()
                 .meetingList(meeting)
                 .userList(user)
                 .build();
+
+        user.getParticipants().add(participant);
+
+        return participant;
     }
 
 }
