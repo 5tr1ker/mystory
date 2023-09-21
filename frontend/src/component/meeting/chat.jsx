@@ -157,7 +157,7 @@ const Chat = ({ dropDownSet }) => {
         <div className="overlap-group-chatData" key={detail.chatId == 0 ? Math.floor(Math.random() * 10_000_000_001) : detail.chatId}>
           <img
             className="mask-group-chatData"
-            alt="Mask group"
+            alt="P"
             src={detail.senderImage}
           />
           <div className="text-wrapper-7-chatData">{detail.sender}</div>
