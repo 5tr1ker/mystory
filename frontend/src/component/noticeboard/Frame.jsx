@@ -101,7 +101,7 @@ const NoticeFrame = () => {
                                 <Fragment>
                                     <div className='noticeLogin' onClick={setDropers}>
                                         <div className="profileimage">
-                                            <img src={profileImage} alt={defaultALT} className="profileImageData"/>
+                                            <img src={profileImage} alt="img" onError={(event) => {event.target.src = defaultALT}} className="profileImageData"/>
                                         </div>
                                         <span style={{ borderRight: "none" }}>{sessionUserId} 님
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-down-fill profilepointer" viewBox="0 0 16 16">

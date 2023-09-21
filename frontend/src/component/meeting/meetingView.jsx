@@ -87,7 +87,7 @@ const MeetingView = () => {
         <img
           key={data.userKey}
           className="mask-group-2-meetingView"
-          alt={defaultALT}
+          alt="img" onError={(event) => {event.target.src = defaultALT}} 
           src={data.profileImage}
           title={data.userId}
         />
@@ -104,7 +104,7 @@ const MeetingView = () => {
         <div key={data.userKey}>
           <img
             className="mask-group-2-meetingView-viewMore"
-            alt={defaultALT}
+            alt="img" onError={(event) => {event.target.src = defaultALT}} 
             src={data.profileImage}
             title={data.userId}
           />
@@ -184,7 +184,7 @@ const MeetingView = () => {
           {/* 파티 장 이미지 */}
           <img
             className="mask-group-3-meetingView"
-            alt={defaultALT}
+            alt="img" onError={(event) => {event.target.src = defaultALT}} 
             title={owner.userId}
             src={owner.profileImage}
           />

@@ -210,7 +210,7 @@ const Profile = ({idStatus , rerenders , profileImageUrl}) => {
                     <div className="profileEdits-area">
                         <div className="profile-pic">
                             <div className="userprofilepic" onClick={() => imageInput.current.click()}>
-                                <img className="userprofilepic" src={profileImageUrl} alt={defaultALT} />
+                                <img className="userprofilepic" src={profileImageUrl} alt="img" onError={(event) => {event.target.src = defaultALT}}  />
                             </div>
                             <input type="file" onChange={(e) => uploadImage(e)} name="file" ref={imageInput} style={{ display: "none" }}/>
                             <button className="saveandreturn" onClick={doneChange}>

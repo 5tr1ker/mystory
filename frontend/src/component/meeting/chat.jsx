@@ -144,7 +144,7 @@ const Chat = ({ dropDownSet }) => {
     return (
       room.map(data => (
         <div className="chatContent" key={data.chatId} onClick={() => getChatData(data.chatId, data.meetingId)}>
-          <img className="ellipse-chat" alt={defaultALT} src={data.meetingImage} />
+          <img className="ellipse-chat" alt="img" onError={(event) => {event.target.src = defaultALT}}  src={data.meetingImage} />
           <div className="text-wrapper-chat">{data.meetingTitle}</div>
           <div className="text-wrapper-chat-last">참여 날짜 : {data.createDate}</div>
         </div>
@@ -158,7 +158,7 @@ const Chat = ({ dropDownSet }) => {
         <div className="overlap-group-chatData" key={detail.chatId == 0 ? Math.floor(Math.random() * 10_000_000_001) : detail.chatId}>
           <img
             className="mask-group-chatData"
-            alt={defaultALT}
+            alt="img" onError={(event) => {event.target.src = defaultALT}} 
             src={detail.senderImage}
           />
           <div className="text-wrapper-7-chatData">{detail.sender}</div>

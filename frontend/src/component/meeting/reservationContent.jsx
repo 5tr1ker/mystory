@@ -78,7 +78,7 @@ const ShowReservation = ({ reservation }) => {
                 <div key={data.userKey}>
                     <img
                         className="mask-group-2-meetingView-viewMore"
-                        alt={defaultALT}
+                        alt="img" onError={(event) => {event.target.src = defaultALT}} 
                         src={data.profileImage}
                         title={data.userId}
                     />
