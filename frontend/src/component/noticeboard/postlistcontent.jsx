@@ -9,7 +9,7 @@ const Postcontent = ({ data }) => {
                 <div className="noticedescription userPost">
                     <span>{posts.numbers}</span>
                     <span>{posts.title} <div style={{color: "rgb(60,172,255)", display:"inline"}}>{posts.count ? "["+ posts.count + "] ": null}</div></span>
-                    <span><img src={posts.writerImage} className="profileImageData" alt="img" onError={(event) => {event.target.src = defaultALT}} /> {posts.writer}</span>
+                    <span><img src={posts.writerImage || defaultALT} className="profileImageData" alt="img"/> {posts.writer}</span>
                     <span>{posts.postDate}</span>
                     <span>{posts.likes}</span>
                     <span>{posts.views}</span>
