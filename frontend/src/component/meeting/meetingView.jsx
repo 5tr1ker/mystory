@@ -82,10 +82,10 @@ const MeetingView = () => {
   }, []);
 
   const ShowMember = ({ member }) => {
-    member.splice(4);
+    const tmp = member.slice(0 , 4);
 
     return (
-      member.map(data => (
+      tmp.map(data => (
         <img
           key={data.userKey}
           className="mask-group-2-meetingView"
