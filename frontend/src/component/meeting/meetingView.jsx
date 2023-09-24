@@ -82,6 +82,8 @@ const MeetingView = () => {
   }, []);
 
   const ShowMember = ({ member }) => {
+    member.splice(4);
+
     return (
       member.map(data => (
         <img
