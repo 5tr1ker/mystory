@@ -60,11 +60,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     private void sendChatToSameRootId(long meetingId , ObjectMapper objectMapper , ChatRequest chatMessage) throws IOException {
         List<WebSocketSession> sessions = sessionList.get(meetingId);
+        ChatResponse chatResponse = createChatResponse(chatMessage);
+        saveChatData(meetingId , chatResponse);
 
         for(WebSocketSession webSocketSession : sessions) {
-            ChatResponse chatResponse = createChatResponse(chatMessage);
-            saveChatData(meetingId , chatResponse);
-
             String result = objectMapper.writeValueAsString(chatResponse);
             webSocketSession.sendMessage(new TextMessage(result));
         }
