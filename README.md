@@ -64,6 +64,11 @@
   - /meeting : 미팅 자세히 보기
   - /newmeeting/0 : 미팅 예약하기
 
+<h2>ERD</h2>
+
+![image](https://github.com/5tr1ker/mystory/assets/49367338/9627b77c-db57-4655-91b2-386cb042880c)
+
+
 <h2>Spring Security</h2>
 
 > Security 설정을 추가해 인가된 사용자만 GET을 제외한 모든 API에 접근할 수 있도록 제한합니다. 
