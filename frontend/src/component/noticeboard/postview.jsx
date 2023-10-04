@@ -111,7 +111,7 @@ const PostView = ({ idStatus }) => {
                         headers : {"Content-Type": "application/json"}
                     })
                   }})
-                .catch((e) => {alert(e.response.data.message); return;});
+                .catch((e) => {alert("로그인이 필요한 요청입니다."); return;});
                 
             }
             window.location.reload();
