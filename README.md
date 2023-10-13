@@ -43,6 +43,11 @@
 - AWS S3 ( Storage )
 - AWS ELB ( Load Balancer )
 
+<h2>System Configuration Diagram</h2>
+
+![image](https://github.com/5tr1ker/mystory/assets/49367338/fbdca961-a621-419d-8bef-17bb2f8f7f41)
+
+
 <h2>React</h2>
 
 > React ( SPA ) 구조로 하나의 페이지에 담아 동적으로 화면을 바꿔 사용자에게 출력했습니다.
