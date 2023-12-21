@@ -42,6 +42,11 @@
 - AWS S3 ( Storage )
 - AWS ELB ( Load Balancer )
 
+<h2>ERD</h2>
+
+![image](https://github.com/5tr1ker/mystory/assets/49367338/9627b77c-db57-4655-91b2-386cb042880c)
+
+
 <h2>System Configuration Diagram</h2>
 
 ![image](https://github.com/5tr1ker/mystory/assets/49367338/fbdca961-a621-419d-8bef-17bb2f8f7f41)
@@ -67,11 +72,6 @@
   - /modify/meeting/0 : 미팅 수정
   - /meeting : 미팅 자세히 보기
   - /newmeeting/0 : 미팅 예약하기
-
-<h2>ERD</h2>
-
-![image](https://github.com/5tr1ker/mystory/assets/49367338/9627b77c-db57-4655-91b2-386cb042880c)
-
 
 <h2>Spring Security</h2>
 
