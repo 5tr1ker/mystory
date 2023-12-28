@@ -10,7 +10,7 @@ import MeetingContent from "./meetingContent.jsx";
 import MeetingDetail from "./meetingDetail";
 import axios from "axios";
 
-const MeetingList = () => {
+const MeetingList = ({idStatus}) => {
 
   const newmeeting = () => {
     window.location.href = "/newmeeting";
@@ -18,6 +18,12 @@ const MeetingList = () => {
 
   const [meetingOption, setMeetingOption] = useState(false); // false -> 전채 , true -> 나의 모임
   const setTrueOption = () => {
+    if(idStatus == undefined) {
+      alert("로그인 후 사용할 수 있습니다.");
+
+      return;
+    }
+    
     setMeetingOption(true);
   }
   const setFalseOption = () => {
