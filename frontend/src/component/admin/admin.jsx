@@ -1,57 +1,19 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import '../../_style/admin/admin.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Chart from 'chart.js';
+import AdminMain from './content/main';
+import AdminBug from './content/bug';
+import ContentReport from './content/contentReport';
+import PeopleEdit from './content/people';
 
 const AdminPage = () => {
 
-    useEffect(() => {
-        // Chart.js 스크립트를 동적으로 로드합니다.
-        var ctx = document.getElementById('myChart')
-        // eslint-disable-next-line no-unused-vars
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [
-                    'Sunday',
-                    'Monday',
-                    'Tuesday',
-                    'Wednesday',
-                    'Thursday',
-                    'Friday',
-                    'Saturday'
-                ],
-                datasets: [{
-                    data: [
-                        15339,
-                        21345,
-                        18483,
-                        24003,
-                        23489,
-                        24092,
-                        12034
-                    ],
-                    lineTension: 0,
-                    backgroundColor: 'transparent',
-                    borderColor: '#007bff',
-                    borderWidth: 4,
-                    pointBackgroundColor: '#007bff'
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: false
-                        }
-                    }]
-                },
-                legend: {
-                    display: false
-                }
-            }
-        })
-    }, []);
+    const [component , setComponent] = useState(<AdminMain/>);
+
+    const componentArr = [<AdminMain/> , < AdminBug /> , < ContentReport /> , <PeopleEdit />];
+    const modifyComponent = (index) => {
+        setComponent(componentArr[index]);
+    }
 
     useEffect(() => {
         // Feather Icons 스크립트를 동적으로 로드합니다.
@@ -75,246 +37,57 @@ const AdminPage = () => {
     }, []);
 
     return (
-        <body>
-            <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Company name</a>
-                <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <div className="adminBody">
+            <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+                <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">admin page</a>
+                <button className="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
                 </button>
-                <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" />
-                    <div class="navbar-nav">
-                        <div class="nav-item text-nowrap">
-                            <a class="nav-link px-3" href="#">Sign out</a>
+                    <div className="navbar-nav">
+                        <div className="nav-item text-nowrap">
+                            <a className="nav-link px-3" href="#">Sign out</a>
                         </div>
                     </div>
             </header>
-            <div class="container-fluid">
-                <div class="row">
-                    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                        <div class="position-sticky pt-3">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">
-                                        <span data-feather="home"></span>
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <span data-feather="file"></span>
-                                        Orders
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <span data-feather="shopping-cart"></span>
-                                        Products
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <span data-feather="users"></span>
-                                        Customers
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <span data-feather="bar-chart-2"></span>
-                                        Reports
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <span data-feather="layers"></span>
-                                        Integrations
-                                    </a>
-                                </li>
-                            </ul>
-
-                            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                                <span>Saved reports</span>
-                                <a class="link-secondary" href="#" aria-label="Add a new report">
-                                    <span data-feather="plus-circle"></span>
-                                </a>
+            <div className="container-fluid">
+                <div className="row">
+                    <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                        <div className="position-sticky pt-3">
+                            <ul className="nav flex-column">
+                            <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                <span>Admin Section</span>
                             </h6>
-                            <ul class="nav flex-column mb-2">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <span data-feather="file-text"></span>
-                                        Current month
+                                <li className="nav-item">
+                                    <a className="nav-link active" aria-current="page" onClick={() => modifyComponent(0)}>
+                                        <span data-feather="home"></span>
+                                        메인 화면
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <span data-feather="file-text"></span>
-                                        Last quarter
+                                <li className="nav-item">
+                                    <a className="nav-link" onClick={() => modifyComponent(1)}>
+                                        <span data-feather="file"></span>
+                                        버그 신고 관리
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <span data-feather="file-text"></span>
-                                        Social engagement
+                                <li className="nav-item">
+                                    <a className="nav-link" onClick={() => modifyComponent(2)}>
+                                        <span data-feather="file"></span>
+                                        컨텐츠 신고 관리
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <span data-feather="file-text"></span>
-                                        Year-end sale
+                                <li className="nav-item">
+                                    <a className="nav-link" onClick={() => modifyComponent(3)}>
+                                        <span data-feather="users"></span>
+                                        사용자 관리
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </nav>
-
-                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 class="h2">Dashboard</h1>
-                            <div class="btn-toolbar mb-2 mb-md-0">
-                                <div class="btn-group me-2">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                                    <span data-feather="calendar"></span>
-                                    This week
-                                </button>
-                            </div>
-                        </div>
-
-                        <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-
-                        <h2>Section title</h2>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-sm">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Header</th>
-                                        <th scope="col">Header</th>
-                                        <th scope="col">Header</th>
-                                        <th scope="col">Header</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1,001</td>
-                                        <td>random</td>
-                                        <td>data</td>
-                                        <td>placeholder</td>
-                                        <td>text</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,002</td>
-                                        <td>placeholder</td>
-                                        <td>irrelevant</td>
-                                        <td>visual</td>
-                                        <td>layout</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,003</td>
-                                        <td>data</td>
-                                        <td>rich</td>
-                                        <td>dashboard</td>
-                                        <td>tabular</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,003</td>
-                                        <td>information</td>
-                                        <td>placeholder</td>
-                                        <td>illustrative</td>
-                                        <td>data</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,004</td>
-                                        <td>text</td>
-                                        <td>random</td>
-                                        <td>layout</td>
-                                        <td>dashboard</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,005</td>
-                                        <td>dashboard</td>
-                                        <td>irrelevant</td>
-                                        <td>text</td>
-                                        <td>placeholder</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,006</td>
-                                        <td>dashboard</td>
-                                        <td>illustrative</td>
-                                        <td>rich</td>
-                                        <td>data</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,007</td>
-                                        <td>placeholder</td>
-                                        <td>tabular</td>
-                                        <td>information</td>
-                                        <td>irrelevant</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,008</td>
-                                        <td>random</td>
-                                        <td>data</td>
-                                        <td>placeholder</td>
-                                        <td>text</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,009</td>
-                                        <td>placeholder</td>
-                                        <td>irrelevant</td>
-                                        <td>visual</td>
-                                        <td>layout</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,010</td>
-                                        <td>data</td>
-                                        <td>rich</td>
-                                        <td>dashboard</td>
-                                        <td>tabular</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,011</td>
-                                        <td>information</td>
-                                        <td>placeholder</td>
-                                        <td>illustrative</td>
-                                        <td>data</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,012</td>
-                                        <td>text</td>
-                                        <td>placeholder</td>
-                                        <td>layout</td>
-                                        <td>dashboard</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,013</td>
-                                        <td>dashboard</td>
-                                        <td>irrelevant</td>
-                                        <td>text</td>
-                                        <td>visual</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,014</td>
-                                        <td>dashboard</td>
-                                        <td>illustrative</td>
-                                        <td>rich</td>
-                                        <td>data</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,015</td>
-                                        <td>random</td>
-                                        <td>tabular</td>
-                                        <td>information</td>
-                                        <td>text</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </main>
+                    {component}
                 </div>
             </div>
-        </body>
+        </div>
     )
 };
 
