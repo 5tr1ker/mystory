@@ -18,6 +18,26 @@
   margin: 0 auto;
 }
 
+.position-sticky li {
+  cursor: pointer;
+  color: black;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+
+.sidebar-heading span {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+
+.position-sticky li:hover {
+  color: #2470dc;
+}
+
 .position-sticky {
   margin-top: -60px;
   margin-left: -10px;
@@ -83,10 +103,6 @@
 .sidebar .nav-link .feather {
   margin-right: 4px;
   color: #727272;
-}
-
-.sidebar .nav-link.active {
-  color: #2470dc;
 }
 
 .sidebar .nav-link:hover .feather,

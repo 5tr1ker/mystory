@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../_style/admin/admin.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AdminMain from './content/main';

@@ -22,11 +22,11 @@ const ContentReport = () => {
                 <table className="table table-striped table-sm">
                     <thead>
                         <tr>
-                            <th scope="col" width="10%">#</th>
-                            <th scope="col" width="10%">보고자</th>
-                            <th scope="col" width="10%">보고 시간</th>
-                            <th scope="col" width="50%">보고 내용</th>
-                            <th scope="col" width="5%">신고 글 보기</th>
+                            <th scope="col" width="5%">#</th>
+                            <th scope="col" width="5%">보고자</th>
+                            <th scope="col" width="5%">보고 시간</th>
+                            <th scope="col" width="65%">보고 내용</th>
+                            <th scope="col" width="5%">신고된 <br /> 글 이동</th>
                             <th scope="col" width="5%">조치</th>
                         </tr>
                     </thead>

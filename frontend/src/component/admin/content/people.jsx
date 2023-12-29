@@ -32,6 +32,7 @@ const PeopleEdit = () => {
                             <th scope="col" width="5%">직급</th>
                             <th scope="col" width="5%">상태 변경</th>
                             <th scope="col" width="5%">직급 변경</th>
+                            <th scope="col" width="5%">메세지 전송</th>
                         </tr>
                     </thead>
                     <tbody>

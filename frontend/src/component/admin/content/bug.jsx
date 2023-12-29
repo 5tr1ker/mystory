@@ -22,10 +22,11 @@ const AdminBug = () => {
                 <table className="table table-striped table-sm">
                     <thead>
                         <tr>
-                            <th scope="col" width="10%">#</th>
-                            <th scope="col" width="10%">보고자</th>
-                            <th scope="col" width="10%">보고 시간</th>
-                            <th scope="col" width="70%">보고 내용</th>
+                            <th scope="col" width="5%">#</th>
+                            <th scope="col" width="5%">보고자</th>
+                            <th scope="col" width="5%">보고 시간</th>
+                            <th scope="col" width="80%">보고 내용</th>
+                            <th scope="col" width="5%">처리 상태</th>
                         </tr>
                     </thead>
                     <tbody>
