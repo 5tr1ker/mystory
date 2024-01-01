@@ -40,8 +40,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // mysql
+    // database
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.7'
 
     // QueryDSL
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
