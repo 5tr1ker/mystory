@@ -34,5 +34,7 @@ public class SingleVisitInterceptor extends GenericFilterBean {
         if (!valueOperations.getOperations().hasKey(key)) {
             valueOperations.set(key, userAgent);
         }
+
+        chain.doFilter(request, response);
     }
 }
