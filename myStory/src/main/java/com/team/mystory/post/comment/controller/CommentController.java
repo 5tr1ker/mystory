@@ -1,6 +1,6 @@
 package com.team.mystory.post.comment.controller;
 
-import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.post.comment.dto.CommentRequest;
 import com.team.mystory.post.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;

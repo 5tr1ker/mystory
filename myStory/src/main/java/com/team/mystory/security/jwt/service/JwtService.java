@@ -1,6 +1,6 @@
 package com.team.mystory.security.jwt.service;
 
-import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.security.exception.TokenForgeryException;
 import com.team.mystory.security.jwt.domain.RefreshToken;
 import com.team.mystory.security.jwt.dto.Token;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-import static com.team.mystory.common.ResponseCode.CREATE_ACCESS_TOKEN;
+import static com.team.mystory.common.response.ResponseCode.CREATE_ACCESS_TOKEN;
 import static com.team.mystory.security.jwt.domain.RefreshToken.creareRefreshToken;
 import static com.team.mystory.security.jwt.support.CookieSupport.createAccessToken;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;

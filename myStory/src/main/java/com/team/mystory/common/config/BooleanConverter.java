@@ -1,4 +1,4 @@
-package com.team.mystory.common;
+package com.team.mystory.common.config;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

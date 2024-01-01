@@ -2,7 +2,7 @@ package com.team.mystory.post.post.service;
 
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
-import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.post.attachment.repository.AttachmentRepository;
 import com.team.mystory.post.attachment.service.AttachmentService;
 import com.team.mystory.post.post.domain.Post;
@@ -23,7 +23,7 @@ import javax.security.auth.login.AccountException;
 import java.io.IOException;
 import java.util.List;
 
-import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
+import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
 import static com.team.mystory.post.post.dto.PostResponse.createPostResponse;
 
 @Service

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team.mystory.account.user.domain.User;
-import com.team.mystory.common.BooleanConverter;
+import com.team.mystory.common.config.BooleanConverter;
 import com.team.mystory.post.attachment.domain.Attachment;
 import com.team.mystory.post.comment.domain.Comment;
 import com.team.mystory.post.post.dto.PostRequest;
@@ -21,7 +21,6 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Builder
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SequenceGenerator(name = "NUMBERS_SEQUENCE", sequenceName = "ID_numbers", initialValue = 1, allocationSize = 1)

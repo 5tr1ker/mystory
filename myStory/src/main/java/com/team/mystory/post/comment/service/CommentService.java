@@ -2,7 +2,7 @@ package com.team.mystory.post.comment.service;
 
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
-import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.post.comment.domain.Comment;
 import com.team.mystory.post.comment.dto.CommentRequest;
 import com.team.mystory.post.comment.dto.CommentResponse;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.security.auth.login.AccountException;
 import java.util.List;
 
-import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
+import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
 
 @Service
 @RequiredArgsConstructor

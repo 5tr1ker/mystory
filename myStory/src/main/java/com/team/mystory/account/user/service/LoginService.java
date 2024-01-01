@@ -5,7 +5,7 @@ import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.account.user.dto.UserResponse;
 import com.team.mystory.account.user.repository.LoginRepository;
-import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.post.post.repository.PostRepository;
 import com.team.mystory.s3.service.S3Service;
 import com.team.mystory.security.jwt.dto.Token;
@@ -22,10 +22,9 @@ import javax.security.auth.login.AccountException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
-import static com.team.mystory.common.ResponseCode.LOGIN_SUCCESS;
-import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
+import static com.team.mystory.common.response.ResponseCode.LOGIN_SUCCESS;
+import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
 import static com.team.mystory.security.jwt.support.CookieSupport.*;
 
 @Service

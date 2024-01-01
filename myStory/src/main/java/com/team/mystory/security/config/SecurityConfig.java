@@ -1,7 +1,8 @@
 package com.team.mystory.security.config;
 
 import com.team.mystory.account.user.constant.UserRole;
-import com.team.mystory.common.FilterExceptionHandler;
+import com.team.mystory.admin.visitant.service.SingleVisitInterceptor;
+import com.team.mystory.common.exception.FilterExceptionHandler;
 import com.team.mystory.oauth.service.CustomOAuth2UserService;
 import com.team.mystory.oauth.support.CustomAuthenticationFailureHandler;
 import com.team.mystory.oauth.support.OAuth2AuthenticationSuccessHandler;
@@ -24,6 +25,7 @@ public class SecurityConfig {
 
 	private final JwtAuthenticationFilter authenticationFilter;
 	private final CustomOAuth2UserService oauth2UserService;
+	private final SingleVisitInterceptor singleVisitInterceptor;
 	private final OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
 	private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
@@ -54,6 +56,10 @@ public class SecurityConfig {
 
 		http.addFilterBefore(new FilterExceptionHandler(),
 				UsernamePasswordAuthenticationFilter.class);
+
+		http.addFilterBefore(singleVisitInterceptor,
+				UsernamePasswordAuthenticationFilter.class
+				);
 
 		http.addFilterBefore(authenticationFilter ,
 				UsernamePasswordAuthenticationFilter.class);

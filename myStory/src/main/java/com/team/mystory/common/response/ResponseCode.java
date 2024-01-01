@@ -1,4 +1,4 @@
-package com.team.mystory.common;
+package com.team.mystory.common.response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

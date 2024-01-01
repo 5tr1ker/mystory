@@ -1,13 +1,12 @@
 package com.team.mystory.account.profile.service;
 
-import com.team.mystory.account.profile.dto.ProfileResponse;
 import com.team.mystory.account.profile.dto.StatisticsResponse;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.profile.dto.ProfileRequest;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.account.profile.repository.ProfileRepository;
-import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.security.jwt.service.JwtService;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.security.auth.login.AccountException;
 
 import static com.team.mystory.account.profile.dto.ProfileResponse.createProfileResponse;
-import static com.team.mystory.common.ResponseCode.REQUEST_SUCCESS;
+import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
 @Service

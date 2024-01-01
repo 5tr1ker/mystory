@@ -1,6 +1,8 @@
-package com.team.mystory.common;
+package com.team.mystory.common.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team.mystory.common.response.ResponseCode;
+import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.security.exception.TokenForgeryException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +16,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
 
-import static com.team.mystory.common.ResponseCode.AUTHENTICATION_ERROR;
+import static com.team.mystory.common.response.ResponseCode.AUTHENTICATION_ERROR;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
 public class FilterExceptionHandler extends GenericFilterBean {

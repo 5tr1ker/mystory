@@ -2,7 +2,7 @@ package com.team.mystory.account.user.controller;
 
 import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.account.user.service.LoginService;
-import com.team.mystory.common.ResponseMessage;
+import com.team.mystory.common.response.ResponseMessage;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.security.auth.login.AccountException;
 import java.io.IOException;
 
-import static com.team.mystory.common.ResponseCode.LOGOUT_SUCCESS;
+import static com.team.mystory.common.response.ResponseCode.LOGOUT_SUCCESS;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
 @RestController

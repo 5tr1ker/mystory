@@ -1,10 +1,10 @@
-package com.team.mystory.common;
+package com.team.mystory.common.exception;
 
+import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.meeting.meeting.exception.MeetingException;
 import com.team.mystory.meeting.reservation.exception.ReservationException;
 import com.team.mystory.post.comment.exception.CommentException;
 import com.team.mystory.post.post.exception.PostException;
-import com.team.mystory.security.exception.TokenForgeryException;
 import com.team.mystory.security.jwt.exception.InvalidTokenException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.naming.AuthenticationException;
 import javax.security.auth.login.AccountException;
 
-import static com.team.mystory.common.ResponseCode.*;
+import static com.team.mystory.common.response.ResponseCode.*;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
 @RestControllerAdvice

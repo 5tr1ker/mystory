@@ -17,8 +17,8 @@ import org.springframework.web.filter.GenericFilterBean;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static com.team.mystory.common.FilterExceptionHandler.setSuccessResponse;
-import static com.team.mystory.common.ResponseCode.CREATE_ACCESS_TOKEN;
+import static com.team.mystory.common.exception.FilterExceptionHandler.setSuccessResponse;
+import static com.team.mystory.common.response.ResponseCode.CREATE_ACCESS_TOKEN;
 
 @Component
 @RequiredArgsConstructor

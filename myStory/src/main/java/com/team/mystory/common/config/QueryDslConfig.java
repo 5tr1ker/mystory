@@ -1,4 +1,4 @@
-package com.team.mystory.common;
+package com.team.mystory.common.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
