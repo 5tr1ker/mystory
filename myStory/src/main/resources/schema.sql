@@ -149,6 +149,15 @@ CREATE TABLE IF NOT EXISTS `refresh_token`
     PRIMARY KEY (`token_id`)
 );
 
+CREATE TABLE IF NOT EXISTS `visitant`
+(
+    visitant_id bigint not null auto_increment,
+    user_agent varchar(255),
+    user_ip varchar(255),
+    visit_date date,
+    primary key (visitant_id)
+);
+
 CREATE TABLE IF NOT EXISTS `reservation`
 (
     `reservation_id`      BIGINT       NOT NULL AUTO_INCREMENT,
