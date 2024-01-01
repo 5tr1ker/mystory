@@ -23,6 +23,8 @@ public class Visitant {
 
     private String userIp;
 
+    private String userAgent;
+
     private LocalDate visitDate;
 
 }

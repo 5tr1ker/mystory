@@ -26,11 +26,13 @@ public class SingleVisitInterceptor extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String userIp = request.getRemoteAddr();
         String userAgent = ((HttpServletRequest) request).getHeader("User-Agent");
+        String today = LocalDate.now().toString();
+        String key = userIp + "_" + today;
 
         ValueOperations valueOperations = redisTemplate.opsForValue();
 
-        if (!valueOperations.getOperations().hasKey(userIp)) {
-            valueOperations.set(userIp, userAgent);
+        if (!valueOperations.getOperations().hasKey(key)) {
+            valueOperations.set(key, userAgent);
         }
     }
 }
