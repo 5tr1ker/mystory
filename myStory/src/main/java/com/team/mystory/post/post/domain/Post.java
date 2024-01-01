@@ -57,6 +57,7 @@ public class Post {
     private String content;
 
     @Builder.Default
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     private User writer = new User();
 
