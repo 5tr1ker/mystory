@@ -47,6 +47,8 @@ public class User implements UserDetails {
 	@Convert(converter = BooleanConverter.class)
 	private boolean isSuspension;
 
+	private String suspensionReason;
+
 	@Column(nullable = false)
 	private LocalDate lastLoginDate;
 
@@ -83,11 +85,12 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "userList" , cascade = CascadeType.REMOVE , orphanRemoval = true)
 	private List<MeetingParticipant> participants = new LinkedList<>();
 
-	public void addSuspensionDate(int date) {
+	public void addSuspensionDate(int date, String reason) {
 		if(!isSuspension || suspensionDate == null) {
 			isSuspension = true;
 
 			suspensionDate = LocalDate.now().plusDays(date);
+			suspensionReason = reason;
 		}
 
 		suspensionDate = suspensionDate.plusDays(date);

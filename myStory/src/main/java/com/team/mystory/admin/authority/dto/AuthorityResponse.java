@@ -18,6 +18,8 @@ public class AuthorityResponse {
 
     private LocalDate lastLoginDate;
 
+    private String suspensionReason;
+
     private LocalDate suspensionDate;
 
     private boolean isSuspension;

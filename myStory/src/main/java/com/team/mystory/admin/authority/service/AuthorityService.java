@@ -42,12 +42,12 @@ public class AuthorityService {
         User user = loginRepository.findById(request.getUserKey())
                 .orElseThrow(() -> new AccountException("사용자 정보를 찾을 수 없습니다."));
 
-        modifySuspensionDate(user, request.getSuspensionDate());
+        modifySuspensionDate(user, request.getSuspensionDate(), request.getReason());
     }
 
-    private void modifySuspensionDate(User user, int date) {
+    private void modifySuspensionDate(User user, int date, String reason) {
         if(date > 0) {
-            user.addSuspensionDate(date);
+            user.addSuspensionDate(date, reason);
 
             return;
         }

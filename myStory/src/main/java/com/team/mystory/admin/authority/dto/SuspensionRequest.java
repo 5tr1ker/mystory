@@ -9,4 +9,6 @@ public class SuspensionRequest {
 
     private int suspensionDate;
 
+    private String reason;
+
 }

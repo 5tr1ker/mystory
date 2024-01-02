@@ -50,12 +50,17 @@ const AuthorityList = ({ authority, renders }) => {
 
     const suspensionOfUse = async (e, data) => {
         if (window.confirm(data.id + "사용자를 " + e.target.value + " 일 만큼 사용 정지를 하겠습니까?")) {
+            let message = ""
+
+            if(e.target.value > 0 && !data.suspension) {
+                message = prompt("정지 사유를 입력해주세요.");
+            }
 
             await axios({
                 method: "PATCH",
                 url: `/admin/authority/suspension`,
                 headers: { "Content-Type": "application/json" },
-                data: JSON.stringify({ "userKey": data.userKey, "suspensionDate": e.target.value })
+                data: JSON.stringify({ "userKey": data.userKey, "suspensionDate": e.target.value, "reason" : message })
             })
                 .then(() => { renders(); 
                 });
@@ -74,6 +79,7 @@ const AuthorityList = ({ authority, renders }) => {
                 <td>{list.joinDate}</td>
                 <td>{list.lastLoginDate}</td>
                 <td>{list.suspension ? list.suspensionDate + "일 까지 정지" : "정상 사용자"}</td>
+                <td>{list.suspension ? list.suspensionReason : "-"}</td>
                 <td>{list.userRole === "USER" ? "일반 사용자" : "관리자"}</td>
                 <td>
                     <select id={`roleSelecter_${list.userKey}`} onChange={(e) => changeRole(e, list)} name="options" key={list.id} defaultValue={list.userRole === "USER" ? "user" : "admin"} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
@@ -171,6 +177,7 @@ const PeopleEdit = () => {
                             <th scope="col" width="5%">가입일자</th>
                             <th scope="col" width="5%">최근 활동 날짜</th>
                             <th scope="col" width="5%">상태</th>
+                            <th scope="col" width="5%">제재 사유</th>
                             <th scope="col" width="5%">직급</th>
                             <th scope="col" width="5%">직급 변경</th>
                             <th scope="col" width="5%">제재</th>

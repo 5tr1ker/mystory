@@ -22,6 +22,7 @@ public class AuthorityRepositoryImpl implements CustomAuthorityRepository {
                         user.id,
                         user.joinDate,
                         user.lastLoginDate,
+                        user.suspensionReason,
                         user.suspensionDate,
                         user.isSuspension,
                         user.role
