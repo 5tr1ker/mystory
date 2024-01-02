@@ -3,35 +3,96 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import PostPointer from "../../noticeboard/postpagenation";
 
-const AuthorityList = (authority) => {
-
-    if (authority.authority === undefined) {
+const AuthorityList = ({ authority, renders }) => {
+    if (authority === undefined) {
         return null;
     }
 
+    const changeRole = async (e, data) => {
+        if (e.target.value === "user") {
+            if (window.confirm(data.id + "사용자를 유저로 변경하시겠습니까?") === false) {
+                console.log(`roleSelecter_${data.userKey}`);
+                let dropdown = document.getElementById(`roleSelecter_${data.userKey}`);
+
+                dropdown.value = "admin";
+
+                return;
+            }
+
+            await axios({
+                method: "PATCH",
+                url: `/admin/authority/role`,
+                headers: { "Content-Type": "application/json" },
+                data: JSON.stringify({ "userKey": data.userKey, "userRole": "USER" })
+            })
+                .then(() => { renders(); });
+
+
+        } else {
+            if (window.confirm(data.id + "사용자를 어드민으로 변경하시겠습니까?") === false) {
+                let dropdown = document.getElementById(`roleSelecter_${data.userKey}`);
+
+                dropdown.value = "user";
+
+                return;
+            }
+
+            await axios({
+                method: "PATCH",
+                url: `/admin/authority/role`,
+                headers: { "Content-Type": "application/json" },
+                data: JSON.stringify({ "userKey": data.userKey, "userRole": "ADMIN" })
+            })
+                .then(() => { renders(); });
+
+        }
+    }
+
+    const suspensionOfUse = async (e, data) => {
+        if (window.confirm(data.id + "사용자를 " + e.target.value + " 일 만큼 사용 정지를 하겠습니까?")) {
+
+            await axios({
+                method: "PATCH",
+                url: `/admin/authority/suspension`,
+                headers: { "Content-Type": "application/json" },
+                data: JSON.stringify({ "userKey": data.userKey, "suspensionDate": e.target.value })
+            })
+                .then(() => { renders(); 
+                });
+
+        }
+
+        let dropdown = document.getElementById(`suspension_${data.userKey}`);
+
+        dropdown.value = 0;
+    }
+
     return (
-        authority.authority.map(list => (
-            <tr key={list.id}>
+        authority.map(list => (
+            <tr key={list.userKey}>
                 <td>{list.id}</td>
                 <td>{list.joinDate}</td>
                 <td>{list.lastLoginDate}</td>
-                <td>{list.suspention ? list.suspensionDate + "일 까지 정지" : "정상 사용자"}</td>
+                <td>{list.suspension ? list.suspensionDate + "일 까지 정지" : "정상 사용자"}</td>
                 <td>{list.userRole === "USER" ? "일반 사용자" : "관리자"}</td>
                 <td>
-                    <select name="options" key={list.id} defaultValue={list.userRole === "USER" ? 0 : 1} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <select id={`roleSelecter_${list.userKey}`} onChange={(e) => changeRole(e, list)} name="options" key={list.id} defaultValue={list.userRole === "USER" ? "user" : "admin"} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
                         {[
-                            <option key={list.id + 1} value={0} style={{ fontWeight: "600" }}>일반 사용자</option>,
-                            <option key={list.id + 2} value={1} style={{ fontWeight: "600" }}>관리자</option>]}
+                            <option key={list.id + 1} value="user" style={{ fontWeight: "600" }}>일반 사용자</option>,
+                            <option key={list.id + 2} value="admin" style={{ fontWeight: "600" }}>관리자</option>
+                        ]}
                     </select>
                 </td>
                 <td>
-                    <select name="options" key={list.id} defaultValue={0} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <select id={`suspension_${list.userKey}`} name="options" key={list.id} onChange={(e) => suspensionOfUse(e, list)} defaultValue={0} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
                         {[
                             <option key={list.id + 1} value={0} style={{ fontWeight: "600" }}>제재 일수</option>,
                             <option key={list.id + 2} value={1} style={{ fontWeight: "600" }}>1 일 추가</option>,
                             <option key={list.id + 3} value={7} style={{ fontWeight: "600" }}>7 일 추가</option>,
                             <option key={list.id + 4} value={30} style={{ fontWeight: "600" }}>30 일 추가</option>,
-                            <option key={list.id + 5} value={9999999} style={{ fontWeight: "600" }}>영구 정지</option>]}
+                            <option key={list.id + 5} value={9999} style={{ fontWeight: "600" }}>영구 정지</option>,
+                            <option key={list.id + 6} value={-9999} style={{ fontWeight: "600" }}>정지 해제</option>
+                        ]}
                     </select>
                 </td>
             </tr>
@@ -44,11 +105,16 @@ const PeopleEdit = () => {
     const maxPages = useRef(1);
     const [authority, setAuthority] = useState([]);
     const [authorityCount, setAuthorityCount] = useState(0);
+    const [render, setRender] = useState(false);
 
     const gotoNext = () => {
         if (pages < maxPages.current) {
             setPages(parseInt(pages) + 1);
         }
+    }
+
+    const updateRender = () => {
+        setRender(render ? false : true);
     }
 
     const gotoPrevious = () => {
@@ -89,7 +155,7 @@ const PeopleEdit = () => {
                 setAuthority(response.data);
             })
             .catch((e) => alert(e.response.data.message));
-    }, []);
+    }, [render]);
 
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -111,7 +177,7 @@ const PeopleEdit = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <AuthorityList authority={authority} />
+                        <AuthorityList authority={authority} renders={updateRender} />
                     </tbody>
                 </table>
             </div>

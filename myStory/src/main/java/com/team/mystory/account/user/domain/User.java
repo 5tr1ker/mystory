@@ -12,10 +12,7 @@ import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.post.post.domain.Post;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -55,6 +52,7 @@ public class User implements UserDetails {
 
 	@Enumerated(value = EnumType.STRING)
 	@Column(nullable = false)
+	@Setter
 	private UserRole role;
 
 	@Enumerated(value = EnumType.STRING)
@@ -84,6 +82,26 @@ public class User implements UserDetails {
 	@Builder.Default
 	@OneToMany(mappedBy = "userList" , cascade = CascadeType.REMOVE , orphanRemoval = true)
 	private List<MeetingParticipant> participants = new LinkedList<>();
+
+	public void addSuspensionDate(int date) {
+		if(!isSuspension || suspensionDate == null) {
+			isSuspension = true;
+
+			suspensionDate = LocalDate.now().plusDays(date);
+		}
+
+		suspensionDate = suspensionDate.plusDays(date);
+	}
+
+	public void minusSuspensionDate(int date) {
+		if(LocalDate.now().compareTo(suspensionDate.minusDays(date)) > 0) {
+			isSuspension = false;
+
+			suspensionDate = LocalDate.now();
+		}
+
+		suspensionDate = suspensionDate.minusDays(date);
+	}
 
 	public static User createGeneralUser(LoginRequest loginRequest , String url , String password) {
 		return User.builder()

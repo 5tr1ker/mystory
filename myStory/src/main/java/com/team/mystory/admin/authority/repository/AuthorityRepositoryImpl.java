@@ -18,6 +18,7 @@ public class AuthorityRepositoryImpl implements CustomAuthorityRepository {
     @Override
     public List<AuthorityResponse> findAllAuthorityUser(Pageable pageable) {
         return jpaQueryFactory.select(Projections.constructor(AuthorityResponse.class,
+                        user.userKey,
                         user.id,
                         user.joinDate,
                         user.lastLoginDate,

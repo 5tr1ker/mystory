@@ -45,7 +45,7 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.POST , "/logins" , "/registers" , "/oauth/token" , "/user/logout").permitAll()
 				.requestMatchers(HttpMethod.PATCH , "/posts/views/**").permitAll()
 				.requestMatchers(HttpMethod.DELETE , "/**").hasRole(UserRole.USER.name())
-				.requestMatchers(HttpMethod.PATCH , "/**").hasRole(UserRole.USER.name())
+				.requestMatchers(HttpMethod.PATCH , "/**").permitAll()
 				.requestMatchers(HttpMethod.PUT , "/**").hasRole(UserRole.USER.name())
 				.requestMatchers(HttpMethod.POST , "/**").hasRole(UserRole.USER.name())
 				.and()
