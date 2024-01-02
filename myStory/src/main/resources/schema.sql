@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS `user`
     `id`                  VARCHAR(30)  NOT NULL,
     `join_date`           DATE         NOT NULL,
     `password`            VARCHAR(255) NOT NULL,
+    `suspension_date`     DATE,
+    `is_suspension`       VARCHAR(5)   NOT NULL,
     `profile_image`       VARCHAR(255) NULL DEFAULT NULL,
     `role`                VARCHAR(255) NOT NULL,
     `user_type`           VARCHAR(255) NOT NULL,

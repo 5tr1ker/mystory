@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team.mystory.account.profile.domain.Profile;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Builder
 @Getter
@@ -18,9 +18,9 @@ public class ProfileResponse {
     private int options;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd" , timezone = "Asia/Seoul")
-    private Date joinDate;
+    private LocalDate joinDate;
 
-    public static ProfileResponse createProfileResponse(Profile profile , Date joinDate) {
+    public static ProfileResponse createProfileResponse(Profile profile , LocalDate joinDate) {
         return ProfileResponse.builder()
                 .email(profile.getEmail())
                 .phone(profile.getPhone())

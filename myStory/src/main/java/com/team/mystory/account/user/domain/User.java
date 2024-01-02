@@ -7,6 +7,7 @@ import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.user.constant.UserRole;
 import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.dto.LoginRequest;
+import com.team.mystory.common.config.BooleanConverter;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.post.post.domain.Post;
@@ -21,6 +22,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -42,6 +44,15 @@ public class User implements UserDetails {
 
 	private String profileImage;
 
+	private LocalDate suspensionDate;
+
+	@Column(nullable = false)
+	@Convert(converter = BooleanConverter.class)
+	private boolean isSuspension;
+
+	@Column(nullable = false)
+	private LocalDate lastLoginDate;
+
 	@Enumerated(value = EnumType.STRING)
 	@Column(nullable = false)
 	private UserRole role;
@@ -54,7 +65,7 @@ public class User implements UserDetails {
 	@CreationTimestamp
 	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy/MM/dd" , timezone = "Asia/Seoul")
 	@Column(nullable = false)
-	private Date joinDate;
+	private LocalDate joinDate;
 
 	@Builder.Default
 	@OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
@@ -80,6 +91,8 @@ public class User implements UserDetails {
 				.profileImage(url)
 				.password(password)
 				.profile(Profile.createInitProfileSetting())
+				.lastLoginDate(LocalDate.now())
+				.isSuspension(false)
 				.role(UserRole.USER)
 				.userType(UserType.GENERAL_USER)
 				.build();
@@ -90,6 +103,8 @@ public class User implements UserDetails {
 				.id(userId)
 				.password(UUID.randomUUID().toString())
 				.profile(Profile.createInitProfileSetting())
+				.lastLoginDate(LocalDate.now())
+				.isSuspension(false)
 				.role(UserRole.USER)
 				.userType(UserType.OAUTH_USER)
 				.build();

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static com.team.mystory.admin.visitant.domain.QVisitant.visitant;
-import static com.team.mystory.account.user.domain.QUser.user;
 
 @RequiredArgsConstructor
 public class VisitantRepositoryImpl implements CustomVisitantRepository {

@@ -26,11 +26,4 @@ public class UserResponse {
     private String profileImage;
 
     private int options;
-
-    public UserResponse(long userKey , String id , Date joinDate , String profileImage) {
-        this.userKey = userKey;
-        this.id = id;
-        this.joinDate = joinDate;
-        this.profileImage = profileImage;
-    }
 }

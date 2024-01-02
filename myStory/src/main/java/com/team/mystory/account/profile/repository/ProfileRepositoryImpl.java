@@ -5,6 +5,7 @@ import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.profile.dto.StatisticsResponse;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -48,7 +49,7 @@ public class ProfileRepositoryImpl implements CustomProfileRepository {
                 .from(comment)
                 .innerJoin(comment.writer , user).on(user.id.eq(userId)).fetchOne();
 
-        Date joinDate = queryFactory.select(user.joinDate)
+        LocalDate joinDate = queryFactory.select(user.joinDate)
                 .from(user)
                 .where(user.id.eq(userId)).fetchOne();
 
