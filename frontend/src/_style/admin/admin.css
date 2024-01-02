@@ -27,6 +27,10 @@
   user-select:none;
 }
 
+.custom-table-height {
+  height: 75vh;
+}
+
 .sidebar-heading span {
   -webkit-user-select:none;
   -moz-user-select:none;

@@ -7,11 +7,10 @@ const MainChartList = ({chart}) => {
     if(chart === undefined) {
         return null;
     }
-    console.log(chart);
 
     return (
         chart.map(list => (
-            <tr>
+            <tr key={list.visitedDate}>
                 <td>{list.visitedDate}</td>
                 <td>{list.visitorsCount}</td>
             </tr>

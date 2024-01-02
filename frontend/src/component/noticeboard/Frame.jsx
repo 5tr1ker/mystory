@@ -55,7 +55,7 @@ const NoticeFrame = () => {
             setUserOption({notified: response.data.data.options});
             setProfileImage(response.data.data.profileImage);
         }) 
-        .catch((e) => {});
+        .catch((e) => {console.log(e.response)});
     }
 
     const setNotifiedPops = () => {

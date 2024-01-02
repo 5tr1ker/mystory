@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Builder
 @Getter
@@ -21,7 +21,7 @@ public class UserResponse {
     private String password;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd" , timezone = "Asia/Seoul")
-    private Date joinDate;
+    private LocalDate joinDate;
 
     private String profileImage;
 
