@@ -1,4 +1,4 @@
-package com.team.mystory.admin.visitant.service;
+package com.team.mystory.admin.visitant.util;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

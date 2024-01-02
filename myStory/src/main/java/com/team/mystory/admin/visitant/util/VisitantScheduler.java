@@ -19,7 +19,7 @@ public class VisitantScheduler {
 
     private final VisitantRepository visitantRepository;
 
-    @Scheduled(cron = "0 0 0 1/1 * ? *")
+    @Scheduled(cron = "0 0 0 1/1 * ?")
     public void updateVisitorData() {
         Set<String> keys = redisTemplate.keys("*_*");
 

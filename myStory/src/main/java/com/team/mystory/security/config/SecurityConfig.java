@@ -1,7 +1,7 @@
 package com.team.mystory.security.config;
 
 import com.team.mystory.account.user.constant.UserRole;
-import com.team.mystory.admin.visitant.service.SingleVisitInterceptor;
+import com.team.mystory.admin.visitant.util.SingleVisitInterceptor;
 import com.team.mystory.common.exception.FilterExceptionHandler;
 import com.team.mystory.oauth.service.CustomOAuth2UserService;
 import com.team.mystory.oauth.support.CustomAuthenticationFailureHandler;
