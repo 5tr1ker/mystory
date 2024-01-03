@@ -9,4 +9,6 @@ public interface CustomAuthorityRepository {
 
     List<AuthorityResponse> findAllAuthorityUser(Pageable pageable);
 
+    List<AuthorityResponse> findAllAuthorityUserById(Pageable pageable, String search);
+
 }

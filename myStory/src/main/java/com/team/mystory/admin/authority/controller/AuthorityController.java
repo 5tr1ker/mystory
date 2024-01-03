@@ -18,13 +18,13 @@ public class AuthorityController {
     private final AuthorityService authorityService;
 
     @GetMapping
-    public ResponseEntity findAllAuthorityUser(Pageable pageable) {
-        return ResponseEntity.ok(authorityService.findAllAuthorityUser(pageable));
+    public ResponseEntity findAllAuthorityUser(Pageable pageable, @RequestParam(required = false) String search) {
+        return ResponseEntity.ok(authorityService.findAllAuthorityUser(pageable, search));
     }
 
     @GetMapping("/count")
-    public ResponseEntity findNumberOfAllUsers() {
-        return ResponseEntity.ok(authorityService.findNumberOfAllUsers());
+    public ResponseEntity findNumberOfAllUsers(@RequestParam(required = false) String search) {
+        return ResponseEntity.ok(authorityService.findNumberOfAllUsers(search));
     }
 
     @PatchMapping("/role")

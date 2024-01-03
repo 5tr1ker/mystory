@@ -21,12 +21,20 @@ public class AuthorityService {
     private final AuthorityRepository authorityRepository;
     private final LoginRepository loginRepository;
 
-    public Long findNumberOfAllUsers() {
-        return authorityRepository.countBy();
+    public Long findNumberOfAllUsers(String search) {
+        if(search == null) {
+            return authorityRepository.countBy();
+        }
+
+        return authorityRepository.countByIdContaining(search);
     }
 
-    public List<AuthorityResponse> findAllAuthorityUser(Pageable pageable) {
-        return authorityRepository.findAllAuthorityUser(pageable);
+    public List<AuthorityResponse> findAllAuthorityUser(Pageable pageable, String search) {
+        if(search == null) {
+            return authorityRepository.findAllAuthorityUser(pageable);
+        }
+
+        return authorityRepository.findAllAuthorityUserById(pageable, search);
     }
 
     @Transactional

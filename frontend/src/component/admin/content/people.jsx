@@ -112,6 +112,36 @@ const PeopleEdit = () => {
     const [authority, setAuthority] = useState([]);
     const [authorityCount, setAuthorityCount] = useState(0);
     const [render, setRender] = useState(false);
+    const searchPeople = useRef("");
+
+    const changeSearchPeople = async (e) => {
+        if (e.key == 'Enter') {
+            if (e.target.value !== '') {
+
+                await axios({
+                    method: "GET",
+                    url: `/admin/authority/count?search=${e.target.value}`
+                })
+                    .then((response) => {
+                        setAuthorityCount(response.data);
+                    })
+                    .catch((e) => alert(e.response.data.message));
+        
+                await axios({
+                    method: "GET",
+                    url: `/admin/authority?page=${0}&size=10&search=${e.target.value}`
+                })
+                    .then((response) => {
+                        setAuthority(response.data);
+                    })
+                    .catch((e) => alert(e.response.data.message));
+
+                setPages(0);
+            } else {
+                setRender();
+            }
+        }
+    }
 
     const gotoNext = () => {
         if (pages < maxPages.current) {
@@ -167,7 +197,12 @@ const PeopleEdit = () => {
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 className="h2">사용자 관리</h1>
+
+                <div>
+                    <input type="text" className="searchingArea" placeholder='사용자 검색' onKeyDown={changeSearchPeople}/>
+                </div>
             </div>
+            
 
             <div className="custom-table-height">
                 <table className="table table-striped table-sm">

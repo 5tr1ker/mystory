@@ -7,4 +7,6 @@ public interface AuthorityRepository extends JpaRepository<User, Long>, CustomAu
 
     long countBy();
 
+    long countByIdContaining(String id);
+
 }
