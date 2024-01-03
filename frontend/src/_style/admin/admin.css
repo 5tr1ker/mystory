@@ -18,6 +18,15 @@
   margin: 0 auto;
 }
 
+.deleteContentStyle {
+  color: gray;
+  cursor: pointer;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+
 .position-sticky li {
   cursor: pointer;
   color: black;

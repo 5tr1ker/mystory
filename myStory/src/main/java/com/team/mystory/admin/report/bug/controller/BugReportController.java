@@ -30,6 +30,11 @@ public class BugReportController {
         return ResponseEntity.ok().body(bugReportService.findAllBugReport(pageable));
     }
 
+    @GetMapping("/count")
+    public ResponseEntity findAllBugReportCount() {
+        return ResponseEntity.ok().body(bugReportService.findAllBugReportCount());
+    }
+
     @PatchMapping("/{reportId}")
     public ResponseEntity modifySolvedInBugReport(@PathVariable long reportId) {
         bugReportService.modifySolvedInBugReport(reportId);

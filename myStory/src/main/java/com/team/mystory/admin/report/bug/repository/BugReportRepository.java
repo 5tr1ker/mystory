@@ -9,4 +9,6 @@ public interface BugReportRepository extends JpaRepository<BugReport,Long>, Cust
 
     Optional<BugReport> findByBugReportId(long reportId);
 
+    long countBy();
+
 }

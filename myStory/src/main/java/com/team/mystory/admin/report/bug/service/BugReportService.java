@@ -36,6 +36,10 @@ public class BugReportService {
         return bugReportRepository.findAllBugReport(pageable);
     }
 
+    public long findAllBugReportCount() {
+        return bugReportRepository.countBy();
+    }
+
     @Transactional
     public void modifySolvedInBugReport(long reportId) {
         BugReport bugReport = bugReportRepository.findByBugReportId(reportId)

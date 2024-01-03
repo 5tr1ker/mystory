@@ -112,7 +112,6 @@ const PeopleEdit = () => {
     const [authority, setAuthority] = useState([]);
     const [authorityCount, setAuthorityCount] = useState(0);
     const [render, setRender] = useState(false);
-    const searchPeople = useRef("");
 
     const changeSearchPeople = async (e) => {
         if (e.key == 'Enter') {
@@ -129,7 +128,7 @@ const PeopleEdit = () => {
         
                 await axios({
                     method: "GET",
-                    url: `/admin/authority?page=${0}&size=10&search=${e.target.value}`
+                    url: `/admin/authority?page=${pages - 1}&size=10&search=${e.target.value}`
                 })
                     .then((response) => {
                         setAuthority(response.data);
@@ -185,7 +184,7 @@ const PeopleEdit = () => {
 
         await axios({
             method: "GET",
-            url: `/admin/authority?page=${0}&size=10`
+            url: `/admin/authority?page=${pages - 1}&size=10`
         })
             .then((response) => {
                 setAuthority(response.data);
