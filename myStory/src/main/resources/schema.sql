@@ -24,6 +24,16 @@ CREATE TABLE IF NOT EXISTS `user`
     FOREIGN KEY (`profile_profile_key`) REFERENCES `profile` (`profile_key`)
 );
 
+CREATE TABLE IF NOT EXISTS `bug_report` (
+    bug_report_id bigint    not null auto_increment,
+    content varchar(255)    not null,
+    is_solved varchar(255)  not null,
+    report_time             datetime(6),
+    reporter_user_key       bigint,
+    primary key (bug_report_id),
+    foreign key (reporter_user_key) references user (user_key)
+);
+
 CREATE TABLE IF NOT EXISTS `post`
 (
     `post_id`          BIGINT        NOT NULL AUTO_INCREMENT,

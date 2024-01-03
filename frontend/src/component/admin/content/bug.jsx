@@ -8,13 +8,10 @@ const AdminBug = () => {
                 <h1 className="h2">버그 신고 관리</h1>
                 <div className="btn-toolbar mb-2 mb-md-0">
                     <div className="btn-group me-2">
-                        <button type="button" className="btn btn-sm btn-outline-secondary">Share</button>
-                        <button type="button" className="btn btn-sm btn-outline-secondary">Export</button>
+                        <button type="button" className="btn btn-sm btn-outline-secondary">모든 보고</button>
+                        <button type="button" className="btn btn-sm btn-outline-secondary">처리된 보고</button>
+                        <button type="button" className="btn btn-sm btn-outline-secondary">미처리된 보고</button>
                     </div>
-                    <button type="button" className="btn btn-sm btn-outline-secondary dropdown-toggle">
-                        <span data-feather="calendar"></span>
-                        This week
-                    </button>
                 </div>
             </div>
 
@@ -22,11 +19,12 @@ const AdminBug = () => {
                 <table className="table table-striped table-sm">
                     <thead>
                         <tr>
-                            <th scope="col" width="5%">#</th>
+                            <th scope="col" width="5%">인덱스</th>
                             <th scope="col" width="5%">보고자</th>
                             <th scope="col" width="5%">보고 시간</th>
-                            <th scope="col" width="80%">보고 내용</th>
+                            <th scope="col" width="75%">보고 내용</th>
                             <th scope="col" width="5%">처리 상태</th>
+                            <th scope="col" width="5%">제거</th>
                         </tr>
                     </thead>
                     <tbody>
