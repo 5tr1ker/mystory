@@ -18,7 +18,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/findid' element={<FindID />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/test" element={<AdminLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path='*' element={<NoticeFrame />} />
         </Routes>
       </div>

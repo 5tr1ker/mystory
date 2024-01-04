@@ -82,7 +82,6 @@ const ContentReport = () => {
             url: `/admin/report/content?page=${pages - 1}&size=10`
         })
             .then((response) => {
-                console.log(response.data);
                 setContentReport(response.data);
             })
             .catch((e) => alert(e.response.data.message));
@@ -132,7 +131,7 @@ const ContentReport = () => {
                             <th scope="col" width="10%">보고 시간</th>
                             <th scope="col" width="10%">신고된 ID</th>
                             <th scope="col" width="20%">신고된 내용</th>
-                            <th scope="col" width="20%">보고 내용</th>
+                            <th scope="col" width="20%">신고자 내용</th>
                             <th scope="col" width="5%">컨텐츠</th>
                             <th scope="col" width="5%">조치 여부</th>
                             <th scope="col" width="5%">제거</th>

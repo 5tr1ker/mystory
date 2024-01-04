@@ -1,7 +1,40 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../_style/admin/adminLogin.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AdminLogin = () => {
+    const [idInfo, setInfo] = useState({
+        id: '',
+        password: ''
+    });
+
+    const changeIdPw = (e) => {
+        const { name, value } = e.target;
+        setInfo({ ...idInfo, [name]: value });
+    }
+
+    const signUp = async () => {
+        await axios({
+            method: "POST",
+            url: `/admin/login`,
+            headers: { "Content-Type": "application/json" },
+            data: JSON.stringify({ "id": idInfo.id, "password": idInfo.password })
+        })
+            .then(async (response) => {
+                localStorage.setItem("adminId", response.data.id);
+                window.location.reload("/admin");
+            })
+            .catch((e) => alert(e.response.data.message));
+    }
+
+    useEffect(() => {
+        let sessionAdminId = localStorage.getItem("adminId");
+        if (sessionAdminId !== null) {
+            window.location.replace("/admin");
+        }
+    }, []);
+
 
     return (
         <div className="bodyData">
@@ -19,17 +52,15 @@ const AdminLogin = () => {
                                     <span className="fa fa-user-o"></span>
                                 </div>
                                 <h3 className="text-center mb-4">Sign In</h3>
-                                <form action="#" className="login-form">
-                                    <div className="form-group">
-                                        <input type="text" className="form-control rounded-left" placeholder="Username" required />
-                                    </div>
-                                    <div className="form-group d-flex">
-                                        <input type="password" className="form-control rounded-left" placeholder="Password" required />
-                                    </div>
-                                    <div className="form-group">
-                                        <button type="submit" className="form-control btn btn-primary rounded submit px-3">Login</button>
-                                    </div>
-                                </form>
+                                <div className="form-group">
+                                    <input type="text" className="form-control rounded-left" placeholder="Username" required name="id" onChange={changeIdPw} />
+                                </div>
+                                <div className="form-group d-flex">
+                                    <input type="password" className="form-control rounded-left" placeholder="Password" required name="password" onChange={changeIdPw} />
+                                </div>
+                                <div className="form-group">
+                                    <button className="form-control btn btn-primary rounded submit px-3" onClick={signUp}>Login</button>
+                                </div>
                             </div>
                         </div>
                     </div>

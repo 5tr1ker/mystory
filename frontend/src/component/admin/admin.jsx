@@ -5,14 +5,39 @@ import AdminMain from './content/main';
 import AdminBug from './content/bug';
 import ContentReport from './content/contentReport';
 import PeopleEdit from './content/people';
+import axios from 'axios';
 
 const AdminPage = () => {
+    let sessionAdminId = localStorage.getItem("adminId");
+    if (sessionAdminId === null) {
+        window.location.replace("/admin/login");
+    }
 
-    const [component , setComponent] = useState(<AdminMain/>);
-
-    const componentArr = [<AdminMain/> , < AdminBug /> , < ContentReport /> , <PeopleEdit />];
+    const [component, setComponent] = useState(<AdminMain />);
+    const componentArr = [<AdminMain />, < AdminBug />, < ContentReport />, <PeopleEdit />];
+    const [render, setRender] = useState(false);
+    
     const modifyComponent = (index) => {
         setComponent(componentArr[index]);
+    }
+
+    const updateRender = () => {
+        setRender(render ? false : true);
+    }
+
+    const logout = async () => {
+        sessionAdminId = null;
+        localStorage.removeItem("adminId");
+
+        await axios({
+            method: "POST",
+            url: `/user/logout`
+        })
+            .then(() => {
+                updateRender();
+                window.location.reload("/admin/login"); 
+            })
+            .catch((e) => alert(e.response.data.message));
     }
 
     useEffect(() => {
@@ -39,24 +64,24 @@ const AdminPage = () => {
     return (
         <div className="adminBody">
             <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-                <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">admin page</a>
+                <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3">admin page</a>
                 <button className="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                    <div className="navbar-nav">
-                        <div className="nav-item text-nowrap">
-                            <a className="nav-link px-3" href="#">Sign out</a>
-                        </div>
+                <div className="navbar-nav">
+                    <div className="nav-item text-nowrap">
+                        <a className="nav-link px-3" onClick={logout}>Sign out</a>
                     </div>
+                </div>
             </header>
             <div className="container-fluid">
                 <div className="row">
                     <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                         <div className="position-sticky pt-3">
                             <ul className="nav flex-column">
-                            <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                                <span>Admin Section</span>
-                            </h6>
+                                <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                    <span>Admin Section</span>
+                                </h6>
                                 <li className="nav-item">
                                     <a className="nav-link active" aria-current="page" onClick={() => modifyComponent(0)}>
                                         <span data-feather="home"></span>

@@ -201,7 +201,6 @@ const PeopleEdit = () => {
                     <input type="text" className="searchingArea" placeholder='사용자 검색' onKeyDown={changeSearchPeople}/>
                 </div>
             </div>
-            
 
             <div className="custom-table-height">
                 <table className="table table-striped table-sm">

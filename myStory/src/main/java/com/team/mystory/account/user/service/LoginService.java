@@ -56,17 +56,24 @@ public class LoginService {
 		loginRepository.save(User.createGeneralUser(loginRequest , url , bCryptPasswordEncoder.encode(loginRequest.getPassword())));
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
-	
-	public ResponseMessage login(LoginRequest loginRequest , HttpServletResponse response) throws AccountException {
-		User result = loginRepository.findById(loginRequest.getId())
+
+	public User isValidAccount(LoginRequest request) throws AccountException {
+		User result = loginRepository.findById(request.getId())
 				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
 
 		if(result.getUserType().equals(UserType.OAUTH_USER)) {
 			throw new AccountException("해당 계정은 OAuth2.0 사용자입니다.");
 		}
-		if(!result.checkPassword(loginRequest.getPassword() , bCryptPasswordEncoder)) {
+
+		if(!result.checkPassword(request.getPassword() , bCryptPasswordEncoder)) {
 			throw new AccountException("비밀번호가 일치하지 않습니다.");
 		}
+
+		return result;
+	}
+	
+	public ResponseMessage login(LoginRequest loginRequest , HttpServletResponse response) throws AccountException {
+		User result = isValidAccount(loginRequest);
 
 		createJwtToken(result , response);
 		
