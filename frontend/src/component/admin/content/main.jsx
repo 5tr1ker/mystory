@@ -4,7 +4,7 @@ import Chart from 'chart.js';
 import axios from "axios";
 
 const MainChartList = ({chart}) => {
-    if(chart === undefined || !Array.isArray(chart.map)) {
+    if(chart === undefined || Array.isArray(chart.map)) {
         return null;
     }
 
