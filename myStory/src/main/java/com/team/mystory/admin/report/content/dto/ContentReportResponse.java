@@ -1,13 +1,14 @@
 package com.team.mystory.admin.report.content.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.team.mystory.admin.report.content.entity.ReportType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class ContentReportResponse {
 
     private long contentReportId;
@@ -21,6 +22,8 @@ public class ContentReportResponse {
 
     private boolean isAction;
 
-    private String reportContentURL;
+    private ReportType contentType;
+
+    private ReportDataResponse reportData;
 
 }

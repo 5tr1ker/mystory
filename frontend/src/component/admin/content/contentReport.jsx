@@ -1,190 +1,155 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import PostPointer from "../../noticeboard/postpagenation";
 
+const ContentReportList = ({ list, renders }) => {
+
+    const switchContentType = (contentType) => {
+        if (contentType === "POST") {
+            return "게시글";
+        }
+        else if (contentType === "COMMENT") {
+            return "댓글";
+        }
+        else if (contentType === "CHAT") {
+            return "채팅";
+        }
+        else if (contentType === "CLASS") {
+            return "모임";
+        }
+    }
+
+    const toggleSolved = async (id) => {
+        await axios({
+            method: "PATCH",
+            url: `/admin/report/content/${id}`
+        })
+            .then((response) => {
+                renders();
+            })
+            .catch((e) => alert(e.response.data.message));
+    }
+
+    const deleteReport = async (id) => {
+        if (window.confirm("정말 해당 보고를 제거하시겠습니까?")) {
+            await axios({
+                method: "DELETE",
+                url: `/admin/report/content/${id}`
+            })
+                .then((response) => {
+                    renders();
+                })
+                .catch((e) => alert(e.response.data.message));
+        }
+    }
+
+    return (
+        list.map(data => (
+            <tr key={data.contentReportId}>
+                <td>{data.reporter}</td>
+                <td>{data.reportTime}</td>
+                <td>{data.reportData.targetId}</td>
+                <td>[{data.reportData.title}] {data.reportData.content}</td>
+                <td>{data.content}</td>
+                <td>{switchContentType(data.contentType)}</td>
+                <td>{data.action ? <input type="checkbox" onClick={() => toggleSolved(data.contentReportId)} defaultChecked={true} /> : <input type="checkbox" onClick={() => toggleSolved(data.contentReportId)} />}</td>
+                <td className="deleteContentStyle" onClick={() => deleteReport(data.contentReportId)}>[제거]</td>
+            </tr>
+        ))
+    )
+}
 
 const ContentReport = () => {
+    const [pages, setPages] = useState(1); // 현재 페이지
+    const maxPages = useRef(1);
+    const [contentReport, setContentReport] = useState([]);
+    const [contentReportCount, setContentReportCount] = useState(0);
+    const [render, setRender] = useState(false);
+
+    useEffect(async () => {
+        await axios({
+            method: "GET",
+            url: `/admin/report/content/count`
+        })
+            .then((response) => {
+                setContentReportCount(response.data);
+            })
+            .catch((e) => alert(e.response.data.message));
+
+        await axios({
+            method: "GET",
+            url: `/admin/report/content?page=${pages - 1}&size=10`
+        })
+            .then((response) => {
+                console.log(response.data);
+                setContentReport(response.data);
+            })
+            .catch((e) => alert(e.response.data.message));
+    }, [render]);
+
+    const gotoNext = () => {
+        if (pages < maxPages.current) {
+            setPages(parseInt(pages) + 1);
+        }
+    }
+
+    const updateRender = () => {
+        setRender(render ? false : true);
+    }
+
+    const gotoPrevious = () => {
+        if (pages > 1) {
+            setPages(parseInt(pages) - 1);
+        }
+    }
+
+    const setNowPages = async (value) => {
+        setPages(value);
+    }
+
+    const pushData = () => {
+        maxPages.current = Math.ceil(contentReportCount / 10);
+        const arrs = [];
+        for (let i = 1; i <= maxPages.current; i++) {
+            arrs.push([i]);
+        }
+
+        return <PostPointer pages={arrs} nowPage={pages} setPage={setNowPages} />
+    }
 
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 className="h2">컨텐츠 신고 관리</h1>
-                <div className="btn-toolbar mb-2 mb-md-0">
-                    <div className="btn-group me-2">
-                        <button type="button" className="btn btn-sm btn-outline-secondary">Share</button>
-                        <button type="button" className="btn btn-sm btn-outline-secondary">Export</button>
-                    </div>
-                    <button type="button" className="btn btn-sm btn-outline-secondary dropdown-toggle">
-                        <span data-feather="calendar"></span>
-                        This week
-                    </button>
-                </div>
             </div>
 
-            <div className="table-responsive">
+            <div className="custom-table-height">
                 <table className="table table-striped table-sm">
                     <thead>
                         <tr>
-                            <th scope="col" width="5%">#</th>
-                            <th scope="col" width="5%">보고자</th>
-                            <th scope="col" width="5%">보고 시간</th>
-                            <th scope="col" width="5%">신고된 ID</th>
-                            <th scope="col" width="30%">신고된 내용</th>
-                            <th scope="col" width="30%">보고 내용</th>
-                            <th scope="col" width="5%">컨텐츠 <br /> 타입</th>
+                            <th scope="col" width="10%">보고자</th>
+                            <th scope="col" width="10%">보고 시간</th>
+                            <th scope="col" width="10%">신고된 ID</th>
+                            <th scope="col" width="20%">신고된 내용</th>
+                            <th scope="col" width="20%">보고 내용</th>
+                            <th scope="col" width="5%">컨텐츠</th>
                             <th scope="col" width="5%">조치 여부</th>
+                            <th scope="col" width="5%">제거</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1,001</td>
-                            <td>random</td>
-                            <td>data</td>
-                            <td>data</td>
-                            <td>이것은 좀 긴 내용의 데이터 입니다.이것은 좀 긴 내용의 데이터 입니다.이것은 좀 긴 내용의 데이터 입니다.이것은 좀 긴 내용의 데이터 입니다.이것은 좀 긴 내용의 데이터 입니다.이것은 좀 긴 내용의 데이터 입니다.이것은 좀 긴 내용의 데이터 입니다.이것은 좀 긴 내용의 데이터 입니다.이것은 좀 긴 내용의 데이터 입니다.</td>
-                            <td>그것도 아주 아주 아주 많이 긴 보고 내용이 올라오면 어떻게 될까요오오오,그것도 아주 아주 아주 많이 긴 보고 내용이 올라오면 어떻게 될까요오오오,그것도 아주 아주 아주 많이 긴 보고 내용이 올라오면 어떻게 될까요오오오그것도 아주 아주 아주 많이 긴 보고 내용이 올라오면 어떻게 될까요오오오,그것도 아주 아주 아주 많이 긴 보고 내용이 올라오면 어떻게 될까요오오오,그것도 아주 아주 아주 많이 긴 보고 내용이 올라오면 어떻게 될까요오오오,그것도 아주 아주 아주 많이 긴 보고 내용이 올라오면 어떻게 될까요오오오</td>
-                            <td>data</td>
-                            <td>random</td>
-                        </tr>
-                        <tr>
-                            <td>1,002</td>
-                            <td>placeholder</td>
-                            <td>irrelevant</td>
-                            <td>visual</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,003</td>
-                            <td>data</td>
-                            <td>rich</td>
-                            <td>dashboard</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,003</td>
-                            <td>information</td>
-                            <td>placeholder</td>
-                            <td>illustrative</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,004</td>
-                            <td>text</td>
-                            <td>random</td>
-                            <td>layout</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,005</td>
-                            <td>dashboard</td>
-                            <td>irrelevant</td>
-                            <td>text</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,006</td>
-                            <td>dashboard</td>
-                            <td>illustrative</td>
-                            <td>rich</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,007</td>
-                            <td>placeholder</td>
-                            <td>tabular</td>
-                            <td>information</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,008</td>
-                            <td>random</td>
-                            <td>data</td>
-                            <td>placeholder</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,009</td>
-                            <td>placeholder</td>
-                            <td>irrelevant</td>
-                            <td>visual</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,010</td>
-                            <td>data</td>
-                            <td>rich</td>
-                            <td>dashboard</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,011</td>
-                            <td>information</td>
-                            <td>placeholder</td>
-                            <td>illustrative</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,012</td>
-                            <td>text</td>
-                            <td>placeholder</td>
-                            <td>layout</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,013</td>
-                            <td>dashboard</td>
-                            <td>irrelevant</td>
-                            <td>text</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,014</td>
-                            <td>dashboard</td>
-                            <td>illustrative</td>
-                            <td>rich</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,015</td>
-                            <td>random</td>
-                            <td>tabular</td>
-                            <td>information</td>
-                            <td>random</td>
-                            <td>data</td>
-                        </tr>
+                        <ContentReportList list={contentReport} renders={updateRender} />
                     </tbody>
                 </table>
             </div>
-            <div className="pagenationPosition">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <nav aria-label="Page navigation example" className="pagenations">
+                <ul className="pagination">
+                    <li className="page-item"><a className="page-link" href="#" onClick={gotoPrevious} style={{ boxShadow: "none" }}>&lt;</a></li>
+                    {pushData()}
+                    <li className="page-item"><a className="page-link" href="#" onClick={gotoNext} style={{ boxShadow: "none" }}>&gt;</a></li>
+                </ul>
+            </nav>
         </main>
     )
 }
