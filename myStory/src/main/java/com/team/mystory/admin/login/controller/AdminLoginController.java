@@ -21,7 +21,7 @@ public class AdminLoginController {
 
     @PostMapping("/login")
     public ResponseEntity adminLogin(@RequestBody AdminLoginRequest request, HttpServletResponse response) throws AccountException {
-        
+
         return ResponseEntity.ok().body(adminLoginService.adminLogin(request, response));
     }
 

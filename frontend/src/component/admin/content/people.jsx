@@ -9,9 +9,14 @@ const AuthorityList = ({ authority, renders }) => {
     }
 
     const changeRole = async (e, data) => {
+        if (data.userRole === "MANAGER") {
+            alert("해당 사용자는 직급을 변경할 수 없습니다.");
+
+            return;
+        }
+
         if (e.target.value === "user") {
             if (window.confirm(data.id + "사용자를 유저로 변경하시겠습니까?") === false) {
-                console.log(`roleSelecter_${data.userKey}`);
                 let dropdown = document.getElementById(`roleSelecter_${data.userKey}`);
 
                 dropdown.value = "admin";
