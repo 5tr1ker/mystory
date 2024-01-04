@@ -34,6 +34,29 @@ CREATE TABLE IF NOT EXISTS `bug_report` (
     foreign key (reporter_user_key) references user (user_key)
 );
 
+CREATE TABLE IF NOT EXISTS `content_report`
+(
+    content_report_id bigint not null auto_increment,
+    content varchar(255) not null,
+    is_action varchar(255) not null,
+    report_type varchar(255),
+    report_time datetime(6),
+    report_data_report_data_id bigint,
+    reporter_user_key bigint,
+    primary key (content_report_id),
+    foreign key (report_data_report_data_id) references report_data (report_data_id),
+    foreign key (reporter_user_key) references user (user_key)
+);
+
+CREATE TABLE IF NOT EXISTS `report_data` (
+    report_data_id bigint not null auto_increment,
+    content varchar(255),
+    title varchar(255),
+    target_user_key bigint,
+    primary key (report_data_id),
+    foreign key (target_user_key) references user (user_key)
+);
+
 CREATE TABLE IF NOT EXISTS `post`
 (
     `post_id`          BIGINT        NOT NULL AUTO_INCREMENT,
