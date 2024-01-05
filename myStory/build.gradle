@@ -56,6 +56,9 @@ dependencies {
 
     // S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+    // SMTP
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.2.1'
     
 }
 
