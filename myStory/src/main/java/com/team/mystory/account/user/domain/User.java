@@ -96,6 +96,10 @@ public class User implements UserDetails {
 		suspensionDate = suspensionDate.plusDays(date);
 	}
 
+	public void updateLoginDate() {
+		lastLoginDate = LocalDate.now();
+	}
+
 	public void minusSuspensionDate(int date) {
 		if(LocalDate.now().compareTo(suspensionDate.minusDays(date)) > 0) {
 			isSuspension = false;

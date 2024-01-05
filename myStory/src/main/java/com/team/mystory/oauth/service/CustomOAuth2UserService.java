@@ -16,11 +16,15 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.AccountException;
+import javax.security.auth.login.LoginException;
+import java.time.LocalDate;
 import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+
     private final LoginRepository loginRepository;
     private final HttpSession httpSession;
 
@@ -29,10 +33,20 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = createOauthAttributes(userRequest);
 
         User user = saveOrUpdateUser(attributes);
+        isValidAccount(user);
+
         httpSession.setAttribute("user", UserSession.of(user));
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                 attributes.getAttributes(), attributes.getNameAttributeKey());
+    }
+
+    public void isValidAccount(User user) {
+        if(user.isSuspension() && user.getSuspensionDate().compareTo(LocalDate.now()) > 0) {
+            throw new OAuth2EmailNotFoundException("해당 계정은 " + user.getSuspensionDate() + " 일 까지 정지입니다. \n사유 : " + user.getSuspensionReason());
+        }
+
+        user.updateLoginDate();
     }
 
     public OAuthAttributes createOauthAttributes(OAuth2UserRequest userRequest) {

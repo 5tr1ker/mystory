@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.security.auth.login.AccountException;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.team.mystory.common.response.ResponseCode.LOGIN_SUCCESS;
@@ -69,14 +70,19 @@ public class LoginService {
 			throw new AccountException("비밀번호가 일치하지 않습니다.");
 		}
 
+		if(result.isSuspension() && result.getSuspensionDate().compareTo(LocalDate.now()) > 0) {
+			throw new AccountException("해당 계정은 " + result.getSuspensionDate() + " 일 까지 정지입니다. \n사유 : " + result.getSuspensionReason());
+		}
+
 		return result;
 	}
 	
 	public ResponseMessage login(LoginRequest loginRequest , HttpServletResponse response) throws AccountException {
 		User result = isValidAccount(loginRequest);
+		result.updateLoginDate();
 
 		createJwtToken(result , response);
-		
+
 		return ResponseMessage.of(LOGIN_SUCCESS);
 	}
 

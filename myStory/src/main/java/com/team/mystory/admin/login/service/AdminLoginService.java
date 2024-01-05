@@ -27,6 +27,7 @@ public class AdminLoginService {
             throw new AccountException("찾을 수 없는 아이디입니다.");
         }
 
+        user.updateLoginDate();
         loginService.createJwtToken(user, response);
 
         return AdminLoginResponse.createResponse(user);
