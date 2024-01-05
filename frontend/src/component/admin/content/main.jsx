@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import Chart from 'chart.js';
 import axios from "axios";
 
-const MainChartList = ({chart}) => {
-    if(chart === undefined || Array.isArray(chart.map)) {
+const MainChartList = ({ chart }) => {
+    if (chart === undefined || Array.isArray(chart.map)) {
         return null;
     }
 
@@ -18,8 +18,7 @@ const MainChartList = ({chart}) => {
     );
 }
 
-const AdminMain = () => {
-
+const AdminMain = ({renders}) => {
     const [chart, setChart] = useState();
     let chartLabel_date = [];
     let chartLabel_value = [];
@@ -31,7 +30,7 @@ const AdminMain = () => {
         }
     }
 
-    
+
 
     useEffect(async () => {
         let ctx = document.getElementById('myChart')
@@ -44,7 +43,10 @@ const AdminMain = () => {
                 setChart(response.data);
                 setChartLabel(response.data);
             })
-            .catch((e) => alert(e.response.data.message));
+            .catch((e) => {
+                localStorage.removeItem("adminId");
+                renders();
+            });
 
 
 

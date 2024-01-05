@@ -1,5 +1,6 @@
 package com.team.mystory.cors;
 
+import com.team.mystory.oauth.exception.OAuth2EmailNotFoundException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,7 +32,11 @@ public class CorsFilter implements Filter {
         if("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
-            chain.doFilter(req, res);
+            try {
+                chain.doFilter(req, res);
+            } catch (OAuth2EmailNotFoundException e) {
+                response.sendRedirect(clientUrl);
+            }
         }
     }
 }

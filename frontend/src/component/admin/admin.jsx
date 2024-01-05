@@ -14,16 +14,16 @@ const AdminPage = () => {
     }
 
     const [component, setComponent] = useState(<AdminMain />);
-    const componentArr = [<AdminMain />, < AdminBug />, < ContentReport />, <PeopleEdit />];
     const [render, setRender] = useState(false);
     
     const modifyComponent = (index) => {
         setComponent(componentArr[index]);
     }
-
+    
     const updateRender = () => {
         setRender(render ? false : true);
     }
+    const componentArr = [<AdminMain renders={updateRender}/>, < AdminBug />, < ContentReport />, <PeopleEdit />];
 
     const logout = async () => {
         sessionAdminId = null;
