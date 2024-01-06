@@ -149,8 +149,9 @@ public class LoginService {
 	}
 
 	@Transactional
-    public void modifyPassword(String accessToken, PasswordRequest request) throws AccountException {
-		User user = findUserByAccessToken(accessToken);
+    public void modifyPassword(PasswordRequest request) throws AccountException {
+		User user = loginRepository.findByEmail(request.getEmail())
+						.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
 
 		user.updatePassword(bCryptPasswordEncoder.encode(request.getPassword()));
     }

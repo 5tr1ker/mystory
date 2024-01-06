@@ -1,5 +1,6 @@
 package com.team.mystory.smtp.service;
 
+import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.smtp.dto.CertRequest;
 import com.team.mystory.smtp.entity.MailCert;
 import com.team.mystory.smtp.exception.MailException;
@@ -17,14 +18,21 @@ public class MailService {
 
     private final MailUtil mailUtil;
     private final MailCertRepository mailCertRepository;
+    private final LoginRepository loginRepository;
 
     @Transactional
     public void sendMail(CertRequest request) {
+        isValidEmail(request.getEmail());
         MailCert mailCert = createVerification(request.getEmail());
 
         if (!mailUtil.sendMail(request.getEmail(), mailCert.getVerificationCode())) {
             throw new MailException("메일을 전송하는 도중에 오류가 발생했습니다.");
         }
+    }
+
+    private void isValidEmail(String email) {
+        loginRepository.findByEmail(email)
+                .orElseThrow(() -> new MailException("해당 이메일로 가입된 계정이 없습니다."));
     }
 
     private MailCert createVerification(String id) {
@@ -54,8 +62,8 @@ public class MailService {
                 .orElseThrow(() -> new MailException("잘못된 접근입니다."));
 
         if(!mailCert.isCorrectVerificationCode(request.getCode())) {
-            throw new MailException("잘못된 코드입니다.");
-        };
+            throw new MailException("일치하지 않는 인증 코드입니다.");
+        }
 
         return true;
     }

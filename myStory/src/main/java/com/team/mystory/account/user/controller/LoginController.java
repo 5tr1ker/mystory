@@ -29,9 +29,9 @@ public class LoginController {
 	}
 
 	@PatchMapping("/password")
-	public ResponseEntity modifyPassword(@CookieValue String accessToken, @RequestBody PasswordRequest request)
+	public ResponseEntity modifyPassword(@RequestBody PasswordRequest request)
 			throws AccountException {
-		loginService.modifyPassword(accessToken, request);
+		loginService.modifyPassword(request);
 
 		return ResponseEntity.ok().build();
 	}
