@@ -1,6 +1,7 @@
 package com.team.mystory.account.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.team.mystory.account.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,4 +27,15 @@ public class UserResponse {
     private String profileImage;
 
     private int options;
+
+    public static UserResponse createResponse(User user) {
+        return UserResponse.builder()
+                .userKey(user.getUserKey())
+                .id(user.getId())
+                .password(user.getPassword())
+                .joinDate(user.getJoinDate())
+                .profileImage(user.getProfileImage())
+                .options(user.getProfile().getOptions())
+                .build();
+    }
 }

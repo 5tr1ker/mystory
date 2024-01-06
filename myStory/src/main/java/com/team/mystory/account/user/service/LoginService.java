@@ -3,6 +3,7 @@ package com.team.mystory.account.user.service;
 import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.dto.LoginRequest;
+import com.team.mystory.account.user.dto.PasswordRequest;
 import com.team.mystory.account.user.dto.UserResponse;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.common.response.ResponseMessage;
@@ -93,11 +94,10 @@ public class LoginService {
 		setCookieFromJwt(token , response);
 	}
 
-	public ResponseMessage findUserByUserId(String userId) throws AccountException {
-		UserResponse userResponse = loginRepository.findUserResponseById(userId)
-				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
-
-		return ResponseMessage.of(REQUEST_SUCCESS , userResponse);
+	public void isExistEmail(String userId) throws AccountException {
+		if(loginRepository.findByEmail(userId).isPresent()) {
+			throw new AccountException("이미 존재하는 이메일입니다.");
+		};
 	}
 
 	public ResponseMessage findUserByToken(String token) throws AccountException {
@@ -109,7 +109,7 @@ public class LoginService {
 	}
 
 	public ResponseMessage removeUser(String accessToken , HttpServletResponse response) throws AccountException {
-		User result = findByUserByAccessToken(accessToken);
+		User result = findUserByAccessToken(accessToken);
 
 		deleteAllS3FilesUploadedByUserId(result.getId());
 		loginRepository.delete(result);
@@ -129,7 +129,7 @@ public class LoginService {
 
 	@Transactional
 	public String modifyProfileImage(String accessToken, MultipartFile multipartFile) throws AccountException, IOException {
-		User result = findByUserByAccessToken(accessToken);
+		User result = findUserByAccessToken(accessToken);
 
 		if(result.getProfileImage() != null && !result.getProfileImage().isEmpty()) {
 			s3Service.deleteFile(result.getProfileImage());
@@ -142,10 +142,16 @@ public class LoginService {
 		return url;
 	}
 
-	public User findByUserByAccessToken(String accessToken) throws AccountException {
+	public User findUserByAccessToken(String accessToken) throws AccountException {
 		String userId = jwtTokenProvider.getUserPk(accessToken);
 		return loginRepository.findById(userId)
 				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
 	}
 
+	@Transactional
+    public void modifyPassword(String accessToken, PasswordRequest request) throws AccountException {
+		User user = findUserByAccessToken(accessToken);
+
+		user.updatePassword(bCryptPasswordEncoder.encode(request.getPassword()));
+    }
 }

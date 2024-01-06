@@ -35,6 +35,9 @@ public class User implements UserDetails {
 	
 	@Column(nullable = false , length = 30)
 	private String id;
+
+	@Column(nullable = false)
+	private String email;
 	
 	@Column(nullable = false)
 	private String password;
@@ -96,6 +99,10 @@ public class User implements UserDetails {
 		suspensionDate = suspensionDate.plusDays(date);
 	}
 
+	public void updatePassword(String password) {
+		this.password = password;
+	}
+
 	public void updateLoginDate() {
 		lastLoginDate = LocalDate.now();
 	}
@@ -115,6 +122,7 @@ public class User implements UserDetails {
 				.id(loginRequest.getId())
 				.profileImage(url)
 				.password(password)
+				.email(loginRequest.getEmail())
 				.profile(Profile.createInitProfileSetting())
 				.lastLoginDate(LocalDate.now())
 				.isSuspension(false)
@@ -123,9 +131,10 @@ public class User implements UserDetails {
 				.build();
 	}
 
-	public static User createOAuthUser(String userId) {
+	public static User createOAuthUser(String userId, String email) {
 		return User.builder()
 				.id(userId)
+				.email(email)
 				.password(UUID.randomUUID().toString())
 				.profile(Profile.createInitProfileSetting())
 				.lastLoginDate(LocalDate.now())

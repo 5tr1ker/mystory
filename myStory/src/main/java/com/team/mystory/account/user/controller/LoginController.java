@@ -1,6 +1,7 @@
 package com.team.mystory.account.user.controller;
 
 import com.team.mystory.account.user.dto.LoginRequest;
+import com.team.mystory.account.user.dto.PasswordRequest;
 import com.team.mystory.account.user.service.LoginService;
 import com.team.mystory.common.response.ResponseMessage;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,6 +26,14 @@ public class LoginController {
 	public ResponseEntity<ResponseMessage> register(@RequestPart(name = "data") LoginRequest loginRequest , @RequestPart(name = "image") MultipartFile multipartFile)
 			throws AccountException, IOException {
 		return ResponseEntity.ok().body(loginService.register(loginRequest , multipartFile));
+	}
+
+	@PatchMapping("/password")
+	public ResponseEntity modifyPassword(@CookieValue String accessToken, @RequestBody PasswordRequest request)
+			throws AccountException {
+		loginService.modifyPassword(accessToken, request);
+
+		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping(value = "/profile-image")
@@ -52,10 +61,12 @@ public class LoginController {
 
 		return ResponseEntity.noContent().build();
 	}
-	
-	@GetMapping(value = "/users/{idInfo}")
-	public ResponseEntity<ResponseMessage> findUserByUserId(@PathVariable("idInfo") String userInfo) throws AccountException {
-		return ResponseEntity.ok().body(loginService.findUserByUserId(userInfo));
+
+	@GetMapping(value = "/users/{email}")
+	public ResponseEntity<ResponseMessage> isExistEmail(@PathVariable String email) throws AccountException {
+		loginService.isExistEmail(email);
+
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping(value = "/users")

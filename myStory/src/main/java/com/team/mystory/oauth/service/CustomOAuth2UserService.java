@@ -71,7 +71,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     public User createAndSaveUser(OAuthAttributes attributes) {
-        User createUser = User.createOAuthUser(getIdWithoutEmail(attributes.getEmail()));
+        User createUser = User.createOAuthUser(getIdWithoutEmail(attributes.getEmail()), attributes.getEmail());
 
         return loginRepository.save(createUser);
     }

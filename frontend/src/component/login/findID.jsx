@@ -6,19 +6,48 @@ import '../../_style/loginScreen.css'
 import img01 from '../../_image/pic1.png';
 
 const FindID = () => {
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
+    const [codeVisible , setVisible] = useState(false);
+    const [passwordInputVisible , setPasswordInputVisible] = useState(false);
+    const [verificationCode , setVerificationCode] = useState('');
 
-    const setIds = (e) => {
-        setId(e.target.value)
+    const setEmails = (e) => {
+        setEmail(e.target.value)
+    }
+
+    const inputVerificationCode = (e) => {
+        setVerificationCode(e.target.value);
     }
 
     const findId = async () => {
+        if(!codeVisible) {
+            await axios({
+                method : "POST" ,
+                mode: "cors" , 
+                headers : {"Content-Type": "application/json"},
+                url : `/mail/send` ,
+                data: JSON.stringify({"email" : email})
+            })
+            .then((response) => { 
+                setVisible(true); 
+                alert("해당 이메일로 인증 번호가 전송되었습니다.");
+            })
+            .catch((e) => alert(e.response.data.message));
+
+            return;
+        }
+        
         await axios({
-            method : "GET" ,
+            method : "POST" ,
             mode: "cors" , 
-            url : `/users/${id}`
+            headers : {"Content-Type": "application/json"},
+            url : `/mail/check`,
+            data: JSON.stringify({"email" : email, "code" : verificationCode})
         })
-        .then((response) => { alert(`${id} 님의 앞3자리 비밀번호는 ${response.data.data.password.substr(0,3)}`); }) 
+        .then((response) => { 
+            setVisible(false); 
+            setPasswordInputVisible(true);
+        })
         .catch((e) => alert(e.response.data.message));
 
     }
@@ -32,8 +61,9 @@ const FindID = () => {
                     </svg>
                 </Link>
                 <div className="findIDArea">
-                    <span className="findIddescription" style={{marginBottom:"20px"}}>please enter the id you use to sign in to website</span>
-                    <input type="text" className="idInput forgotNameInput" placeholder="Username" onChange={setIds} style={{marginBottom:"0px"}}/><br/>
+                    <span className="findIddescription">please enter the id you use to sign in to website</span>
+                    <input type="text" className="idInput forgotNameInput" placeholder="Email 입력" onChange={setEmails} style={{marginBottom:"0px"}}/><br/>
+                    {codeVisible ? <input type="text" className="idInput forgotNameInput" placeholder="인증 번호" onChange={inputVerificationCode} style={{marginBottom:"0px"}} /> : null}
                     <button type="submit" className="forgotButton" onClick={findId}>비밀번호 찾기</button>
                     <Link to="/login" style={{textDecoration:"none"}}><span className="backtosignin">Back to Sign in</span></Link>
                 </div>

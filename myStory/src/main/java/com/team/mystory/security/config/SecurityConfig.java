@@ -43,7 +43,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests()
 				.requestMatchers(HttpMethod.GET, "/admin/**").hasRole(UserRole.MANAGER.name())
 				.requestMatchers(HttpMethod.GET , "/**").permitAll()
-				.requestMatchers(HttpMethod.POST , "/admin/login", "/logins" , "/registers" , "/oauth/token" , "/user/logout").permitAll()
+				.requestMatchers(HttpMethod.POST , "/mail/**", "/admin/login", "/logins" , "/registers" , "/oauth/token" , "/user/logout").permitAll()
 				.requestMatchers("/admin/**").hasRole(UserRole.MANAGER.name())
 				.requestMatchers(HttpMethod.PATCH , "/posts/views/**").permitAll()
 				.requestMatchers(HttpMethod.DELETE , "/**").hasRole(UserRole.USER.name())
