@@ -856,7 +856,8 @@
 
 .noticeFrameArea {
     width: 800px;
-    margin-top: -50px;
+    position: fixed;
+    top: 75px;
 }
 
 .noticeFooter {
@@ -1418,8 +1419,8 @@
 }
 
 .postView {
-    margin-left: -10px;
-    margin-top: 10px;
+    margin-left: -5px;
+    margin-top: 3px;
 }
 
 .postView svg {
@@ -1443,7 +1444,7 @@
 
 .postTitle{
     display: inline-block;
-    margin-top: 8px;
+    margin-top: 5px;
     font-size: 18px;
     font-weight: 600;
 }
