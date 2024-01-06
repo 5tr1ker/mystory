@@ -1,9 +1,6 @@
 package com.team.mystory.smtp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,8 +16,10 @@ public class MailCert {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long mailCertId;
 
+    @Column(nullable = false)
     private String id;
 
+    @Column(nullable = false)
     private String verificationCode;
 
     public boolean isCorrectVerificationCode(String code) {

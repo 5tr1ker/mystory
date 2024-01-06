@@ -20,9 +20,9 @@ public class MailService {
 
     @Transactional
     public void sendMail(CertRequest request) {
-        createVerification(request.getEmail());
+        MailCert mailCert = createVerification(request.getEmail());
 
-        if (!mailUtil.sendMail(request.getEmail())) {
+        if (!mailUtil.sendMail(request.getEmail(), mailCert.getVerificationCode())) {
             throw new MailException("메일을 전송하는 도중에 오류가 발생했습니다.");
         }
     }

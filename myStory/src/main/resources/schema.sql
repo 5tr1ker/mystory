@@ -48,6 +48,13 @@ CREATE TABLE IF NOT EXISTS `content_report`
     foreign key (reporter_user_key) references user (user_key)
 );
 
+CREATE TABLE IF NOT EXISTS `mail_cert` (
+    mail_cert_id bigint not null auto_increment,
+    id VARCHAR(255) NOT NULL,
+    verification_code VARCHAR(255) NOT NULL,
+    primary key (mail_cert_id)
+);
+
 CREATE TABLE IF NOT EXISTS `report_data` (
     report_data_id bigint not null auto_increment,
     content varchar(255),
