@@ -37,7 +37,7 @@ public class ContentReportService {
     }
 
     public ReportData createReportData(ContentReportRequest request) throws AccountException {
-        User targetUser =loginRepository.findById(request.getTarget().getWriter())
+        User targetUser = loginRepository.findById(request.getTarget().getWriter())
                 .orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
 
         return ReportData.createReportData(targetUser, request);

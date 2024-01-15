@@ -15,8 +15,11 @@ const ContentReportList = ({ list, renders }) => {
         else if (contentType === "CHAT") {
             return "채팅";
         }
-        else if (contentType === "CLASS") {
-            return "모임";
+        else if (contentType === "MEETING") {
+            return "미팅";
+        }
+        else if (contentType === "RESERVATION") {
+            return "미팅 예약";
         }
     }
 

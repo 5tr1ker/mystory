@@ -364,6 +364,13 @@
     top: 321px;
     white-space: nowrap;
   }
+
+  .text-wrapper-88-meetingView {
+    color: white;
+    position: relative;
+    top: 10px;
+    left: 12px;
+  }
   
   .screen-meetingView .text-wrapper-9-meetingView {
     color: #5b1fd9;
@@ -713,6 +720,18 @@
     box-shadow: 0px 4px 4px #00000040;
     height: 55px;
     left: 689px;
+    position: absolute;
+    top: 35px;
+    width: 55px;
+    cursor: pointer;
+  }
+
+  .thin-s-wrapper-report {
+    background-color: #5b1fd9;
+    border-radius: 30.5px;
+    box-shadow: 0px 4px 4px #00000040;
+    height: 55px;
+    left: 819px;
     position: absolute;
     top: 35px;
     width: 55px;

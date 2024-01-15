@@ -1,28 +1,55 @@
 import NoticeboardCommit from "./noticeboardcommit";
-import React ,  { useEffect , useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useState , Fragment } from "react";
+import { useState, Fragment } from "react";
 
 const PostView = ({ idStatus }) => {
     const params = new URLSearchParams(window.location.search).get('page');
     const [postContentArr, setContentArr] = useState([]); // 현재 보여지는 페이지 
     const commit = useRef(''); // 커밋 내용
     const [commitData, setCommitData] = useState([]); // 댓글 데이터
-    const [tagData , setTagData] = useState([]); // 포스트 해시태그 데이터
-    const [attachment , setAttachment] = useState([]); // 첨부파일 데이터
+    const [tagData, setTagData] = useState([]); // 포스트 해시태그 데이터
+    const [attachment, setAttachment] = useState([]); // 첨부파일 데이터
 
 
-    const PostViewTag = (({data}) => { // 태그
+    const PostViewTag = (({ data }) => { // 태그
         const tagarr = [];
         data.forEach(item => tagarr.push(item));
-        return(tagarr.map(item => <span key={item} onClick={() => window.location.replace(`/noticelist?type=tag&data=${item}`)}>{item}</span>));
+        return (tagarr.map(item => <span key={item} onClick={() => window.location.replace(`/noticelist?type=tag&data=${item}`)}>{item}</span>));
     });
+
+    const reportContent = async (post) => { // 컨텐츠 신고
+        if(!window.confirm("해당 컨텐츠를 신고하시겠습니까?")) {
+            return;
+        }
+
+        const reason = window.prompt("신고 사유" + "");
+
+        await axios({
+            method: "POST",
+            url: `/admin/report/content`,
+            data: {
+                "content" : reason , 
+                "reportContentURL" : `/viewpost/${post.postId}` ,
+                "reportType" : "POST",
+                "target" : {
+                    "writer" : post.writer ,
+                    "title" : post.title ,
+                    "content" : post.content
+                }
+            }
+        }).then((e) => {
+            alert("신고가 완료되었습니다.");
+        }).catch((e) => {
+            alert("로그인 후에 사용해주세요.");
+        });
+    }
 
     const PostViewAttachment = (({ data }) => { // 첨부파일
         return (data.map(item => (
             <Fragment key={item.fileName}>
-                <div className="downloadBlock" onClick={() => onDownload(item.s3Url , item.realFileName)}>
+                <div className="downloadBlock" onClick={() => onDownload(item.s3Url, item.realFileName)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-paperclip" viewBox="0 0 16 16">
                         <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
                     </svg>
@@ -33,8 +60,8 @@ const PostView = ({ idStatus }) => {
         )
     });
 
-    const onDownload = async (downloadUrl , fileName) => {
-      
+    const onDownload = async (downloadUrl, fileName) => {
+
         fetch(downloadUrl, { method: 'GET' })
             .then((res) => {
                 return res.blob();
@@ -55,31 +82,31 @@ const PostView = ({ idStatus }) => {
                 console.error('err: ', err);
             });
     }
-    
+
     const getPost = async (mode) => { // 게시글 정보 가져오기
-        if(isNaN(parseInt(params))) {
+        if (isNaN(parseInt(params))) {
             alert("비정상적인 접근입니다.");
             window.location.replace(`/noticelist`);
         }
         const result = await axios({ // POST 정보 가져오기
-            method: "GET" ,
-            mode: "cors" , 
+            method: "GET",
+            mode: "cors",
             url: `/posts/${parseInt(params)}`
         })
-        .catch((e) => { alert(e.response.data.message); window.location.replace(`/noticelist`);});
+            .catch((e) => { alert(e.response.data.message); window.location.replace(`/noticelist`); });
 
-       const findPost = result.data.data;
+        const findPost = result.data.data;
         setAttachment(result.data.data.attachment || []);
         setTagData(result.data.data.tags || []);
 
-        if(findPost.private == true && findPost.writer !== idStatus) {
+        if (findPost.private == true && findPost.writer !== idStatus) {
             alert("비공개글입니다.");
             window.location.replace(`/noticelist`);
         } else {
             if (mode === 'views') { // 조회수 증가
                 await axios({
-                    method : "PATCH" ,
-                    mode : "cors" ,
+                    method: "PATCH",
+                    mode: "cors",
                     url: `/posts/views/${parseInt(params)}`
                 })
                 setContentArr(findPost); // findindex 로 해당 키값이 어떤 배열에 저장되어있는지 확인 후 해당 배열 반환+
@@ -94,25 +121,27 @@ const PostView = ({ idStatus }) => {
                 alert('로그인 후 이용해주세요.');
                 return;
             } else {
-                const jsondata = JSON.stringify({"idStatus" : idStatus});
+                const jsondata = JSON.stringify({ "idStatus": idStatus });
                 await axios({
-                    method : "PATCH" ,
-                    mode : "cors" ,
-                    url: `/posts/likes/${parseInt(params)}`, 
-                    data : jsondata , 
-                    headers : {"Content-Type": "application/json"}
+                    method: "PATCH",
+                    mode: "cors",
+                    url: `/posts/likes/${parseInt(params)}`,
+                    data: jsondata,
+                    headers: { "Content-Type": "application/json" }
                 })
-                .then(async(response) => {if(response.data.data == "4") {
-                    await axios({
-                        method : "PATCH" ,
-                        mode : "cors" ,
-                        url: `/posts/likes/${parseInt(params)}`, 
-                        data : jsondata , 
-                        headers : {"Content-Type": "application/json"}
+                    .then(async (response) => {
+                        if (response.data.data == "4") {
+                            await axios({
+                                method: "PATCH",
+                                mode: "cors",
+                                url: `/posts/likes/${parseInt(params)}`,
+                                data: jsondata,
+                                headers: { "Content-Type": "application/json" }
+                            })
+                        }
                     })
-                  }})
-                .catch((e) => {alert("로그인이 필요한 요청입니다."); return;});
-                
+                    .catch((e) => { alert("로그인이 필요한 요청입니다."); return; });
+
             }
             window.location.reload();
         }
@@ -122,18 +151,19 @@ const PostView = ({ idStatus }) => {
         if (idStatus === postContentArr.writer) {
             if (window.confirm("게시글을 삭제하시겠습니까?")) {
                 await axios({
-                    method : "DELETE" ,
-                    url : `/posts/${parseInt(data)}` ,
-                    mode : "cors"
+                    method: "DELETE",
+                    url: `/posts/${parseInt(data)}`,
+                    mode: "cors"
                 })
-                .then(async (response) => { 
-                    if(response.data.data == "4") {
-                        postDelete(data);
-                        return;
-                      }
-                    alert(response.data.message);
-                    window.location.replace('/noticelist'); }) 
-                .catch((e) => alert(e.response.data.message));
+                    .then(async (response) => {
+                        if (response.data.data == "4") {
+                            postDelete(data);
+                            return;
+                        }
+                        alert(response.data.message);
+                        window.location.replace('/noticelist');
+                    })
+                    .catch((e) => alert(e.response.data.message));
             }
         } else {
             alert('내용 삭제는 작성자만 할 수 있습니다.');
@@ -154,49 +184,51 @@ const PostView = ({ idStatus }) => {
         } else if (commit.current.value === '') {
             alert('입력값이 없습니다.');
         } else {
-            const data = JSON.stringify({"content" : commit.current.value , "postId" : params});
+            const data = JSON.stringify({ "content": commit.current.value, "postId": params });
             await axios({
-                method : "POST" ,
-                url : "/comments" ,
-                data : data ,
-                mode : "cors" ,
-                headers : {"Content-Type": "application/json"}
+                method: "POST",
+                url: "/comments",
+                data: data,
+                mode: "cors",
+                headers: { "Content-Type": "application/json" }
             })
-            .then((response) => { 
-                if(response.data.data == "4") {
-                    addCommit(data);
-                    return;
-                  }
-                document.getElementById('commitinput').value = ''; getCommit(); }) 
-            .catch((e) => alert(e.response.data.message));
+                .then((response) => {
+                    if (response.data.data == "4") {
+                        addCommit(data);
+                        return;
+                    }
+                    document.getElementById('commitinput').value = ''; getCommit();
+                })
+                .catch((e) => alert(e.response.data.message));
         }
     }
 
     const delCommit = async (numbers) => { // 댓글 삭제
         if (window.confirm('댓글을 삭제하시겠습니까?')) {
             await axios({
-                method : "DELETE" ,
-                url : `/comments/${numbers}` ,
-                mode : "cors"
+                method: "DELETE",
+                url: `/comments/${numbers}`,
+                mode: "cors"
             })
-            .then((response) => { 
-                if(response.data.data == "4") {
-                    delCommit(numbers);
-                    return;
-                  }
-                  getCommit(); }) 
-            .catch((e) => alert(e.response.data.message));
+                .then((response) => {
+                    if (response.data.data == "4") {
+                        delCommit(numbers);
+                        return;
+                    }
+                    getCommit();
+                })
+                .catch((e) => alert(e.response.data.message));
         }
     }
 
     const getCommit = async () => { // 댓글 출력
         await axios({
-            method: "GET" ,
-            url: `/comments/${parseInt(params)}` ,
-            mode : "cors"
+            method: "GET",
+            url: `/comments/${parseInt(params)}`,
+            mode: "cors"
         })
-        .then((response) => { setCommitData(response.data.data); }) 
-        .catch((e) => alert(e.response.data.message));
+            .then((response) => { setCommitData(response.data.data); })
+            .catch((e) => alert(e.response.data.message));
     }
 
     useEffect(async () => {
@@ -209,7 +241,7 @@ const PostView = ({ idStatus }) => {
             <div className="postViewSection">
                 <header className="postViewName">
                     <div className="postsettingIcon">
-                     <Link to={`/noticelist`}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                        <Link to={`/noticelist`}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-bar-left" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5zM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5z" />
                         </svg></Link>
                         <svg xmlns="http://www.w3.org/2000/svg" onClick={() => postDelete(postContentArr.postId)} width="20" height="20" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
@@ -222,8 +254,11 @@ const PostView = ({ idStatus }) => {
                         <svg xmlns="http://www.w3.org/2000/svg" onClick={() => getPost('likes')} width="20" height="20" fill="currentColor" className="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
                             <path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z" />
                         </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" onClick={() => reportContent(postContentArr)} width="20" height="20" fill="currentColor" color="red" className="bi bi-bell" viewBox="0 0 16 16">
+                            <path style={{fill : "rgb(255,0,0)"}} d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                        </svg>
                     </div>
-                    <span className="postWriter">Written <span style={{color:"gray"}}>by</span> {postContentArr.writer}</span><br/>
+                    <span className="postWriter">Written <span style={{ color: "gray" }}>by</span> {postContentArr.writer}</span><br />
                     <span className="postTitle">{postContentArr.title}</span>
                     <div className="postView">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="gray" className="bi bi-eye" viewBox="0 0 16 16">
@@ -243,7 +278,7 @@ const PostView = ({ idStatus }) => {
                             <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
                             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
                         </svg>
-                        <span>{ postContentArr.postDate}</span>
+                        <span>{postContentArr.postDate}</span>
                     </div>
                 </header>
                 <aside className="postViewContent">
@@ -271,16 +306,16 @@ const PostView = ({ idStatus }) => {
                         <div className="postviewTagscontent2"> {/* 첨부파일 */}
                             <PostViewAttachment data={attachment} />
                         </div>
-                    </div> }
+                    </div>}
 
                 <div className="postComment">
                     <div className="commitmiddle">
                         {postContentArr.blockComment ? null : <div className="commitInput">
                             <textarea id="commitinput" className="postCommitArea" ref={commit} maxLength={200} />
                             <button className="commitCommit" onClick={() => addCommit()}>Commit</button>
-                        </div> }
+                        </div>}
                         {/* 댓글 <NoticeboardCommit/> 과 덧글 <NoticeboardReply/> 은 여기에 넣자*/}
-                        <NoticeboardCommit data={commitData} delButton={delCommit} idStats={idStatus}/>
+                        <NoticeboardCommit data={commitData} delButton={delCommit} idStats={idStatus} postId={postContentArr.postId} />
                         {/* <NoticeboardreplyText/> 덧글 값 입력 창 */}
                     </div>
                     <div className="heightBug" />
