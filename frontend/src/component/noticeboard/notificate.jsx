@@ -7,7 +7,7 @@ const Notificate = ({dropDownSet , notifiedMode}) => {
     const [list , setList] = useState([]);
 
     const connectUrl = (postNumber) => {
-        window.location.href = `/viewpost?page=${postNumber}`;
+        window.location.href = `/viewpost/${postNumber}`;
     }
     
     let keys = 0;

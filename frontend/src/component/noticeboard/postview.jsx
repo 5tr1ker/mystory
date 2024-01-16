@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState, Fragment } from "react";
 
 const PostView = ({ idStatus }) => {
-    const params = new URLSearchParams(window.location.search).get('page');
+    const params = window.location.pathname.split("/");
     const [postContentArr, setContentArr] = useState([]); // 현재 보여지는 페이지 
     const commit = useRef(''); // 커밋 내용
     const [commitData, setCommitData] = useState([]); // 댓글 데이터
@@ -84,14 +84,14 @@ const PostView = ({ idStatus }) => {
     }
 
     const getPost = async (mode) => { // 게시글 정보 가져오기
-        if (isNaN(parseInt(params))) {
+        if (isNaN(parseInt(params[2]))) {
             alert("비정상적인 접근입니다.");
             window.location.replace(`/noticelist`);
         }
         const result = await axios({ // POST 정보 가져오기
             method: "GET",
             mode: "cors",
-            url: `/posts/${parseInt(params)}`
+            url: `/posts/${parseInt(params[2])}`
         })
             .catch((e) => { alert(e.response.data.message); window.location.replace(`/noticelist`); });
 
@@ -107,7 +107,7 @@ const PostView = ({ idStatus }) => {
                 await axios({
                     method: "PATCH",
                     mode: "cors",
-                    url: `/posts/views/${parseInt(params)}`
+                    url: `/posts/views/${parseInt(params[2])}`
                 })
                 setContentArr(findPost); // findindex 로 해당 키값이 어떤 배열에 저장되어있는지 확인 후 해당 배열 반환+
             }
@@ -125,7 +125,7 @@ const PostView = ({ idStatus }) => {
                 await axios({
                     method: "PATCH",
                     mode: "cors",
-                    url: `/posts/likes/${parseInt(params)}`,
+                    url: `/posts/likes/${parseInt(params[2])}`,
                     data: jsondata,
                     headers: { "Content-Type": "application/json" }
                 })
@@ -134,7 +134,7 @@ const PostView = ({ idStatus }) => {
                             await axios({
                                 method: "PATCH",
                                 mode: "cors",
-                                url: `/posts/likes/${parseInt(params)}`,
+                                url: `/posts/likes/${parseInt(params[2])}`,
                                 data: jsondata,
                                 headers: { "Content-Type": "application/json" }
                             })
@@ -184,7 +184,7 @@ const PostView = ({ idStatus }) => {
         } else if (commit.current.value === '') {
             alert('입력값이 없습니다.');
         } else {
-            const data = JSON.stringify({ "content": commit.current.value, "postId": params });
+            const data = JSON.stringify({ "content": commit.current.value, "postId": params[2] });
             await axios({
                 method: "POST",
                 url: "/comments",
@@ -224,7 +224,7 @@ const PostView = ({ idStatus }) => {
     const getCommit = async () => { // 댓글 출력
         await axios({
             method: "GET",
-            url: `/comments/${parseInt(params)}`,
+            url: `/comments/${parseInt(params[2])}`,
             mode: "cors"
         })
             .then((response) => { setCommitData(response.data.data); })

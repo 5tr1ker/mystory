@@ -57,7 +57,7 @@ const ContentReportList = ({ list, renders }) => {
                 <td>{data.content}</td>
                 <td>{switchContentType(data.contentType)}</td>
                 <td>{data.action ? <input type="checkbox" onClick={() => toggleSolved(data.contentReportId)} defaultChecked={true} /> : <input type="checkbox" onClick={() => toggleSolved(data.contentReportId)} />}</td>
-                <td className="deleteContentStyle" onClick={() => alert(`${data.contentURL}`)} >[이동]</td>
+                <td className="deleteContentStyle" onClick={() => window.location.replace(`${data.contentURL}`)}>[이동]</td>
                 <td className="deleteContentStyle" onClick={() => deleteReport(data.contentReportId)}>[제거]</td>
             </tr>
         ))
@@ -89,7 +89,7 @@ const ContentReport = () => {
                 setContentReport(response.data);
             })
             .catch((e) => alert(e.response.data.message));
-    }, [render]);
+    }, [render, pages]);
 
     const gotoNext = () => {
         if (pages < maxPages.current) {

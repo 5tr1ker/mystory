@@ -51,7 +51,7 @@ const NoticeFrame = () => {
             url: `/users`,
         })
         .then((response) => { 
-            localStorage.setItem("userId" , response.data.data.id );
+            localStorage.setItem("userId" , response.data.data.id);
             setUserOption({notified: response.data.data.options});
             setProfileImage(response.data.data.profileImage);
         }) 
@@ -169,7 +169,7 @@ const NoticeFrame = () => {
                     <Route path='/noticelist' element={<NoticeList/>}></Route>
                     <Route path='/newpost' element={<NewPost idStatus={sessionUserId} />}></Route>
                     <Route path='/modified/:id' element={<NewPost idStatus={sessionUserId} />}></Route>
-                    <Route path='/viewpost' element={<PostView idStatus={sessionUserId} />}></Route>
+                    <Route path='/viewpost/:id' element={<PostView idStatus={sessionUserId} />}></Route>
                     <Route path='/profile' element={<Profile idStatus={sessionUserId} rerenders={logout} profileImageUrl={profileImage} />}></Route>
                     <Route path="/meeting" element={<MeetingList idStatus={sessionUserId} />}></Route>
                     <Route path="/newmeeting" element={<NewMeeting idStatus={sessionUserId}/>}></Route>

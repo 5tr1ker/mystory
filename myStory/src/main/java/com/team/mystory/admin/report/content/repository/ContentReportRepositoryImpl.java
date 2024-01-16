@@ -49,6 +49,7 @@ public class ContentReportRepositoryImpl implements CustomContentReportRepositor
                 .innerJoin(reportData.target, targetUser)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(contentReport.reportTime.desc())
                 .fetch();
     }
 }
