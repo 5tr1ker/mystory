@@ -24,7 +24,12 @@ const PostView = ({ idStatus }) => {
             return;
         }
 
-        const reason = window.prompt("신고 사유" + "");
+        const reason = window.prompt("신고 사유 (100자 이내)" + "");
+        if(reason.length > 100) {
+            alert("신고 사유는 100자 이내로 작성해주세요.");
+
+            return;
+        }
 
         await axios({
             method: "POST",

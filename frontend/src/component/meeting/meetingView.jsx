@@ -33,7 +33,12 @@ const MeetingView = () => {
       return;
     }
 
-    const reason = window.prompt("신고 사유" + "");
+    const reason = window.prompt("신고 사유 (100자 이내)" + "");
+    if (reason.length > 100) {
+      alert("신고 사유는 100자 이내로 작성해주세요.");
+
+      return;
+    }
 
     await axios({
       method: "POST",
@@ -251,7 +256,7 @@ const MeetingView = () => {
         </div>
         {/* 모임 예약 데이터 */}
         <div className='reservationArea'>
-          <ShowReservation reservation={reservation} meeting={meeting} owner={owner}/>
+          <ShowReservation reservation={reservation} meeting={meeting} owner={owner} />
         </div>
         {/* 모임 컨트롤러 */}
         <div className="overlap-3-meetingView" onClick={leaveParty}>
