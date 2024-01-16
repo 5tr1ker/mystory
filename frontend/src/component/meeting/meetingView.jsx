@@ -251,7 +251,7 @@ const MeetingView = () => {
         </div>
         {/* 모임 예약 데이터 */}
         <div className='reservationArea'>
-          <ShowReservation reservation={reservation} />
+          <ShowReservation reservation={reservation} meeting={meeting} owner={owner}/>
         </div>
         {/* 모임 컨트롤러 */}
         <div className="overlap-3-meetingView" onClick={leaveParty}>

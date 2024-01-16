@@ -12,18 +12,17 @@ const AdminPage = () => {
     if (sessionAdminId === null) {
         window.location.replace("/admin/login");
     }
-
-    const [component, setComponent] = useState(<AdminMain />);
-    const [render, setRender] = useState(false);
-    
-    const modifyComponent = (index) => {
-        setComponent(componentArr[index]);
-    }
-    
     const updateRender = () => {
         setRender(render ? false : true);
     }
-    const componentArr = [<AdminMain renders={updateRender}/>, < AdminBug />, < ContentReport />, <PeopleEdit />];
+
+    const [component, setComponent] = useState(<AdminMain renders={updateRender}/>);
+    const [render, setRender] = useState(false);
+
+    const modifyComponent = (index) => {
+        setComponent(componentArr[index]);
+    }
+    const componentArr = [<AdminMain renders={updateRender} />, < AdminBug />, < ContentReport />, <PeopleEdit />];
 
     const logout = async () => {
         sessionAdminId = null;
@@ -35,7 +34,7 @@ const AdminPage = () => {
         })
             .then(() => {
                 updateRender();
-                window.location.reload("/admin/login"); 
+                window.location.reload("/admin/login");
             })
             .catch((e) => alert(e.response.data.message));
     }
