@@ -15,6 +15,8 @@ public class ContentReportResponse {
 
     private String reporter;
 
+    private String contentURL;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:MM:SS" , timezone = "Asia/Seoul")
     private LocalDateTime reportTime;
 

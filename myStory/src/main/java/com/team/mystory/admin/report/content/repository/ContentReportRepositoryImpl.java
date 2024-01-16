@@ -29,6 +29,7 @@ public class ContentReportRepositoryImpl implements CustomContentReportRepositor
                                 ContentReportResponse.class,
                                 contentReport.contentReportId,
                                 user.id,
+                                contentReport.contentUrl,
                                 contentReport.reportTime,
                                 contentReport.content,
                                 contentReport.isAction,

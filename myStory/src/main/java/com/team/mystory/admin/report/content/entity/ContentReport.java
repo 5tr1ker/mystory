@@ -25,7 +25,11 @@ public class ContentReport {
     @ManyToOne(fetch = FetchType.LAZY)
     private User reporter;
 
+    @Column(nullable = false)
+    private String contentUrl;
+
     @CreationTimestamp
+    @Column(nullable = false)
     private LocalDateTime reportTime;
 
     @Column(nullable = false)
@@ -36,6 +40,7 @@ public class ContentReport {
     private boolean isAction;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ReportType reportType;
 
     @OneToOne(cascade = { CascadeType.PERSIST , CascadeType.REMOVE }, fetch = FetchType.LAZY , orphanRemoval = true)
@@ -46,6 +51,7 @@ public class ContentReport {
                 .reporter(user)
                 .content(request.getContent())
                 .isAction(false)
+                .contentUrl(request.getReportContentURL())
                 .reportType(request.getReportType())
                 .reportData(data)
                 .build();
