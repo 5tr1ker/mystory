@@ -50,6 +50,10 @@ public class User implements UserDetails {
 	@Convert(converter = BooleanConverter.class)
 	private boolean isSuspension;
 
+	@Column(nullable = false)
+	@Convert(converter = BooleanConverter.class)
+	private boolean isDelete;
+
 	private String suspensionReason;
 
 	@Column(nullable = false)
@@ -128,6 +132,7 @@ public class User implements UserDetails {
 				.isSuspension(false)
 				.role(UserRole.USER)
 				.userType(UserType.GENERAL_USER)
+				.isDelete(false)
 				.build();
 	}
 
@@ -141,6 +146,7 @@ public class User implements UserDetails {
 				.isSuspension(false)
 				.role(UserRole.USER)
 				.userType(UserType.OAUTH_USER)
+				.isDelete(false)
 				.build();
 	}
 

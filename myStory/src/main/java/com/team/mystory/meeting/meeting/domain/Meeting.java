@@ -1,6 +1,7 @@
 package com.team.mystory.meeting.meeting.domain;
 
 import com.team.mystory.account.user.domain.User;
+import com.team.mystory.common.config.BooleanConverter;
 import com.team.mystory.meeting.chat.entity.Chat;
 import com.team.mystory.meeting.chat.entity.ChatRoom;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
@@ -51,6 +52,10 @@ public class Meeting {
 
     private int maxParticipants;
 
+    @Column(nullable = false)
+    @Convert(converter = BooleanConverter.class)
+    private boolean isDelete;
+
     @Builder.Default
     @OneToMany(mappedBy = "meetingList" , cascade = {CascadeType.REMOVE} , orphanRemoval = true)
     private List<MeetingParticipant> meetingParticipants = new ArrayList<>();
@@ -69,6 +74,7 @@ public class Meeting {
                 .description(meetingRequest.getDescription())
                 .maxParticipants(meetingRequest.getMaxParticipants())
                 .detailAddress(meetingRequest.getDetailAddress())
+                .isDelete(false)
                 .build();
     }
 

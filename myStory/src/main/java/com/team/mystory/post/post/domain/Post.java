@@ -56,6 +56,10 @@ public class Post {
     @Column(nullable = false , length = 1100)
     private String content;
 
+    @Column(nullable = false)
+    @Convert(converter = BooleanConverter.class)
+    private boolean isDelete;
+
     @Builder.Default
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
@@ -83,6 +87,7 @@ public class Post {
                 .title(postRequest.getTitle())
                 .isPrivate(postRequest.isPrivatePost())
                 .isBlockComment(postRequest.isBlockComment())
+                .isDelete(false)
                 .build();
     }
 
