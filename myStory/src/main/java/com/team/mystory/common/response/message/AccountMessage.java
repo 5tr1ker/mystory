@@ -1,13 +1,11 @@
-package com.team.mystory.common.response;
+package com.team.mystory.common.response.message;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
-@ToString
+@Getter
 @RequiredArgsConstructor
-public enum Message {
-
-    // Account
+public enum AccountMessage {
     NOT_FOUNT_ACCOUNT("존재하지 않는 계정입니다."),
     EXISTS_ACCOUNT("이미 존재하는 계정입니다."),
     EXISTS_EMAIL("이미 존재하는 이메일입니다."),
@@ -16,4 +14,5 @@ public enum Message {
     UNUSUAL_APPROACH("비정상적인 접근입니다.");
 
     private final String message;
+
 }

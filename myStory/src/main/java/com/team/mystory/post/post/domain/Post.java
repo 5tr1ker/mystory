@@ -105,6 +105,10 @@ public class Post {
         this.likes += 1;
     }
 
+    public void deletePost() {
+        this.isDelete = true;
+    }
+
     public void addFreeAttach(Attachment attach) {
         attachments.add(attach);
         attach.setPost(this);

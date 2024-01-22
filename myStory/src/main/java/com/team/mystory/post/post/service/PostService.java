@@ -2,6 +2,7 @@ package com.team.mystory.post.post.service;
 
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
+import com.team.mystory.account.user.service.LoginService;
 import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.post.attachment.repository.AttachmentRepository;
 import com.team.mystory.post.attachment.service.AttachmentService;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
+import static com.team.mystory.common.response.message.PostMessage.*;
 import static com.team.mystory.post.post.dto.PostResponse.createPostResponse;
 
 @Service
@@ -31,7 +33,7 @@ import static com.team.mystory.post.post.dto.PostResponse.createPostResponse;
 public class PostService {
 
 	private final PostRepository postRepository;
-	private final LoginRepository loginRepository;
+	private final LoginService loginService;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final AttachmentRepository attachmentRepository;
 	private final AttachmentService attachmentService;
@@ -39,12 +41,11 @@ public class PostService {
 
 	@Transactional
 	public ResponseMessage addPost(PostRequest postRequest , List<MultipartFile> multipartFiles , String token)
-			throws AccountException, IOException {
-		String userId = jwtTokenProvider.getUserPk(token);
-		User user = loginRepository.findById(userId)
-				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
+			throws IOException {
+		User user = loginService.findUserByAccessToken(token);
 
 		Post post = createNewPost(postRequest);
+
 		user.addPost(post);
 		attachmentService.fileUpload(multipartFiles , post);
 
@@ -61,25 +62,27 @@ public class PostService {
 	@Transactional
 	public ResponseMessage deletePost(long postId , String token) {
 		String userId = jwtTokenProvider.getUserPk(token);
-		postRepository.findPostByPostIdAndUserId(postId , userId)
-				.orElseThrow(() -> new PostException("본인이 작성한 포스트만 삭제할 수 있습니다."));
+		Post post = findPostById(postId);
 
-		s3Service.deleteFileByPostId(postId);
-		postRepository.deletePostByPostId(postId);
+		isPostOwner(post, userId);
+		post.deletePost();
 
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 
-	@Transactional
-	public ResponseMessage increasePostLike(long postId , String token) throws AccountException {
-		String userId = jwtTokenProvider.getUserPk(token);
+	private void isPostOwner(Post post, String userId) {
+		if(!post.getWriter().getId().equals(userId)) {
+			new PostException(ONLY_OWNER_CAN_DELETE);
+		}
+	}
 
-		postRepository.findRecommendationFromPost(postId , userId)
-				.ifPresent(a -> { throw new PostException("이미 추천을 눌렀습니다."); });
-		Post post = postRepository.findPostByPostId(postId)
-				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
-		User user = loginRepository.findById(userId)
-				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
+	@Transactional
+	public ResponseMessage increasePostLike(long postId , String token) {
+		User user = loginService.findUserByAccessToken(token);
+
+		postRepository.findRecommendationFromPost(postId , user.getId())
+				.ifPresent(a -> { throw new PostException(ALREADY_RECOMMENDED); });
+		Post post = findPostById(postId);
 
 		post.addRecommendation(user);
 
@@ -101,10 +104,10 @@ public class PostService {
 	}
 
 	public Post findPostByIdAndValidateOwnership(long postId , String userId) {
-		Post post = postRepository.findPostByPostId(postId)
-				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
+		Post post = findPostById(postId);
+
 		if(!post.getWriter().getId().equals(userId)) {
-			new PostException("본인이 작성한 포스트만 수정할 수 있습니다.");
+			new PostException(ONLY_OWNER_CAN_MODIFY);
 		}
 
 		return post;
@@ -123,8 +126,7 @@ public class PostService {
 	}
 
 	public ResponseMessage<PostResponse> findPostByPostId(long postId) {
-		Post post = postRepository.findPostByPostId(postId)
-				.orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
+		Post post = findPostById(postId);
 
 		PostResponse postResponse = createPostResponse(post);
 		postResponse.addTagData(postRepository.findTagsInPostId(postId));
@@ -163,5 +165,10 @@ public class PostService {
 
 	public ResponseMessage findPostBySearchAndTag(Pageable pageable, String tag) {
 		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.findPostByTag(pageable, tag));
+	}
+
+	private Post findPostById(long postId) {
+		return postRepository.findPostByPostId(postId)
+				.orElseThrow(() -> new PostException(NOT_FOUNT_POST));
 	}
 }

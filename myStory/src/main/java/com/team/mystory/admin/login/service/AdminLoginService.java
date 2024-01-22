@@ -11,9 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.AccountException;
-
-import static com.team.mystory.common.response.Message.NOT_FOUNT_ACCOUNT;
+import static com.team.mystory.common.response.message.AccountMessage.NOT_FOUNT_ACCOUNT;
 
 @Service
 @RequiredArgsConstructor

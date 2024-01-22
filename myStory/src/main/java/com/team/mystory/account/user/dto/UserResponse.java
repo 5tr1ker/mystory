@@ -26,6 +26,8 @@ public class UserResponse {
 
     private String profileImage;
 
+    private boolean isDelete;
+
     private int options;
 
     public static UserResponse createResponse(User user) {
@@ -34,6 +36,7 @@ public class UserResponse {
                 .id(user.getId())
                 .password(user.getPassword())
                 .joinDate(user.getJoinDate())
+                .isDelete(user.isDelete())
                 .profileImage(user.getProfileImage())
                 .options(user.getProfile().getOptions())
                 .build();

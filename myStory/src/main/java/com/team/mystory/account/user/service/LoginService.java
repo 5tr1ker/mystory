@@ -26,8 +26,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.team.mystory.account.user.dto.UserResponse.createResponse;
-import static com.team.mystory.common.response.Message.*;
-import static com.team.mystory.common.response.ResponseCode.LOGIN_SUCCESS;
+import static com.team.mystory.common.response.message.AccountMessage.*;
 import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 import static com.team.mystory.security.jwt.support.CookieSupport.setCookieFromJwt;
@@ -144,7 +143,7 @@ public class LoginService {
 		return url;
 	}
 
-	private User findUserByAccessToken(String accessToken) {
+	public User findUserByAccessToken(String accessToken) {
 		String userId = jwtTokenProvider.getUserPk(accessToken);
 
 		return findUserById(userId);
