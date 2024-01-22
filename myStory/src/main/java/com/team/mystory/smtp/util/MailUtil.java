@@ -13,7 +13,7 @@ public class MailUtil {
 
     private final JavaMailSender javaMailSender;
 
-    public boolean sendMail(String ToEmail, String code) {
+    public boolean sendMail(String userId ,String ToEmail, String code) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -47,7 +47,7 @@ public class MailUtil {
                             "                                <tr>\n" +
                             "                                    <td>\n" +
                             "                                        <span style=\"font-size: 14px;\">\n" +
-                            "                        \"인증 코드는 [" + code + "] 입니다. 인증 코드란에 정확히 기입해주세요." +
+                            "                        \"사용자 [" + userId + "]님에 대한 인증 코드는 [" + code + "] 입니다. 인증 코드란에 정확히 기입해주세요." +
                             "                                        </span>\n" +
                             "                                    </td>\n" +
                             "                                </tr>\n<tr><td style=\"height: 30px;\"></td></tr>" +

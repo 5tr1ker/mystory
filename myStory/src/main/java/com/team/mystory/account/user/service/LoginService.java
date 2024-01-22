@@ -43,7 +43,7 @@ public class LoginService {
 	private final JwtService jwtService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public void validNewAccountVerification(LoginRequest loginRequest) throws AccountException {
+	public void validNewAccountVerification(LoginRequest loginRequest) {
 		if(loginRepository.findById(loginRequest.getId()).isPresent()) {
 			throw new LoginException(EXISTS_ACCOUNT);
 		}
@@ -53,7 +53,7 @@ public class LoginService {
 		}
 	}
 	
-	public ResponseMessage register(LoginRequest loginRequest , MultipartFile multipartFile) throws AccountException, IOException {
+	public ResponseMessage register(LoginRequest loginRequest , MultipartFile multipartFile) throws IOException {
 		validNewAccountVerification(loginRequest);
 		String url = s3Service.uploadImageToS3(multipartFile);
 
@@ -63,7 +63,7 @@ public class LoginService {
 
 	public void isValidAccount(LoginRequest request, User user) {
 		if(user.getUserType().equals(UserType.OAUTH_USER)) {
-			throw new LoginException(UNUSUAL_APPROACH);
+			throw new LoginException(NOT_FOUNT_ACCOUNT);
 		}
 
 		if(!user.checkPassword(request.getPassword() , bCryptPasswordEncoder)) {

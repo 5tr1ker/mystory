@@ -1,5 +1,6 @@
 package com.team.mystory.smtp.service;
 
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.smtp.dto.CertRequest;
 import com.team.mystory.smtp.entity.MailCert;
@@ -12,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+import static com.team.mystory.common.response.message.AccountMessage.NOT_FOUNT_ACCOUNT;
+import static com.team.mystory.common.response.message.MailMessage.*;
+
 @Service
 @RequiredArgsConstructor
 public class MailService {
@@ -22,28 +26,28 @@ public class MailService {
 
     @Transactional
     public void sendMail(CertRequest request) {
-        isValidEmail(request.getEmail());
+        User user = findUserByEmail(request.getEmail());
         MailCert mailCert = createVerification(request.getEmail());
 
-        if (!mailUtil.sendMail(request.getEmail(), mailCert.getVerificationCode())) {
-            throw new MailException("메일을 전송하는 도중에 오류가 발생했습니다.");
+        if (!mailUtil.sendMail(user.getId() ,request.getEmail(), mailCert.getVerificationCode())) {
+            throw new MailException(SMTP_SERVER_ERROR);
         }
     }
 
-    private void isValidEmail(String email) {
-        loginRepository.findByEmail(email)
-                .orElseThrow(() -> new MailException("해당 이메일로 가입된 계정이 없습니다."));
+    private User findUserByEmail(String email) {
+        return loginRepository.findByEmail(email)
+                .orElseThrow(() -> new MailException(NOT_FOUNT_ACCOUNT));
     }
 
     private MailCert createVerification(String id) {
         String code = createVerificationCode();
 
-        MailCert mailCert = updateOrSaveVerificationCode(id, code);
+        MailCert mailCert = createVerificationCode(id, code);
 
         return mailCertRepository.save(mailCert);
     }
 
-    private MailCert updateOrSaveVerificationCode(String id, String code) {
+    private MailCert createVerificationCode(String id, String code) {
         MailCert mailCert = mailCertRepository.findById(id)
                 .orElseGet(() -> MailCert.createMailCert(id, code));
 
@@ -59,10 +63,10 @@ public class MailService {
 
     private boolean isCorrectVerificationCode(CertRequest request) {
         MailCert mailCert = mailCertRepository.findById(request.getEmail())
-                .orElseThrow(() -> new MailException("잘못된 접근입니다."));
+                .orElseThrow(() -> new MailException(UNUSUAL_APPROACH));
 
         if(!mailCert.isCorrectVerificationCode(request.getCode())) {
-            throw new MailException("일치하지 않는 인증 코드입니다.");
+            throw new MailException(NOT_MATCHED_CODE);
         }
 
         return true;
