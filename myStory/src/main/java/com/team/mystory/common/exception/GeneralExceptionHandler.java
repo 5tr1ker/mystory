@@ -1,5 +1,6 @@
 package com.team.mystory.common.exception;
 
+import com.team.mystory.account.user.exception.LoginException;
 import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.meeting.meeting.exception.MeetingException;
 import com.team.mystory.meeting.reservation.exception.ReservationException;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.naming.AuthenticationException;
-import javax.security.auth.login.AccountException;
 
 import static com.team.mystory.common.response.ResponseCode.*;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
@@ -29,7 +29,7 @@ public class GeneralExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
     }
 
-    @ExceptionHandler({AccountException.class})
+    @ExceptionHandler({LoginException.class})
     public ResponseEntity accountExceptionHandler(Exception e) {
         ResponseMessage message = ResponseMessage.of(REQUEST_FAIL , e.getMessage());
 

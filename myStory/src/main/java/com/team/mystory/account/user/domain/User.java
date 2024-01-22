@@ -121,6 +121,10 @@ public class User implements UserDetails {
 		suspensionDate = suspensionDate.minusDays(date);
 	}
 
+	public void deleteUser() {
+		this.isDelete = true;
+	}
+
 	public static User createGeneralUser(LoginRequest loginRequest , String url , String password) {
 		return User.builder()
 				.id(loginRequest.getId())

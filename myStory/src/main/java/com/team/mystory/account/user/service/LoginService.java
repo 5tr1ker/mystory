@@ -5,6 +5,7 @@ import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.dto.LoginRequest;
 import com.team.mystory.account.user.dto.PasswordRequest;
 import com.team.mystory.account.user.dto.UserResponse;
+import com.team.mystory.account.user.exception.LoginException;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.post.post.repository.PostRepository;
@@ -20,14 +21,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.security.auth.login.AccountException;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.team.mystory.account.user.dto.UserResponse.createResponse;
+import static com.team.mystory.common.response.Message.*;
 import static com.team.mystory.common.response.ResponseCode.LOGIN_SUCCESS;
 import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
-import static com.team.mystory.security.jwt.support.CookieSupport.*;
+import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
+import static com.team.mystory.security.jwt.support.CookieSupport.setCookieFromJwt;
 
 @Service
 @Transactional
@@ -43,11 +46,11 @@ public class LoginService {
 
 	public void validNewAccountVerification(LoginRequest loginRequest) throws AccountException {
 		if(loginRepository.findById(loginRequest.getId()).isPresent()) {
-			throw new AccountException("이미 존재하는 사용자입니다.");
+			throw new LoginException(EXISTS_ACCOUNT);
 		}
 
 		if(!loginRequest.getPassword().equals(loginRequest.getCheckPassword())) {
-			throw new AccountException("비밀번호가 일치하지 않습니다.");
+			throw new LoginException(NOT_MATCH_PASSWORD);
 		}
 	}
 	
@@ -59,20 +62,20 @@ public class LoginService {
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 
-	public User isValidAccount(LoginRequest request) throws AccountException {
+	public User isValidAccount(LoginRequest request) {
 		User result = loginRepository.findById(request.getId())
-				.orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
+				.orElseThrow(() -> new LoginException(NOT_FOUNT_ACCOUNT));
 
 		if(result.getUserType().equals(UserType.OAUTH_USER)) {
-			throw new AccountException("해당 계정은 OAuth2.0 사용자입니다.");
+			throw new LoginException(UNUSUAL_APPROACH);
 		}
 
 		if(!result.checkPassword(request.getPassword() , bCryptPasswordEncoder)) {
-			throw new AccountException("비밀번호가 일치하지 않습니다.");
+			throw new LoginException(NOT_MATCH_PASSWORD);
 		}
 
 		if(result.isSuspension() && result.getSuspensionDate().compareTo(LocalDate.now()) > 0) {
-			throw new AccountException("해당 계정은 " + result.getSuspensionDate() + " 일 까지 정지입니다. \n사유 : " + result.getSuspensionReason());
+			throw new LoginException("해당 계정은 " + result.getSuspensionDate() + " 일 까지 정지입니다. \n사유 : " + result.getSuspensionReason());
 		}
 
 		return result;
@@ -94,25 +97,23 @@ public class LoginService {
 		setCookieFromJwt(token , response);
 	}
 
-	public void isExistEmail(String userId) throws AccountException {
+	public void isExistEmail(String userId) {
 		if(loginRepository.findByEmail(userId).isPresent()) {
-			throw new AccountException("이미 존재하는 이메일입니다.");
+			throw new LoginException(EXISTS_EMAIL);
 		};
 	}
 
-	public ResponseMessage findUserByToken(String token) throws AccountException {
-		String userId = jwtTokenProvider.getUserPk(token);
-		UserResponse userResponse =  loginRepository.findUserResponseById(userId)
-				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
+	public ResponseMessage findUserByToken(String token) {
+		UserResponse userResponse = createResponse(findUserByAccessToken(token));
 
 		return ResponseMessage.of(REQUEST_SUCCESS , userResponse);
 	}
 
-	public ResponseMessage removeUser(String accessToken , HttpServletResponse response) throws AccountException {
+	public ResponseMessage removeUser(String accessToken , HttpServletResponse response) {
 		User result = findUserByAccessToken(accessToken);
 
 		deleteAllS3FilesUploadedByUserId(result.getId());
-		loginRepository.delete(result);
+		result.deleteUser();
 
 		deleteJwtTokenInCookie(response);
 
@@ -128,7 +129,7 @@ public class LoginService {
 	}
 
 	@Transactional
-	public String modifyProfileImage(String accessToken, MultipartFile multipartFile) throws AccountException, IOException {
+	public String modifyProfileImage(String accessToken, MultipartFile multipartFile) throws IOException {
 		User result = findUserByAccessToken(accessToken);
 
 		if(result.getProfileImage() != null && !result.getProfileImage().isEmpty()) {
@@ -142,16 +143,17 @@ public class LoginService {
 		return url;
 	}
 
-	public User findUserByAccessToken(String accessToken) throws AccountException {
+	public User findUserByAccessToken(String accessToken) {
 		String userId = jwtTokenProvider.getUserPk(accessToken);
+
 		return loginRepository.findById(userId)
-				.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
+				.orElseThrow(() -> new LoginException(NOT_FOUNT_ACCOUNT));
 	}
 
 	@Transactional
-    public void modifyPassword(PasswordRequest request) throws AccountException {
+    public void modifyPassword(PasswordRequest request) {
 		User user = loginRepository.findByEmail(request.getEmail())
-						.orElseThrow(() -> new AccountException("존재하지 않는 사용자입니다."));
+						.orElseThrow(() -> new LoginException(NOT_FOUNT_ACCOUNT));
 
 		user.updatePassword(bCryptPasswordEncoder.encode(request.getPassword()));
     }
