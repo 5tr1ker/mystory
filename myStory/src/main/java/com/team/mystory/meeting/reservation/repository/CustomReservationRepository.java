@@ -1,6 +1,5 @@
 package com.team.mystory.meeting.reservation.repository;
 
-import com.team.mystory.account.user.dto.UserResponse;
 import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import com.team.mystory.meeting.reservation.dto.ReservationResponse;
 import com.team.mystory.meeting.reservation.entity.Reservation;
