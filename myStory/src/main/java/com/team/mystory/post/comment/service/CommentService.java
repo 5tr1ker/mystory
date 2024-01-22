@@ -1,8 +1,11 @@
 package com.team.mystory.post.comment.service;
 
 import com.team.mystory.account.user.domain.User;
+import com.team.mystory.account.user.exception.LoginException;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.common.response.ResponseMessage;
+import com.team.mystory.common.response.message.AccountMessage;
+import com.team.mystory.common.response.message.PostMessage;
 import com.team.mystory.post.comment.domain.Comment;
 import com.team.mystory.post.comment.dto.CommentRequest;
 import com.team.mystory.post.comment.dto.CommentResponse;
@@ -20,6 +23,9 @@ import javax.security.auth.login.AccountException;
 import java.util.List;
 
 import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
+import static com.team.mystory.common.response.message.AccountMessage.NOT_FOUNT_ACCOUNT;
+import static com.team.mystory.common.response.message.CommentMessage.ONLY_OWNER_CAN_DELETE;
+import static com.team.mystory.common.response.message.PostMessage.NOT_FOUNT_POST;
 
 @Service
 @RequiredArgsConstructor
@@ -35,13 +41,13 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseMessage addComment(CommentRequest commentRequest , String token) throws AccountException {
+    public ResponseMessage addComment(CommentRequest commentRequest , String token) {
         String userId = jwtTokenProvider.getUserPk(token);
 
         User user = loginRepository.findById(userId)
-                .orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new LoginException(NOT_FOUNT_ACCOUNT));
         Post post = postRepository.findPostByPostId(commentRequest.getPostId())
-                .orElseThrow(() -> new PostException("해당 포스트를 찾을 수 없습니다."));
+                .orElseThrow(() -> new PostException(NOT_FOUNT_POST));
 
         Comment comment = Comment.createComment(commentRequest , user);
         post.addFreeCommit(comment);
@@ -53,17 +59,17 @@ public class CommentService {
         String userId = jwtTokenProvider.getUserPk(token);
 
         commentRepository.findCommentByCommentIdAndUserId(commentId , userId)
-                .orElseThrow(() -> new CommentException("댓글 작성자만 제거할 수 있습니다."));
+                .orElseThrow(() -> new CommentException(ONLY_OWNER_CAN_DELETE));
 
         commentRepository.deleteById(commentId);
 
         return ResponseMessage.of(REQUEST_SUCCESS);
     }
 
-    public ResponseMessage<List<CommentResponse>> getNotificationFromUser(String token) throws AccountException {
+    public ResponseMessage<List<CommentResponse>> getNotificationFromUser(String token) {
         String userId = jwtTokenProvider.getUserPk(token);
 
-        loginRepository.findById(userId).orElseThrow(() -> new AccountException("사용자를 찾을 수 없습니다."));
+        loginRepository.findById(userId).orElseThrow(() -> new LoginException(NOT_FOUNT_ACCOUNT));
 
         return ResponseMessage.of(REQUEST_SUCCESS, commentRepository.findCommentByCommentPostWithoutMe(userId));
     }

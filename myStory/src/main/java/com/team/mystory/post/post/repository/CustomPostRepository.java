@@ -30,8 +30,6 @@ public interface CustomPostRepository {
 
 	void updatePostView(long postId);
 
-	Optional<Post> findPostByPostIdAndUserId(long postId , String userId);
-
 	List<Long> findPostIdByUserId(String userId);
 
 }
