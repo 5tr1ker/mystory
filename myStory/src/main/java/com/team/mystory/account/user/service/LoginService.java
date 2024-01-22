@@ -62,32 +62,33 @@ public class LoginService {
 		return ResponseMessage.of(REQUEST_SUCCESS);
 	}
 
-	public User isValidAccount(LoginRequest request) {
-		User result = loginRepository.findById(request.getId())
-				.orElseThrow(() -> new LoginException(NOT_FOUNT_ACCOUNT));
-
-		if(result.getUserType().equals(UserType.OAUTH_USER)) {
+	public void isValidAccount(LoginRequest request, User user) {
+		if(user.getUserType().equals(UserType.OAUTH_USER)) {
 			throw new LoginException(UNUSUAL_APPROACH);
 		}
 
-		if(!result.checkPassword(request.getPassword() , bCryptPasswordEncoder)) {
+		if(!user.checkPassword(request.getPassword() , bCryptPasswordEncoder)) {
 			throw new LoginException(NOT_MATCH_PASSWORD);
 		}
 
-		if(result.isSuspension() && result.getSuspensionDate().compareTo(LocalDate.now()) > 0) {
-			throw new LoginException("해당 계정은 " + result.getSuspensionDate() + " 일 까지 정지입니다. \n사유 : " + result.getSuspensionReason());
+		if(user.isDelete()) {
+			throw new LoginException(IS_DELETE_ACCOUNT);
 		}
 
-		return result;
+		if(user.isSuspension() && user.getSuspensionDate().compareTo(LocalDate.now()) > 0) {
+			throw new LoginException("해당 계정은 " + user.getSuspensionDate() + " 일 까지 정지입니다. \n사유 : " + user.getSuspensionReason());
+		}
 	}
 	
-	public ResponseMessage login(LoginRequest loginRequest , HttpServletResponse response) throws AccountException {
-		User result = isValidAccount(loginRequest);
-		result.updateLoginDate();
+	public User login(LoginRequest loginRequest , HttpServletResponse response) {
+		User result = findUserById(loginRequest.getId());
 
+		isValidAccount(loginRequest, result);
+
+		result.updateLoginDate();
 		createJwtToken(result , response);
 
-		return ResponseMessage.of(LOGIN_SUCCESS);
+		return result;
 	}
 
 	public void createJwtToken(User user , HttpServletResponse response) {
@@ -143,9 +144,13 @@ public class LoginService {
 		return url;
 	}
 
-	public User findUserByAccessToken(String accessToken) {
+	private User findUserByAccessToken(String accessToken) {
 		String userId = jwtTokenProvider.getUserPk(accessToken);
 
+		return findUserById(userId);
+	}
+
+	public User findUserById(String userId) {
 		return loginRepository.findById(userId)
 				.orElseThrow(() -> new LoginException(NOT_FOUNT_ACCOUNT));
 	}
