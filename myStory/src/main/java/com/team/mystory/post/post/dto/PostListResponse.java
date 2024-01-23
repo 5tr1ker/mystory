@@ -16,6 +16,7 @@ public class PostListResponse {
 	private String title;
 	private String writer;
 	private String writerImage;
+	private boolean writerIsDelete;
 	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd" , timezone = "Asia/Seoul")
 	private Date postDate;
 	private int likes;

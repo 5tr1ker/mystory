@@ -1,15 +1,11 @@
 package com.team.mystory.post.post.repository;
 
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.post.post.domain.Post;
 import com.team.mystory.post.post.dto.PostListResponse;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.sql.ast.spi.SqlExpressionAccess;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -40,7 +36,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> findPostBySearch(Pageable pageable , String content) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title
-				, user.id , user.profileImage , post.postDate , post.likes , post.views , comment.count()))
+				, user.id , user.profileImage , user.isDelete , post.postDate , post.likes , post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
 				.leftJoin(post.comment , comment).on(comment.post.eq(post))
@@ -55,7 +51,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> findPostByTag(Pageable pageable , String tagData) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title ,
-						user.id , user.profileImage , post.postDate , post.likes , post.views , comment.count()))
+						user.id , user.profileImage , user.isDelete , post.postDate , post.likes , post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.tag , tag).on(tag.tagData.eq(tagData))
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
@@ -81,12 +77,13 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> getPostList(Pageable pageable) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId
-						, post.title , user.id , user.profileImage , post.postDate , post.likes
+						, post.title , user.id , user.profileImage , user.isDelete , post.postDate , post.likes
 						, post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
 				.leftJoin(post.comment , comment).on(comment.post.eq(post))
 				.groupBy(post.postId)
+				.where(post.isDelete.eq(false))
 				.orderBy(post.postId.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())

@@ -25,7 +25,7 @@ public class PostController {
 	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<ResponseMessage> addPost(@RequestPart PostRequest postRequest
 			, @RequestPart(required = false) List<MultipartFile> multipartFiles , @CookieValue String accessToken)
-			throws AccountException, IOException {
+			throws IOException {
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(postService.addPost(postRequest , multipartFiles , accessToken));

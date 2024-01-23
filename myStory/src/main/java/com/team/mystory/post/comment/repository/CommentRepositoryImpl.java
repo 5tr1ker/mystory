@@ -35,10 +35,11 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
     @Override
     public List<CommentResponse> findCommentByPostId(long postId) {
         return queryFactory.select(Projections.constructor(CommentResponse.class ,
-                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage))
+                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage , user.isDelete))
                 .from(comment)
                 .innerJoin(comment.writer , user)
                 .innerJoin(comment.post , post).on(post.postId.eq(postId))
+                .where(comment.isDelete.eq(false))
                 .fetch();
     }
 
@@ -47,7 +48,7 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
         QUser subUser = new QUser("subUser");
 
         return queryFactory.select(Projections.constructor(CommentResponse.class ,
-                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage))
+                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage , user.isDelete))
                 .from(comment)
                 .innerJoin(comment.writer , user).on(user.ne(userData))
                 .innerJoin(comment.post , post)
@@ -56,6 +57,7 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
                         .innerJoin(post.writer , subUser).on(subUser.eq(userData))
                 ))
                 .orderBy(comment.commentId.desc())
+                .where(comment.isDelete.eq(false))
                 .limit(10)
                 .fetch();
     }
