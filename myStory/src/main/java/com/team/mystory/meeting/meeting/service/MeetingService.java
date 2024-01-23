@@ -2,6 +2,7 @@ package com.team.mystory.meeting.meeting.service;
 
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
+import com.team.mystory.account.user.service.LoginService;
 import com.team.mystory.meeting.chat.service.ChatService;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
@@ -23,6 +24,7 @@ import javax.security.auth.login.AccountException;
 import java.io.IOException;
 import java.util.List;
 
+import static com.team.mystory.common.response.message.MeetingMessage.*;
 import static com.team.mystory.meeting.meeting.domain.MeetingParticipant.createMeetingParticipant;
 
 @Service
@@ -32,52 +34,52 @@ public class MeetingService {
     private final MeetingRepository meetingRepository;
     private final S3Service s3Service;
     private final JwtTokenProvider jwtTokenProvider;
-    private final LoginRepository loginRepository;
+    private final LoginService loginService;
     private final MeetingParticipantRepository meetingParticipantRepository;
     private final ChatService chatService;
 
     @Transactional
-    public void createMeeting(MeetingRequest meeting, MultipartFile image , String accessToken) throws IOException, AccountException {
-        String userPk = jwtTokenProvider.getUserPk(accessToken);
-        User user = loginRepository.findById(userPk)
-                .orElseThrow(() -> new AccountException("사용자 정보를 찾을 수 없습니다."));
+    public void createMeeting(MeetingRequest request, MultipartFile image , String accessToken) throws IOException, AccountException {
+        User user = loginService.findUserByAccessToken(accessToken);
 
-        Meeting meetingEntity = Meeting.createMeetingEntity(meeting , user);
+        Meeting meeting = createMeetingEntity(user, request, image);
+
+        Meeting result = meetingRepository.save(meeting);
+        chatService.createChatRoom(result);
+
+        joinMeeting(result.getMeetingId(), user);
+    }
+
+    private Meeting createMeetingEntity(User user , MeetingRequest request, MultipartFile image) throws IOException {
+        Meeting meetingEntity = Meeting.createMeetingEntity(request , user);
         String url = s3Service.uploadImageToS3(image);
 
         meetingEntity.updateMeetingImage(url);
 
-        Meeting result = meetingRepository.save(meetingEntity);
-        chatService.createChatRoom(result);
-        joinMeeting(result.getMeetingId(), accessToken);
+        return meetingEntity;
     }
 
     public MeetingResponse findMeetingByMeetingId(long meetingId) {
         return meetingRepository.findMeetingByMeetingId(meetingId)
-                .orElseThrow(() -> new MeetingException("모임 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new MeetingException(NOT_FOUND_MEETING));
     }
 
     @Transactional
-    public void joinMeeting(long meetingId , String accessToken) throws AccountException {
-        String userPk = jwtTokenProvider.getUserPk(accessToken);
-
-        if(meetingParticipantRepository.findMeetingParticipantByMeetingIdAndUserId(meetingId , userPk).isPresent()) {
-            throw new MeetingException("이미 참여하고 있습니다.");
-        }
-
-        User user = loginRepository.findById(userPk)
-                .orElseThrow(() -> new AccountException("사용자 정보를 찾을 수 없습니다."));
-
+    public void joinMeeting(long meetingId , User user) {
         Meeting meeting = meetingRepository.findById(meetingId)
-                .orElseThrow(() -> new MeetingException("미팅정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new MeetingException(NOT_FOUND_MEETING));
+
+        if(meetingParticipantRepository.findMeetingParticipantByMeetingIdAndUser(meetingId , user).isPresent()) {
+            throw new MeetingException(ALREADY_PARTICIPATED_MEETING);
+        }
 
         meetingParticipantRepository.save(createMeetingParticipant(meeting , user));
     }
 
     public boolean IsMeetingParticipant(long meetingId , String accessToken) {
-        String userPk = jwtTokenProvider.getUserPk(accessToken);
+        User user = loginService.findUserByAccessToken(accessToken);
 
-        if(meetingParticipantRepository.findMeetingParticipantByMeetingIdAndUserId(meetingId , userPk).isPresent()) {
+        if(meetingParticipantRepository.findMeetingParticipantByMeetingIdAndUser(meetingId , user).isPresent()) {
             return true;
         }
 
@@ -109,7 +111,7 @@ public class MeetingService {
         MeetingMemberResponse result = meetingRepository.findMeetingOwnerByMeetingId(meetingId);
 
         if(!result.getUserId().equals(userPk)) {
-            throw new MeetingException("모임장은 파티를 나갈 수 없습니다.");
+            throw new MeetingException(CAN_NOT_LEAVE_OWNER);
         }
     }
 
@@ -117,7 +119,7 @@ public class MeetingService {
     public void modifyMeeting(MeetingRequest meetingRequest, MultipartFile image, String accessToken, long meetingId) throws IOException {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
         Meeting meeting = meetingRepository.findMeetingByMeetingIdAndMeetingOwner(meetingId , userPk)
-                .orElseThrow(() -> new MeetingException("파티를 찾을 수 없거나 , 파티장만 수정할 수 있습니다."));
+                .orElseThrow(() -> new MeetingException(CAN_MODIFY_ONLY_OWNER));
 
         if(image != null) {
             modifyImage(meeting , image);
@@ -163,7 +165,7 @@ public class MeetingService {
 
         MeetingMemberResponse response = meetingRepository.findMeetingOwnerByMeetingId(meetingId);
         if(response.getUserId().equals(userPk)) {
-            throw new MeetingException("모임장은 모임을 나갈 수 없습니다.");
+            throw new MeetingException(CAN_NOT_LEAVE_OWNER);
         }
 
         meetingParticipantRepository.deleteParticipantsByMeetingIdAndUserId(meetingId , userPk);

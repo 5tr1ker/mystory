@@ -2,6 +2,7 @@ package com.team.mystory.meeting.reservation.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import com.team.mystory.meeting.reservation.dto.ReservationResponse;
 import com.team.mystory.meeting.reservation.entity.Reservation;
@@ -43,9 +44,9 @@ public class ReservationRepositoryImpl implements CustomReservationRepository {
     }
 
     @Override
-    public Optional<Reservation> findReservationByIdAndUserId(long reservationId, String userPk) {
+    public Optional<Reservation> findReservationByIdAndUser(long reservationId, User userData) {
         Reservation result = jpaQueryFactory.select(reservation).from(reservationParticipants)
-                .innerJoin(reservationParticipants.user , user).on(user.id.eq(userPk))
+                .innerJoin(reservationParticipants.user , user).on(user.eq(userData))
                 .innerJoin(reservationParticipants.reservation , reservation).on(reservation.reservationId.eq(reservationId))
                 .fetchOne();
 

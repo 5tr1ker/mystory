@@ -1,5 +1,6 @@
 package com.team.mystory.security.service;
 
+import com.team.mystory.common.response.message.AccountMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +18,7 @@ public class CustomUserDetailService implements UserDetailsService {
 	
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User result = loginRepository.findById(username)
-				.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+				.orElseThrow(() -> new UsernameNotFoundException(AccountMessage.NOT_FOUNT_ACCOUNT.getMessage()));
 		
 		return result;
     }

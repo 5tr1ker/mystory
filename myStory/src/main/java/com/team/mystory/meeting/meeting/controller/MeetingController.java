@@ -1,5 +1,7 @@
 package com.team.mystory.meeting.meeting.controller;
 
+import com.team.mystory.account.user.domain.User;
+import com.team.mystory.account.user.service.LoginService;
 import com.team.mystory.meeting.meeting.dto.MeetingMemberResponse;
 import com.team.mystory.meeting.meeting.dto.MeetingRequest;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
@@ -24,6 +26,7 @@ import java.util.List;
 public class MeetingController {
 
     private final MeetingService meetingService;
+    private final LoginService loginService;
     private final MeetingRepository meetingRepository;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -36,8 +39,9 @@ public class MeetingController {
     }
 
     @PostMapping("/{meetingId}")
-    public ResponseEntity joinMeeting(@PathVariable long meetingId, @CookieValue String accessToken) throws AccountException {
-        meetingService.joinMeeting(meetingId , accessToken);
+    public ResponseEntity joinMeeting(@PathVariable long meetingId, @CookieValue String accessToken) {
+        User user = loginService.findUserByAccessToken(accessToken);
+        meetingService.joinMeeting(meetingId , user);
 
         return ResponseEntity.ok().build();
     }

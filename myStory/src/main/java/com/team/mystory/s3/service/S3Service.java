@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import static com.team.mystory.common.response.message.S3Message.INVALID_FILE;
+import static com.team.mystory.common.response.message.S3Message.INVALID_IMAGE;
+
 @Service
 @RequiredArgsConstructor
 public class S3Service {
@@ -27,7 +30,7 @@ public class S3Service {
 
     public String uploadFileToS3(MultipartFile file , String uuid) throws IOException {
         if(isValidFile(file)) {
-            throw new S3Exception("올바르지 않은 파일입니다.");
+            throw new S3Exception(INVALID_FILE);
         }
 
         ObjectMetadata metadata = new ObjectMetadata();
@@ -42,7 +45,7 @@ public class S3Service {
         String uuid = UUID.randomUUID().toString();
 
         if(!isValidImage(file)) {
-            throw new S3Exception("올바르지 않은 이미지입니다.");
+            throw new S3Exception(INVALID_IMAGE);
         }
 
         ObjectMetadata metadata = new ObjectMetadata();

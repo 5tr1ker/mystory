@@ -1,7 +1,7 @@
 package com.team.mystory.meeting.reservation.service;
 
 import com.team.mystory.account.user.domain.User;
-import com.team.mystory.account.user.repository.LoginRepository;
+import com.team.mystory.account.user.service.LoginService;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.dto.ParticipantResponse;
 import com.team.mystory.meeting.meeting.exception.MeetingException;
@@ -17,9 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.security.auth.login.AccountException;
 import java.util.List;
 
+import static com.team.mystory.common.response.message.MeetingMessage.*;
 import static com.team.mystory.meeting.reservation.entity.ReservationParticipants.createReservationParticipants;
 
 @Service
@@ -27,26 +27,20 @@ import static com.team.mystory.meeting.reservation.entity.ReservationParticipant
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
-
     private final ReservationParticipantsRepository reservationParticipantsRepository;
-
     private final JwtTokenProvider jwtTokenProvider;
-
-    private final LoginRepository loginRepository;
-
+    private final LoginService loginService;
     private final MeetingRepository meetingRepository;
 
     @Transactional
-    public void createReservation(ReservationRequest request, String accessToken , long meetingId) throws AccountException {
-        String userPk = jwtTokenProvider.getUserPk(accessToken);
-        User user = loginRepository.findById(userPk)
-                .orElseThrow(() -> new AccountException("사용자 정보를 찾을 수 없습니다."));
+    public void createReservation(ReservationRequest request, String accessToken , long meetingId) {
+        User user = loginService.findUserByAccessToken(accessToken);
 
         Meeting meeting = meetingRepository.findById(meetingId)
-                .orElseThrow(() -> new MeetingException("미팅방을 찾을 수 없습니다."));
+                .orElseThrow(() -> new MeetingException(NOT_FOUND_MEETING));
 
         if(meeting.getMeetingOwner().getUserKey() != user.getUserKey()) {
-            throw new MeetingException("모임 장만 예약할 수 있습니다.");
+            throw new MeetingException(ONLY_OWNER_RESERVATION);
         }
 
         Reservation reservation = Reservation.createReservation(request);
@@ -56,20 +50,18 @@ public class ReservationService {
 
 
     @Transactional
-    public void joinReservation(long reservationId, String accessToken) throws AccountException {
-        String userPk = jwtTokenProvider.getUserPk(accessToken);
-        User user = loginRepository.findById(userPk)
-                .orElseThrow(() -> new AccountException("사용자 정보를 찾을 수 없습니다."));
+    public void joinReservation(long reservationId, String accessToken) {
+        User user = loginService.findUserByAccessToken(accessToken);
 
         Reservation reservation = reservationRepository.findReservationAndParticipantsById(reservationId)
-                .orElseThrow(() -> new ReservationException("해당 모임을 찾을 수 없습니다."));
+                .orElseThrow(() -> new ReservationException(NOT_FOUND_MEETING));
 
-        if(reservationRepository.findReservationByIdAndUserId(reservationId , userPk).isPresent()) {
-            throw new ReservationException("이미 모임에 참여하고 있습니다.");
+        if(reservationRepository.findReservationByIdAndUser(reservationId , user).isPresent()) {
+            throw new ReservationException(ALREADY_PARTICIPATED_MEETING);
         }
 
         if(reservation.getParticipates().size() >= reservation.getMaxParticipants()) {
-            throw new ReservationException("인원이 가득 찼습니다.");
+            throw new ReservationException(FULL_GATHERING);
         }
 
 
@@ -81,7 +73,7 @@ public class ReservationService {
         String userPk = jwtTokenProvider.getUserPk(accessToken);
 
         reservationRepository.findReservationBeforeExpiry(reservationId , userPk)
-                .orElseThrow(() -> new ReservationException("모임에 참여 중이지 않거나 , 이전 모임은 나갈 수 없습니다."));
+                .orElseThrow(() -> new ReservationException(CAN_NOT_LEAVE_LAST_PARTICIPATED));
 
         reservationRepository.leaveReservationById(reservationId , userPk);
     }
