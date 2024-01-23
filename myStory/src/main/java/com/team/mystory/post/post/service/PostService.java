@@ -37,13 +37,11 @@ public class PostService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final AttachmentRepository attachmentRepository;
 	private final AttachmentService attachmentService;
-	private final S3Service s3Service;
 
 	@Transactional
 	public ResponseMessage addPost(PostRequest postRequest , List<MultipartFile> multipartFiles , String token)
 			throws IOException {
 		User user = loginService.findUserByAccessToken(token);
-
 		Post post = createNewPost(postRequest);
 
 		user.addPost(post);
@@ -167,8 +165,18 @@ public class PostService {
 		return ResponseMessage.of(REQUEST_SUCCESS , postRepository.findPostByTag(pageable, tag));
 	}
 
-	private Post findPostById(long postId) {
-		return postRepository.findPostByPostId(postId)
+	public Post findPostById(long postId) {
+		Post post = postRepository.findPostByPostId(postId)
 				.orElseThrow(() -> new PostException(NOT_FOUNT_POST));
+
+		isDeletedPost(post);
+
+		return post;
+	}
+
+	private void isDeletedPost(Post post) {
+		if(post.isDelete()) {
+			throw new PostException(IS_DELETE_POST);
+		}
 	}
 }

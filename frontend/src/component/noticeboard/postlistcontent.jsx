@@ -3,6 +3,16 @@ import { Link } from "react-router-dom";
 import defaultALT from '../../_image/defaultALT.png'
 
 const Postcontent = ({ data }) => {
+
+    console.log(data);
+    if(data === null) {
+        return(
+            <div>
+
+            </div>
+        )
+    }
+
     return (
         data.map(posts => (
             <Link to={`/viewpost/${posts.numbers}`} className="linktopost" key={posts.numbers}>

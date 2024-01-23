@@ -1,5 +1,6 @@
 package com.team.mystory.post.comment.repository;
 
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.post.comment.domain.Comment;
 import com.team.mystory.post.comment.dto.CommentResponse;
 
@@ -12,5 +13,5 @@ public interface CustomCommentRepository {
 
     List<CommentResponse> findCommentByPostId(long postId);
 
-    List<CommentResponse> findCommentByCommentPostWithoutMe(String userId);
+    List<CommentResponse> findCommentByCommentPostWithoutMe(User user);
 }
