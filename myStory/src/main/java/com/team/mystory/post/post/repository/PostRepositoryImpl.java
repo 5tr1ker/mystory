@@ -40,7 +40,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 				.from(post)
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
 				.leftJoin(post.comment , comment).on(comment.post.eq(post))
-				.where(post.content.contains(content).or(post.title.contains(content)))
+				.where(post.content.contains(content).or(post.title.contains(content)).and(post.isDelete.eq(false)))
 				.groupBy(post.postId)
 				.orderBy(post.postId.desc())
 				.offset(pageable.getOffset())
@@ -58,6 +58,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 				.leftJoin(post.comment , comment).on(comment.post.eq(post))
 				.groupBy(post.postId)
 				.orderBy(post.postId.desc())
+				.where(post.isDelete.eq(false))
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
@@ -94,6 +95,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	public long getTotalNumberOfPosts() {
 		return queryFactory.select(post.count())
 				.from(post)
+				.where(post.isDelete.eq(false))
 				.fetchOne();
 	}
 
@@ -102,6 +104,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 		return queryFactory.select(post.count())
 				.from(post)
 				.innerJoin(post.tag , tag).on(tag.tagData.eq(tagData))
+				.where(post.isDelete.eq(false))
 				.fetchOne();
 	}
 
@@ -109,7 +112,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	public long getTotalNumberOfSearchPosts(String search) {
 		return queryFactory.select(post.count())
 				.from(post)
-				.where(post.title.contains(search).or(post.content.contains(search)))
+				.where(post.title.contains(search).or(post.content.contains(search)).and(post.isDelete.eq(false)))
 				.fetchOne();
 	}
 
@@ -118,7 +121,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 		return queryFactory.select(tag.tagData)
 				.from(tag)
 				.leftJoin(post).on(post.tag.contains(tag))
-				.where(post.postId.eq(postId))
+				.where(post.postId.eq(postId).and(post.isDelete.eq(false)))
 				.fetch();
 	}
 
@@ -135,6 +138,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 		return queryFactory.select(post.postId)
 				.from(post)
 				.innerJoin(post.writer , user).on(user.id.eq(userId))
+				.where(post.isDelete.eq(false))
 				.fetch();
 	}
 
