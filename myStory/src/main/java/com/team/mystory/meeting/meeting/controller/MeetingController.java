@@ -31,7 +31,7 @@ public class MeetingController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity createMeeting(@RequestPart MeetingRequest meeting , @RequestPart MultipartFile image
-            , @CookieValue String accessToken) throws IOException, AccountException {
+            , @CookieValue String accessToken) throws IOException {
 
         meetingService.createMeeting(meeting , image , accessToken);
 

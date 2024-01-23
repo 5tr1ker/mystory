@@ -104,7 +104,10 @@ public class MeetingService {
 
         checkMeetingOwner(userPk , meetingId);
 
-        meetingRepository.deleteById(meetingId);
+        Meeting meeting = meetingRepository.findById(meetingId)
+                .orElseThrow(() -> new MeetingException(NOT_FOUND_MEETING));
+
+        meeting.deleteMeeting();
     }
 
     public void checkMeetingOwner(String userPk , long meetingId) {

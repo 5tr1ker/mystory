@@ -96,4 +96,9 @@ public class Meeting {
         reservations.add(reservation);
         reservation.setMeetings(this);
     }
+
+    public void deleteMeeting() {
+        this.isDelete = true;
+    }
+
 }

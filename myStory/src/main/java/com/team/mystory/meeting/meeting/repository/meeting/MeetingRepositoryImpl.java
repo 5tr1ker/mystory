@@ -131,8 +131,6 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                 .fetchOne();
     }
 
-
-
     @Override
     public MeetingMemberResponse findMeetingOwnerByMeetingId(long meetingId) {
         return jpaQueryFactory.select(Projections.constructor(
