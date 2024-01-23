@@ -114,9 +114,10 @@ CREATE TABLE IF NOT EXISTS `meeting`
 );
 CREATE TABLE IF NOT EXISTS `chat_room`
 (
-    `chat_id`               BIGINT NOT NULL AUTO_INCREMENT,
-    `create_date`             DATE   NULL DEFAULT NULL,
+    `chat_id`               BIGINT NOT  NULL AUTO_INCREMENT,
+    `create_date`           DATE   NULL DEFAULT NULL,
     `meeting_id_meeting_id` BIGINT NULL DEFAULT NULL,
+    `is_delete`             VARCHAR(5)  NOT NULL,
     PRIMARY KEY (`chat_id`),
     FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
 );

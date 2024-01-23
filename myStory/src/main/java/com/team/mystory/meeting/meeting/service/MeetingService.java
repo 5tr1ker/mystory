@@ -39,7 +39,7 @@ public class MeetingService {
     private final ChatService chatService;
 
     @Transactional
-    public void createMeeting(MeetingRequest request, MultipartFile image , String accessToken) throws IOException, AccountException {
+    public void createMeeting(MeetingRequest request, MultipartFile image , String accessToken) throws IOException {
         User user = loginService.findUserByAccessToken(accessToken);
 
         Meeting meeting = createMeetingEntity(user, request, image);

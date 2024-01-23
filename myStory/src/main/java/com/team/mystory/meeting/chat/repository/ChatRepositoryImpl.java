@@ -50,7 +50,7 @@ public class ChatRepositoryImpl implements CustomChatRepository {
                         chatRoom.createDate
                 )).from(meetingParticipant)
                 .innerJoin(meetingParticipant.userList, user).on(user.id.eq(userId))
-                .innerJoin(meetingParticipant.meetingList, meeting)
+                .innerJoin(meetingParticipant.meetingList, meeting).on(meeting.isDelete.eq(false))
                 .innerJoin(meeting.chatRoom, chatRoom)
                 .fetch();
     }
