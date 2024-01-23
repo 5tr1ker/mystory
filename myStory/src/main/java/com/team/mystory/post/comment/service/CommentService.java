@@ -53,13 +53,14 @@ public class CommentService {
         return ResponseMessage.of(REQUEST_SUCCESS);
     }
 
+    @Transactional
     public ResponseMessage deleteCommentByCommentId(long commentId , String token) {
         String userId = jwtTokenProvider.getUserPk(token);
 
-        commentRepository.findCommentByCommentIdAndUserId(commentId , userId)
+        Comment comment = commentRepository.findCommentByCommentIdAndUserId(commentId , userId)
                 .orElseThrow(() -> new CommentException(ONLY_OWNER_CAN_DELETE));
 
-        commentRepository.deleteById(commentId);
+        comment.deleteComment();
 
         return ResponseMessage.of(REQUEST_SUCCESS);
     }

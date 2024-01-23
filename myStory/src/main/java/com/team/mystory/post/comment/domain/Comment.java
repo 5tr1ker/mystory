@@ -48,4 +48,9 @@ public class Comment {
 				.isDelete(false)
 				.build();
 	}
+
+	public void deleteComment() {
+		this.isDelete = true;
+	}
+
 }
