@@ -79,7 +79,7 @@
 
 프로젝트 구조는 다음과 같습니다.</br>
 
-![image](https://github.com/5tr1ker/mystory/assets/49367338/df7cec92-a205-4bb3-aaee-cf1ab68c0453)
+![image](https://github.com/5tr1ker/mystory/assets/49367338/72555688-ec29-4485-9a61-a31cce80edb4)
 
 - CSRF : disable
 - password encryption : BCryptPasswordEncoder
