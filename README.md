@@ -61,6 +61,8 @@
 - /login : 로그인페이지
 - /register : 회원가입페이지
 - /findid : 계정 찾기
+- /admin : 어드민 페이지
+- /admin/login : 어드민 페이지 로그인 창
 - /* : 이외 링크는 `<NoticeFrame />` 컴포넌트에 연결합니다.
   - /noticelist : 게시판의 목록을 보여줍니다.
   - /newpost : 새 글을 작성합니다.
@@ -108,7 +110,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 > 구글 & 네이버 & 카카오 소셜 서버를 이용해 불필요한 회원가입을 줄이고 , JWT을 이용해 사용자 인증 정보를 저장합니다.
 
-- Access Token과 Refresh Token은 브라우저 쿠키에 저장되며 httpOnly , Secure 옵션으로 보안처리 했습니다
+- Access Token과 Refresh Token은 브라우저 쿠키에 저장되며 httpOnly , Secure 옵션으로 보안처리 했습니다.
 
 <h2>Docker</h2>
 
@@ -143,6 +145,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
   - AccessToken과 RefreshToken은 쿠키에 보관하나 Security , HTTPOnly 옵션을 추가해서 서버와 클라이언트 간 https 통신 및 자바스크립트로 쿠키 접근을 제한합니다. 
   - 로그아웃시 Access Token, Refresh Token 쿠키 삭제합니다.
   - OAuth 2.0 로그인 시 사용자 이메일을 이용해 회원가입 및 로그인을 진행합니다.
+- SMTP를 활용하여 회원가입, 비밀번호 탐색 시 가입한 이메일로 인증 코드를 보내 인증합니다.
   
 <h2>2 . 메인 화면</h2>
 
@@ -257,3 +260,4 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 - 버그 신고 대응
 - 컨텐츠 신고 대응
 - 사용자 관리 ( 권한 설정, 이용 제한 )
+- 해당 페이지는 어드민만 접근할 수 있습니다. ( 삭제된 페이지는 어드민만 볼 수 있습니다. )
