@@ -79,7 +79,7 @@
 
 프로젝트 구조는 다음과 같습니다.</br>
 
-![image](https://github.com/5tr1ker/mystory/assets/49367338/72555688-ec29-4485-9a61-a31cce80edb4)
+![image](https://github.com/5tr1ker/mystory/assets/49367338/0e86f87e-1a95-422b-bbc9-5a9ac4070b69)
 
 - CSRF : disable
 - password encryption : BCryptPasswordEncoder
@@ -88,7 +88,7 @@
 </br>
 
 - GET 을 제외한 모든 Methods 는 인증이 필요하며 특수한 경우 ( 로그인 , 회원가입 , 로그아웃 ) 만 인증을 제외합니다. </br>
-- 인가가 필요한 API는 .hasRole(UserRole.USER.name()) 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.</br>
+- 인가가 필요한 API는 .hasRole() .hasAnyRole 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.</br>
 
 <h2>JPA & QueryDSL</h2>
 
