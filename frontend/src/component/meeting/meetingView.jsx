@@ -12,6 +12,7 @@ import defaultALT from '../../_image/defaultALT.png'
 import ShowReservation from './reservationContent';
 
 const MeetingView = () => {
+  let sessionUserId = localStorage.getItem("userId");
   const urlStat = window.location.pathname.split("/");
 
   const [meeting, setMeeting] = useState(undefined);
@@ -61,6 +62,13 @@ const MeetingView = () => {
   }
 
   useEffect(async () => {
+
+    if(sessionUserId == undefined) {
+      alert("로그인 후 사용해주세요.");
+
+      window.location.replace(`/meeting`);
+      return;
+    }
 
     await axios({
       method: "GET",

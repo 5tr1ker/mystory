@@ -7,7 +7,7 @@ import { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 
 const MeetingDetail = ({hideDetail , detailNumber , meetingOption}) => {
-
+  let sessionUserId = localStorage.getItem("userId");
   const [meeting , setMeeting] = useState(undefined);
 
   useEffect(async() => {
@@ -30,6 +30,12 @@ const MeetingDetail = ({hideDetail , detailNumber , meetingOption}) => {
   } , []);
 
   const joinMeeting = async () => {
+    if(sessionUserId == undefined) {
+      alert("로그인 후 사용해주세요.");
+
+      return;
+    }
+
     if(meeting.nowParticipants >= meeting.maxParticipants) {
       alert("모임 내 인원이 가득찼습니다.");
       return;
