@@ -22,21 +22,14 @@ public class MailService {
 
     private final MailUtil mailUtil;
     private final MailCertRepository mailCertRepository;
-    private final LoginRepository loginRepository;
 
     @Transactional
     public void sendMail(CertRequest request) {
-        User user = findUserByEmail(request.getEmail());
         MailCert mailCert = createVerification(request.getEmail());
 
-        if (!mailUtil.sendMail(user.getId() ,request.getEmail(), mailCert.getVerificationCode())) {
+        if (!mailUtil.sendMail(request.getEmail(), mailCert.getVerificationCode())) {
             throw new MailException(SMTP_SERVER_ERROR);
         }
-    }
-
-    private User findUserByEmail(String email) {
-        return loginRepository.findByEmail(email)
-                .orElseThrow(() -> new MailException(NOT_FOUNT_ACCOUNT));
     }
 
     private MailCert createVerification(String id) {

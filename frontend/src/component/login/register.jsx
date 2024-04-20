@@ -100,7 +100,6 @@ const Register = () => {
                     headers: { "Content-Type": "application/json" },
                     data: JSON.stringify({ "email": idInfo.email })
                 });
-
             })
             .catch((e) => alert(e.response.data.message));
     }
