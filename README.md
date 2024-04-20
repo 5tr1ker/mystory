@@ -61,6 +61,8 @@
 - /login : 로그인페이지
 - /register : 회원가입페이지
 - /findid : 계정 찾기
+- /admin : 어드민 페이지
+- /admin/login : 어드민 페이지 로그인 창
 - /* : 이외 링크는 `<NoticeFrame />` 컴포넌트에 연결합니다.
   - /noticelist : 게시판의 목록을 보여줍니다.
   - /newpost : 새 글을 작성합니다.
@@ -79,7 +81,7 @@
 
 프로젝트 구조는 다음과 같습니다.</br>
 
-![image](https://github.com/5tr1ker/mystory/assets/49367338/df7cec92-a205-4bb3-aaee-cf1ab68c0453)
+![image](https://github.com/5tr1ker/mystory/assets/49367338/0e86f87e-1a95-422b-bbc9-5a9ac4070b69)
 
 - CSRF : disable
 - password encryption : BCryptPasswordEncoder
@@ -88,7 +90,7 @@
 </br>
 
 - GET 을 제외한 모든 Methods 는 인증이 필요하며 특수한 경우 ( 로그인 , 회원가입 , 로그아웃 ) 만 인증을 제외합니다. </br>
-- 인가가 필요한 API는 .hasRole(UserRole.USER.name()) 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.</br>
+- 인가가 필요한 API는 .hasRole() .hasAnyRole 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.</br>
 
 <h2>JPA & QueryDSL</h2>
 
@@ -108,7 +110,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 > 구글 & 네이버 & 카카오 소셜 서버를 이용해 불필요한 회원가입을 줄이고 , JWT을 이용해 사용자 인증 정보를 저장합니다.
 
-- Access Token과 Refresh Token은 브라우저 쿠키에 저장되며 httpOnly , Secure 옵션으로 보안처리 했습니다
+- Access Token과 Refresh Token은 브라우저 쿠키에 저장되며 httpOnly , Secure 옵션으로 보안처리 했습니다.
 
 <h2>Docker</h2>
 
@@ -143,6 +145,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
   - AccessToken과 RefreshToken은 쿠키에 보관하나 Security , HTTPOnly 옵션을 추가해서 서버와 클라이언트 간 https 통신 및 자바스크립트로 쿠키 접근을 제한합니다. 
   - 로그아웃시 Access Token, Refresh Token 쿠키 삭제합니다.
   - OAuth 2.0 로그인 시 사용자 이메일을 이용해 회원가입 및 로그인을 진행합니다.
+- SMTP를 활용하여 회원가입, 비밀번호 탐색 시 가입한 이메일로 인증 코드를 보내 인증합니다.
   
 <h2>2 . 메인 화면</h2>
 
@@ -159,6 +162,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 ![게시판 상세](https://github.com/5tr1ker/mystory/assets/49367338/9951c41a-5aa8-497d-8d41-011071f18161)
 
 - 하단 textbox를 이용하여 댓글을 작성 및 추가할 수 있고, 본인이 작성한 댓글만 삭제할 수 있습니다. 또한 작성자가 등록한 태그 및 첨부파일을 이용할 수 있습니다.
+- 게시글을 삭제했을 경우 Database 에서는 남아있지만 서비스에서는 보여지지 않습니다.
 
 <h2>4 . 게시물 수정 / 작성</h2>
 
@@ -247,4 +251,13 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 - Socket을 이용하여 실시간 채팅을 구현했습니다.
 - 각 채팅방의 세션은 List<Map<>> 자료구조를 이용하여 관리했습니다.
-  
+
+<h2>15 . 어드민 페이지</h2>
+
+![image](https://github.com/5tr1ker/mystory/assets/49367338/c32b69d7-ab44-4974-9a60-878f08ea0fd6)
+
+- Redis를 활용해 일일 접속자 통계를 구현했습니다.
+- 버그 신고 대응
+- 컨텐츠 신고 대응
+- 사용자 관리 ( 권한 설정, 이용 제한 )
+- 해당 페이지는 어드민만 접근할 수 있습니다. ( 삭제된 페이지는 어드민만 볼 수 있습니다. )
