@@ -119,6 +119,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                                 .innerJoin(meetingParticipant.meetingList, meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
                 )).from(meeting)
                 .where(meeting.title.contains(data).or(meeting.address.contains(data)).and(meeting.isDelete.eq(false)))
+                .orderBy(meeting.meetingId.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

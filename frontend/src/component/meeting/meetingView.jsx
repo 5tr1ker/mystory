@@ -232,7 +232,7 @@ const MeetingView = () => {
           <div className="overlap-meetingView">
             <div className="text-wrapper-5-meetingView">참여</div>
             <div className="rectangle-meetingView" onClick={gotoReserv} />
-            <div className="text-wrapper-6-meetingView">일정 추가</div>
+            <div className="text-wrapper-6-meetingView"  onClick={gotoReserv}>일정 추가</div>
           </div>
           <div className="text-wrapper-8-meetingView">주 모임 장소</div>
           <div className="text-wrapper-9-meetingView">모임장</div>

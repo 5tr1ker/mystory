@@ -1,5 +1,6 @@
 package com.team.mystory.oauth.service;
 
+import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.oauth.dto.UserSession;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.security.auth.login.AccountException;
 import javax.security.auth.login.LoginException;
@@ -29,6 +31,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private final HttpSession httpSession;
 
     @Override
+    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuthAttributes attributes = createOauthAttributes(userRequest);
 
@@ -46,6 +49,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             throw new OAuth2EmailNotFoundException("해당 계정은 " + user.getSuspensionDate() + " 일 까지 정지입니다. \n사유 : " + user.getSuspensionReason());
         }
 
+        if(user.getUserType() == UserType.GENERAL_USER) {
+            throw new OAuth2AuthenticationException("해당 계정은 OAuth2.0 사용자가 아닙니다.");
+        }
+
         user.updateLoginDate();
     }
 
@@ -61,17 +68,17 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     public User saveOrUpdateUser(OAuthAttributes attributes) {
-        String userName = getIdWithoutEmail(attributes.getEmail());
-        if (userName == null) {
+        String id = getIdWithoutEmail(attributes.getEmail());
+        if (id == null) {
             throw new OAuth2EmailNotFoundException("OAuth2 계정의 이메일을 찾을 수 없거나, 이메일 수집 동의를 허용하지 않았습니다.");
         }
 
-        return loginRepository.findById(userName)
-                .orElseGet(() -> createAndSaveUser(attributes));
+        return loginRepository.findByEmailOrId(attributes.getEmail(), id)
+                .orElseGet(() -> createAndSaveUser(attributes.getEmail()));
     }
 
-    public User createAndSaveUser(OAuthAttributes attributes) {
-        User createUser = User.createOAuthUser(getIdWithoutEmail(attributes.getEmail()), attributes.getEmail());
+    public User createAndSaveUser(String email) {
+        User createUser = User.createOAuthUser(getIdWithoutEmail(email), email);
 
         return loginRepository.save(createUser);
     }

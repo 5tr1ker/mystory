@@ -154,12 +154,19 @@ const MeetingList = ({idStatus}) => {
       <div className="div">
         <div className="text-wrapper">참여</div>
         <div className="overlap">
-          <img className="light-s" alt="Light s" src={search} />
-          <input className="rectangle" onChange={onChangeSearchData} onKeyDown={searchRequest} placeholder="지역 혹은 이름을 입력해주세요." />
+          {meetingOption ? null :
+            <div>
+              <img className="light-s" alt="Light s" src={search} />
+              <input className="rectangle" onChange={onChangeSearchData} onKeyDown={searchRequest} placeholder="지역 혹은 이름을 입력해주세요." />
+            </div>
+          }
         </div>
-        <div className="overlap-group" onClick={newmeeting}>
-          <img className="thin-s" alt="Thin s" src={pen} />
-        </div>
+        {meetingOption ? 
+          null :
+          <div className="overlap-group" onClick={newmeeting}>
+            <img className="thin-s" alt="Thin s" src={pen} />
+          </div>
+        }
         <div className="text-wrapper-7" onClick={setFalseOption}>새로운 모임</div>
         <div className="text-wrapper-8" onClick={setTrueOption}>나의 모임</div>
         <div className="overlap-3">

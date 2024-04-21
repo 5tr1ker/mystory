@@ -33,10 +33,10 @@ public class User implements UserDetails {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long userKey;
 	
-	@Column(nullable = false , length = 30)
+	@Column(nullable = false , length = 30, unique = true)
 	private String id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 	
 	@Column(nullable = false)
