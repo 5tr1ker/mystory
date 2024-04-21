@@ -145,4 +145,29 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                 .fetchOne();
     }
 
+    @Override
+    public Optional<MeetingResponse> findMeetingByMeetingIdAndUser(long meetingId, String userPk) {
+        QMeeting meeting1 = new QMeeting("meeting1");
+
+        MeetingResponse result = jpaQueryFactory.select(Projections.constructor(
+                        MeetingResponse.class,
+                        meeting.meetingId,
+                        meeting.locateX,
+                        meeting.locateY,
+                        meeting.address,
+                        meeting.meetingImage,
+                        meeting.detailAddress,
+                        meeting.description,
+                        meeting.title,
+                        meeting.maxParticipants,
+                        select(count(meetingParticipant)).from(meetingParticipant)
+                                .innerJoin(meetingParticipant.meetingList, meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
+                )).from(meeting)
+                .innerJoin(meeting.meetingOwner, user).on(user.id.eq(userPk))
+                .where(meeting.meetingId.eq(meetingId).and(meeting.isDelete.eq(false)))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
+    }
+
 }

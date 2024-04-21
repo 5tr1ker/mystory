@@ -26,4 +26,5 @@ public interface CustomMeetingRepository {
 
     MeetingMemberResponse findMeetingOwnerByMeetingId(long meetingId);
 
+    Optional<MeetingResponse> findMeetingByMeetingIdAndUser(long meetingId, String userPk);
 }

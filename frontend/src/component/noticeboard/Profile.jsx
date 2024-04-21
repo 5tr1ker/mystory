@@ -7,6 +7,8 @@ import { useRef } from "react";
 import defaultALT from '../../_image/defaultALT.png'
 
 const Profile = ({idStatus , rerenders , profileImageUrl}) => {
+    let sessionUserId = localStorage.getItem("userId");
+
     const [profileEdits , setEdits] = useState(false);
     const [profileData , getProfileData] = useState([]) // 내 profile 데이터
     const [postStatistics , setPostStatistics] = useState([]); // 통계
@@ -164,8 +166,15 @@ const Profile = ({idStatus , rerenders , profileImageUrl}) => {
        }
 
     useEffect(async () => {
-        getData();
-        setImageName(profileImageUrl);
+        console.log(sessionUserId);
+        if(sessionUserId == undefined) {
+            alert("로그인 후 사용해주세요.");
+
+            window.location.replace("/noticelist");
+        } else {
+            getData();
+            setImageName(profileImageUrl);
+        }
     },[idStatus]);
 
     return (

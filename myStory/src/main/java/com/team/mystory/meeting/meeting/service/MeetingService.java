@@ -173,4 +173,11 @@ public class MeetingService {
 
         meetingParticipantRepository.deleteParticipantsByMeetingIdAndUserId(meetingId , userPk);
     }
+
+    public MeetingResponse findMeetingByMeetingIdAndUser(String accessToken, long meetingId) {
+        String userPk = jwtTokenProvider.getUserPk(accessToken);
+
+        return meetingRepository.findMeetingByMeetingIdAndUser(meetingId , userPk)
+                .orElseThrow(() -> new MeetingException(CAN_ACCESS_ONLY_OWNER));
+    }
 }

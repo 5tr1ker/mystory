@@ -51,7 +51,7 @@ const ModifyMeeting = ({idStatus}) => {
     await axios({
       method: "GET",
       mode: "cors",
-      url: `/meeting/${urlStat[3]}`
+      url: `/meeting/${urlStat[3]}/user`
     }).then((response) => {
       setMeetingId(response.data.meetingId);
       setTitle(response.data.title);
@@ -61,7 +61,9 @@ const ModifyMeeting = ({idStatus}) => {
       setDetailAddress(response.data.detailAddress);
       setAddress(response.data.address);
     }).catch((err) => {
-
+        alert("모임 장만 수정할 수 있습니다.");
+  
+        window.location.replace(`/meeting/${urlStat[3]}`);
     });
   }, [])
 

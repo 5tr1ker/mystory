@@ -76,6 +76,13 @@ public class MeetingController {
         return ResponseEntity.ok().body(meetingList);
     }
 
+    @GetMapping("/{meetingId}/user")
+    public ResponseEntity findMeetingByMeetingIdAndUser(@CookieValue String accessToken, @PathVariable long meetingId) {
+        MeetingResponse result = meetingService.findMeetingByMeetingIdAndUser(accessToken, meetingId);
+
+        return ResponseEntity.ok().body(result);
+    }
+
     @GetMapping("/{meetingId}")
     public ResponseEntity findMeetingByMeetingId(@PathVariable long meetingId) {
         MeetingResponse result = meetingService.findMeetingByMeetingId(meetingId);
