@@ -86,7 +86,7 @@ const Register = () => {
         await axios({
             method: "GET",
             mode: "cors",
-            url: `/users/${idInfo.email}`
+            url: `/users/${idInfo.email}/${idInfo.id}`
         })
             .then(async (response) => {
                 alert("인증번호가 전송되었습니다.");
@@ -175,7 +175,8 @@ const Register = () => {
                         :
                         <div className="codeVerification">
                             <form>
-                                <input type="text" className="idInput" placeholder="인증번호 입력" name="id" onChange={inputCodeVerification} />
+                                <input type="text" style={{display:"none"}}/><input type="text" style={{display:"none"}}/><input type="text" style={{display:"none"}}/><input type="text" style={{display:"none"}}/>
+                                <input type="text" className="verificationInput" placeholder="인증번호 입력" name="verification" onChange={inputCodeVerification} />
                             </form>
                             <button type="submit" className="sbButton" onClick={checkVerificationCode}>회원가입</button>
                         </div>

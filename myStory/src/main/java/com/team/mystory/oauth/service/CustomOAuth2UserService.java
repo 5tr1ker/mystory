@@ -53,6 +53,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             throw new OAuth2AuthenticationException("해당 계정은 OAuth2.0 사용자가 아닙니다.");
         }
 
+        if(user.isDelete()) {
+            throw new RuntimeException("삭제된 사용자입니다.");
+        }
+
         user.updateLoginDate();
     }
 

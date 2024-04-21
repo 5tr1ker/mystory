@@ -249,6 +249,7 @@
 }
 
 .idInput,
+.verificationInput,
 .pwInput {
   padding: 10px;
   width: 80%;

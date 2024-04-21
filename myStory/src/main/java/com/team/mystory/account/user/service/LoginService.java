@@ -20,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.security.auth.login.AccountException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -97,9 +96,13 @@ public class LoginService {
 		setCookieFromJwt(token , response);
 	}
 
-	public void isExistEmail(String userId) {
+	public void isExistAccount(String userId, String id) {
 		if(loginRepository.findByEmail(userId).isPresent()) {
 			throw new LoginException(EXISTS_EMAIL);
+		};
+
+		if(loginRepository.findById(id).isPresent()) {
+			throw new LoginException(EXISTS_ID);
 		};
 	}
 

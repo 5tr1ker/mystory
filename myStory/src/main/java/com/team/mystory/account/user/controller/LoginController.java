@@ -64,9 +64,9 @@ public class LoginController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping(value = "/users/{email}")
-	public ResponseEntity<ResponseMessage> isExistEmail(@PathVariable String email) {
-		loginService.isExistEmail(email);
+	@GetMapping(value = "/users/{email}/{id}")
+	public ResponseEntity<ResponseMessage> isExistAccount(@PathVariable String email, @PathVariable String id) {
+		loginService.isExistAccount(email, id);
 
 		return ResponseEntity.ok().build();
 	}
