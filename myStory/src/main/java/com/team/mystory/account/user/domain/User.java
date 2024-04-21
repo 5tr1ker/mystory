@@ -25,6 +25,7 @@ import java.util.*;
 @Entity
 @Getter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIdentityInfo(generator = IntSequenceGenerator.class , property = "id")
@@ -142,7 +143,7 @@ public class User implements UserDetails {
 
 	public static User createOAuthUser(String userId, String email) {
 		return User.builder()
-				.id(userId)
+				.id(userId + generateRandomString(6))
 				.email(email)
 				.password(UUID.randomUUID().toString())
 				.profile(Profile.createInitProfileSetting())
@@ -152,6 +153,20 @@ public class User implements UserDetails {
 				.userType(UserType.OAUTH_USER)
 				.isDelete(false)
 				.build();
+	}
+
+	public static String generateRandomString(int length) {
+		// 랜덤 문자열을 포함할 문자들
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+
+		for (int i = 0; i < length; i++) {
+			char randomChar = characters.charAt(random.nextInt(characters.length()));
+			sb.append(randomChar);
+		}
+
+		return sb.toString();
 	}
 
 	public void addPost(Post post) {

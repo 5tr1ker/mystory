@@ -13,7 +13,4 @@ public interface LoginRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findByEmail(String email);
 
-	@Query("select u from User u where u.email = :email or u.id = :id")
-	Optional<User> findByEmailOrId(@Param(value = "email") String email, @Param(value = "id") String id);
-
 }
