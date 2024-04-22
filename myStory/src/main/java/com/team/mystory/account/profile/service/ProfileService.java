@@ -2,26 +2,21 @@ package com.team.mystory.account.profile.service;
 
 import com.team.mystory.account.profile.dto.StatisticsResponse;
 import com.team.mystory.account.user.domain.User;
-import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.profile.dto.ProfileRequest;
 import com.team.mystory.account.user.exception.LoginException;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.account.profile.repository.ProfileRepository;
 import com.team.mystory.account.user.service.LoginService;
 import com.team.mystory.common.response.ResponseMessage;
-import com.team.mystory.security.jwt.service.JwtService;
 import com.team.mystory.security.jwt.support.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.security.auth.login.AccountException;
-
 import static com.team.mystory.account.profile.dto.ProfileResponse.createProfileResponse;
 import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
 import static com.team.mystory.common.response.message.AccountMessage.EXISTS_ACCOUNT;
-import static com.team.mystory.common.response.message.AccountMessage.NOT_FOUNT_ACCOUNT;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
 @Service
@@ -33,7 +28,7 @@ public class ProfileService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final LoginService loginService;
 	
-	public ResponseMessage<StatisticsResponse> getProfile(String accessToken) {
+	public ResponseMessage<StatisticsResponse> getStatistics(String accessToken) {
 		String userId = jwtTokenProvider.getUserPk(accessToken);
 
 		return ResponseMessage.of(REQUEST_SUCCESS, profileRepository.getStatisticsOfUser(userId));
@@ -61,6 +56,6 @@ public class ProfileService {
 	public ResponseMessage getProfileFromUser(String token) {
 		User result = loginService.findUserByAccessToken(token);
 
-		return ResponseMessage.of(REQUEST_SUCCESS, createProfileResponse(result.getProfile() , result.getJoinDate()));
+		return ResponseMessage.of(REQUEST_SUCCESS, createProfileResponse(result.getProfile() , result));
 	}
 }

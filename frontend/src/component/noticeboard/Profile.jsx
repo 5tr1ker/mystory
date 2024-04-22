@@ -13,7 +13,7 @@ const Profile = ({idStatus , rerenders , profileImageUrl}) => {
     const [profileData , getProfileData] = useState([]) // 내 profile 데이터
     const [postStatistics , setPostStatistics] = useState([]); // 통계
     const [inputProfileData , setInputProfileData] = useState({ // inputs
-        userId : idStatus , 
+        userId : idStatus ,
         email : '' ,
         phone : '' ,
         options : 0 ,
@@ -73,7 +73,7 @@ const Profile = ({idStatus , rerenders , profileImageUrl}) => {
         const datas = [];
         datas.push(result.data.data.totalPostView , result.data.data.totalPost, result.data.data.totalComment , result.data.data.joinData.replaceAll("-" , "/"));
         getProfileData(getProfileDatas.data.data);
-        setInputProfileData({userId : idStatus , email: getProfileDatas.data.data.email , phone: getProfileDatas.data.data.phone , options: getProfileDatas.data.data.options});
+        setInputProfileData({userId : idStatus, email : getProfileDatas.data.data.email , phone: getProfileDatas.data.data.phone , options: getProfileDatas.data.data.options});
         setPostStatistics(datas); // 통계
     }
 
@@ -88,7 +88,7 @@ const Profile = ({idStatus , rerenders , profileImageUrl}) => {
 
     const saveProfile = () => {
         setEdits(false);
-        getProfileData({userId: inputProfileData.userid , email: inputProfileData.email , phone: inputProfileData.phone , options :inputProfileData.option2});
+        getProfileData({userId: inputProfileData.userid, email: inputProfileData.email , phone: inputProfileData.phone , options :inputProfileData.option2});
     }
 
     const deleteId = async() => {
@@ -120,7 +120,7 @@ const Profile = ({idStatus , rerenders , profileImageUrl}) => {
     }
 
     const doneChange = async () => {
-        const jsonParse = JSON.stringify({"userId" : inputProfileData.userId, "email" : inputProfileData.email, "phone" : inputProfileData.phone, "options" : inputProfileData.options});
+        const jsonParse = JSON.stringify({"userId" : inputProfileData.userId, "phone" : inputProfileData.phone, "options" : inputProfileData.options});
 
             if (idStatus !== inputProfileData.userId) {
                  await axios({
@@ -233,7 +233,7 @@ const Profile = ({idStatus , rerenders , profileImageUrl}) => {
                             {profileEdits ?
                                 <div className="profile-editmode">
                                     <span>Name  : </span><input type="text" placeholder="name" defaultValue={inputProfileData.userId} onChange={changeGetData} name="userId"/><br/>
-                                    <span>Email : </span><input type="text" placeholder="Email" defaultValue={profileData.email} onChange={changeGetData} name="email"/><br/>
+                                    <span>Email : </span><input type="text" placeholder="Email" defaultValue={profileData.email} disabled={true} name="email"/><br/>
                                     <span>Phone : </span><input type="text" placeholder="Phone" defaultValue={profileData.phone} onChange={changeGetData} name="phone"/><br/>
                                     <button className="editprofileButton" onClick={saveProfile}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">

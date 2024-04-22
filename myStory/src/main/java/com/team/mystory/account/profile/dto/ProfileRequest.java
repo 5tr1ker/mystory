@@ -9,7 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 public class ProfileRequest {
     private String userId;
-    private String email;
     private String phone;
     private Integer options;
 

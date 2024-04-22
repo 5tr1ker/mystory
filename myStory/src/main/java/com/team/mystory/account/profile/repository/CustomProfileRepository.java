@@ -6,7 +6,7 @@ import com.team.mystory.account.profile.dto.StatisticsResponse;
 import java.util.Optional;
 
 public interface CustomProfileRepository {
-    Optional<Profile> findProfileByUserId(String userId);
 
     StatisticsResponse getStatisticsOfUser(String userId);
+
 }

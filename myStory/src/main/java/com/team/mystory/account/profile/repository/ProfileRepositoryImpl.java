@@ -20,16 +20,6 @@ public class ProfileRepositoryImpl implements CustomProfileRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<Profile> findProfileByUserId(String userId) {
-        Profile result = queryFactory.select(profile)
-                .from(user)
-                .innerJoin(user.profile)
-                .where(user.id.eq(userId)).fetchOne();
-
-        return Optional.ofNullable(result);
-    }
-
-    @Override
     public StatisticsResponse getStatisticsOfUser(String userId) {
 
         long totalPost = queryFactory.select(post.count())
