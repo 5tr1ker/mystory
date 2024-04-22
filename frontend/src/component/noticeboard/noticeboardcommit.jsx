@@ -5,8 +5,6 @@ import axios from "axios";
 const NoticeboardCommit = ({ data, delButton, idStats , postId }) => {
     const arrs = data.map(postcommit => ({ ...postcommit, option: postcommit.writer === idStats }));
 
-    console.log(data);
-
     const reportContent = async (commit) => {
         if(!window.confirm("해당 컨텐츠를 신고하시겠습니까?")) {
             return;

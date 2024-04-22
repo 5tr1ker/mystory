@@ -92,37 +92,45 @@ const PostView = ({ idStatus }) => {
             alert("비정상적인 접근입니다.");
             window.location.replace(`/noticelist`);
         }
-        const result = await axios({ // POST 정보 가져오기
+
+        let resultData = null;
+        await axios({ // POST 정보 가져오기
             method: "GET",
             mode: "cors",
             url: `/posts/${parseInt(params[2])}`
-        })
-            .catch((e) => {
+        }).then((e) => {
+            if(e.data.data.private && e.data.data.writer !== idStatus) {
+                alert("비공개글입니다.");
+                
+                window.location.replace(`/noticelist`);
+
+                return;
+            } else {
+                resultData = e;
+            };
+        }).catch((e) => {
                 alert(e.response.data.message);
 
                 window.location.replace(`/noticelist`);
-            });
+        });
 
-        if (result == null) {
+        if (resultData == null) {
+            console.log("왜? ");
             return;
         }
 
-        const findPost = result.data.data;
-        setAttachment(result.data.data.attachment || []);
-        setTagData(result.data.data.tags || []);
+        const findPost = resultData.data.data;
+        setAttachment(resultData.data.data.attachment || []);
+        setTagData(resultData.data.data.tags || []);
 
-        if (findPost.private == true && findPost.writer !== idStatus) {
-            alert("비공개글입니다.");
-            window.location.replace(`/noticelist`);
-        } else {
-            if (mode === 'views') { // 조회수 증가
-                await axios({
-                    method: "PATCH",
-                    mode: "cors",
-                    url: `/posts/views/${parseInt(params[2])}`
-                })
-                setContentArr(findPost); // findindex 로 해당 키값이 어떤 배열에 저장되어있는지 확인 후 해당 배열 반환+
-            }
+        if (mode === 'views') { // 조회수 증가
+            
+            await axios({
+                method: "PATCH",
+                mode: "cors",
+                url: `/posts/views/${parseInt(params[2])}`
+            })
+            setContentArr(findPost); // findindex 로 해당 키값이 어떤 배열에 저장되어있는지 확인 후 해당 배열 반환+
         }
 
         if (mode === 'likes') { // 추천 기능
