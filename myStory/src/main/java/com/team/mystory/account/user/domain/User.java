@@ -25,7 +25,6 @@ import java.util.*;
 @Entity
 @Getter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIdentityInfo(generator = IntSequenceGenerator.class , property = "id")

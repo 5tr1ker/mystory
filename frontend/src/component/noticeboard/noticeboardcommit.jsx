@@ -23,8 +23,7 @@ const NoticeboardCommit = ({ data, delButton, idStats , postId }) => {
             method: "POST",
             url: `/admin/report/content`,
             data: {
-                "content" : reason , 
-                "reportContentURL" : `/viewpost/${postId}` ,
+                "content" : reason ,
                 "reportType" : "COMMENT",
                 "target" : {
                     "writer" : commit.writer ,

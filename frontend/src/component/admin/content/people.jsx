@@ -89,8 +89,8 @@ const AuthorityList = ({ authority, renders }) => {
                 <td>
                     <select id={`roleSelecter_${list.userKey}`} onChange={(e) => changeRole(e, list)} name="options" key={list.id} defaultValue={list.userRole === "USER" ? "user" : "admin"} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
                         {[
-                            <option key={list.id + 1} value="user" style={{ fontWeight: "600" }}>일반 사용자</option>,
-                            <option key={list.id + 2} value="admin" style={{ fontWeight: "600" }}>관리자</option>
+                            <option key={list.id + 1} value="user" style={{ fontWeight: "600" }}>일반 사용자</option>
+                            // <option key={list.id + 2} value="admin" style={{ fontWeight: "600" }}>관리자</option>
                         ]}
                     </select>
                 </td>

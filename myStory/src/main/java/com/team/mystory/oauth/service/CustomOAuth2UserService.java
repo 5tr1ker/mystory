@@ -75,7 +75,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         if(attributes.getEmail() == null) {
             throw new RuntimeException("이메일을 찾을 수 없습니다.");
         }
-        
+
         return loginRepository.findByEmail(attributes.getEmail())
                 .orElseGet(() -> createAndSaveUser(attributes.getEmail()));
     }

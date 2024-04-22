@@ -57,7 +57,6 @@ const ContentReportList = ({ list, renders }) => {
                 <td>{data.content}</td>
                 <td>{switchContentType(data.contentType)}</td>
                 <td>{data.action ? <input type="checkbox" onClick={() => toggleSolved(data.contentReportId)} defaultChecked={true} /> : <input type="checkbox" onClick={() => toggleSolved(data.contentReportId)} />}</td>
-                <td className="deleteContentStyle" onClick={() => window.location.replace(`${data.contentURL}`)}>[이동]</td>
                 <td className="deleteContentStyle" onClick={() => deleteReport(data.contentReportId)}>[제거]</td>
             </tr>
         ))
@@ -137,7 +136,6 @@ const ContentReport = () => {
                             <th scope="col" width="20%">신고자 내용</th>
                             <th scope="col" width="5%">컨텐츠</th>
                             <th scope="col" width="5%">조치 여부</th>
-                            <th scope="col" width="5%">컨텐츠 이동</th>
                             <th scope="col" width="5%">제거</th>
                         </tr>
                     </thead>

@@ -108,7 +108,6 @@ const ShowReservation = ({ reservation, meeting, owner }) => {
             url: `/admin/report/content`,
             data: {
                 "content": reason,
-                "reportContentURL": `/meeting/${meeting.meetingId}`,
                 "reportType": "RESERVATION",
                 "target": {
                     "writer": owner.userId,

@@ -36,7 +36,6 @@ const PostView = ({ idStatus }) => {
             url: `/admin/report/content`,
             data: {
                 "content": reason,
-                "reportContentURL": `/viewpost/${post.postId}`,
                 "reportType": "POST",
                 "target": {
                     "writer": post.writer,

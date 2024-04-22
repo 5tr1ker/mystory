@@ -46,7 +46,6 @@ const MeetingView = () => {
       url: `/admin/report/content`,
       data: {
         "content": reason,
-        "reportContentURL": `/meeting/${urlStat[2]}`,
         "reportType": "MEETING",
         "target": {
           "writer": owner.userId,

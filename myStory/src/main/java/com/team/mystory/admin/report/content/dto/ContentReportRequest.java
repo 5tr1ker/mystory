@@ -10,8 +10,6 @@ public class ContentReportRequest {
 
     private String content;
 
-    private String reportContentURL;
-
     private ReportType reportType;
 
     private ReportTarget target;

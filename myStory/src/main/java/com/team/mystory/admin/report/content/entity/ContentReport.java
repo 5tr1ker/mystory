@@ -25,9 +25,6 @@ public class ContentReport {
     @ManyToOne(fetch = FetchType.LAZY)
     private User reporter;
 
-    @Column(nullable = false)
-    private String contentUrl;
-
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime reportTime;
@@ -51,7 +48,6 @@ public class ContentReport {
                 .reporter(user)
                 .content(request.getContent())
                 .isAction(false)
-                .contentUrl(request.getReportContentURL())
                 .reportType(request.getReportType())
                 .reportData(data)
                 .build();
