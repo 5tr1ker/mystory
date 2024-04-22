@@ -55,6 +55,7 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
                 .on(post.eqAny(JPAExpressions.select(post)
                         .from(post)
                         .innerJoin(post.writer , subUser).on(subUser.eq(userData))
+                        .where(post.isDelete.eq(false))
                 ))
                 .orderBy(comment.commentId.desc())
                 .where(comment.isDelete.eq(false))
