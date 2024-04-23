@@ -6,6 +6,7 @@ import AdminBug from './content/bug';
 import ContentReport from './content/contentReport';
 import PeopleEdit from './content/people';
 import axios from 'axios';
+import { deleteAllToken } from '../noticeboard/DeleteAllCookie';
 
 const AdminPage = () => {
     let sessionAdminId = localStorage.getItem("adminId");
@@ -27,16 +28,11 @@ const AdminPage = () => {
     const logout = async () => {
         sessionAdminId = null;
         localStorage.removeItem("adminId");
+        localStorage.removeItem("userId");
 
-        await axios({
-            method: "POST",
-            url: `/user/logout`
-        })
-            .then(() => {
-                updateRender();
-                window.location.reload("/admin/login");
-            })
-            .catch((e) => alert(e.response.data.message));
+        deleteAllToken();
+        updateRender();
+        window.location.reload("/admin/login");
     }
 
     useEffect(() => {

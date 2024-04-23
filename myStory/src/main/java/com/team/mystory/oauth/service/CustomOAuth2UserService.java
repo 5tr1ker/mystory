@@ -48,11 +48,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         }
 
         if(user.getUserType() == UserType.GENERAL_USER) {
-            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "해당 계정은 일반 계정으로 가입되어있습니다.");
+            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "해당 이메일로 일반 계정이 가입되어있습니다.");
         }
 
         if(user.isDelete()) {
-            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "삭제된 사용자입니다.");
+            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "탈퇴한 사용자입니다.");
         }
 
         user.updateLoginDate();
@@ -71,7 +71,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     public User saveOrUpdateUser(OAuthAttributes attributes) {
         if(attributes.getEmail() == null) {
-            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "계정 내에 이메일을 찾을 수 없거나, 동의하지 않았습니다.");
+            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "계정의 이메일을 찾을 수 없거나, 이메일 수집 여부에 동의하지 않았습니다.");
         }
 
         return loginRepository.findByEmail(attributes.getEmail())
