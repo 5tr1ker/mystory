@@ -17,6 +17,7 @@ import MeetingView from '../meeting/meetingView';
 import NewReservation from '../meeting/newReservation';
 import ModifyMeeting from '../meeting/modifyMeeting';
 import defaultALT from '../../_image/defaultALT.png'
+import OAuthMessageHandler from '../login/OAuthMessageHandler';
 
 const NoticeFrame = () => {
     let sessionUserId = localStorage.getItem("userId");
@@ -176,6 +177,7 @@ const NoticeFrame = () => {
                     <Route path="/modify/meeting/:id" element={<ModifyMeeting idStatus={sessionUserId} />}></Route>
                     <Route path="/meeting/:id" element={<MeetingView />}></Route>
                     <Route path="/newmeeting/:id" element={<NewReservation idStatus={sessionUserId} />}></Route>
+                    <Route path="/oauth/error" element={<OAuthMessageHandler />}></Route>
                 </Routes>
             </div>
         </Fragment>

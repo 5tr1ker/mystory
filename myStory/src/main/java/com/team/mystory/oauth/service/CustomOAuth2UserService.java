@@ -4,7 +4,6 @@ import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.account.user.repository.LoginRepository;
 import com.team.mystory.oauth.dto.UserSession;
-import com.team.mystory.oauth.exception.OAuth2EmailNotFoundException;
 import com.team.mystory.oauth.support.OAuthAttributes;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +12,12 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.security.auth.login.AccountException;
-import javax.security.auth.login.LoginException;
 import java.time.LocalDate;
 import java.util.Collections;
 
@@ -46,15 +44,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     public void isValidAccount(User user) {
         if(user.isSuspension() && user.getSuspensionDate().compareTo(LocalDate.now()) > 0) {
-            throw new OAuth2EmailNotFoundException("해당 계정은 " + user.getSuspensionDate() + " 일 까지 정지입니다. \n사유 : " + user.getSuspensionReason());
+            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "해당 계정은 " + user.getSuspensionDate() + " 일 까지 정지입니다. \n사유 : " + user.getSuspensionReason());
         }
 
         if(user.getUserType() == UserType.GENERAL_USER) {
-            throw new OAuth2AuthenticationException("해당 계정은 OAuth2.0 사용자가 아닙니다.");
+            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "해당 계정은 일반 계정으로 가입되어있습니다.");
         }
 
         if(user.isDelete()) {
-            throw new RuntimeException("삭제된 사용자입니다.");
+            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "삭제된 사용자입니다.");
         }
 
         user.updateLoginDate();
@@ -73,7 +71,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     public User saveOrUpdateUser(OAuthAttributes attributes) {
         if(attributes.getEmail() == null) {
-            throw new RuntimeException("이메일을 찾을 수 없습니다.");
+            throw new OAuth2AuthenticationException(new OAuth2Error("null"), "계정 내에 이메일을 찾을 수 없거나, 동의하지 않았습니다.");
         }
 
         return loginRepository.findByEmail(attributes.getEmail())

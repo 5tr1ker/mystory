@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import static com.team.mystory.common.exception.FilterExceptionHandler.setErrorResponse;
 
@@ -23,8 +24,9 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         setErrorResponse(response , HttpStatus.UNAUTHORIZED.value() , exception.getMessage());
+        String errorMessage = URLEncoder.encode(exception.getMessage(), "UTF-8");
 
-        getRedirectStrategy().sendRedirect(request, response, createRedirectUrl(clientUrl));
+        getRedirectStrategy().sendRedirect(request, response, createRedirectUrl(clientUrl + "/oauth/error?message=" + errorMessage));
     }
 
     public String createRedirectUrl(String url) {
