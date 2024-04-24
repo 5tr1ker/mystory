@@ -110,7 +110,7 @@ return (
       <div className="reservMap">
         <ReservMaps locateData={setLocate} addressData={setAddress} detailAddressData={onChangeDetailAddress} detailAddress={detailAddress} address={address} />
       </div>
-      <textarea className="rectangle-2-newReservation" onChange={onChangeDescription} />
+      <textarea className="rectangle-2-newReservation" onChange={onChangeDescription} maxLength={100}/>
       <img
         className="light-s-newReservation"
         alt="Light s"

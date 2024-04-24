@@ -640,12 +640,14 @@
   font-family: "Abel", Helvetica;
   font-size: 15px;
   font-weight: 400;
-  left: 120px;
+  left: 110px;
   margin-top: -100px;
   letter-spacing: 0;
   line-height: 25px;
   position: absolute;
   width: 324px;
+  height: 150px;
+  overflow-y: scroll;
 }
 
 .screen-meetingView .line-4-meetingView {
