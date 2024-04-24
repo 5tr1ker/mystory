@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.team.mystory.account.profile.dto.ProfileResponse.createProfileResponse;
 import static com.team.mystory.common.response.ResponseCode.REQUEST_SUCCESS;
 import static com.team.mystory.common.response.message.AccountMessage.EXISTS_ACCOUNT;
+import static com.team.mystory.common.response.message.AccountMessage.EXISTS_ID;
 import static com.team.mystory.security.jwt.support.CookieSupport.deleteJwtTokenInCookie;
 
 @Service
@@ -40,7 +41,7 @@ public class ProfileService {
 
 		if(!profileRequest.getUserId().equals(user.getId())) {
 			if(loginRepository.findById(profileRequest.getUserId()).isPresent()) {
-				throw new LoginException(EXISTS_ACCOUNT);
+				throw new LoginException(EXISTS_ID);
 			}
 
 			user.updateId(profileRequest.getUserId());

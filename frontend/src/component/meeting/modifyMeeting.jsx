@@ -8,7 +8,6 @@ import axios from 'axios';
 
 const ModifyMeeting = ({idStatus}) => {
   const urlStat = window.location.pathname.split("/");
-  const [arrs, setArrs] = useState([]);
   const [title, setTitle] = useState([]);
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -18,7 +17,7 @@ const ModifyMeeting = ({idStatus}) => {
   const onChangeContent = (e) => {
     setContent(e.target.value);
   }
-  const [participant, setParticipant] = useState(1);
+  const [participant, setParticipant] = useState(5);
   const onChangeParticipant = (e) => {
     setParticipant(e.target.value);
   }
@@ -40,13 +39,6 @@ const ModifyMeeting = ({idStatus}) => {
       alert('로그인 후 사용해주세요.');
       window.history.back();
     }
-
-    let data = [];
-    for (let i = 1; i <= 20; i++) {
-      data.push(<option key={i} value={i} style={{ fontWeight: "600" }}>{i}</option>);
-    }
-
-    setArrs(data);
 
     await axios({
       method: "GET",
@@ -177,8 +169,27 @@ const ModifyMeeting = ({idStatus}) => {
         </div>
         <div className="overlap-2-newMeeting">
           <div className="overlap-group-2-newMeeting">
-            <select onChange={onChangeParticipant} name="options" key={0} defaultValue={participant} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
-              {arrs}
+            <select onChange={onChangeParticipant} name="options" key={0} value={participant} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option key={1} value={1} style={{ fontWeight: "600" }}>{1}</option>
+              <option key={2} value={2} style={{ fontWeight: "600" }}>{2}</option>
+              <option key={3} value={3} style={{ fontWeight: "600" }}>{3}</option>
+              <option key={4} value={4} style={{ fontWeight: "600" }}>{4}</option>
+              <option key={5} value={5} style={{ fontWeight: "600" }}>{5}</option>
+              <option key={6} value={6} style={{ fontWeight: "600" }}>{6}</option>
+              <option key={7} value={7} style={{ fontWeight: "600" }}>{7}</option>
+              <option key={8} value={8} style={{ fontWeight: "600" }}>{8}</option>
+              <option key={9} value={9} style={{ fontWeight: "600" }}>{9}</option>
+              <option key={10} value={10} style={{ fontWeight: "600" }}>{10}</option>
+              <option key={11} value={11} style={{ fontWeight: "600" }}>{11}</option>
+              <option key={12} value={12} style={{ fontWeight: "600" }}>{12}</option>
+              <option key={13} value={13} style={{ fontWeight: "600" }}>{13}</option>
+              <option key={14} value={14} style={{ fontWeight: "600" }}>{14}</option>
+              <option key={15} value={15} style={{ fontWeight: "600" }}>{15}</option>
+              <option key={16} value={16} style={{ fontWeight: "600" }}>{16}</option>
+              <option key={17} value={17} style={{ fontWeight: "600" }}>{17}</option>
+              <option key={18} value={18} style={{ fontWeight: "600" }}>{18}</option>
+              <option key={19} value={19} style={{ fontWeight: "600" }}>{19}</option>
+              <option key={20} value={20} style={{ fontWeight: "600" }}>{20}</option>
             </select>
           </div>
         </div>

@@ -64,11 +64,15 @@ const MeetingList = ({idStatus}) => {
   const [meetingDetail , setMeetingDetail] = useState(false); // false -> 비공개 , -> true -> 공개
   const [detailNumber , setDetailNumber] = useState(0);
   const showMeetingDetail = (number) => {
-    setMeetingDetail(false);
-    setMeetingDetail(true);
+    if(meetingDetail) {
+      setMeetingDetail(false);
+    } else {
+      setMeetingDetail(true);
 
-    setDetailNumber(number);
+      setDetailNumber(number);
+    }
   }
+
   const exitMeetingDetail = () => {
     setMeetingDetail(false);
   }
