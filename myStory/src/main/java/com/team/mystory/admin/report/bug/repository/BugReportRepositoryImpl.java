@@ -28,6 +28,7 @@ public class BugReportRepositoryImpl implements CustomBugReportRepository {
                         )
                 ).from(bugReport)
                 .innerJoin(bugReport.reporter , user)
+                .orderBy(bugReport.bugReportId.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

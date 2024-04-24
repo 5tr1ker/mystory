@@ -79,7 +79,7 @@ const AdminBug = () => {
                 setBugContent(response.data);
             })
             .catch((e) => alert(e.response.data.message));
-    }, [render]);
+    }, [render, pages]);
 
     const gotoNext = () => {
         if (pages < maxPages.current) {

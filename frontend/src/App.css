@@ -4,3 +4,8 @@
   background-color: white;
   overflow-y: hidden;
 }
+
+iframe
+{
+    display: none;
+}

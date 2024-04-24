@@ -776,10 +776,10 @@
 
 .LoginDropBox{
     position: relative;
-    top: 100px;
+    top: 120px;
     right: 10px;
     width: 170px;
-    height: 245px;
+    height: 295px;
     font-size: 15px;
     border: 1px solid rgb(193, 193, 193);
     z-index: 5;
