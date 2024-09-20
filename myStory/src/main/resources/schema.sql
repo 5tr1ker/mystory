@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `content_report`
     is_action varchar(255) not null,
     report_type varchar(255) not null,
     report_time datetime(6) not null,
+    content_url varchar(255) not null,
     report_data_report_data_id bigint,
     reporter_user_key bigint,
     primary key (content_report_id),
