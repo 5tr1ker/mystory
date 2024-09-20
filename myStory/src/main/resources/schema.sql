@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `user`
     `user_key`            BIGINT       NOT NULL AUTO_INCREMENT,
     `id`                  VARCHAR(30)  NOT NULL,
     `join_date`           DATE         NOT NULL,
+    `last_login_date`     DATE         NOT NULL,
     `password`            VARCHAR(255) NOT NULL,
     `suspension_date`     DATE,
     `email`               VARCHAR(255) NOT NULL,
@@ -45,13 +46,12 @@ CREATE TABLE IF NOT EXISTS `report_data` (
     foreign key (target_user_key) references user (user_key)
     );
 
-CREATE TABLE IF NOT EXISTS `content_report_tb`
+CREATE TABLE IF NOT EXISTS `content_report`
 (
     content_report_id bigint not null auto_increment,
     content varchar(255) not null,
     is_action varchar(255) not null,
     report_type varchar(255) not null,
-    content_url varchar(255) not null,
     report_time datetime(6) not null,
     report_data_report_data_id bigint,
     reporter_user_key bigint,
