@@ -1,4 +1,4 @@
-# 📎 myStory ( https://mystorynews.com )
+# 📎 myStory ( https://mystorynews.net )
 > 웹 서버의 기본 소양이 되는 게시판 프로젝트입니다.
 
 <h2>Version</h2>
