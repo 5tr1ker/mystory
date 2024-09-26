@@ -10,7 +10,7 @@ import MeetingContent from "./meetingContent.jsx";
 import MeetingDetail from "./meetingDetail";
 import axios from "axios";
 
-const MeetingList = () => {
+const MeetingList = ({idStatus}) => {
 
   const newmeeting = () => {
     window.location.href = "/newmeeting";
@@ -18,6 +18,12 @@ const MeetingList = () => {
 
   const [meetingOption, setMeetingOption] = useState(false); // false -> 전채 , true -> 나의 모임
   const setTrueOption = () => {
+    if(idStatus == undefined) {
+      alert("로그인 후 사용할 수 있습니다.");
+
+      return;
+    }
+    
     setMeetingOption(true);
   }
   const setFalseOption = () => {
@@ -58,11 +64,15 @@ const MeetingList = () => {
   const [meetingDetail , setMeetingDetail] = useState(false); // false -> 비공개 , -> true -> 공개
   const [detailNumber , setDetailNumber] = useState(0);
   const showMeetingDetail = (number) => {
-    setMeetingDetail(false);
-    setMeetingDetail(true);
+    if(meetingDetail) {
+      setMeetingDetail(false);
+    } else {
+      setMeetingDetail(true);
 
-    setDetailNumber(number);
+      setDetailNumber(number);
+    }
   }
+
   const exitMeetingDetail = () => {
     setMeetingDetail(false);
   }
@@ -148,12 +158,19 @@ const MeetingList = () => {
       <div className="div">
         <div className="text-wrapper">참여</div>
         <div className="overlap">
-          <img className="light-s" alt="Light s" src={search} />
-          <input className="rectangle" onChange={onChangeSearchData} onKeyDown={searchRequest} placeholder="지역 혹은 이름을 입력해주세요." />
+          {meetingOption ? null :
+            <div>
+              <img className="light-s" alt="Light s" src={search} />
+              <input className="rectangle" onChange={onChangeSearchData} onKeyDown={searchRequest} placeholder="지역 혹은 이름을 입력해주세요." />
+            </div>
+          }
         </div>
-        <div className="overlap-group" onClick={newmeeting}>
-          <img className="thin-s" alt="Thin s" src={pen} />
-        </div>
+        {meetingOption ? 
+          null :
+          <div className="overlap-group" onClick={newmeeting}>
+            <img className="thin-s" alt="Thin s" src={pen} />
+          </div>
+        }
         <div className="text-wrapper-7" onClick={setFalseOption}>새로운 모임</div>
         <div className="text-wrapper-8" onClick={setTrueOption}>나의 모임</div>
         <div className="overlap-3">

@@ -26,4 +26,7 @@ public class CommentResponse {
     private String writer;
 
     private String writerImage;
+
+    private boolean writerIsDelete;
+
 }

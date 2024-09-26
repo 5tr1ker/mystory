@@ -1,5 +1,5 @@
 client:
-  url: https://mystorynews.com
+  url: https://mystorynews.net
 server:
   url: 43.200.118.151:18080
 
@@ -15,7 +15,6 @@ spring:
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
-    show-sql: true
     hibernate:
       ddl-auto: validate
 
@@ -24,7 +23,7 @@ spring:
       client:
         registration:
           naver:
-            redirect-uri: https://mystorynews.com/login/oauth2/code/naver
+            redirect-uri: https://mystorynews.net/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             client-secret: sn7W5EVI1B
             client-id: KrgceyS11oJLy_u0tajR
@@ -33,7 +32,7 @@ spring:
             client-id: 7cef126b7f8ea367330765d225a271a6
             client-secret: unknown
             client-authentication-method: POST
-            redirect-uri: https://mystorynews.com/login/oauth2/code/kakao
+            redirect-uri: https://mystorynews.net/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             scope: profile_nickname , account_email
             client-name: kakao
@@ -41,7 +40,7 @@ spring:
             client-id: 468391770326-850l305qj81ah6s9j2irhfqvsiupnkgk.apps.googleusercontent.com
             client-secret: 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
             scope: email , profile
-            redirect-uri: https://mystorynews.com/login/oauth2/code/google
+            redirect-uri: https://mystorynews.net/login/oauth2/code/google
         provider:
           kakao:
             user-name-attribute: id
@@ -53,19 +52,3 @@ spring:
             authorization-uri: https://nid.naver.com/oauth2.0/authorize
             user-info-uri: https://openapi.naver.com/v1/nid/me
             token-uri: https://nid.naver.com/oauth2.0/token
-
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
-
-cloud:
-  aws:
-    s3:
-      bucket: mystory50-bucket
-    stack.auto: false
-    region.static: ap-northeast-2
-    credentials:
-      accessKey: AKIA375CYUSRLLSCEUGM
-      secretKey: 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

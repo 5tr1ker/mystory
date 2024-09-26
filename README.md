@@ -1,4 +1,4 @@
-# 📎 myStory ( https://mystorynews.com )
+# 📎 myStory ( https://mystorynews.net )
 > 웹 서버의 기본 소양이 되는 게시판 프로젝트입니다.
 
 <h2>Version</h2>
@@ -20,11 +20,10 @@
 경쟁을 통한 학습보다 서로 공부한 내용을 공유하거나, 누군가를 가르칠 때 효율이 더 높다는 연구 결과에 따라서 함께 만나서 공부할 수 있게 도와주는 웹 어플리케이션을 개발했습니다.
 모임을 개설하고 만남 날짜를 예약해 활동할 수 있으며, 게시글을 통해 배웠던 내용을 공유하거나 소통할 수 있는 웹 어플리케이션입니다.
 
-- 게시판 : CRUD 기능, 조회수 , 추천 ( 좋아요 ) , 페이징 및 검색 , 댓글 CRUD
-- 사용자 : 회원가입 및 로그인 ( JWT ) , OAuth 2.0 (구글, 네이버 , 카카오) , 회원정보 수정, 회원가입시 중복 검사 , 알림
-- 모임 : 모임 생성 및 관리
-  - 모임 만남 예약 : 모임 내 만남 예약
-- 채팅
+- 게시판 : CRUD 기능, 조회수 , 추천 ( 좋아요 ) , 페이징 및 검색 , 댓글 작성 및 삭제, 조회 , 알림
+- 사용자 : 회원가입 및 로그인 , 소셜 계정 로그인 (구글, 네이버 , 카카오), 회원정보 수정, 통계
+- 모임 : 모임 생성 및 관리 , 모임 내 일정 예약 기능
+- 채팅 : 모임 방 마다 실시간 채팅 기능
 
 <h2>Project Structure</h2>
 
@@ -43,6 +42,16 @@
 - AWS S3 ( Storage )
 - AWS ELB ( Load Balancer )
 
+<h2>ERD</h2>
+
+![image](https://github.com/5tr1ker/mystory/assets/49367338/9627b77c-db57-4655-91b2-386cb042880c)
+
+
+<h2>System Configuration Diagram</h2>
+
+![image](https://github.com/5tr1ker/mystory/assets/49367338/fbdca961-a621-419d-8bef-17bb2f8f7f41)
+
+
 <h2>React</h2>
 
 > React ( SPA ) 구조로 하나의 페이지에 담아 동적으로 화면을 바꿔 사용자에게 출력했습니다.
@@ -52,6 +61,8 @@
 - /login : 로그인페이지
 - /register : 회원가입페이지
 - /findid : 계정 찾기
+- /admin : 어드민 페이지
+- /admin/login : 어드민 페이지 로그인 창
 - /* : 이외 링크는 `<NoticeFrame />` 컴포넌트에 연결합니다.
   - /noticelist : 게시판의 목록을 보여줍니다.
   - /newpost : 새 글을 작성합니다.
@@ -70,7 +81,7 @@
 
 프로젝트 구조는 다음과 같습니다.</br>
 
-![image](https://github.com/5tr1ker/mystory/assets/49367338/df7cec92-a205-4bb3-aaee-cf1ab68c0453)
+![image](https://github.com/5tr1ker/mystory/assets/49367338/0e86f87e-1a95-422b-bbc9-5a9ac4070b69)
 
 - CSRF : disable
 - password encryption : BCryptPasswordEncoder
@@ -79,7 +90,7 @@
 </br>
 
 - GET 을 제외한 모든 Methods 는 인증이 필요하며 특수한 경우 ( 로그인 , 회원가입 , 로그아웃 ) 만 인증을 제외합니다. </br>
-- 인가가 필요한 API는 .hasRole(UserRole.USER.name()) 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.</br>
+- 인가가 필요한 API는 .hasRole() .hasAnyRole 으로 접근 지정하고 그 외 모든 USER 가 접근할 수 있는 API는 .permitAll() 로 설정했습니다.</br>
 
 <h2>JPA & QueryDSL</h2>
 
@@ -99,7 +110,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 > 구글 & 네이버 & 카카오 소셜 서버를 이용해 불필요한 회원가입을 줄이고 , JWT을 이용해 사용자 인증 정보를 저장합니다.
 
-- Access Token과 Refresh Token은 브라우저 쿠키에 저장되며 httpOnly , Secure 옵션으로 보안처리 했습니다
+- Access Token과 Refresh Token은 브라우저 쿠키에 저장되며 httpOnly , Secure 옵션으로 보안처리 했습니다.
 
 <h2>Docker</h2>
 
@@ -134,6 +145,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
   - AccessToken과 RefreshToken은 쿠키에 보관하나 Security , HTTPOnly 옵션을 추가해서 서버와 클라이언트 간 https 통신 및 자바스크립트로 쿠키 접근을 제한합니다. 
   - 로그아웃시 Access Token, Refresh Token 쿠키 삭제합니다.
   - OAuth 2.0 로그인 시 사용자 이메일을 이용해 회원가입 및 로그인을 진행합니다.
+- SMTP를 활용하여 회원가입, 비밀번호 탐색 시 가입한 이메일로 인증 코드를 보내 인증합니다.
   
 <h2>2 . 메인 화면</h2>
 
@@ -150,6 +162,7 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 ![게시판 상세](https://github.com/5tr1ker/mystory/assets/49367338/9951c41a-5aa8-497d-8d41-011071f18161)
 
 - 하단 textbox를 이용하여 댓글을 작성 및 추가할 수 있고, 본인이 작성한 댓글만 삭제할 수 있습니다. 또한 작성자가 등록한 태그 및 첨부파일을 이용할 수 있습니다.
+- 게시글을 삭제했을 경우 Database 에서는 남아있지만 서비스에서는 보여지지 않습니다.
 
 <h2>4 . 게시물 수정 / 작성</h2>
 
@@ -238,4 +251,13 @@ JPA & QueryDSL 패키지 구조는 다음과 같습니다.</br>
 
 - Socket을 이용하여 실시간 채팅을 구현했습니다.
 - 각 채팅방의 세션은 List<Map<>> 자료구조를 이용하여 관리했습니다.
-  
+
+<h2>15 . 어드민 페이지</h2>
+
+![image](https://github.com/5tr1ker/mystory/assets/49367338/c32b69d7-ab44-4974-9a60-878f08ea0fd6)
+
+- Redis를 활용해 일일 접속자 통계를 구현했습니다.
+- 버그 신고 대응
+- 컨텐츠 신고 대응
+- 사용자 관리 ( 권한 설정, 이용 제한 )
+- 해당 페이지는 어드민만 접근할 수 있습니다. ( 삭제된 페이지는 어드민만 볼 수 있습니다. )

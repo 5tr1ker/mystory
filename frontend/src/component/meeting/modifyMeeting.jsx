@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const ModifyMeeting = ({idStatus}) => {
   const urlStat = window.location.pathname.split("/");
-  const [arrs, setArrs] = useState([]);
+  const [arrs , setArrs] = useState([]);
   const [title, setTitle] = useState([]);
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -18,7 +18,7 @@ const ModifyMeeting = ({idStatus}) => {
   const onChangeContent = (e) => {
     setContent(e.target.value);
   }
-  const [participant, setParticipant] = useState(1);
+  const [participant, setParticipant] = useState(5);
   const onChangeParticipant = (e) => {
     setParticipant(e.target.value);
   }
@@ -42,16 +42,16 @@ const ModifyMeeting = ({idStatus}) => {
     }
 
     let data = [];
-    for (let i = 1; i <= 20; i++) {
-      data.push(<option key={i} value={i} style={{ fontWeight: "600" }}>{i}</option>);
-    }
+        for(let i = 1; i <= 20; i++) {
+            data.push(<option key={i} value={i} style={{ fontWeight: "600" }}>{i}</option>);
+        }
 
-    setArrs(data);
+        setArrs(data);
 
     await axios({
       method: "GET",
       mode: "cors",
-      url: `/meeting/${urlStat[3]}`
+      url: `/meeting/${urlStat[3]}/user`
     }).then((response) => {
       setMeetingId(response.data.meetingId);
       setTitle(response.data.title);
@@ -61,7 +61,9 @@ const ModifyMeeting = ({idStatus}) => {
       setDetailAddress(response.data.detailAddress);
       setAddress(response.data.address);
     }).catch((err) => {
-
+        alert("모임 장만 수정할 수 있습니다.");
+  
+        window.location.replace(`/meeting/${urlStat[3]}`);
     });
   }, [])
 
@@ -175,7 +177,7 @@ const ModifyMeeting = ({idStatus}) => {
         </div>
         <div className="overlap-2-newMeeting">
           <div className="overlap-group-2-newMeeting">
-            <select onChange={onChangeParticipant} name="options" key={0} defaultValue={participant} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
+            <select onChange={onChangeParticipant} name="options" key={0} value={participant} style={{ marginTop: "5px", fontWeight: "600", color: "black", cursor: "pointer", boxShadow: "none" }} className="form-select form-select-sm" aria-label=".form-select-sm example">
               {arrs}
             </select>
           </div>

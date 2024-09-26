@@ -1,15 +1,11 @@
 package com.team.mystory.post.post.repository;
 
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team.mystory.account.user.domain.User;
 import com.team.mystory.post.post.domain.Post;
 import com.team.mystory.post.post.dto.PostListResponse;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.sql.ast.spi.SqlExpressionAccess;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -40,11 +36,11 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> findPostBySearch(Pageable pageable , String content) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title
-				, user.id , user.profileImage , post.postDate , post.likes , post.views , comment.count()))
+				, user.id , user.profileImage , user.isDelete , post.postDate , post.likes , post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
 				.leftJoin(post.comment , comment).on(comment.post.eq(post))
-				.where(post.content.contains(content).or(post.title.contains(content)))
+				.where(post.content.contains(content).or(post.title.contains(content)).and(post.isDelete.eq(false)))
 				.groupBy(post.postId)
 				.orderBy(post.postId.desc())
 				.offset(pageable.getOffset())
@@ -55,13 +51,14 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> findPostByTag(Pageable pageable , String tagData) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId , post.title ,
-						user.id , user.profileImage , post.postDate , post.likes , post.views , comment.count()))
+						user.id , user.profileImage , user.isDelete , post.postDate , post.likes , post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.tag , tag).on(tag.tagData.eq(tagData))
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
 				.leftJoin(post.comment , comment).on(comment.post.eq(post))
 				.groupBy(post.postId)
 				.orderBy(post.postId.desc())
+				.where(post.isDelete.eq(false))
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
 				.fetch();
@@ -81,12 +78,13 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	@Override
 	public List<PostListResponse> getPostList(Pageable pageable) {
 		return queryFactory.select(Projections.constructor(PostListResponse.class , post.postId
-						, post.title , user.id , user.profileImage , post.postDate , post.likes
+						, post.title , user.id , user.profileImage , user.isDelete , post.postDate , post.likes
 						, post.views , comment.count()))
 				.from(post)
 				.innerJoin(post.writer , user).on(post.writer.eq(user))
 				.leftJoin(post.comment , comment).on(comment.post.eq(post))
 				.groupBy(post.postId)
+				.where(post.isDelete.eq(false))
 				.orderBy(post.postId.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
@@ -97,6 +95,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	public long getTotalNumberOfPosts() {
 		return queryFactory.select(post.count())
 				.from(post)
+				.where(post.isDelete.eq(false))
 				.fetchOne();
 	}
 
@@ -105,6 +104,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 		return queryFactory.select(post.count())
 				.from(post)
 				.innerJoin(post.tag , tag).on(tag.tagData.eq(tagData))
+				.where(post.isDelete.eq(false))
 				.fetchOne();
 	}
 
@@ -112,7 +112,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	public long getTotalNumberOfSearchPosts(String search) {
 		return queryFactory.select(post.count())
 				.from(post)
-				.where(post.title.contains(search).or(post.content.contains(search)))
+				.where(post.title.contains(search).or(post.content.contains(search)).and(post.isDelete.eq(false)))
 				.fetchOne();
 	}
 
@@ -121,7 +121,7 @@ public class PostRepositoryImpl implements CustomPostRepository {
 		return queryFactory.select(tag.tagData)
 				.from(tag)
 				.leftJoin(post).on(post.tag.contains(tag))
-				.where(post.postId.eq(postId))
+				.where(post.postId.eq(postId).and(post.isDelete.eq(false)))
 				.fetch();
 	}
 
@@ -134,21 +134,11 @@ public class PostRepositoryImpl implements CustomPostRepository {
 	}
 
 	@Override
-	public Optional<Post> findPostByPostIdAndUserId(long postId, String userId) {
-		Post result = queryFactory.select(post)
-				.from(post)
-				.innerJoin(post.writer , user).on(user.id.eq(userId))
-				.where(post.postId.eq(postId))
-				.fetchOne();
-
-		return Optional.ofNullable(result);
-	}
-
-	@Override
 	public List<Long> findPostIdByUserId(String userId) {
 		return queryFactory.select(post.postId)
 				.from(post)
 				.innerJoin(post.writer , user).on(user.id.eq(userId))
+				.where(post.isDelete.eq(false))
 				.fetch();
 	}
 

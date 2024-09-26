@@ -18,7 +18,7 @@ const Logins = () => {
         "Content-Type": "application/json"
     }
 
-    const serverUrl = "mystorynews.com";
+    const serverUrl = "mystorynews.net";
 
     const kakaoLogin = () => {
         window.location.replace(`https://${serverUrl}/oauth2/authorization/kakao`);

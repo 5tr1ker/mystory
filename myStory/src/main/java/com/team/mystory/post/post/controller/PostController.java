@@ -1,12 +1,10 @@
 package com.team.mystory.post.post.controller;
 
-import com.team.mystory.common.ResponseMessage;
-import com.team.mystory.post.attachment.service.AttachmentService;
+import com.team.mystory.common.response.ResponseMessage;
 import com.team.mystory.post.post.dto.PostRequest;
 import com.team.mystory.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,7 @@ public class PostController {
 	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<ResponseMessage> addPost(@RequestPart PostRequest postRequest
 			, @RequestPart(required = false) List<MultipartFile> multipartFiles , @CookieValue String accessToken)
-			throws AccountException, IOException {
+			throws IOException {
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(postService.addPost(postRequest , multipartFiles , accessToken));

@@ -2,6 +2,7 @@ package com.team.mystory.post.comment.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team.mystory.account.user.domain.User;
+import com.team.mystory.common.config.BooleanConverter;
 import com.team.mystory.post.comment.dto.CommentRequest;
 import com.team.mystory.post.post.domain.Post;
 import jakarta.persistence.*;
@@ -28,6 +29,10 @@ public class Comment {
 	@Column(nullable = false , length = 200)
 	private String content;
 
+	@Column(nullable = false)
+	@Convert(converter = BooleanConverter.class)
+	private boolean isDelete;
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "Asia/Seoul")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
@@ -40,6 +45,12 @@ public class Comment {
 		return Comment.builder()
 				.content(commentRequest.getContent())
 				.writer(user)
+				.isDelete(false)
 				.build();
 	}
+
+	public void deleteComment() {
+		this.isDelete = true;
+	}
+
 }

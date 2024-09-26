@@ -6,9 +6,10 @@ import people from '../../_image/people.svg';
 import axios from 'axios';
 import { Fragment, useEffect, useState } from 'react';
 
-const ShowReservation = ({ reservation }) => {
-    const joinReserv = async (reservationId , maxPart , nowPart) => {
-        if(nowPart >= maxPart) {
+const ShowReservation = ({ reservation, meeting, owner }) => {
+
+    const joinReserv = async (reservationId, maxPart, nowPart) => {
+        if (nowPart >= maxPart) {
             alert("인원이 꽉 찬 모임입니다.");
             return;
         }
@@ -37,7 +38,8 @@ const ShowReservation = ({ reservation }) => {
             alert(err.response.data.message);
         });
     }
-    const ToogleReserv = ({id}) => {
+
+    const ToogleReserv = ({ id }) => {
         const [toogle, setToogle] = useState(false);
         const [participant, setParticipant] = useState([]);
 
@@ -59,7 +61,7 @@ const ShowReservation = ({ reservation }) => {
 
         useEffect(() => {
             showParticipant(id);
-        } , []);
+        }, []);
 
         return (
             <Fragment>
@@ -89,10 +91,42 @@ const ShowReservation = ({ reservation }) => {
         )
     }
 
+    const reportContent = async (data) => {
+        if (!window.confirm("해당 컨텐츠를 신고하시겠습니까?")) {
+            return;
+        }
+
+        const reason = window.prompt("신고 사유 (100자 이내)" + "");
+        if (reason.length > 100) {
+          alert("신고 사유는 100자 이내로 작성해주세요.");
+    
+          return;
+        }
+        
+        await axios({
+            method: "POST",
+            url: `/admin/report/content`,
+            data: {
+                "content": reason,
+                "reportType": "RESERVATION",
+                "target": {
+                    "writer": owner.userId,
+                    "content": data.description
+                }
+            }
+        }).then((e) => {
+            alert("신고가 완료되었습니다.");
+        }).catch((e) => {
+            alert("로그인 후에 사용해주세요.");
+        });
+
+    }
+
     return (
         reservation.map(data => (
             <div className="reservation" key={data.reservationId}>
                 <div className="text-wrapper-122-meetingView">모임 설명</div>
+                <div className="text-wrapper-32123-meetingView" onClick={() => reportContent(data)}>일정 신고</div>
                 <div className="text-wrapper-2-meetingView">장소 및 일정</div>
                 <img
                     className="light-s-meetingView"
@@ -112,7 +146,7 @@ const ShowReservation = ({ reservation }) => {
                     src={people}
                 />
                 <p className="text-wrapper-4-meetingView">현재 {data.userCount} 명 / 최대 {data.maxParticipants}명</p>
-                <ToogleReserv id={data.reservationId}/>
+                <ToogleReserv id={data.reservationId} />
                 <p className="element-2-meetingView">
                     {data.description}
                 </p>
@@ -126,7 +160,7 @@ const ShowReservation = ({ reservation }) => {
                     alt="Line"
                     src={line}
                 />
-                <div className="div-wrapper-meetingView" onClick={() => joinReserv(data.reservationId , data.maxParticipants , data.userCount)}>
+                <div className="div-wrapper-meetingView" onClick={() => joinReserv(data.reservationId, data.maxParticipants, data.userCount)}>
                     <div className="text-wrapper-7-meetingView">일정 참가</div>
                 </div>
                 <div className="div-wrapper-meetingView-remove" onClick={() => leaveReserv(data.reservationId)}>

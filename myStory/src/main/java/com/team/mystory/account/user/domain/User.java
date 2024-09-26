@@ -7,20 +7,19 @@ import com.team.mystory.account.profile.domain.Profile;
 import com.team.mystory.account.user.constant.UserRole;
 import com.team.mystory.account.user.constant.UserType;
 import com.team.mystory.account.user.dto.LoginRequest;
+import com.team.mystory.common.config.BooleanConverter;
 import com.team.mystory.meeting.meeting.domain.Meeting;
 import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.post.post.domain.Post;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -34,16 +33,35 @@ public class User implements UserDetails {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long userKey;
 	
-	@Column(nullable = false , length = 30)
+	@Column(nullable = false , length = 30, unique = true)
 	private String id;
+
+	@Column(nullable = false, unique = true)
+	private String email;
 	
 	@Column(nullable = false)
 	private String password;
 
 	private String profileImage;
 
+	private LocalDate suspensionDate;
+
+	@Column(nullable = false)
+	@Convert(converter = BooleanConverter.class)
+	private boolean isSuspension;
+
+	@Column(nullable = false)
+	@Convert(converter = BooleanConverter.class)
+	private boolean isDelete;
+
+	private String suspensionReason;
+
+	@Column(nullable = false)
+	private LocalDate lastLoginDate;
+
 	@Enumerated(value = EnumType.STRING)
 	@Column(nullable = false)
+	@Setter
 	private UserRole role;
 
 	@Enumerated(value = EnumType.STRING)
@@ -54,7 +72,7 @@ public class User implements UserDetails {
 	@CreationTimestamp
 	@JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy/MM/dd" , timezone = "Asia/Seoul")
 	@Column(nullable = false)
-	private Date joinDate;
+	private LocalDate joinDate;
 
 	@Builder.Default
 	@OneToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
@@ -74,25 +92,80 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "userList" , cascade = CascadeType.REMOVE , orphanRemoval = true)
 	private List<MeetingParticipant> participants = new LinkedList<>();
 
+	public void addSuspensionDate(int date, String reason) {
+		if(!isSuspension || suspensionDate == null) {
+			isSuspension = true;
+
+			suspensionDate = LocalDate.now().plusDays(date);
+			suspensionReason = reason;
+		}
+
+		suspensionDate = suspensionDate.plusDays(date);
+	}
+
+	public void updatePassword(String password) {
+		this.password = password;
+	}
+
+	public void updateLoginDate() {
+		lastLoginDate = LocalDate.now();
+	}
+
+	public void minusSuspensionDate(int date) {
+		if(LocalDate.now().compareTo(suspensionDate.minusDays(date)) > 0) {
+			isSuspension = false;
+
+			suspensionDate = LocalDate.now();
+		}
+
+		suspensionDate = suspensionDate.minusDays(date);
+	}
+
+	public void deleteUser() {
+		this.isDelete = true;
+	}
+
 	public static User createGeneralUser(LoginRequest loginRequest , String url , String password) {
 		return User.builder()
 				.id(loginRequest.getId())
 				.profileImage(url)
 				.password(password)
+				.email(loginRequest.getEmail())
 				.profile(Profile.createInitProfileSetting())
+				.lastLoginDate(LocalDate.now())
+				.isSuspension(false)
 				.role(UserRole.USER)
 				.userType(UserType.GENERAL_USER)
+				.isDelete(false)
 				.build();
 	}
 
-	public static User createOAuthUser(String userId) {
+	public static User createOAuthUser(String userId, String email) {
 		return User.builder()
-				.id(userId)
+				.id(userId + generateRandomString(6))
+				.email(email)
 				.password(UUID.randomUUID().toString())
 				.profile(Profile.createInitProfileSetting())
+				.lastLoginDate(LocalDate.now())
+				.isSuspension(false)
 				.role(UserRole.USER)
 				.userType(UserType.OAUTH_USER)
+				.isDelete(false)
 				.build();
+	}
+
+	public static String generateRandomString(int length) {
+		// 랜덤 문자열을 포함할 문자들
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+
+		for (int i = 0; i < length; i++) {
+			char randomChar = characters.charAt(random.nextInt(characters.length()));
+			sb.append(randomChar);
+		}
+
+		return sb.toString();
 	}
 
 	public void addPost(Post post) {

@@ -11,19 +11,38 @@
 }
 
 .loginArea {
-  margin-top : -50px;
+  margin-top: -50px;
 }
 
 .imageName {
-  display:block;
-  margin-top : 30px;
+  display: block;
+  margin-top: 30px;
   margin-bottom: -20px;
   height: 0px;
   font-size: 12px;
 }
 
+.codeVerification {
+  width: 80%;
+  height: 475px;
+  position: relative;
+  top: 200px;
+  border-radius: 30px;
+  text-align: center;
+}
+
+.codeVerification::before {
+  content: 'REGISTER';
+  position: absolute;
+  top: -95px;
+  color: rgb(59, 134, 255);
+  left: 30px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
 .registerArea {
-  margin-top : 25px;
+  margin-top: -60px;
 }
 
 .socialLogin {
@@ -40,24 +59,24 @@
   display: inline;
 }
 
-.backtosignin{
+.backtosignin {
   display: block;
   position: relative;
   top: 15px;
-  color:rgb(59, 134, 255);
+  color: rgb(59, 134, 255);
   font-size: 16px;
 }
 
-.findiddescription{
+.findiddescription {
   font-size: 13px;
   display: block;
   color: #6d6d6d;
   margin-top: 5px;
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  user-select:none;
-  }
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 .platformTextbox {
   position: absolute;
@@ -65,17 +84,22 @@
   right: 180px;
   font-size: 22px;
   font-weight: 500;
-  color:white;
+  color: white;
   padding: 20px;
   padding-left: 50px;
   border-left: 2px solid white;
   z-index: 1;
 }
 
+.findIddescription {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
 .registers {
   position: absolute;
   cursor: pointer;
-  color:rgb(105, 105, 105);
+  color: rgb(105, 105, 105);
   font-weight: 600;
   top: 44px;
   right: 35px;
@@ -84,7 +108,7 @@
 }
 
 .registers:hover {
-  color:rgb(31, 149, 149);
+  color: rgb(31, 149, 149);
 }
 
 .Arrows {
@@ -100,7 +124,7 @@
   transition: all ease-in-out 0.15s;
 }
 
-.Arrows:hover{
+.Arrows:hover {
   background-color: rgb(180, 185, 199);
 }
 
@@ -111,7 +135,7 @@
   width: 202px;
   font-size: 17px;
   font-weight: 300;
-  color:white;
+  color: white;
   z-index: 1;
 }
 
@@ -121,250 +145,255 @@
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(-45deg, #eaebd5, #c4e5e3, #bed8e1, #ccede2); 
+  background: linear-gradient(-45deg, #eaebd5, #c4e5e3, #bed8e1, #ccede2);
   /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 }
 
 @keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 
-@media screen and (min-height: 0px) { /* 일반적인 창크기 */
-    .loginFrame {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 400px;
-      top: 0px;
-      width: 400px;
-      height: 525px;
-      overflow-y: none;
-      overflow-x: none;
-      background-color: white;
-      border-radius: 10px 0px 0px 10px;
-      box-shadow: -5px 5px 15px -5px black;
-      opacity: 0.9;
-      z-index: 6;
-    }
+@media screen and (min-height: 0px) {
 
-    .platform{
-      position: relative;
-      top: 0px;
-      width: 400px;
-      height: 525px;
-      min-width: 400px;
-      background-color: #0d7ba3;
-      border-radius: 0px 10px 10px 0px;
-      box-shadow: -10px 5px 25px -5px black;
-      overflow: hidden;
-      z-index: 5;
-    }
-
-    .loginImg{
-      height: 100%;
-      position: relative;
-      left: -220px;
-      z-index: 0;
-    }
-  
-    .registerArea{
-      width: 80%;
-      height: 475px;
-      position: relative;
-      top: 90px;
-      border-radius: 30px;
-      text-align: center;
-    }
-  
-    .loginArea {
-      position: relative;
-      top: 155px;
-      width: 80%;
-      height: 100%;
-      border-radius: 10px;
-      text-align: center;
-    }
-  
-    .findIDArea{
-      position: relative;
-      top: 30px;
-      width: 80%;
-      border-radius: 30px;
-      text-align: center;
-    }
-  }
-  
-  .loginArea::before {
-    content: 'ACCOUNT LOGIN';
-    position: absolute;
-    top: -45px;
-    color:rgb(59, 134, 255);
-    right: 100px;
-    width: 200px;
-    font-size: 22px;
-    font-weight: 700;
+  /* 일반적인 창크기 */
+  .loginFrame {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 400px;
+    top: 0px;
+    width: 400px;
+    height: 525px;
+    overflow-y: none;
+    overflow-x: none;
+    background-color: white;
+    border-radius: 10px 0px 0px 10px;
+    box-shadow: -5px 5px 15px -5px black;
+    opacity: 0.9;
+    z-index: 6;
   }
 
-  .loginbuttonarea {
-    margin-top: -10px;
+  .platform {
+    position: relative;
+    top: 0px;
+    width: 400px;
+    height: 525px;
+    min-width: 400px;
+    background-color: #0d7ba3;
+    border-radius: 0px 10px 10px 0px;
+    box-shadow: -10px 5px 25px -5px black;
+    overflow: hidden;
+    z-index: 5;
   }
-  
-  .idInput , .pwInput{
-    padding: 10px;
+
+  .loginImg {
+    height: 100%;
+    position: relative;
+    left: -220px;
+    z-index: 0;
+  }
+
+  .registerArea {
     width: 80%;
-    margin-top: 15px;
-    background-color:rgb(229, 229, 229);
-    border: none;
-    border-radius: 10px;
-    outline-style: none;
-    display: inline-block;
-    height: 35px;
-    font-family: sans-serif;
-  }
-
-  .forgotNameInput {
-    display: block;
-    margin-top: 30px;
-    margin-left: 30px;
-  }
-
-  .pwInput {
-    margin-top: 10px;
-  }
-  
-  .sbButton{
+    height: 475px;
     position: relative;
-    bottom: -28px;
-    margin-top: 15px;
+    top: 90px;
+    border-radius: 30px;
+    text-align: center;
+  }
+
+  .loginArea {
+    position: relative;
+    top: 155px;
     width: 80%;
-    height: 40px;
-    border: none;
-    font-size: 15px;
-    cursor: pointer;
+    height: 100%;
     border-radius: 10px;
-    font-weight: 700;
-    background-color : #23a6d5; 
-    color: rgb(196, 233, 255);
-    transition: all ease-in-out 0.2s;
+    text-align: center;
   }
 
-  .forgotButton {
+  .findIDArea {
     position: relative;
-    bottom: 0px;
-    margin-top: 35px;
     width: 80%;
-    height: 40px;
-    border: none;
-    font-size: 15px;
-    cursor: pointer;
-    border-radius: 10px;
-    font-weight: 700;
-    background-color : #23a6d5; 
-    color: rgb(196, 233, 255);
-    transition: all ease-in-out 0.2s;
+    border-radius: 30px;
+    text-align: center;
   }
+}
 
-  .forgotButton:hover {
-    background-color : #0d7ba3; 
-    color: rgb(255, 255, 255);
-  }
-  
-  .sbButton:hover {
-    background-color : #0d7ba3; 
-    color: rgb(255, 255, 255);
-  }
-  
-  .findId{
-    position: relative;
-    top: 5px;
-    margin-right: -125px;
-    font-size: 12px;
-    font-weight: 700;
-    color:rgb(59, 134, 255);
-    -webkit-user-select:none; 
-    -moz-user-select:none; 
-    -ms-user-select:none; 
-    user-select:none;
-    cursor: pointer;
-    display: inline-block;
-  }
+.loginArea::before {
+  content: 'ACCOUNT LOGIN';
+  position: absolute;
+  top: -45px;
+  color: rgb(59, 134, 255);
+  right: 100px;
+  width: 200px;
+  font-size: 22px;
+  font-weight: 700;
+}
 
-  .registerArea::before {
-    content: 'REGISTER';
-    position: absolute;
-    top: -45px;
-    color:rgb(59, 134, 255);
-    left: 30px;
-    font-size: 22px;
-    font-weight: 700;
-  }
+.loginbuttonarea {
+  margin-top: -10px;
+}
 
-  .firsttagssection {
-    color: gray;
-  }
+.idInput,
+.verificationInput,
+.pwInput {
+  padding: 10px;
+  width: 80%;
+  margin-top: 15px;
+  background-color: rgb(229, 229, 229);
+  border: none;
+  border-radius: 10px;
+  outline-style: none;
+  display: inline-block;
+  height: 35px;
+  font-family: sans-serif;
+}
 
-  .sbButton2 {
-    margin-top: 10px;
-  }
-  
-  .findIDArea::before {
-    content: 'Forgot your password?';
-    position: absolute;
-    margin-left: 30px;
-    margin-top: -60px;
-    color:rgb(59, 134, 255);
-    font-size: 22px;
-    font-weight: 700;
-  }
+.forgotNameInput {
+  display: block;
+  margin-top: -5px;
+  margin-left: 30px;
+}
 
-  
-  .pwChecking{
-    font-size: 12px;
-    opacity: 1;
-    position: relative;
-    top: 15px;
-    -webkit-user-select:none; 
-    -moz-user-select:none; 
-    -ms-user-select:none; 
-    user-select:none;
-  }
+.pwInput {
+  margin-top: 10px;
+}
 
-  .pwCheckingNot{
-    font-size: 12px;
-    opacity: 1;
-    color:rgb(255, 41, 41);
-    position: relative;
-    top: 15px;
-    -webkit-user-select:none; 
-    -moz-user-select:none; 
-    -ms-user-select:none; 
-    user-select:none;
-  }
-  
-  .showPw{
-    margin-top: 10px;
-    font-size: 12px;
-    opacity: 1;
-    position: relative;
-    top: 2.5px;
-    -webkit-user-select:none; 
-    -moz-user-select:none; 
-    -ms-user-select:none; 
-    user-select:none;
-  }
-  
-  .returnButton {
-    margin-top: 20px;
-  }
+.sbButton {
+  position: relative;
+  bottom: -28px;
+  margin-top: 15px;
+  width: 80%;
+  height: 40px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: 700;
+  background-color: #23a6d5;
+  color: rgb(196, 233, 255);
+  transition: all ease-in-out 0.2s;
+}
+
+.forgotButton {
+  position: relative;
+  bottom: 0px;
+  margin-top: 0px;
+  width: 80%;
+  height: 40px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: 700;
+  background-color: #23a6d5;
+  color: rgb(196, 233, 255);
+  transition: all ease-in-out 0.2s;
+}
+
+.forgotButton:hover {
+  background-color: #0d7ba3;
+  color: rgb(255, 255, 255);
+}
+
+.sbButton:hover {
+  background-color: #0d7ba3;
+  color: rgb(255, 255, 255);
+}
+
+.findId {
+  position: relative;
+  top: 5px;
+  margin-right: -125px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgb(59, 134, 255);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.registerArea::before {
+  content: 'REGISTER';
+  position: absolute;
+  top: -45px;
+  color: rgb(59, 134, 255);
+  left: 30px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.firsttagssection {
+  color: gray;
+}
+
+.sbButton2 {
+  margin-top: 10px;
+}
+
+.findIDArea::before {
+  content: 'Forgot your password?';
+  position: absolute;
+  margin-left: 45px;
+  margin-top: -60px;
+  color: rgb(59, 134, 255);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+
+.pwChecking {
+  font-size: 12px;
+  opacity: 1;
+  position: relative;
+  top: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.pwCheckingNot {
+  font-size: 12px;
+  opacity: 1;
+  color: rgb(255, 41, 41);
+  position: relative;
+  top: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.showPw {
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: 1;
+  position: relative;
+  top: 2.5px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.returnButton {
+  margin-top: 20px;
+}

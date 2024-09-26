@@ -112,6 +112,7 @@
     font-weight: 700;
     margin-left: 5px;
     width: auto;
+    font-size: 18px;
     margin-top: 7px;
     margin-bottom: 7px;
     -webkit-user-select:none; 
@@ -604,7 +605,7 @@
     width: 350px;
     height: 80%;
     position: relative;
-    bottom: 4px;
+    top: -40px;
     left: 50px;
 }
 
@@ -660,7 +661,7 @@
     position: relative;
     left: 35px;
     width: 50px;
-    top: 20px;
+    top: 10px;
     color: rgb(51, 105, 255);
     font-size: 40px;
     font-weight: 600;
@@ -672,7 +673,7 @@
     color: gray;
     position: relative;
     left: 35px;
-    top: 10px;
+    top: 0px;
 }
 
 .viewdesign svg{
@@ -681,7 +682,7 @@
     fill: gray;
     float: right;
     position: relative;
-    top: -25px;
+    top: -35px;
     right: 30px;
 }
 
@@ -748,7 +749,7 @@
     height: 35px;
     border-radius: 20px;
     outline-style: none;
-    font-size: 1vw;
+    font-size: 16px;
     margin-right: 50px;
 }
 
@@ -775,10 +776,10 @@
 
 .LoginDropBox{
     position: relative;
-    top: 100px;
+    top: 120px;
     right: 10px;
     width: 170px;
-    height: 245px;
+    height: 295px;
     font-size: 15px;
     border: 1px solid rgb(193, 193, 193);
     z-index: 5;
@@ -856,9 +857,8 @@
 
 .noticeFrameArea {
     width: 800px;
-    height: 100%;
-    min-height: 610px;
-    margin-top: -50px;
+    position: fixed;
+    top: 75px;
 }
 
 .noticeFooter {
@@ -1276,8 +1276,7 @@
 .postsettingcontent {
     display: block;
     position:relative;
-    top: 13px;
-    margin-top: 4px;
+    top: 3px;
     margin-left: 20px;
 }
 
@@ -1287,7 +1286,7 @@
     margin-left: 20px;
     position: relative;
     display: block;
-    top: 10px;
+    top: 5px;
     -webkit-user-select:none; 
     -moz-user-select:none; 
     -ms-user-select:none; 
@@ -1372,6 +1371,7 @@
 .postViewFrame {
     margin: 0 auto;
     width: 1200px;
+    height: auto;
     display: flex;
     flex-direction: row;
 }
@@ -1379,8 +1379,7 @@
 .postViewSection {
     width: 900px;
     margin: 0 auto;
-    height: auto;
-    margin-top: 100px;
+    margin-top: 75px;
     position: relative;
     display: flex;
     justify-content: flex-start;
@@ -1405,7 +1404,7 @@
     position: relative;
     margin-left: 80%;
     top: 25px;
-    right: 10px;
+    right: 40px;
     width: 200px;
 }
 
@@ -1421,8 +1420,8 @@
 }
 
 .postView {
-    margin-left: -10px;
-    margin-top: 10px;
+    margin-left: -5px;
+    margin-top: 3px;
 }
 
 .postView svg {
@@ -1446,7 +1445,7 @@
 
 .postTitle{
     display: inline-block;
-    margin-top: 8px;
+    margin-top: 5px;
     font-size: 18px;
     font-weight: 600;
 }

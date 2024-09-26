@@ -1,12 +1,13 @@
 package com.team.mystory.account.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.team.mystory.account.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Builder
 @Getter
@@ -21,16 +22,23 @@ public class UserResponse {
     private String password;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd" , timezone = "Asia/Seoul")
-    private Date joinDate;
+    private LocalDate joinDate;
 
     private String profileImage;
 
+    private boolean isDelete;
+
     private int options;
 
-    public UserResponse(long userKey , String id , Date joinDate , String profileImage) {
-        this.userKey = userKey;
-        this.id = id;
-        this.joinDate = joinDate;
-        this.profileImage = profileImage;
+    public static UserResponse createResponse(User user) {
+        return UserResponse.builder()
+                .userKey(user.getUserKey())
+                .id(user.getId())
+                .password(user.getPassword())
+                .joinDate(user.getJoinDate())
+                .isDelete(user.isDelete())
+                .profileImage(user.getProfileImage())
+                .options(user.getProfile().getOptions())
+                .build();
     }
 }

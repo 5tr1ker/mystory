@@ -13,11 +13,7 @@ public class Profile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long profileKey;
-	
-	@Column
-	private String email;
-	
-	@Column
+
 	private String phone;
 	
 	@Column(nullable = false)
@@ -30,7 +26,6 @@ public class Profile {
 	}
 
 	public void updateProfile(ProfileRequest profileRequest) {
-		this.email = profileRequest.getEmail();
 		this.phone = profileRequest.getPhone();
 		this.options = profileRequest.getOptions();
 	}

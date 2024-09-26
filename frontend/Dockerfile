@@ -6,6 +6,7 @@ COPY package.json .
 RUN npm install -g npm@9.6.7
 RUN npm install --legacy-peer-deps
 RUN npm install axios --legacy-peer-deps
+RUN npm install --save-dev ajv@^7 --legacy-peer-deps
 
 COPY . .
 EXPOSE 3000

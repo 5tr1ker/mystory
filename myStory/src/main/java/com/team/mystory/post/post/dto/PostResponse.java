@@ -24,6 +24,7 @@ public class PostResponse {
     private boolean isBlockComment;
     private String writer;
     private String writerImage;
+    private boolean writerIsDelete;
     @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd HH:MM:SS" , timezone = "Asia/Seoul")
     private Date postDate;
 
@@ -45,6 +46,7 @@ public class PostResponse {
                 .isBlockComment(post.isBlockComment())
                 .writer(post.getWriter().getId())
                 .writerImage(post.getWriter().getProfileImage())
+                .writerIsDelete(post.getWriter().isDelete())
                 .postDate(post.getPostDate())
                 .build();
     }

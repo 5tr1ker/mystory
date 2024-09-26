@@ -8,7 +8,6 @@
 .screen .div {
   position: relative;
   width: 821px;
-  margin-top: 0px;
 }
 
 .screen .text-wrapper {
@@ -29,7 +28,7 @@
   border-radius: 22px;
   height: 36px;
   left: 151px;
-  position: absolute;
+  position: relative;
   top: 142px;
   width: 510px;
 }
@@ -104,9 +103,9 @@
   left: 211px;
   letter-spacing: 0;
   line-height: 28px;
-  position: absolute;
+  position: relative;
   text-align: center;
-  top: 83px;
+  top: 43px;
   width: 145px;
   cursor: pointer;
 }
@@ -119,9 +118,9 @@
   left: 465px;
   letter-spacing: 0;
   line-height: 28px;
-  position: absolute;
+  position: relative;
   text-align: center;
-  top: 83px;
+  top: 13px;
   width: 108px;
   cursor: pointer;
 }
@@ -242,8 +241,11 @@
 }
 
 .meetingContentArea {
-  width: 1200px;
-  height: 1200px;
-  position: relative;
-  top: 250px;
+  width: 1000px;
+  height: 800px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30%, auto));
+  margin-top: 125px;
+  margin-left: -65px;
+  margin-bottom: 25px;
 }

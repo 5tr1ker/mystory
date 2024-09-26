@@ -12,6 +12,7 @@ import defaultALT from '../../_image/defaultALT.png'
 import ShowReservation from './reservationContent';
 
 const MeetingView = () => {
+  let sessionUserId = localStorage.getItem("userId");
   const urlStat = window.location.pathname.split("/");
 
   const [meeting, setMeeting] = useState(undefined);
@@ -28,14 +29,52 @@ const MeetingView = () => {
     window.location.replace(`/newMeeting/${urlStat[2]}`);
   }
 
+  const reportContent = async (meeting, owner) => {
+    if (!window.confirm("해당 미팅을 신고하시겠습니까?")) {
+      return;
+    }
+
+    const reason = window.prompt("신고 사유 (100자 이내)" + "");
+    if (reason.length > 100) {
+      alert("신고 사유는 100자 이내로 작성해주세요.");
+
+      return;
+    }
+
+    await axios({
+      method: "POST",
+      url: `/admin/report/content`,
+      data: {
+        "content": reason,
+        "reportType": "MEETING",
+        "target": {
+          "writer": owner.userId,
+          "title": meeting.title,
+          "content": meeting.description
+        }
+      }
+    }).then((e) => {
+      alert("신고가 완료되었습니다.");
+    }).catch((e) => {
+      alert("로그인 후에 사용해주세요.");
+    });
+  }
+
   useEffect(async () => {
+
+    if(sessionUserId == undefined) {
+      alert("로그인 후 사용해주세요.");
+
+      window.location.replace(`/meeting`);
+      return;
+    }
 
     await axios({
       method: "GET",
       mode: "cors",
       url: `/meeting/is-participants/${urlStat[2]}`
     }).then((response) => {
-      if(response.data == false) {
+      if (response.data == false) {
         alert("비 정상적인 접근입니다.");
 
         window.location.replace(`/meeting`);
@@ -82,7 +121,7 @@ const MeetingView = () => {
   }, []);
 
   const ShowMember = ({ member }) => {
-    const tmp = member.slice(0 , 4);
+    const tmp = member.slice(0, 4);
 
     return (
       tmp.map(data => (
@@ -177,7 +216,6 @@ const MeetingView = () => {
             />
           </div>
           {moreMember ? <div className="moreMemberArea"><MoreMemberContent member={participants} /></div> : null}
-
           <div className="text-wrapper-15-meetingView">{meeting.title}</div>
           <p className="element-meetingView">
             {meeting.description}
@@ -193,7 +231,7 @@ const MeetingView = () => {
           <div className="overlap-meetingView">
             <div className="text-wrapper-5-meetingView">참여</div>
             <div className="rectangle-meetingView" onClick={gotoReserv} />
-            <div className="text-wrapper-6-meetingView">일정 추가</div>
+            <div className="text-wrapper-6-meetingView"  onClick={gotoReserv}>일정 추가</div>
           </div>
           <div className="text-wrapper-8-meetingView">주 모임 장소</div>
           <div className="text-wrapper-9-meetingView">모임장</div>
@@ -225,7 +263,7 @@ const MeetingView = () => {
         </div>
         {/* 모임 예약 데이터 */}
         <div className='reservationArea'>
-          <ShowReservation reservation={reservation} />
+          <ShowReservation reservation={reservation} meeting={meeting} owner={owner} />
         </div>
         {/* 모임 컨트롤러 */}
         <div className="overlap-3-meetingView" onClick={leaveParty}>
@@ -245,6 +283,11 @@ const MeetingView = () => {
             alt="Thin s"
             src={pen}
           />
+        </div>
+        <div className="thin-s-wrapper-report" onClick={() => reportContent(meeting, owner)}>
+          <svg style={{ cursor: "pointer" }} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-bell text-wrapper-88-meetingView" viewBox="0 0 16 16">
+            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+          </svg>
         </div>
       </div>
     </div>

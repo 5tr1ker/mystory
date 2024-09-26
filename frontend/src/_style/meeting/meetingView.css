@@ -1,751 +1,790 @@
 .screen-meetingView {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .screen-meetingView .div-meetingView {
-    background-color: #ffffff;
-    height: 1381px;
-    margin-top: 75px;
-    position: relative;
-    width: 821px;
-  }
-  
-  .screen-meetingView .overlap-group-meetingView {
-    background-image: url(https://generation-sessions.s3.amazonaws.com/a477b538cf49b12447b89548b3062c3c/img/mask-group@2x.png);
-    background-size: 100% 100%;
-    height: 219px;
-    left: 30px;
-    position: absolute;
-    top: 32px;
-    width: 390px;
-  }
-  
-  .screen-meetingView .ellipse-meetingView {
-    background-color: #aff73c;
-    border-radius: 2px;
-    height: 4px;
-    left: 177px;
-    position: absolute;
-    top: 180px;
-    width: 4px;
-  }
-  
-  .screen-meetingView .ellipse-2-meetingView {
-    background-color: #aff73c;
-    border-radius: 2px;
-    height: 4px;
-    left: 191px;
-    position: absolute;
-    top: 180px;
-    width: 4px;
-  }
-  
-  .screen-meetingView .ellipse-3-meetingView {
-    background-color: #aff73c;
-    border-radius: 2px;
-    height: 4px;
-    left: 205px;
-    position: absolute;
-    top: 180px;
-    width: 4px;
-  }
-  
-  .screen-meetingView .text-wrapper-meetingView {
-    color: #5b1fd9;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 444px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 206px;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .text-wrapper-2-meetingView {
-    color: #5b1fd9;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 465px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: relative;
-    white-space: nowrap;
-  }
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
 
-  .screen-meetingView .text-wrapper-122-meetingView {
-    color: #5b1fd9;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 120px;
-    top: 20px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .text-wrapper-3-meetingView {
-    color: #000000;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 507px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: relative;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .p-meetingView {
-    color: #000000;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 507px;
-    top: 6px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: relative;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .text-wrapper-4-meetingView {
-    color: #000000;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 507px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: relative;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .line-meetingView {
-    height: 1px;
-    left: 444px;
-    object-fit: cover;
-    position: absolute;
-    top: 184px;
-    width: 348px;
-  }
-  
-  .screen-meetingView .img-meetingView {
-    height: 1px;
-    left: 57px;
-    object-fit: cover;
-    position: absolute;
-    top: 461px;
-    width: 735px;
-  }
-  
-  .screen-meetingView .mask-group-meetingView {
-    height: 39px;
-    left: 490px;
-    position: absolute;
-    top: 246px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .mask-group-2-meetingView {
-    height: 39px;
-    position: relative;
-    top: 5px;
-    margin-left: 10px;
-    width: 39px;
-  }
+.screen-meetingView .div-meetingView {
+  background-color: #ffffff;
+  height: 1381px;
+  margin-top: 75px;
+  position: relative;
+  width: 821px;
+}
 
-  .screen-meetingView .mask-group-2-meetingView-viewMore {
-    height: 39px;
-    position: relative;
-    top: 5px;
-    margin-left: 10px;
-    width: 39px;
-  }
+.screen-meetingView .overlap-group-meetingView {
+  background-size: 100% 100%;
+  height: 219px;
+  left: 30px;
+  position: absolute;
+  top: 32px;
+  width: 390px;
+}
 
-  .memberName {
-    position: relative;
-    font-weight: 700;
-    top: 6px;
-    left: 10px;
-    display: inline-block;
-  }
+.screen-meetingView .ellipse-meetingView {
+  background-color: #aff73c;
+  border-radius: 2px;
+  height: 4px;
+  left: 177px;
+  position: absolute;
+  top: 180px;
+  width: 4px;
+}
 
-  .memberLine {
-    margin-bottom: 10px;;
-  }
-  
-  .screen-meetingView .mask-group-3-meetingView {
-    height: 39px;
-    left: 447px;
-    position: absolute;
-    top: 135px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .mask-group-4-meetingView {
-    height: 39px;
-    left: 582px;
-    position: absolute;
-    top: 246px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .mask-group-5-meetingView {
-    height: 39px;
-    left: 536px;
-    position: absolute;
-    top: 246px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .mask-group-6-meetingView {
-    height: 39px;
-    left: 628px;
-    position: absolute;
-    top: 246px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .light-s-meetingView {
-    height: 23px;
-    left: 466px;
-    position: absolute;
-    width: 24px;
-  }
-  
-  .screen-meetingView .light-s-2-meetingView {
-    height: 23px;
-    left: 468px;
-    position: absolute;
-    margin-top: 17px;
-    width: 19px;
-  }
-  
-  .screen-meetingView .vector-meetingView {
-    height: 17px;
-    left: 465px;
-    position: absolute;
-    width: 30px;
-  }
-  
-  .screen-meetingView .overlap-meetingView {
-    height: 54px;
-    left: 268px;
-    position: absolute;
-    top: 493px;
-    width: 348px;
-  }
-  
-  .screen-meetingView .text-wrapper-5-meetingView {
-    color: #ffffff;
-    font-family: "Abel", Helvetica;
-    font-size: 18px;
-    font-weight: 400;
-    left: 122px;
-    letter-spacing: 0;
-    line-height: 28px;
-    position: absolute;
-    text-align: center;
-    top: 26px;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .rectangle-meetingView {
-    background-color: #5b1fd9;
-    border-radius: 28px;
-    height: 51px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 348px;
-    cursor: pointer;
-  }
-  
-  .screen-meetingView .text-wrapper-6-meetingView {
-    color: #ffffff;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 144px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 12px;
-    white-space: nowrap;
-    cursor: pointer;
-  }
-  
-  .screen-meetingView .div-wrapper-meetingView {
-    background-color: #5b1fd9;
-    border-radius: 28px;
-    height: 51px;
-    left: 405px;
-    top: -50px;
-    position: relative;
-    width: 182px;
-    cursor: pointer;
-  }
+.screen-meetingView .ellipse-2-meetingView {
+  background-color: #aff73c;
+  border-radius: 2px;
+  height: 4px;
+  left: 191px;
+  position: absolute;
+  top: 180px;
+  width: 4px;
+}
 
-  .showParticipants {
-    color: gray;
-    position: absolute;
-    left: 655px;
-    bottom: 161px;
-    cursor:pointer;
-  }
+.screen-meetingView .ellipse-3-meetingView {
+  background-color: #aff73c;
+  border-radius: 2px;
+  height: 4px;
+  left: 205px;
+  position: absolute;
+  top: 180px;
+  width: 4px;
+}
 
-  .showParticipantsElement {
-    width: 200px;
-    height: 300px;
-    overflow-y: scroll;
-    left: 500px;
-    top: 140px;
-    border-radius: 15px;
-    z-index: 30;
-    position: absolute;
-    background-color: white;
-    border: 1px solid gray;
-  }
+.screen-meetingView .text-wrapper-meetingView {
+  color: #5b1fd9;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 444px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 206px;
+  white-space: nowrap;
+}
 
-  .div-wrapper-meetingView-remove {
-    background-color: #5b1fd9;
-    border-radius: 28px;
-    height: 51px;
-    left: 605px;
-    top: -100px;
-    position: relative;
-    width: 182px;
-    cursor: pointer;
-  }
+.screen-meetingView .text-wrapper-2-meetingView {
+  color: #5b1fd9;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 465px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: relative;
+  white-space: nowrap;
+}
 
-  .screen-meetingView .text-wrapper-7-meetingView-remove {
-    color: #ffffff;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 60px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 12px;
-    width: 65px;
-  }
-  
-  .screen-meetingView .text-wrapper-7-meetingView {
-    color: #ffffff;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 60px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 12px;
-    width: 65px;
-  }
-  
-  .screen-meetingView .text-wrapper-8-meetingView {
-    color: #5b1fd9;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 444px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 321px;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .text-wrapper-9-meetingView {
-    color: #5b1fd9;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 444px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 99px;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .text-wrapper-10-meetingView {
-    color: #000000;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 486px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 361px;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .text-wrapper-11-meetingView {
-    color: #000000;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 486px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 405px;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .line-2-meetingView {
-    height: 1px;
-    left: 444px;
-    object-fit: cover;
-    position: absolute;
-    top: 306px;
-    width: 348px;
-  }
-  
-  .screen-meetingView .light-s-3-meetingView {
-    height: 23px;
-    left: 445px;
-    position: absolute;
-    top: 363px;
-    width: 19px;
-  }
-  
-  .screen-meetingView .vector-2-meetingView {
-    height: 17px;
-    left: 444px;
-    position: absolute;
-    top: 409px;
-    width: 30px;
-  }
-  
-  .screen-meetingView .text-wrapper-12-meetingView {
-    color: #000000;
-    font-family: "ABeeZee", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 354px;
-    letter-spacing: 0;
-    top: -27px;
-    line-height: 28px;
-    text-align: center;
-    position: relative;
-    width: 145px;
-    cursor: pointer;
-  }
-  
-  .screen-meetingView .text-wrapper-13-meetingView {
-    color: #000000;
-    font-family: "ABeeZee", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 498px;
-    letter-spacing: 0;
-    line-height: 28px;
-    position: relative;
-    top: -55px;
-    text-align: center;
-    width: 108px;
-    cursor: pointer;
-  }
-  
-  .screen-meetingView .overlap-2-meetingView {
-    height: 4px;
-    left: 168px;
-    position: relative;
-    top: -25px;
-    width: 511px;
-  }
-  
-  .screen-meetingView .line-3-meetingView {
-    height: 1px;
-    left: 0;
-    object-fit: cover;
-    position: absolute;
-    top: 0px;
-    width: 511px;
-  }
-  
-  .screen-meetingView .rectangle-2-meetingView {
-    border-bottom: 2px solid #5b1fd9;
-  }
+.screen-meetingView .text-wrapper-122-meetingView {
+  color: #5b1fd9;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 120px;
+  top: 20px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  white-space: nowrap;
+}
 
-  .screen-meetingView .vector-3-meetingView-more {
-    height: 20px;
-    left: 679px;
-    position: absolute;
-    top: 254px;
-    width: 20px;
-    border-radius: 10px;
-    background-color: rgb(220, 220, 220);
-    cursor: pointer;
-  }
-  
-  .screen-meetingView .vector-3-meetingView {
-    height: 4px;
-    position: relative;
-    top: -4px;
-    width: 20px;
-    z-index: 3;
-  }
-  
-  .screen-meetingView .text-wrapper-14-meetingView {
-    color: #5b1fd9;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 119px;
-    letter-spacing: 0;
-    line-height: 25px;
-    top: 160px;
-    position: relative;
-    white-space: nowrap;
-  }
-  
-  .screen-meetingView .mask-group-7-meetingView {
-    height: 39px;
-    left: 165px;
-    position: absolute;
-    top: 783px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .mask-group-8-meetingView {
-    height: 39px;
-    left: 119px;
-    position: absolute;
-    top: 783px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .mask-group-9-meetingView {
-    height: 39px;
-    left: 257px;
-    position: absolute;
-    top: 783px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .mask-group-10-meetingView {
-    height: 39px;
-    left: 211px;
-    position: absolute;
-    top: 783px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .mask-group-11-meetingView {
-    height: 39px;
-    left: 303px;
-    position: absolute;
-    top: 783px;
-    width: 39px;
-  }
-  
-  .screen-meetingView .vector-4-meetingView {
-    height: 4px;
-    left: 354px;
-    position: absolute;
-    top: 801px;
-    width: 20px;
-  }
+.text-wrapper-32123-meetingView {
+  color: rgb(255, 0, 0);
+  cursor: pointer;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 700;
+  left: 200px;
+  top: 20px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
-  .vector-4-meetingView-reservation {
-    left: 354px;
-    position: relative;
-    top: 130px;
-    width: 20px;
-  }
-  
-  .screen-meetingView .text-wrapper-15-meetingView {
-    color: #000000;
-    font-family: "ABeeZee", Helvetica;
-    font-size: 16px;
-    font-weight: 400;
-    left: 30px;
-    letter-spacing: 0;
-    line-height: 28px;
-    position: absolute;
-    top: 276px;
-    white-space: nowrap;
-  }
+.screen-meetingView .text-wrapper-3-meetingView {
+  color: #000000;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 507px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: relative;
+  white-space: nowrap;
+}
 
-  .moreMemberArea {
-    width: 200px;
-    height: 250px;
-    border: 1px solid black;
-    border-radius: 15px;
-    background-color: rgb(255, 255, 255);
-    position: absolute;
-    top: 290px;
-    left: 590px;
-    z-index: 2;
-    overflow-y: scroll;
-  }
-  
-  .screen-meetingView .element-meetingView {
-    color: #000000;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 30px;
-    width: 410px;
-    overflow-y: scroll;
-    height: 125px;
-    word-break: break-all;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 324px;
-  }
-  
-  .screen-meetingView .element-2-meetingView {
-    color: #000000;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 120px;
-    margin-top: -100px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    width: 324px;
-  }
-  
-  .screen-meetingView .line-4-meetingView {
-    height: 3px;
-    left: 104px;
-    top: 60px;
-    object-fit: cover;
-    position: relative;
-    width: 674px;
-  }
-  
-  .screen-meetingView .line-5-meetingView {
-    height: 3px;
-    left: 104px;
-    object-fit: cover;
-    position: relative;
-    top: -215px;
-    width: 674px;
-  }
-  
-  .screen-meetingView .overlap-3-meetingView {
-    height: 60px;
-    left: 442px;
-    position: absolute;
-    top: 37px;
-    width: 231px;
-  }
-  
-  .screen-meetingView .rectangle-3-meetingView {
-    background-color: #5b1fd9;
-    border-radius: 28px;
-    height: 51px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 231px;
-    cursor: pointer;
-  }
+.screen-meetingView .p-meetingView {
+  color: #000000;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 507px;
+  top: 6px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: relative;
+  white-space: nowrap;
+}
 
-  .partyDescription {
-    height: 600px;
-  }
+.screen-meetingView .text-wrapper-4-meetingView {
+  color: #000000;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 507px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: relative;
+  white-space: nowrap;
+}
 
-  .partyGroup {
-    width: 350px;
-    height: 50px;
-    position: relative;
-    top: 240px;
-    left: 435px;
-  }
+.screen-meetingView .line-meetingView {
+  height: 1px;
+  left: 444px;
+  object-fit: cover;
+  position: absolute;
+  top: 184px;
+  width: 348px;
+}
 
-  .partyGroup-reservation {
-    width: 350px;
-    height: 50px;
-    position: relative;
-    top: 170px;
-    left: 105px;
-  }
+.screen-meetingView .img-meetingView {
+  height: 1px;
+  left: 57px;
+  object-fit: cover;
+  position: absolute;
+  top: 461px;
+  width: 735px;
+}
 
-  .reservation {
-    position: relative;
-    width: 800px;
-    height: 300px;
-    left: -50px;
-    top: 40px;
-  }
+.screen-meetingView .mask-group-meetingView {
+  height: 39px;
+  left: 490px;
+  position: absolute;
+  top: 246px;
+  width: 39px;
+}
 
-  .reservationArea {
-    height: 550px;
-    border:1px solid gray;
-    width: 800px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  
-  .screen-meetingView .text-wrapper-16-meetingView {
-    color: #ffffff;
-    font-family: "Abel", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 74px;
-    letter-spacing: 0;
-    line-height: 25px;
-    position: absolute;
-    top: 13px;
-  }
-  
-  .screen-meetingView .thin-s-wrapper-meetingView {
-    background-color: #5b1fd9;
-    border-radius: 30.5px;
-    box-shadow: 0px 4px 4px #00000040;
-    height: 55px;
-    left: 689px;
-    position: absolute;
-    top: 35px;
-    width: 55px;
-    cursor: pointer;
-  }
+.screen-meetingView .mask-group-2-meetingView {
+  height: 39px;
+  position: relative;
+  top: 5px;
+  margin-left: 10px;
+  width: 39px;
+}
 
-  .overlap-3-meetingDelete {
-    background-color: #5b1fd9;
-    border-radius: 30.5px;
-    box-shadow: 0px 4px 4px #00000040;
-    height: 55px;
-    left: 754px;
-    position: absolute;
-    top: 35px;
-    width: 55px;
-    cursor: pointer;
-  }
-  
-  .screen-meetingView .thin-s-meetingView {
-    height: 33px;
-    left: 11px;
-    position: absolute;
-    color:white;
-    top: 10px;
-    width: 33px;
-  }  
+.screen-meetingView .mask-group-2-meetingView-viewMore {
+  height: 39px;
+  position: relative;
+  top: 5px;
+  margin-left: 10px;
+  width: 39px;
+}
 
-  .thin-s-meetingDelete {
-    height: 33px;
-    left: 11px;
-    position: absolute;
-    top: 10px;
-    width: 33px;
-    fill: white;
-  }
+.memberName {
+  position: relative;
+  font-weight: 700;
+  top: 6px;
+  left: 10px;
+  display: inline-block;
+}
+
+.memberLine {
+  margin-bottom: 10px;
+  ;
+}
+
+.screen-meetingView .mask-group-3-meetingView {
+  height: 39px;
+  left: 447px;
+  position: absolute;
+  top: 135px;
+  width: 39px;
+}
+
+.screen-meetingView .mask-group-4-meetingView {
+  height: 39px;
+  left: 582px;
+  position: absolute;
+  top: 246px;
+  width: 39px;
+}
+
+.screen-meetingView .mask-group-5-meetingView {
+  height: 39px;
+  left: 536px;
+  position: absolute;
+  top: 246px;
+  width: 39px;
+}
+
+.screen-meetingView .mask-group-6-meetingView {
+  height: 39px;
+  left: 628px;
+  position: absolute;
+  top: 246px;
+  width: 39px;
+}
+
+.screen-meetingView .light-s-meetingView {
+  height: 23px;
+  left: 466px;
+  position: absolute;
+  width: 24px;
+}
+
+.screen-meetingView .light-s-2-meetingView {
+  height: 23px;
+  left: 468px;
+  position: absolute;
+  margin-top: 17px;
+  width: 19px;
+}
+
+.screen-meetingView .vector-meetingView {
+  height: 17px;
+  left: 465px;
+  position: absolute;
+  width: 30px;
+}
+
+.screen-meetingView .overlap-meetingView {
+  height: 54px;
+  left: 268px;
+  position: absolute;
+  top: 493px;
+  width: 348px;
+}
+
+.screen-meetingView .text-wrapper-5-meetingView {
+  color: #ffffff;
+  font-family: "Abel", Helvetica;
+  font-size: 18px;
+  font-weight: 400;
+  left: 122px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  text-align: center;
+  top: 26px;
+  white-space: nowrap;
+}
+
+.screen-meetingView .rectangle-meetingView {
+  background-color: #5b1fd9;
+  border-radius: 28px;
+  height: 51px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 348px;
+  cursor: pointer;
+}
+
+.screen-meetingView .text-wrapper-6-meetingView {
+  color: #ffffff;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 144px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.screen-meetingView .div-wrapper-meetingView {
+  background-color: #5b1fd9;
+  border-radius: 28px;
+  height: 51px;
+  left: 405px;
+  top: -50px;
+  position: relative;
+  width: 182px;
+  cursor: pointer;
+}
+
+.showParticipants {
+  color: gray;
+  position: absolute;
+  left: 655px;
+  bottom: 161px;
+  cursor: pointer;
+}
+
+.showParticipantsElement {
+  width: 200px;
+  height: 300px;
+  overflow-y: scroll;
+  left: 500px;
+  top: 140px;
+  border-radius: 15px;
+  z-index: 30;
+  position: absolute;
+  background-color: white;
+  border: 1px solid gray;
+}
+
+.div-wrapper-meetingView-remove {
+  background-color: #5b1fd9;
+  border-radius: 28px;
+  height: 51px;
+  left: 605px;
+  top: -100px;
+  position: relative;
+  width: 182px;
+  cursor: pointer;
+}
+
+.screen-meetingView .text-wrapper-7-meetingView-remove {
+  color: #ffffff;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 60px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 12px;
+  width: 65px;
+}
+
+.screen-meetingView .text-wrapper-7-meetingView {
+  color: #ffffff;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 60px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 12px;
+  width: 65px;
+}
+
+.screen-meetingView .text-wrapper-8-meetingView {
+  color: #5b1fd9;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 444px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 321px;
+  white-space: nowrap;
+}
+
+.text-wrapper-88-meetingView {
+  color: white;
+  position: relative;
+  top: 10px;
+  left: 12px;
+}
+
+.screen-meetingView .text-wrapper-9-meetingView {
+  color: #5b1fd9;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 444px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 99px;
+  white-space: nowrap;
+}
+
+.screen-meetingView .text-wrapper-10-meetingView {
+  color: #000000;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 486px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 361px;
+  white-space: nowrap;
+}
+
+.screen-meetingView .text-wrapper-11-meetingView {
+  color: #000000;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 486px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 405px;
+  white-space: nowrap;
+}
+
+.screen-meetingView .line-2-meetingView {
+  height: 1px;
+  left: 444px;
+  object-fit: cover;
+  position: absolute;
+  top: 306px;
+  width: 348px;
+}
+
+.screen-meetingView .light-s-3-meetingView {
+  height: 23px;
+  left: 445px;
+  position: absolute;
+  top: 363px;
+  width: 19px;
+}
+
+.screen-meetingView .vector-2-meetingView {
+  height: 17px;
+  left: 444px;
+  position: absolute;
+  top: 409px;
+  width: 30px;
+}
+
+.screen-meetingView .text-wrapper-12-meetingView {
+  color: #000000;
+  font-family: "ABeeZee", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 354px;
+  letter-spacing: 0;
+  top: -27px;
+  line-height: 28px;
+  text-align: center;
+  position: relative;
+  width: 145px;
+  cursor: pointer;
+}
+
+.screen-meetingView .text-wrapper-13-meetingView {
+  color: #000000;
+  font-family: "ABeeZee", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 498px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: relative;
+  top: -55px;
+  text-align: center;
+  width: 108px;
+  cursor: pointer;
+}
+
+.screen-meetingView .overlap-2-meetingView {
+  height: 4px;
+  left: 168px;
+  position: relative;
+  top: -25px;
+  width: 511px;
+}
+
+.screen-meetingView .line-3-meetingView {
+  height: 1px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0px;
+  width: 511px;
+}
+
+.screen-meetingView .rectangle-2-meetingView {
+  border-bottom: 2px solid #5b1fd9;
+}
+
+.screen-meetingView .vector-3-meetingView-more {
+  height: 20px;
+  left: 679px;
+  position: absolute;
+  top: 254px;
+  width: 20px;
+  border-radius: 10px;
+  background-color: rgb(220, 220, 220);
+  cursor: pointer;
+}
+
+.screen-meetingView .vector-3-meetingView {
+  height: 4px;
+  position: relative;
+  top: -4px;
+  width: 20px;
+  z-index: 3;
+}
+
+.screen-meetingView .text-wrapper-14-meetingView {
+  color: #5b1fd9;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 119px;
+  letter-spacing: 0;
+  line-height: 25px;
+  top: 160px;
+  position: relative;
+  white-space: nowrap;
+}
+
+.screen-meetingView .mask-group-7-meetingView {
+  height: 39px;
+  left: 165px;
+  position: absolute;
+  top: 783px;
+  width: 39px;
+}
+
+.screen-meetingView .mask-group-8-meetingView {
+  height: 39px;
+  left: 119px;
+  position: absolute;
+  top: 783px;
+  width: 39px;
+}
+
+.screen-meetingView .mask-group-9-meetingView {
+  height: 39px;
+  left: 257px;
+  position: absolute;
+  top: 783px;
+  width: 39px;
+}
+
+.screen-meetingView .mask-group-10-meetingView {
+  height: 39px;
+  left: 211px;
+  position: absolute;
+  top: 783px;
+  width: 39px;
+}
+
+.screen-meetingView .mask-group-11-meetingView {
+  height: 39px;
+  left: 303px;
+  position: absolute;
+  top: 783px;
+  width: 39px;
+}
+
+.screen-meetingView .vector-4-meetingView {
+  height: 4px;
+  left: 354px;
+  position: absolute;
+  top: 801px;
+  width: 20px;
+}
+
+.vector-4-meetingView-reservation {
+  left: 354px;
+  position: relative;
+  top: 130px;
+  width: 20px;
+}
+
+.screen-meetingView .text-wrapper-15-meetingView {
+  color: #000000;
+  font-family: "ABeeZee", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 30px;
+  letter-spacing: 0;
+  line-height: 28px;
+  position: absolute;
+  top: 276px;
+  white-space: nowrap;
+}
+
+.moreMemberArea {
+  width: 200px;
+  height: 250px;
+  border: 1px solid black;
+  border-radius: 15px;
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  top: 290px;
+  left: 590px;
+  z-index: 2;
+  overflow-y: scroll;
+}
+
+.screen-meetingView .element-meetingView {
+  color: #000000;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 30px;
+  width: 410px;
+  overflow-y: scroll;
+  height: 125px;
+  word-break: break-all;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 324px;
+}
+
+.screen-meetingView .element-2-meetingView {
+  color: #000000;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 110px;
+  margin-top: -100px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  width: 324px;
+  height: 150px;
+  overflow-y: scroll;
+}
+
+.screen-meetingView .line-4-meetingView {
+  height: 3px;
+  left: 104px;
+  top: 60px;
+  object-fit: cover;
+  position: relative;
+  width: 674px;
+}
+
+.screen-meetingView .line-5-meetingView {
+  height: 3px;
+  left: 104px;
+  object-fit: cover;
+  position: relative;
+  top: -215px;
+  width: 674px;
+}
+
+.screen-meetingView .overlap-3-meetingView {
+  height: 60px;
+  left: 442px;
+  position: absolute;
+  top: 37px;
+  width: 231px;
+}
+
+.screen-meetingView .rectangle-3-meetingView {
+  background-color: #5b1fd9;
+  border-radius: 28px;
+  height: 51px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 231px;
+  cursor: pointer;
+}
+
+.partyDescription {
+  height: 600px;
+}
+
+.partyGroup {
+  width: 350px;
+  height: 50px;
+  position: relative;
+  top: 240px;
+  left: 435px;
+}
+
+.partyGroup-reservation {
+  width: 350px;
+  height: 50px;
+  position: relative;
+  top: 170px;
+  left: 105px;
+}
+
+.reservation {
+  position: relative;
+  width: 800px;
+  height: 300px;
+  left: -50px;
+  top: 40px;
+}
+
+.reservationArea {
+  height: 550px;
+  border: 1px solid gray;
+  width: 800px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.screen-meetingView .text-wrapper-16-meetingView {
+  color: #ffffff;
+  font-family: "Abel", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 74px;
+  letter-spacing: 0;
+  line-height: 25px;
+  position: absolute;
+  top: 13px;
+}
+
+.screen-meetingView .thin-s-wrapper-meetingView {
+  background-color: #5b1fd9;
+  border-radius: 30.5px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 55px;
+  left: 689px;
+  position: absolute;
+  top: 35px;
+  width: 55px;
+  cursor: pointer;
+}
+
+.thin-s-wrapper-report {
+  background-color: #5b1fd9;
+  border-radius: 30.5px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 55px;
+  left: 819px;
+  position: absolute;
+  top: 35px;
+  width: 55px;
+  cursor: pointer;
+}
+
+.overlap-3-meetingDelete {
+  background-color: #5b1fd9;
+  border-radius: 30.5px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 55px;
+  left: 754px;
+  position: absolute;
+  top: 35px;
+  width: 55px;
+  cursor: pointer;
+}
+
+.screen-meetingView .thin-s-meetingView {
+  height: 33px;
+  left: 11px;
+  position: absolute;
+  color: white;
+  top: 10px;
+  width: 33px;
+}
+
+.thin-s-meetingDelete {
+  height: 33px;
+  left: 11px;
+  position: absolute;
+  top: 10px;
+  width: 33px;
+  fill: white;
+}

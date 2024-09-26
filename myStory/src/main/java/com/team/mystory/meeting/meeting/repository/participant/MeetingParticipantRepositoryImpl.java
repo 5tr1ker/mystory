@@ -2,6 +2,7 @@ package com.team.mystory.meeting.meeting.repository.participant;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.meeting.meeting.domain.MeetingParticipant;
 import com.team.mystory.meeting.meeting.domain.QMeeting;
 import com.team.mystory.meeting.meeting.dto.MeetingResponse;
@@ -24,11 +25,11 @@ public class MeetingParticipantRepositoryImpl implements CustomMeetingParticipan
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<MeetingParticipant> findMeetingParticipantByMeetingIdAndUserId(long meetingId, String userId) {
+    public Optional<MeetingParticipant> findMeetingParticipantByMeetingIdAndUser(long meetingId, User userData) {
         MeetingParticipant result = jpaQueryFactory.select(meetingParticipant)
                 .from(meetingParticipant)
                 .innerJoin(meetingParticipant.meetingList, meeting).on(meeting.meetingId.eq(meetingId))
-                .innerJoin(meetingParticipant.userList, user).on(user.id.eq(userId))
+                .innerJoin(meetingParticipant.userList, user).on(user.eq(userData))
                 .fetchOne();
 
         return Optional.ofNullable(result);
@@ -55,6 +56,7 @@ public class MeetingParticipantRepositoryImpl implements CustomMeetingParticipan
                 .innerJoin(meetingParticipant.userList, user).on(user.id.eq(userId))
                 .innerJoin(meetingParticipant.meetingList, meeting)
                 .orderBy(meeting.meetingId.desc())
+                .where(meeting.isDelete.eq(false))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();

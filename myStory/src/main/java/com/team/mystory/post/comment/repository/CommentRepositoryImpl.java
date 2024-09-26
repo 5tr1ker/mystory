@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team.mystory.account.user.domain.QUser;
+import com.team.mystory.account.user.domain.User;
 import com.team.mystory.post.comment.domain.Comment;
 import com.team.mystory.post.comment.dto.CommentResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,27 +35,30 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
     @Override
     public List<CommentResponse> findCommentByPostId(long postId) {
         return queryFactory.select(Projections.constructor(CommentResponse.class ,
-                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage))
+                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage , user.isDelete))
                 .from(comment)
                 .innerJoin(comment.writer , user)
                 .innerJoin(comment.post , post).on(post.postId.eq(postId))
+                .where(comment.isDelete.eq(false))
                 .fetch();
     }
 
     @Override
-    public List<CommentResponse> findCommentByCommentPostWithoutMe(String userId) {
+    public List<CommentResponse> findCommentByCommentPostWithoutMe(User userData) {
         QUser subUser = new QUser("subUser");
 
         return queryFactory.select(Projections.constructor(CommentResponse.class ,
-                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage))
+                       post.postId , comment.commentId , comment.content , comment.postDate , user.id , user.profileImage , user.isDelete))
                 .from(comment)
-                .innerJoin(comment.writer , user).on(user.id.ne(userId))
+                .innerJoin(comment.writer , user).on(user.ne(userData))
                 .innerJoin(comment.post , post)
                 .on(post.eqAny(JPAExpressions.select(post)
                         .from(post)
-                        .innerJoin(post.writer , subUser).on(subUser.id.eq(userId))
+                        .innerJoin(post.writer , subUser).on(subUser.eq(userData))
+                        .where(post.isDelete.eq(false))
                 ))
                 .orderBy(comment.commentId.desc())
+                .where(comment.isDelete.eq(false))
                 .limit(10)
                 .fetch();
     }

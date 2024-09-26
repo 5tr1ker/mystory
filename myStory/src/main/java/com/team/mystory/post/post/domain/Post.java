@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team.mystory.account.user.domain.User;
-import com.team.mystory.common.BooleanConverter;
+import com.team.mystory.common.config.BooleanConverter;
 import com.team.mystory.post.attachment.domain.Attachment;
 import com.team.mystory.post.comment.domain.Comment;
 import com.team.mystory.post.post.dto.PostRequest;
@@ -21,7 +21,6 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Builder
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SequenceGenerator(name = "NUMBERS_SEQUENCE", sequenceName = "ID_numbers", initialValue = 1, allocationSize = 1)
@@ -57,7 +56,12 @@ public class Post {
     @Column(nullable = false , length = 1100)
     private String content;
 
+    @Column(nullable = false)
+    @Convert(converter = BooleanConverter.class)
+    private boolean isDelete;
+
     @Builder.Default
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     private User writer = new User();
 
@@ -83,6 +87,7 @@ public class Post {
                 .title(postRequest.getTitle())
                 .isPrivate(postRequest.isPrivatePost())
                 .isBlockComment(postRequest.isBlockComment())
+                .isDelete(false)
                 .build();
     }
 
@@ -98,6 +103,10 @@ public class Post {
 
     public void updateLike() {
         this.likes += 1;
+    }
+
+    public void deletePost() {
+        this.isDelete = true;
     }
 
     public void addFreeAttach(Attachment attach) {

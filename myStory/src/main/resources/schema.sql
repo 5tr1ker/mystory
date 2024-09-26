@@ -5,21 +5,68 @@ CREATE TABLE IF NOT EXISTS `profile`
     `options`     INT          NOT NULL,
     `phone`       VARCHAR(255) NULL DEFAULT NULL,
     PRIMARY KEY (`profile_key`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `user`
 (
     `user_key`            BIGINT       NOT NULL AUTO_INCREMENT,
     `id`                  VARCHAR(30)  NOT NULL,
     `join_date`           DATE         NOT NULL,
+    `last_login_date`     DATE         NOT NULL,
     `password`            VARCHAR(255) NOT NULL,
+    `suspension_date`     DATE,
+    `email`               VARCHAR(255) NOT NULL,
+    `suspension_reason`   VARCHAR(255),
+    `is_delete`           VARCHAR(5)   NOT NULL,
+    `is_suspension`       VARCHAR(5)   NOT NULL,
     `profile_image`       VARCHAR(255) NULL DEFAULT NULL,
     `role`                VARCHAR(255) NOT NULL,
     `user_type`           VARCHAR(255) NOT NULL,
     `profile_profile_key` BIGINT       NOT NULL,
     PRIMARY KEY (`user_key`),
     FOREIGN KEY (`profile_profile_key`) REFERENCES `profile` (`profile_key`)
-);
+    );
+
+CREATE TABLE IF NOT EXISTS `bug_report` (
+                                            bug_report_id bigint    not null auto_increment,
+                                            content varchar(255)    not null,
+    is_solved varchar(255)  not null,
+    report_time             datetime(6),
+    reporter_user_key       bigint,
+    primary key (bug_report_id),
+    foreign key (reporter_user_key) references user (user_key)
+    );
+
+CREATE TABLE IF NOT EXISTS `report_data` (
+                                             report_data_id bigint not null auto_increment,
+                                             content varchar(255),
+    title varchar(255),
+    target_user_key bigint,
+    primary key (report_data_id),
+    foreign key (target_user_key) references user (user_key)
+    );
+
+CREATE TABLE IF NOT EXISTS `content_report`
+(
+    content_report_id bigint not null auto_increment,
+    content varchar(255) not null,
+    is_action varchar(255) not null,
+    report_type varchar(255) not null,
+    report_time datetime(6) not null,
+    content_url varchar(255) not null,
+    report_data_report_data_id bigint,
+    reporter_user_key bigint,
+    primary key (content_report_id),
+    foreign key (report_data_report_data_id) references report_data (report_data_id),
+    foreign key (reporter_user_key) references user (user_key)
+    );
+
+CREATE TABLE IF NOT EXISTS `mail_cert` (
+                                           mail_cert_id bigint not null auto_increment,
+                                           id VARCHAR(255) NOT NULL,
+    verification_code VARCHAR(255) NOT NULL,
+    primary key (mail_cert_id)
+    );
 
 CREATE TABLE IF NOT EXISTS `post`
 (
@@ -28,13 +75,14 @@ CREATE TABLE IF NOT EXISTS `post`
     `is_block_comment` VARCHAR(255)  NOT NULL,
     `is_private`       VARCHAR(255)  NOT NULL,
     `likes`            INT           NOT NULL,
+    `is_delete`        VARCHAR(5)    NOT NULL,
     `post_date`        DATETIME(6)   NULL DEFAULT NULL,
     `title`            VARCHAR(50)   NOT NULL,
     `views`            INT           NOT NULL,
     `writer_user_key`  BIGINT        NULL DEFAULT NULL,
     PRIMARY KEY (`post_id`),
     FOREIGN KEY (`writer_user_key`) REFERENCES `user` (`user_key`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `attachment`
 (
@@ -46,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `attachment`
     `post_post_id`   BIGINT       NOT NULL,
     PRIMARY KEY (`attachment_id`),
     FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `meeting`
 (
@@ -57,21 +105,23 @@ CREATE TABLE IF NOT EXISTS `meeting`
     `locatex`                DOUBLE       NOT NULL,
     `locatey`                DOUBLE       NOT NULL,
     `max_participants`       INT          NOT NULL,
+    `is_delete`              VARCHAR(5)   NOT NULL,
     `meeting_image`          VARCHAR(255) NULL DEFAULT NULL,
     `title`                  VARCHAR(255) NULL DEFAULT NULL,
     `chat_room_chat_id`      BIGINT       NULL DEFAULT NULL,
     `meeting_owner_user_key` BIGINT       NULL DEFAULT NULL,
     PRIMARY KEY (`meeting_id`),
     FOREIGN KEY (`meeting_owner_user_key`) REFERENCES `user` (`user_key`)
-);
+    );
 CREATE TABLE IF NOT EXISTS `chat_room`
 (
-    `chat_id`               BIGINT NOT NULL AUTO_INCREMENT,
-    `create_date`             DATE   NULL DEFAULT NULL,
+    `chat_id`               BIGINT NOT  NULL AUTO_INCREMENT,
+    `create_date`           DATE   NULL DEFAULT NULL,
     `meeting_id_meeting_id` BIGINT NULL DEFAULT NULL,
+    `is_delete`             VARCHAR(5)  NOT NULL,
     PRIMARY KEY (`chat_id`),
     FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
-);
+    );
 
 # ALTER TABLE `meeting` ADD CONSTRAINT `MEETINGFORIEGNKEY` FOREIGN KEY(`chat_room_chat_id`) REFERENCES `chat_room` (`chat_id`);
 
@@ -85,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `chat`
     `meeting_id_meeting_id` BIGINT       NULL DEFAULT NULL,
     PRIMARY KEY (`chat_id`),
     FOREIGN KEY (`meeting_id_meeting_id`) REFERENCES `meeting` (`meeting_id`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `chat_room_chat_data`
 (
@@ -93,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `chat_room_chat_data`
     `chat_data_chat_id` BIGINT NOT NULL,
     FOREIGN KEY (`chat_room_chat_id`) REFERENCES `chat_room` (`chat_id`),
     FOREIGN KEY (`chat_data_chat_id`) REFERENCES `chat` (`chat_id`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `comment`
 (
@@ -101,11 +151,12 @@ CREATE TABLE IF NOT EXISTS `comment`
     `content`         VARCHAR(200) NOT NULL,
     `post_date`       DATETIME(6)  NULL DEFAULT NULL,
     `post_post_id`    BIGINT       NOT NULL,
+    `is_delete`       VARCHAR(5)   NOT NULL,
     `writer_user_key` BIGINT       NULL DEFAULT NULL,
     PRIMARY KEY (`comment_id`),
     FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`),
     FOREIGN KEY (`writer_user_key`) REFERENCES `user` (`user_key`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `meeting_participant`
 (
@@ -115,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `meeting_participant`
     PRIMARY KEY (`meeting_participant_id`),
     FOREIGN KEY (`meeting_id`) REFERENCES `meeting` (`meeting_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user` (`user_key`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `post_recommendation`
 (
@@ -124,14 +175,14 @@ CREATE TABLE IF NOT EXISTS `post_recommendation`
     INDEX `FKjx9y24ucmuk0jhifttugnevq6` (`post_post_id` ASC) VISIBLE,
     FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`),
     FOREIGN KEY (`recommendation_user_key`) REFERENCES `user` (`user_key`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `tag`
 (
     `tag_id`   BIGINT      NOT NULL AUTO_INCREMENT,
     `tag_data` VARCHAR(15) NOT NULL,
     PRIMARY KEY (`tag_id`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `post_tag`
 (
@@ -139,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `post_tag`
     `tag_tag_id`   BIGINT NOT NULL,
     FOREIGN KEY (`tag_tag_id`) REFERENCES `tag` (`tag_id`),
     FOREIGN KEY (`post_post_id`) REFERENCES `post` (`post_id`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `refresh_token`
 (
@@ -147,7 +198,16 @@ CREATE TABLE IF NOT EXISTS `refresh_token`
     `key_email` VARCHAR(255) NOT NULL,
     `token`     VARCHAR(255) NOT NULL,
     PRIMARY KEY (`token_id`)
-);
+    );
+
+CREATE TABLE IF NOT EXISTS `visitant`
+(
+    visitant_id bigint not null auto_increment,
+    user_agent varchar(255),
+    user_ip varchar(255),
+    visit_date date,
+    primary key (visitant_id)
+    );
 
 CREATE TABLE IF NOT EXISTS `reservation`
 (
@@ -162,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `reservation`
     `meetings_meeting_id` BIGINT       NULL DEFAULT NULL,
     PRIMARY KEY (`reservation_id`),
     FOREIGN KEY (`meetings_meeting_id`) REFERENCES `meeting` (`meeting_id`)
-);
+    );
 
 CREATE TABLE IF NOT EXISTS `reservation_participants`
 (
@@ -172,4 +232,4 @@ CREATE TABLE IF NOT EXISTS `reservation_participants`
     PRIMARY KEY (`reservation_participants_id`),
     FOREIGN KEY (`reservation_reservation_id`) REFERENCES `reservation` (`reservation_id`),
     FOREIGN KEY (`user_user_key`) REFERENCES `user` (`user_key`)
-);
+    );

@@ -1,9 +1,11 @@
 .mainArea {
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 500px;
+  min-height: 100vh;
   height: auto;
   background-color: white;
   overflow-y: hidden;
+}
+
+iframe
+{
+    display: none;
 }

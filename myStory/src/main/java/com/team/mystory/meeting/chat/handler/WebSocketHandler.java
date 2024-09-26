@@ -1,6 +1,7 @@
 package com.team.mystory.meeting.chat.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team.mystory.common.response.message.MeetingMessage;
 import com.team.mystory.meeting.chat.dto.ChatRequest;
 import com.team.mystory.meeting.chat.dto.ChatResponse;
 import com.team.mystory.meeting.chat.dto.MessageType;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.team.mystory.common.response.message.MeetingMessage.NOT_FOUND_MEETING;
 import static com.team.mystory.meeting.chat.dto.ChatResponse.createChatResponse;
 
 @Component
@@ -71,7 +73,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     private void saveChatData(long meetingId , ChatResponse chatResponse) {
         Meeting meeting = meetingRepository.findMeetingAndChatById(meetingId)
-                .orElseThrow(() -> new MeetingException("모임 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new MeetingException(NOT_FOUND_MEETING));
 
         Chat chat = Chat.createChat(chatResponse , meeting);
         meeting.getChats().add(chat);

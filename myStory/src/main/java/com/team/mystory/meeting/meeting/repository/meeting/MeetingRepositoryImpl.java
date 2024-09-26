@@ -42,6 +42,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                                 .innerJoin(meetingParticipant.meetingList, meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
                 )).from(meeting)
                 .orderBy(meeting.meetingId.desc())
+                .where(meeting.isDelete.eq(false))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -51,7 +52,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
     public Optional<Meeting> findMeetingByMeetingIdAndMeetingOwner(long meetingId, String userId) {
         Meeting result = jpaQueryFactory.select(meeting).from(meeting)
                 .innerJoin(meeting.meetingOwner , user).on(user.id.eq(userId))
-                .where(meeting.meetingId.eq(meetingId))
+                .where(meeting.meetingId.eq(meetingId).and(meeting.isDelete.eq(false)))
                 .fetchOne();
 
         return Optional.ofNullable(result);
@@ -61,7 +62,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
     public Optional<Meeting> findMeetingAndChatById(long meetingId) {
         Meeting result = jpaQueryFactory.select(meeting).from(meeting)
                 .leftJoin(meeting.chats).fetchJoin()
-                .where(meeting.meetingId.eq(meetingId))
+                .where(meeting.meetingId.eq(meetingId).and(meeting.isDelete.eq(false)))
                 .fetchOne();
 
         return Optional.ofNullable(result);
@@ -85,7 +86,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                         select(count(meetingParticipant)).from(meetingParticipant)
                                 .innerJoin(meetingParticipant.meetingList, meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
                 )).from(meeting)
-                .where(meeting.meetingId.eq(meetingId))
+                .where(meeting.meetingId.eq(meetingId).and(meeting.isDelete.eq(false)))
                 .fetchOne();
 
         return Optional.ofNullable(result);
@@ -95,6 +96,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
     public long countAllMeeting() {
         return jpaQueryFactory.select(meeting.count()).from(meeting)
                 .orderBy(meeting.meetingId.desc())
+                .where(meeting.isDelete.eq(false))
                 .fetchOne();
     }
 
@@ -116,7 +118,8 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                         select(count(meetingParticipant)).from(meetingParticipant)
                                 .innerJoin(meetingParticipant.meetingList, meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
                 )).from(meeting)
-                .where(meeting.title.contains(data).or(meeting.address.contains(data)))
+                .where(meeting.title.contains(data).or(meeting.address.contains(data)).and(meeting.isDelete.eq(false)))
+                .orderBy(meeting.meetingId.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
@@ -125,11 +128,9 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
     @Override
     public long countMeetingByTitleOrAddress(String data) {
         return jpaQueryFactory.select(meeting.count()).from(meeting)
-                .where(meeting.title.contains(data).or(meeting.address.contains(data)))
+                .where(meeting.title.contains(data).or(meeting.address.contains(data)).and(meeting.isDelete.eq(false)))
                 .fetchOne();
     }
-
-
 
     @Override
     public MeetingMemberResponse findMeetingOwnerByMeetingId(long meetingId) {
@@ -140,8 +141,33 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                         user.profileImage
                 )).from(meeting)
                 .innerJoin(meeting.meetingOwner , user)
-                .where(meeting.meetingId.eq(meetingId))
+                .where(meeting.meetingId.eq(meetingId).and(meeting.isDelete.eq(false)))
                 .fetchOne();
+    }
+
+    @Override
+    public Optional<MeetingResponse> findMeetingByMeetingIdAndUser(long meetingId, String userPk) {
+        QMeeting meeting1 = new QMeeting("meeting1");
+
+        MeetingResponse result = jpaQueryFactory.select(Projections.constructor(
+                        MeetingResponse.class,
+                        meeting.meetingId,
+                        meeting.locateX,
+                        meeting.locateY,
+                        meeting.address,
+                        meeting.meetingImage,
+                        meeting.detailAddress,
+                        meeting.description,
+                        meeting.title,
+                        meeting.maxParticipants,
+                        select(count(meetingParticipant)).from(meetingParticipant)
+                                .innerJoin(meetingParticipant.meetingList, meeting1).on(meeting1.meetingId.eq(meeting.meetingId))
+                )).from(meeting)
+                .innerJoin(meeting.meetingOwner, user).on(user.id.eq(userPk))
+                .where(meeting.meetingId.eq(meetingId).and(meeting.isDelete.eq(false)))
+                .fetchOne();
+
+        return Optional.ofNullable(result);
     }
 
 }

@@ -35,11 +35,23 @@ const NewReservation = ({idStatus}) => {
     setParticipant(e.target.value)
   }
 
-  useEffect(() => {
+  useEffect(async () => {
+    let meetingNumber = urlStat[2];
+
     if (idStatus == undefined) {
       alert('로그인 후 사용해주세요.');
       window.history.back();
     }
+
+    await axios({
+      method: "GET",
+      mode: "cors",
+      url: `/meeting/${meetingNumber}/user`
+    }).catch((err) => {
+      alert("모임 장만 이용할 수 있습니다.");
+
+      window.location.replace(`/meeting/${meetingNumber}`);
+    });
     
     let data = [];
     for (let i = 1; i <= 20; i++) {
@@ -98,7 +110,7 @@ return (
       <div className="reservMap">
         <ReservMaps locateData={setLocate} addressData={setAddress} detailAddressData={onChangeDetailAddress} detailAddress={detailAddress} address={address} />
       </div>
-      <textarea className="rectangle-2-newReservation" onChange={onChangeDescription} />
+      <textarea className="rectangle-2-newReservation" onChange={onChangeDescription} maxLength={100}/>
       <img
         className="light-s-newReservation"
         alt="Light s"
